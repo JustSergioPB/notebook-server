@@ -21,6 +21,8 @@ services:
     environment:
       DATABASE_URL: "ecto://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}"
       SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+    ports:
+      - 4000:4000
 
 volumes:
   pg-data:
