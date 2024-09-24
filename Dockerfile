@@ -33,7 +33,8 @@ RUN mix local.hex --force && \
 
 # set build ENV
 ENV MIX_ENV="prod"
-
+ENV DATABASE_URL $database_url
+ENV SECRET_KEY_BASE $secret_key_base
 # install mix dependencies
 COPY mix.exs mix.lock ./
 RUN mix deps.get --only $MIX_ENV
