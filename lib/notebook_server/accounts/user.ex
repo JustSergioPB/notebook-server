@@ -8,6 +8,8 @@ defmodule NotebookServer.Accounts.User do
     field :hashed_password, :string, redact: true
     field :current_password, :string, virtual: true, redact: true
     field :confirmed_at, :utc_datetime
+    field :role, Ecto.Enum, values: [:admin, :org_admin ,:user], default: :user
+    belongs_to :org, NotebookServer.Accounts.Org
 
     timestamps(type: :utc_datetime)
   end
