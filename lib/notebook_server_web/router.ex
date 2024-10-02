@@ -52,13 +52,12 @@ defmodule NotebookServerWeb.Router do
 
     live_session :redirect_if_user_is_authenticated,
       on_mount: [{NotebookServerWeb.UserAuth, :redirect_if_user_is_authenticated}] do
-      live "/users/register", UserRegistrationLive, :new
-      live "/users/reset_password", UserForgotPasswordLive, :new
-      live "/users/reset_password/:token", UserResetPasswordLive, :edit
-      live "/users/log_in", UserLoginLive, :new
+      live "/login", UserLoginLive, :new
+      live "/reset-password", UserForgotPasswordLive, :new
+      live "/reset-password/:token", UserResetPasswordLive, :edit
     end
 
-    post "/users/log_in", UserSessionController, :create
+    post "/login", UserSessionController, :create
   end
 
   scope "/", NotebookServerWeb do
@@ -67,24 +66,13 @@ defmodule NotebookServerWeb.Router do
     live_session :require_authenticated_user,
       on_mount: [{NotebookServerWeb.UserAuth, :ensure_authenticated}] do
       live "/settings", UserSettingsLive, :edit
-      live "/settings/confirm_email/:token", UserSettingsLive, :confirm_email
+      delete "/logout", UserSessionController, :delete
+
       live "/orgs", OrgLive.Index, :index
       live "/orgs/new", OrgLive.Index, :new
       live "/orgs/:id/edit", OrgLive.Index, :edit
       live "/orgs/:id", OrgLive.Show, :show
       live "/orgs/:id/show/edit", OrgLive.Show, :edit
-    end
-  end
-
-  scope "/", NotebookServerWeb do
-    pipe_through [:browser]
-
-    delete "/log_out", UserSessionController, :delete
-
-    live_session :current_user,
-      on_mount: [{NotebookServerWeb.UserAuth, :mount_current_user}] do
-      live "/users/confirm/:token", UserConfirmationLive, :edit
-      live "/users/confirm", UserConfirmationInstructionsLive, :new
     end
   end
 end

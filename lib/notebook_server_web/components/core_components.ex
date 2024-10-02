@@ -195,6 +195,7 @@ defmodule NotebookServerWeb.CoreComponents do
   """
   attr :for, :any, required: true, doc: "the data structure for the form"
   attr :as, :any, default: nil, doc: "the server side parameter to collect all input under"
+  attr :class, :string, default: nil, doc: "the class to apply to the form"
 
   attr :rest, :global,
     include: ~w(autocomplete name rel action enctype method novalidate target multipart),
@@ -205,12 +206,10 @@ defmodule NotebookServerWeb.CoreComponents do
 
   def simple_form(assigns) do
     ~H"""
-    <.form :let={f} for={@for} as={@as} {@rest}>
-      <div class="mt-10 space-y-8 bg-white">
-        <%= render_slot(@inner_block, f) %>
-        <div :for={action <- @actions} class="mt-2 flex items-center justify-between gap-6">
-          <%= render_slot(action, f) %>
-        </div>
+    <.form :let={f} for={@for} as={@as} {@rest} class={["space-y-4", @class]}>
+      <%= render_slot(@inner_block, f) %>
+      <div :for={action <- @actions} class="flex items-center justify-between gap-6 last:pt-6">
+        <%= render_slot(action, f) %>
       </div>
     </.form>
     """
@@ -226,6 +225,7 @@ defmodule NotebookServerWeb.CoreComponents do
   """
   attr :type, :string, default: nil
   attr :class, :string, default: nil
+  attr :icon, :string, default: nil
   attr :rest, :global, include: ~w(disabled form name value)
 
   slot :inner_block, required: true
@@ -235,12 +235,14 @@ defmodule NotebookServerWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        "phx-submit-loading:opacity-75 rounded-lg bg-slate-900 hover:bg-slate-700 py-2 px-3",
+        "phx-submit-loading:opacity-75 rounded-lg bg-slate-900 hover:bg-slate-700 py-2 px-3 flex items-center justify-center gap-2 group",
         "text-sm font-semibold leading-6 text-white active:text-white/80",
         @class
       ]}
       {@rest}
     >
+      <Lucide.render :if={@icon} icon={@icon} class="w-4 h-4 group-[.phx-submit-loading]:hidden" />
+      <Lucide.loader class="w-4 h-4 animate-spin hidden group-[.phx-submit-loading]:block" />
       <%= render_slot(@inner_block) %>
     </button>
     """
@@ -314,7 +316,7 @@ defmodule NotebookServerWeb.CoreComponents do
 
     ~H"""
     <div>
-      <label class="flex items-center gap-4 text-sm leading-6 text-slate-600">
+      <label class="flex items-center gap-2 text-sm leading-6 text-slate-600">
         <input type="hidden" name={@name} value="false" disabled={@rest[:disabled]} />
         <input
           type="checkbox"
@@ -431,12 +433,12 @@ defmodule NotebookServerWeb.CoreComponents do
 
   def header(assigns) do
     ~H"""
-    <header class={[@actions != [] && "flex items-center justify-between gap-6", @class]}>
+    <header class={[@actions != [] && "flex items-center justify-between gap-4", @class]}>
       <div>
-        <h1 class="text-lg font-semibold leading-8 text-slate-800">
+        <h1 class="text-2xl font-semibold leading-8 text-slate-800">
           <%= render_slot(@inner_block) %>
         </h1>
-        <p :if={@subtitle != []} class="mt-2 text-sm leading-6 text-slate-600">
+        <p :if={@subtitle != []} class="text-sm leading-6 text-slate-600">
           <%= render_slot(@subtitle) %>
         </p>
       </div>
@@ -680,14 +682,16 @@ defmodule NotebookServerWeb.CoreComponents do
 
   attr :label, :string, required: true
   attr :icon, :string, required: true
-  attr :navigate, :string, required: true
+  attr :href, :string, required: true
   attr :active, :boolean, default: false
+  attr :method, :string, default: "get"
 
   def nav_link(assigns) do
     ~H"""
     <li>
       <.link
-        navigate={@navigate}
+        href={@href}
+        method={@method}
         class={[
           "flex items-center gap-2 text-sm text-slate-900 hover:bg-slate-100 p-2 rounded-md focus:bg-slate-100 outline-none focus:ring-1 focus:ring-slate-900 group",
           @active && "bg-slate-100"

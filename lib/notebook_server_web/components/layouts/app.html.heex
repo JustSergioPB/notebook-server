@@ -8,17 +8,22 @@
       role={@current_user.role}
     />
     <ul class="flex-1 space-y-1">
-      <.nav_link :if={@current_user.role == :admin} label="Orgs" icon="building" navigate="/orgs" />
+      <.nav_link
+        :if={@current_user.role == :admin}
+        label="Orgs"
+        icon="building"
+        href={~p"/orgs"}
+      />
       <.nav_link
         :if={@current_user.role == :admin || @current_user.role == :org_admin}
         label="Users"
         icon="users"
-        navigate="/users"
+        href={~p"/users"}
       />
     </ul>
     <ul class="py-4 space-y-1">
-      <.nav_link label="Settings" icon="settings" navigate="/settings" />
-      <.nav_link label="Log Out" icon="log-out" navigate="/log_out" />
+      <.nav_link label="Settings" icon="settings" href={~p"/settings"} />
+      <.nav_link label="Log Out" icon="log-out" method="delete" href={~p"/logout"} />
     </ul>
   </nav>
   <section class="flex-1 p-8 bg-white">
