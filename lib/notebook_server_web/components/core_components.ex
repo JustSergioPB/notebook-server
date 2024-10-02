@@ -50,7 +50,11 @@ defmodule NotebookServerWeb.CoreComponents do
       data-cancel={JS.exec(@on_cancel, "phx-remove")}
       class="relative z-50 hidden"
     >
-      <div id={"#{@id}-bg"} class="bg-zinc-50/90 fixed inset-0 transition-opacity" aria-hidden="true" />
+      <div
+        id={"#{@id}-bg"}
+        class="bg-slate-50/90 fixed inset-0 transition-opacity"
+        aria-hidden="true"
+      />
       <div
         class="fixed inset-0 overflow-y-auto"
         aria-labelledby={"#{@id}-title"}
@@ -66,7 +70,7 @@ defmodule NotebookServerWeb.CoreComponents do
               phx-window-keydown={JS.exec("data-cancel", to: "##{@id}")}
               phx-key="escape"
               phx-click-away={JS.exec("data-cancel", to: "##{@id}")}
-              class="shadow-zinc-700/10 ring-zinc-700/10 relative hidden rounded-2xl bg-white p-14 shadow-lg ring-1 transition"
+              class="shadow-slate-700/10 ring-slate-700/10 relative hidden rounded-2xl bg-white p-14 shadow-lg ring-1 transition"
             >
               <div class="absolute top-6 right-5">
                 <button
@@ -231,7 +235,7 @@ defmodule NotebookServerWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        "phx-submit-loading:opacity-75 rounded-lg bg-zinc-900 hover:bg-zinc-700 py-2 px-3",
+        "phx-submit-loading:opacity-75 rounded-lg bg-slate-900 hover:bg-slate-700 py-2 px-3",
         "text-sm font-semibold leading-6 text-white active:text-white/80",
         @class
       ]}
@@ -310,7 +314,7 @@ defmodule NotebookServerWeb.CoreComponents do
 
     ~H"""
     <div>
-      <label class="flex items-center gap-4 text-sm leading-6 text-zinc-600">
+      <label class="flex items-center gap-4 text-sm leading-6 text-slate-600">
         <input type="hidden" name={@name} value="false" disabled={@rest[:disabled]} />
         <input
           type="checkbox"
@@ -318,7 +322,7 @@ defmodule NotebookServerWeb.CoreComponents do
           name={@name}
           value="true"
           checked={@checked}
-          class="rounded border-zinc-300 text-zinc-900 focus:ring-0"
+          class="rounded border-slate-300 text-slate-900 focus:ring-0"
           {@rest}
         />
         <%= @label %>
@@ -335,7 +339,7 @@ defmodule NotebookServerWeb.CoreComponents do
       <select
         id={@id}
         name={@name}
-        class="mt-2 block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-zinc-400 focus:ring-0 sm:text-sm"
+        class="mt-2 block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-slate-400 focus:ring-0 sm:text-sm"
         multiple={@multiple}
         {@rest}
       >
@@ -355,8 +359,8 @@ defmodule NotebookServerWeb.CoreComponents do
         id={@id}
         name={@name}
         class={[
-          "mt-2 block w-full rounded-lg text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6 min-h-[6rem]",
-          @errors == [] && "border-zinc-300 focus:border-zinc-400",
+          "mt-2 block w-full rounded-lg text-slate-900 focus:ring-0 sm:text-sm sm:leading-6 min-h-[6rem]",
+          @errors == [] && "border-slate-300 focus:border-slate-400",
           @errors != [] && "border-rose-400 focus:border-rose-400"
         ]}
         {@rest}
@@ -377,8 +381,8 @@ defmodule NotebookServerWeb.CoreComponents do
         id={@id}
         value={Phoenix.HTML.Form.normalize_value(@type, @value)}
         class={[
-          "mt-2 block w-full rounded-lg text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6",
-          @errors == [] && "border-zinc-300 focus:border-zinc-400",
+          "mt-2 block w-full rounded-lg text-slate-900 focus:ring-0 sm:text-sm sm:leading-6",
+          @errors == [] && "border-slate-300 focus:border-slate-400",
           @errors != [] && "border-rose-400 focus:border-rose-400"
         ]}
         {@rest}
@@ -396,7 +400,7 @@ defmodule NotebookServerWeb.CoreComponents do
 
   def label(assigns) do
     ~H"""
-    <label for={@for} class="block text-sm font-semibold leading-6 text-zinc-800">
+    <label for={@for} class="block text-sm font-semibold leading-6 text-slate-800">
       <%= render_slot(@inner_block) %>
     </label>
     """
@@ -429,10 +433,10 @@ defmodule NotebookServerWeb.CoreComponents do
     ~H"""
     <header class={[@actions != [] && "flex items-center justify-between gap-6", @class]}>
       <div>
-        <h1 class="text-lg font-semibold leading-8 text-zinc-800">
+        <h1 class="text-lg font-semibold leading-8 text-slate-800">
           <%= render_slot(@inner_block) %>
         </h1>
-        <p :if={@subtitle != []} class="mt-2 text-sm leading-6 text-zinc-600">
+        <p :if={@subtitle != []} class="mt-2 text-sm leading-6 text-slate-600">
           <%= render_slot(@subtitle) %>
         </p>
       </div>
@@ -475,7 +479,7 @@ defmodule NotebookServerWeb.CoreComponents do
     ~H"""
     <div class="overflow-y-auto px-4 sm:overflow-visible sm:px-0">
       <table class="w-[40rem] mt-11 sm:w-full">
-        <thead class="text-sm text-left leading-6 text-zinc-500">
+        <thead class="text-sm text-left leading-6 text-slate-500">
           <tr>
             <th :for={col <- @col} class="p-0 pb-4 pr-6 font-normal"><%= col[:label] %></th>
             <th :if={@action != []} class="relative p-0 pb-4">
@@ -486,27 +490,27 @@ defmodule NotebookServerWeb.CoreComponents do
         <tbody
           id={@id}
           phx-update={match?(%Phoenix.LiveView.LiveStream{}, @rows) && "stream"}
-          class="relative divide-y divide-zinc-100 border-t border-zinc-200 text-sm leading-6 text-zinc-700"
+          class="relative divide-y divide-slate-100 border-t border-slate-200 text-sm leading-6 text-slate-700"
         >
-          <tr :for={row <- @rows} id={@row_id && @row_id.(row)} class="group hover:bg-zinc-50">
+          <tr :for={row <- @rows} id={@row_id && @row_id.(row)} class="group hover:bg-slate-50">
             <td
               :for={{col, i} <- Enum.with_index(@col)}
               phx-click={@row_click && @row_click.(row)}
               class={["relative p-0", @row_click && "hover:cursor-pointer"]}
             >
               <div class="block py-4 pr-6">
-                <span class="absolute -inset-y-px right-0 -left-4 group-hover:bg-zinc-50 sm:rounded-l-xl" />
-                <span class={["relative", i == 0 && "font-semibold text-zinc-900"]}>
+                <span class="absolute -inset-y-px right-0 -left-4 group-hover:bg-slate-50 sm:rounded-l-xl" />
+                <span class={["relative", i == 0 && "font-semibold text-slate-900"]}>
                   <%= render_slot(col, @row_item.(row)) %>
                 </span>
               </div>
             </td>
             <td :if={@action != []} class="relative w-14 p-0">
               <div class="relative whitespace-nowrap py-4 text-right text-sm font-medium">
-                <span class="absolute -inset-y-px -right-4 left-0 group-hover:bg-zinc-50 sm:rounded-r-xl" />
+                <span class="absolute -inset-y-px -right-4 left-0 group-hover:bg-slate-50 sm:rounded-r-xl" />
                 <span
                   :for={action <- @action}
-                  class="relative ml-4 font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
+                  class="relative ml-4 font-semibold leading-6 text-slate-900 hover:text-slate-700"
                 >
                   <%= render_slot(action, @row_item.(row)) %>
                 </span>
@@ -536,10 +540,10 @@ defmodule NotebookServerWeb.CoreComponents do
   def list(assigns) do
     ~H"""
     <div class="mt-14">
-      <dl class="-my-4 divide-y divide-zinc-100">
+      <dl class="-my-4 divide-y divide-slate-100">
         <div :for={item <- @item} class="flex gap-4 py-4 text-sm leading-6 sm:gap-8">
-          <dt class="w-1/4 flex-none text-zinc-500"><%= item.title %></dt>
-          <dd class="text-zinc-700"><%= render_slot(item) %></dd>
+          <dt class="w-1/4 flex-none text-slate-500"><%= item.title %></dt>
+          <dd class="text-slate-700"><%= render_slot(item) %></dd>
         </div>
       </dl>
     </div>
@@ -561,7 +565,7 @@ defmodule NotebookServerWeb.CoreComponents do
     <div class="mt-16">
       <.link
         navigate={@navigate}
-        class="text-sm font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
+        class="text-sm font-semibold leading-6 text-slate-900 hover:text-slate-700"
       >
         <.icon name="hero-arrow-left-solid" class="h-3 w-3" />
         <%= render_slot(@inner_block) %>
@@ -672,5 +676,53 @@ defmodule NotebookServerWeb.CoreComponents do
   """
   def translate_errors(errors, field) when is_list(errors) do
     for {^field, {msg, opts}} <- errors, do: translate_error({msg, opts})
+  end
+
+  attr :label, :string, required: true
+  attr :icon, :string, required: true
+  attr :navigate, :string, required: true
+  attr :active, :boolean, default: false
+
+  def nav_link(assigns) do
+    ~H"""
+    <li>
+      <.link
+        navigate={@navigate}
+        class={[
+          "flex items-center gap-2 text-sm text-slate-900 hover:bg-slate-100 p-2 rounded-md focus:bg-slate-100 outline-none focus:ring-1 focus:ring-slate-900 group",
+          @active && "bg-slate-100"
+        ]}
+      >
+        <Lucide.render icon={@icon} class="h-4 w-4 group-hover" />
+        <%= @label %>
+      </.link>
+    </li>
+    """
+  end
+
+  attr :name, :string, required: true
+  attr :last_name, :string, required: true
+  attr :email, :string, required: true
+  attr :role, :string, required: true
+
+  def user_badge(assigns) do
+    ~H"""
+    <div class="flex items-center gap-4 px-2 py-4">
+      <div class={[
+        "h-10 w-10 flex items-center justify-center rounded-md uppercase",
+        @role == :admin && "bg-orange-100",
+        @role == :org_admin && "bg-green-100",
+        @role == :user && "bg-blue-100"
+      ]}>
+        <Lucide.shield_plus :if={@role == :admin} class="h-5 w-5 text-orange-500" />
+        <Lucide.shield :if={@role == :org_admin} class="h-5 w-5 text-green-500" />
+        <Lucide.pen_tool :if={@role == :user} class="h-5 w-5 text-blue-500" />
+      </div>
+      <div>
+        <p class="text-sm text-slate-900"><%= @name %> <%= @last_name %></p>
+        <p class="text-xs text-slate-500"><%= @email %></p>
+      </div>
+    </div>
+    """
   end
 end
