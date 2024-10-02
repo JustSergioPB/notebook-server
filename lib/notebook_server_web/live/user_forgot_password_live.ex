@@ -5,24 +5,30 @@ defmodule NotebookServerWeb.UserForgotPasswordLive do
 
   def render(assigns) do
     ~H"""
-    <div class="mx-auto max-w-sm">
-      <.header class="text-center">
+    <div class="w-1/2">
+      <.header class="mb-12">
         Forgot your password?
-        <:subtitle>We'll send a password reset link to your inbox</:subtitle>
+        <:subtitle>We'll send a link to reset your password to your inbox</:subtitle>
       </.header>
-
       <.simple_form for={@form} id="reset_password_form" phx-submit="send_email">
-        <.input field={@form[:email]} type="email" placeholder="Email" required />
+        <.input
+          field={@form[:email]}
+          type="email"
+          placeholder="johndoe@example.com"
+          label="Email"
+          required
+        />
         <:actions>
-          <.button phx-disable-with="Sending..." class="w-full">
-            Send password reset instructions
+          <.button icon="send" class="w-full">
+            Send link
           </.button>
         </:actions>
       </.simple_form>
-      <p class="text-center text-sm mt-4">
-        <.link href={~p"/register"}>Register</.link>
-        | <.link href={~p"/login"}>Log in</.link>
-      </p>
+      <div class="flex justify-center">
+        <.link class="text-center text-sm mt-4 font-semibold hover:underline" href={~p"/login"}>
+          Log in
+        </.link>
+      </div>
     </div>
     """
   end
@@ -35,16 +41,13 @@ defmodule NotebookServerWeb.UserForgotPasswordLive do
     if user = Accounts.get_user_by_email(email) do
       Accounts.deliver_user_reset_password_instructions(
         user,
-        &url(~p"/reset_password/#{&1}")
+        &url(~p"/reset-password/#{&1}")
       )
     end
 
-    info =
-      "If your email is in our system, you will receive instructions to reset your password shortly."
-
     {:noreply,
      socket
-     |> put_flash(:info, info)
+     |> put_flash(:info, "If your email is in our system, you will receive instructions to reset your password shortly.")
      |> redirect(to: ~p"/")}
   end
 end

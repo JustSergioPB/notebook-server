@@ -5,35 +5,43 @@ defmodule NotebookServerWeb.UserResetPasswordLive do
 
   def render(assigns) do
     ~H"""
-    <div class="mx-auto max-w-sm">
-      <.header class="text-center">Reset Password</.header>
-
+    <div class="w-1/2">
+      <.header class="mb-12">Reset Password</.header>
       <.simple_form
         for={@form}
         id="reset_password_form"
         phx-submit="reset_password"
         phx-change="validate"
       >
-        <.error :if={@form.errors != []}>
-          Oops, something went wrong! Please check the errors below.
-        </.error>
-
-        <.input field={@form[:password]} type="password" label="New password" required />
+        <.input
+          field={@form[:password]}
+          type="password"
+          label="New password"
+          placeholder="MynewCoolPassword"
+          phx-debounce="blur"
+          required
+        />
         <.input
           field={@form[:password_confirmation]}
           type="password"
           label="Confirm new password"
+          placeholder="MynewCoolPassword"
+          phx-debounce="blur"
           required
         />
+        <.error :if={@form.errors != []}>
+          Oops, something went wrong! Please check the errors below.
+        </.error>
         <:actions>
-          <.button phx-disable-with="Resetting..." class="w-full">Reset Password</.button>
+          <.button icon="rotate-ccw" class="w-full">Reset</.button>
         </:actions>
       </.simple_form>
 
-      <p class="text-center text-sm mt-4">
-        <.link href={~p"/register"}>Register</.link>
-        | <.link href={~p"/login"}>Log in</.link>
-      </p>
+      <div class="flex justify-center">
+        <.link class="text-center text-sm mt-4 font-semibold hover:underline" href={~p"/login"}>
+          Log in
+        </.link>
+      </div>
     </div>
     """
   end
