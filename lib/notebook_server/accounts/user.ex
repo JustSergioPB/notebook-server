@@ -164,18 +164,22 @@ defmodule NotebookServer.Accounts.User do
     end
   end
 
-  def changeset(user, attrs \\ %{}) do
+  def form_changeset(user, attrs \\ %{}) do
     user
-    |> cast(attrs, [:name, :last_name, :email, :password, :status, :confirmed_at, :role, :org_id])
+    |> cast(attrs, [:name, :last_name, :email, :role])
     |> validate_required([
       :name,
       :last_name,
       :email,
-      :password,
-      :status,
-      :confirmed_at,
-      :role,
-      :org_id
+      :role
     ])
+  end
+
+  def changeset(user, attrs \\ %{}, opts \\ []) do
+    user
+    |> cast(attrs, [:name, :last_name, :email, :role, :org_id, :password])
+    |> validate_required([:name, :last_name, :email, :role, :org_id, :password])
+    |> validate_email(opts)
+    |> validate_password(opts)
   end
 end

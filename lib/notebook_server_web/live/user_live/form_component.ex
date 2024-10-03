@@ -11,7 +11,6 @@ defmodule NotebookServerWeb.UserLive.FormComponent do
         <%= @title %>
         <:subtitle>Use this form to manage user records in your database.</:subtitle>
       </.header>
-
       <.simple_form
         for={@form}
         id="user-form"
@@ -20,6 +19,14 @@ defmodule NotebookServerWeb.UserLive.FormComponent do
         phx-submit="save"
       >
         <.input field={@form[:name]} type="text" label="Name" />
+        <.input field={@form[:last_name]} type="text" label="Last Name" />
+        <.input field={@form[:email]} type="text" label="Email" />
+        <.input
+          field={@form[:role]}
+          type="select"
+          label="Role"
+          options={["org_admin", "user"]}
+        />
         <:actions>
           <.button phx-disable-with="Saving...">Save User</.button>
         </:actions>
@@ -64,7 +71,8 @@ defmodule NotebookServerWeb.UserLive.FormComponent do
   end
 
   defp save_user(socket, :new, user_params) do
-    case Accounts.create_user(user_params) do
+    user_params_with_org_id = Map.put(user_params, "org_id", socket.assigns.current_user.org_id)
+    case Accounts.create_user(user_params_with_org_id) do
       {:ok, user} ->
         notify_parent({:saved, user})
 

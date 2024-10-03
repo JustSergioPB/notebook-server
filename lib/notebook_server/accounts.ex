@@ -231,9 +231,10 @@ defmodule NotebookServer.Accounts do
   """
   def get_user_by_session_token(token) do
     {:ok, query} = UserToken.verify_session_token_query(token)
-    Repo.one(query) |> Repo.preload(:org)
+    Repo.one(query)
   end
 
+  @spec delete_user_session_token(any()) :: :ok
   @doc """
   Deletes the signed token with the given context.
   """
@@ -352,13 +353,19 @@ defmodule NotebookServer.Accounts do
   end
 
   def change_user(user, attrs \\ %{}) do
-    User.changeset(user, attrs)
+    User.form_changeset(user, attrs)
   end
 
   def create_user(attrs) do
+    attrs_with_password = Map.put(attrs, "password", generate_random_password())
+
     %User{}
-    |> User.changeset(attrs)
+    |> User.changeset(attrs_with_password)
     |> Repo.insert()
+  end
+
+  defp generate_random_password do
+    :crypto.strong_rand_bytes(16) |> Base.encode64() |> String.slice(0..31)
   end
 
   def update_user(user, attrs) do

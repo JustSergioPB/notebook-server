@@ -64,7 +64,9 @@ defmodule NotebookServerWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     live_session :require_authenticated_user,
-      on_mount: [{NotebookServerWeb.UserAuth, :ensure_authenticated}] do
+      on_mount: [
+        {NotebookServerWeb.UserAuth, :ensure_authenticated}
+      ] do
       live "/settings", UserSettingsLive, :edit
       delete "/logout", UserSessionController, :delete
 
