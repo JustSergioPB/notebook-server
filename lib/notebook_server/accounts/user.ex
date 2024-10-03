@@ -11,7 +11,7 @@ defmodule NotebookServer.Accounts.User do
     field :current_password, :string, virtual: true, redact: true
     field :status, Ecto.Enum, values: [:active, :inactive], default: :active
     field :confirmed_at, :utc_datetime
-    field :role, Ecto.Enum, values: [:admin, :org_admin ,:user], default: :user
+    field :role, Ecto.Enum, values: [:admin, :org_admin, :user], default: :user
     belongs_to :org, NotebookServer.Orgs.Org
 
     timestamps(type: :utc_datetime)
@@ -162,5 +162,20 @@ defmodule NotebookServer.Accounts.User do
     else
       add_error(changeset, :current_password, "is not valid")
     end
+  end
+
+  def changeset(user, attrs \\ %{}) do
+    user
+    |> cast(attrs, [:name, :last_name, :email, :password, :status, :confirmed_at, :role, :org_id])
+    |> validate_required([
+      :name,
+      :last_name,
+      :email,
+      :password,
+      :status,
+      :confirmed_at,
+      :role,
+      :org_id
+    ])
   end
 end

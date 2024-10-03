@@ -350,4 +350,28 @@ defmodule NotebookServer.Accounts do
       {:error, :user, changeset, _} -> {:error, changeset}
     end
   end
+
+  def change_user(user, attrs \\ %{}) do
+    User.changeset(user, attrs)
+  end
+
+  def create_user(attrs) do
+    %User{}
+    |> User.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def update_user(user, attrs) do
+    user
+    |> User.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def delete_user(user) do
+    Repo.delete(user)
+  end
+
+  def list_users do
+    Repo.all(User)
+  end
 end

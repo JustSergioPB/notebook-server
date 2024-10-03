@@ -79,11 +79,11 @@ defmodule NotebookServerWeb.Router do
       end
 
       scope "/users" do
-        #live "/", UserLive.Index, :index
-        #live "/new", UserLive.Index, :new
-        #live "/:id/edit", UserLive.Index, :edit
-        #live "/:id", UserLive.Show, :show
-        #live "/:id/show/edit", UserLive.Show, :edit
+        live "/", UserLive.Index, :index
+        live "/new", UserLive.Index, :new
+        live "/:id/edit", UserLive.Index, :edit
+        live "/:id", UserLive.Show, :show
+        live "/:id/show/edit", UserLive.Show, :edit
       end
     end
   end
