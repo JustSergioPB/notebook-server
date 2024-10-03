@@ -1,12 +1,11 @@
 defmodule NotebookServerWeb.OrgLive.Index do
   use NotebookServerWeb, :live_view
 
-  alias NotebookServer.Accounts
-  alias NotebookServer.Accounts.Org
-
+  alias NotebookServer.Orgs
+  alias NotebookServer.Orgs.Org
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, stream(socket, :orgs, Accounts.list_orgs())}
+    {:ok, stream(socket, :orgs, Orgs.list_orgs())}
   end
 
   @impl true
@@ -17,7 +16,7 @@ defmodule NotebookServerWeb.OrgLive.Index do
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:page_title, "Edit Org")
-    |> assign(:org, Accounts.get_org!(id))
+    |> assign(:org, Orgs.get_org!(id))
   end
 
   defp apply_action(socket, :new, _params) do
@@ -39,8 +38,8 @@ defmodule NotebookServerWeb.OrgLive.Index do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    org = Accounts.get_org!(id)
-    {:ok, _} = Accounts.delete_org(org)
+    org = Orgs.get_org!(id)
+    {:ok, _} = Orgs.delete_org(org)
 
     {:noreply, stream_delete(socket, :orgs, org)}
   end

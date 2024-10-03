@@ -1,7 +1,7 @@
 defmodule NotebookServerWeb.OrgLive.Show do
   use NotebookServerWeb, :live_view
 
-  alias NotebookServer.Accounts
+  alias NotebookServer.Orgs
 
   @impl true
   def mount(_params, _session, socket) do
@@ -13,7 +13,7 @@ defmodule NotebookServerWeb.OrgLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:org, Accounts.get_org!(id))}
+     |> assign(:org, Orgs.get_org!(id))}
   end
 
   defp page_title(:show), do: "Show Org"

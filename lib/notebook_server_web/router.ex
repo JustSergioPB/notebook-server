@@ -68,11 +68,23 @@ defmodule NotebookServerWeb.Router do
       live "/settings", UserSettingsLive, :edit
       delete "/logout", UserSessionController, :delete
 
-      live "/orgs", OrgLive.Index, :index
-      live "/orgs/new", OrgLive.Index, :new
-      live "/orgs/:id/edit", OrgLive.Index, :edit
-      live "/orgs/:id", OrgLive.Show, :show
-      live "/orgs/:id/show/edit", OrgLive.Show, :edit
+      scope "/orgs" do
+        pipe_through :require_admin_user
+
+        live "/", OrgLive.Index, :index
+        live "/new", OrgLive.Index, :new
+        live "/:id/edit", OrgLive.Index, :edit
+        live "/:id", OrgLive.Show, :show
+        live "/:id/show/edit", OrgLive.Show, :edit
+      end
+
+      scope "/users" do
+        #live "/", UserLive.Index, :index
+        #live "/new", UserLive.Index, :new
+        #live "/:id/edit", UserLive.Index, :edit
+        #live "/:id", UserLive.Show, :show
+        #live "/:id/show/edit", UserLive.Show, :edit
+      end
     end
   end
 end

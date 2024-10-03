@@ -1,7 +1,7 @@
 defmodule NotebookServerWeb.OrgLive.FormComponent do
   use NotebookServerWeb, :live_component
 
-  alias NotebookServer.Accounts
+  alias NotebookServer.Orgs
 
   @impl true
   def render(assigns) do
@@ -34,13 +34,13 @@ defmodule NotebookServerWeb.OrgLive.FormComponent do
      socket
      |> assign(assigns)
      |> assign_new(:form, fn ->
-       to_form(Accounts.change_org(org))
+       to_form(Orgs.change_org(org))
      end)}
   end
 
   @impl true
   def handle_event("validate", %{"org" => org_params}, socket) do
-    changeset = Accounts.change_org(socket.assigns.org, org_params)
+    changeset = Orgs.change_org(socket.assigns.org, org_params)
     {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
   end
 
@@ -49,7 +49,7 @@ defmodule NotebookServerWeb.OrgLive.FormComponent do
   end
 
   defp save_org(socket, :edit, org_params) do
-    case Accounts.update_org(socket.assigns.org, org_params) do
+    case Orgs.update_org(socket.assigns.org, org_params) do
       {:ok, org} ->
         notify_parent({:saved, org})
 
@@ -64,7 +64,7 @@ defmodule NotebookServerWeb.OrgLive.FormComponent do
   end
 
   defp save_org(socket, :new, org_params) do
-    case Accounts.create_org(org_params) do
+    case Orgs.create_org(org_params) do
       {:ok, org} ->
         notify_parent({:saved, org})
 

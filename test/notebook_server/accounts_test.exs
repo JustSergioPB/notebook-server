@@ -507,7 +507,7 @@ defmodule NotebookServer.AccountsTest do
   end
 
   describe "orgs" do
-    alias NotebookServer.Accounts.Org
+    alias NotebookServer.Orgs.Org
 
     import NotebookServer.AccountsFixtures
 

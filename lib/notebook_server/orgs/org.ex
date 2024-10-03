@@ -1,10 +1,12 @@
-defmodule NotebookServer.Accounts.Org do
+defmodule NotebookServer.Orgs.Org do
   use Ecto.Schema
   import Ecto.Changeset
 
   schema "orgs" do
     field :name, :string
+    field :status, Ecto.Enum, values: [:active, :inactive], default: :active
     has_many :users, NotebookServer.Accounts.User
+
     timestamps(type: :utc_datetime)
   end
 
