@@ -370,7 +370,7 @@ defmodule NotebookServer.Accounts do
 
   def update_user(user, attrs) do
     user
-    |> User.changeset(attrs)
+    |> User.form_changeset(attrs)
     |> Repo.update()
   end
 
