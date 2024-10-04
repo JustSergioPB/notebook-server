@@ -1,0 +1,26 @@
+<.header>
+  Org <%= @org.id %>
+  <:subtitle>This is a org record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/orgs/#{@org}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit org</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @org.name %></:item>
+</.list>
+
+<.back navigate={~p"/orgs"}>Back to orgs</.back>
+
+<.modal :if={@live_action == :edit} id="org-modal" show on_cancel={JS.patch(~p"/orgs/#{@org}")}>
+  <.live_component
+    module={NotebookServerWeb.OrgLive.FormComponent}
+    id={@org.id}
+    title={@page_title}
+    action={@live_action}
+    org={@org}
+    patch={~p"/orgs/#{@org}"}
+  />
+</.modal>

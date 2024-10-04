@@ -1,0 +1,91 @@
+<.page_header icon="users">
+  Users
+  <:actions>
+    <.link patch={~p"/users/new"}>
+      <.button icon="plus_circle">User</.button>
+    </.link>
+  </:actions>
+</.page_header>
+
+<section class="p-6 flex flex-col flex-1 space-y-6">
+  <.table
+    id="users"
+    class="flex-1"
+    rows={@streams.users}
+    row_click={fn {_id, user} -> JS.navigate(~p"/users/#{user}") end}
+  >
+    <:col :let={{_id, user}} label="Name">
+      <p class="text-sm font-semibold"><%= user.name %> <%= user.last_name %></p>
+    </:col>
+    <:col :let={{_id, user}} label="Email">
+      <p class="text-sm font-light"><%= user.email %></p>
+    </:col>
+    <:col :let={{_id, user}} label="Status">
+      <.status_badge variant={if user.status == :active, do: "success", else: "outline"}>
+        <%= user.status %>
+      </.status_badge>
+    </:col>
+    <:col :let={{_id, user}} label="Role">
+      <.role_badge role={user.role}>
+        <%= user.role %>
+      </.role_badge>
+    </:col>
+    <:action :let={{_id, user}}>
+      <div class="sr-only">
+        <.link navigate={~p"/users/#{user}"}>Show</.link>
+      </div>
+    </:action>
+    <:action :let={{_id, user}}>
+      <%= if user.status == :active do %>
+        <.button
+          size="icon"
+          variant="outline"
+          icon="power-off"
+          phx-value-id={user.id}
+          phx-click="deactivate"
+        >
+          Deactivate
+        </.button>
+      <% else %>
+        <.button
+          size="icon"
+          variant="outline"
+          icon="power"
+          phx-value-id={user.id}
+          phx-click="activate"
+        >
+          Activate
+        </.button>
+      <% end %>
+    </:action>
+    <:action :let={{_id, user}}>
+      <.button_link size="icon" variant="outline" icon="pencil" patch={~p"/users/#{user}/edit"}>
+        Edit
+      </.button_link>
+    </:action>
+    <:action :let={{id, user}}>
+      <.button
+        size="icon"
+        variant="outline"
+        icon="trash"
+        phx-click={JS.push("delete", value: %{id: user.id}) |> hide("##{id}")}
+        data-confirm="Are you sure?"
+      >
+        Delete
+      </.button>
+    </:action>
+  </.table>
+  <.pagination page={1} total_pages={1} />
+</section>
+
+<.modal :if={@live_action in [:new, :edit]} id="user-modal" show on_cancel={JS.patch(~p"/users")}>
+  <.live_component
+    module={NotebookServerWeb.UserLive.FormComponent}
+    id={@user.id || :new}
+    title={@page_title}
+    action={@live_action}
+    user={@user}
+    current_user={@current_user}
+    patch={~p"/users"}
+  />
+</.modal>
