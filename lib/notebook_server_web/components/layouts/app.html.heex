@@ -1,6 +1,6 @@
 <main class="h-screen overflow-hidden flex">
   <.flash_group flash={@flash} />
-  <nav class="w-64 flex flex-col space-y-4 p-4 border-r border-slate-200">
+  <nav class="w-64 flex flex-col space-y-8 p-6 border-r border-slate-200">
     <.user_badge
       name={@current_user.name}
       last_name={@current_user.last_name}
@@ -21,12 +21,12 @@
         href={~p"/users"}
       />
     </ul>
-    <ul class="py-4 space-y-1">
+    <ul class="space-y-1">
       <.nav_link label="Settings" icon="settings" href={~p"/settings"} />
       <.nav_link label="Log Out" icon="log-out" method="delete" href={~p"/logout"} />
     </ul>
   </nav>
-  <section class="flex-1 p-8 bg-white">
+  <section class="flex-1 bg-white">
     <%= @inner_content %>
   </section>
 </main>

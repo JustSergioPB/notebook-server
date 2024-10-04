@@ -235,7 +235,7 @@ defmodule NotebookServerWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        "phx-submit-loading:opacity-75 rounded-lg bg-slate-900 hover:bg-slate-700 py-2 px-3 flex items-center justify-center gap-2 group",
+        "phx-submit-loading:opacity-75 rounded-lg bg-slate-900 shadow-sm shadow-slate-900/50 hover:bg-slate-700 py-2 px-3 flex items-center justify-center gap-2 group",
         "text-sm font-semibold leading-6 text-white active:text-white/80",
         @class
       ]}
@@ -245,6 +245,50 @@ defmodule NotebookServerWeb.CoreComponents do
       <Lucide.loader class="w-4 h-4 animate-spin hidden group-[.phx-submit-loading]:block" />
       <%= render_slot(@inner_block) %>
     </button>
+    """
+  end
+
+  @doc """
+  Renders a button.
+
+  ## Examples
+
+      <.button>Send!</.button>
+      <.button phx-click="go" class="ml-2">Send!</.button>
+  """
+  attr :variant, :string, default: "primary"
+  attr :size, :string, default: "md"
+  attr :class, :string, default: nil
+  attr :patch, :string, default: nil
+  attr :navigate, :string, default: nil
+  attr :icon, :string, default: nil
+  attr :rest, :global, include: ~w(disabled form name value)
+
+  slot :inner_block, required: true
+
+  def button_link(assigns) do
+    ~H"""
+    <.link
+      patch={@patch}
+      navigate={@navigate}
+      class={[
+        "rounded-lg flex items-center justify-center group",
+        "text-sm font-semibold leading-6",
+        @size == "lg" && "py-3 px-4 gap-2",
+        @size == "md" && "py-2 px-3 gap-2",
+        @size == "sm" && "py-1 px-2 gap-2",
+        @size == "icon" && "p-2",
+        @variant == "primary" && "bg-slate-900 hover:bg-slate-700 text-white active:text-white/80",
+        @variant == "outline" &&
+          "bg-transparent shadow-sm border border-slate-200 hover:bg-slate-100",
+        @variant == "ghost" && "bg-transparent shadow-sm hover:bg-slate-100",
+        @class
+      ]}
+      {@rest}
+    >
+      <Lucide.render :if={@icon} icon={@icon} class="w-4 h-4" />
+      <span class={[@size == "icon" && "sr-only"]}><%= render_slot(@inner_block) %></span>
+    </.link>
     """
   end
 
@@ -447,6 +491,37 @@ defmodule NotebookServerWeb.CoreComponents do
     """
   end
 
+  @doc """
+  Renders a header with title.
+  """
+  attr :class, :string, default: nil
+  attr :icon, :string, default: nil
+  slot :inner_block, required: true
+  slot :subtitle
+  slot :actions
+
+  def page_header(assigns) do
+    ~H"""
+    <header class={[
+      @actions != [] && "flex items-center justify-between gap-4 p-6 border-b border-slate-200",
+      @class
+    ]}>
+      <div>
+        <span class="flex items-center">
+          <Lucide.render :if={@icon} icon={@icon} class="h-5 w-5 mr-2" />
+          <h1 class="text-lg font-bold text-slate-800">
+            <%= render_slot(@inner_block) %>
+          </h1>
+        </span>
+        <p :if={@subtitle != []} class="text-sm leading-6 text-slate-600">
+          <%= render_slot(@subtitle) %>
+        </p>
+      </div>
+      <div class="flex-none"><%= render_slot(@actions) %></div>
+    </header>
+    """
+  end
+
   @doc ~S"""
   Renders a table with generic styling.
 
@@ -479,12 +554,14 @@ defmodule NotebookServerWeb.CoreComponents do
       end
 
     ~H"""
-    <div class="overflow-y-auto px-4 sm:overflow-visible sm:px-0">
-      <table class="w-[40rem] mt-11 sm:w-full">
-        <thead class="text-sm text-left leading-6 text-slate-500">
+    <div class="overflow-y-auto px-4 sm:overflow-visible sm:px-0 border border-slate-200 rounded-lg">
+      <table class="w-full">
+        <thead class="bg-slate-100 border-b border-slate-200">
           <tr>
-            <th :for={col <- @col} class="p-0 pb-4 pr-6 font-normal"><%= col[:label] %></th>
-            <th :if={@action != []} class="relative p-0 pb-4">
+            <th :for={col <- @col} class="text-sm text-left text-slate-700 p-3 font-semibold">
+              <%= col[:label] %>
+            </th>
+            <th :if={@action != []}>
               <span class="sr-only"><%= gettext("Actions") %></span>
             </th>
           </tr>
@@ -492,31 +569,20 @@ defmodule NotebookServerWeb.CoreComponents do
         <tbody
           id={@id}
           phx-update={match?(%Phoenix.LiveView.LiveStream{}, @rows) && "stream"}
-          class="relative divide-y divide-slate-100 border-t border-slate-200 text-sm leading-6 text-slate-700"
+          class="relative divide-y divide-slate-100"
         >
-          <tr :for={row <- @rows} id={@row_id && @row_id.(row)} class="group hover:bg-slate-50">
+          <tr :for={row <- @rows} id={@row_id && @row_id.(row)}>
             <td
-              :for={{col, i} <- Enum.with_index(@col)}
+              :for={{col, _i} <- Enum.with_index(@col)}
               phx-click={@row_click && @row_click.(row)}
-              class={["relative p-0", @row_click && "hover:cursor-pointer"]}
+              class="p-3 text-sm text-slate-700"
             >
-              <div class="block py-4 pr-6">
-                <span class="absolute -inset-y-px right-0 -left-4 group-hover:bg-slate-50 sm:rounded-l-xl" />
-                <span class={["relative", i == 0 && "font-semibold text-slate-900"]}>
-                  <%= render_slot(col, @row_item.(row)) %>
-                </span>
-              </div>
+              <%= render_slot(col, @row_item.(row)) %>
             </td>
-            <td :if={@action != []} class="relative w-14 p-0">
-              <div class="relative whitespace-nowrap py-4 text-right text-sm font-medium">
-                <span class="absolute -inset-y-px -right-4 left-0 group-hover:bg-slate-50 sm:rounded-r-xl" />
-                <span
-                  :for={action <- @action}
-                  class="relative ml-4 font-semibold leading-6 text-slate-900 hover:text-slate-700"
-                >
-                  <%= render_slot(action, @row_item.(row)) %>
-                </span>
-              </div>
+            <td :if={@action != []} class="flex items-center justify-end gap-2 p-3">
+              <span :for={action <- @action} class="relative">
+                <%= render_slot(action, @row_item.(row)) %>
+              </span>
             </td>
           </tr>
         </tbody>
@@ -704,6 +770,7 @@ defmodule NotebookServerWeb.CoreComponents do
     """
   end
 
+  attr :class, :string, default: nil
   attr :name, :string, required: true
   attr :last_name, :string, required: true
   attr :email, :string, required: true
@@ -711,21 +778,67 @@ defmodule NotebookServerWeb.CoreComponents do
 
   def user_badge(assigns) do
     ~H"""
-    <div class="flex items-center gap-4 px-2 py-4">
+    <div class={["flex items-center gap-4", @class]}>
       <div class={[
         "h-10 w-10 flex items-center justify-center rounded-md uppercase",
         @role == :admin && "bg-orange-100",
-        @role == :org_admin && "bg-green-100",
+        @role == :org_admin && "bg-purple-100",
         @role == :user && "bg-blue-100"
       ]}>
         <Lucide.shield_plus :if={@role == :admin} class="h-5 w-5 text-orange-500" />
-        <Lucide.shield :if={@role == :org_admin} class="h-5 w-5 text-green-500" />
+        <Lucide.shield :if={@role == :org_admin} class="h-5 w-5 text-purple-500" />
         <Lucide.pen_tool :if={@role == :user} class="h-5 w-5 text-blue-500" />
       </div>
       <div>
         <p class="text-sm text-slate-900"><%= @name %> <%= @last_name %></p>
         <p class="text-xs text-slate-500"><%= @email %></p>
       </div>
+    </div>
+    """
+  end
+
+  attr :variant, :string, default: "outline"
+  attr :class, :string, default: nil
+
+  slot :inner_block, required: true
+
+  def status_badge(assigns) do
+    ~H"""
+    <div class={[
+      "inline-flex items-center gap-2 rounded-lg px-3 py-1 text-sm",
+      @variant == "primary" && "bg-slate-100 text-slate-700",
+      @variant == "success" && "bg-green-100 text-green-700",
+      @variant == "outline" && "border border-slate-200",
+      @class
+    ]}>
+      <div class={[
+        "h-2 w-2 rounded-full",
+        @variant == "primary" && "bg-slate-900",
+        @variant == "success" && "bg-green-700",
+        @variant == "outline" && "bg-slate-200"
+      ]}>
+      </div>
+      <%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
+
+  attr :role, :string, required: true
+  attr :class, :string, default: nil
+  slot :inner_block, required: true
+  def role_badge(assigns) do
+    ~H"""
+    <div class={[
+      "inline-flex items-center gap-2 rounded-lg px-3 py-1 text-sm",
+      @role == :admin && "bg-orange-100 text-orange-700",
+      @role == :org_admin && "bg-purple-100 text-purple-700",
+      @role == :user && "bg-blue-100 text-blue-700",
+      @class
+    ]}>
+      <Lucide.shield_plus :if={@role == :admin} class="h-4 w-4 text-orange-500" />
+      <Lucide.shield :if={@role == :org_admin} class="h-4 w-4 text-purple-500" />
+      <Lucide.pen_tool :if={@role == :user} class="h-4 w-4 text-blue-500" />
+      <%= @role %>
     </div>
     """
   end
