@@ -43,4 +43,20 @@ defmodule NotebookServerWeb.OrgLive.Index do
 
     {:noreply, stream_delete(socket, :orgs, org)}
   end
+
+  @impl true
+  def handle_event("deactivate", %{"id" => id}, socket) do
+    org = Orgs.get_org!(id)
+    {:ok, _} = Orgs.deactivate_org(org)
+
+    {:noreply, stream(socket, :orgs, Orgs.list_orgs())}
+  end
+
+  @impl true
+  def handle_event("activate", %{"id" => id}, socket) do
+    org = Orgs.get_org!(id)
+    {:ok, _} = Orgs.activate_org(org)
+
+    {:noreply, stream(socket, :orgs, Orgs.list_orgs())}
+  end
 end

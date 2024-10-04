@@ -44,4 +44,20 @@ defmodule NotebookServerWeb.UserLive.Index do
 
     {:noreply, stream_delete(socket, :users, user)}
   end
+
+  @impl true
+  def handle_event("deactivate", %{"id" => id}, socket) do
+    user = Accounts.get_user!(id)
+    {:ok, _} = Accounts.deactivate_user(user)
+
+    {:noreply, stream(socket, :users, Accounts.list_users())}
+  end
+
+  @impl true
+  def handle_event("activate", %{"id" => id}, socket) do
+    user = Accounts.get_user!(id)
+    {:ok, _} = Accounts.activate_user(user)
+
+    {:noreply, stream(socket, :users, Accounts.list_users())}
+  end
 end

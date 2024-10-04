@@ -381,4 +381,16 @@ defmodule NotebookServer.Accounts do
   def list_users do
     Repo.all(User)
   end
+
+  def deactivate_user(user) do
+    user
+    |> User.deactivation_changeset()
+    |> Repo.update()
+  end
+
+  def activate_user(user) do
+    user
+    |> User.activation_changeset()
+    |> Repo.update()
+  end
 end

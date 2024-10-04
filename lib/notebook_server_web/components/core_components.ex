@@ -225,6 +225,8 @@ defmodule NotebookServerWeb.CoreComponents do
       <.button phx-click="go" class="ml-2">Send!</.button>
   """
   attr :type, :string, default: nil
+  attr :variant, :string, default: "primary"
+  attr :size, :string, default: "md"
   attr :class, :string, default: nil
   attr :icon, :string, default: nil
   attr :rest, :global, include: ~w(disabled form name value)
@@ -236,15 +238,23 @@ defmodule NotebookServerWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        "phx-submit-loading:opacity-75 rounded-lg bg-slate-900 shadow-sm shadow-slate-900/50 hover:bg-slate-700 py-2 px-3 flex items-center justify-center gap-2 group",
-        "text-sm font-semibold leading-6 text-white active:text-white/80",
+        "phx-submit-loading:opacity-75 rounded-lg flex items-center justify-center group",
+        "text-sm font-semibold leading-6",
+        @size == "lg" && "py-3 px-4 gap-2",
+        @size == "md" && "py-2 px-3 gap-2",
+        @size == "sm" && "py-1 px-2 gap-2",
+        @size == "icon" && "p-2",
+        @variant == "primary" && "bg-slate-900 hover:bg-slate-700 text-white active:text-white/80",
+        @variant == "outline" &&
+          "bg-transparent shadow-sm border border-slate-200 hover:bg-slate-100",
+        @variant == "ghost" && "bg-transparent shadow-sm hover:bg-slate-100",
         @class
       ]}
       {@rest}
     >
       <Lucide.render :if={@icon} icon={@icon} class="w-4 h-4 group-[.phx-submit-loading]:hidden" />
       <Lucide.loader class="w-4 h-4 animate-spin hidden group-[.phx-submit-loading]:block" />
-      <%= render_slot(@inner_block) %>
+      <span class={[@size == "icon" && "sr-only"]}><%= render_slot(@inner_block) %></span>
     </button>
     """
   end

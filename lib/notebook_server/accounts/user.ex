@@ -182,4 +182,12 @@ defmodule NotebookServer.Accounts.User do
     |> validate_email(opts)
     |> validate_password(opts)
   end
+
+  def deactivation_changeset(user) do
+    change(user, status: :inactive)
+  end
+
+  def activation_changeset(user) do
+    change(user, status: :active)
+  end
 end

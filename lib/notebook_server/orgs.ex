@@ -96,4 +96,16 @@ defmodule NotebookServer.Orgs do
   def change_org(%Org{} = org, attrs \\ %{}) do
     Org.changeset(org, attrs)
   end
+
+  def deactivate_org(%Org{} = org) do
+    org
+    |> Org.deactivation_changeset()
+    |> Repo.update()
+  end
+
+  def activate_org(%Org{} = org) do
+    org
+    |> Org.activation_changeset()
+    |> Repo.update()
+  end
 end

@@ -17,4 +17,12 @@ defmodule NotebookServer.Orgs.Org do
     |> validate_required([:name], message: "Name is required")
     |> validate_length(:name, min: 3, message: "Name must be at least 3 characters")
   end
+
+  def deactivation_changeset(org) do
+    change(org, status: :inactive)
+  end
+
+  def activation_changeset(org) do
+    change(org, status: :active)
+  end
 end

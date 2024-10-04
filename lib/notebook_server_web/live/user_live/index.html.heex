@@ -37,18 +37,25 @@
     </:action>
     <:action :let={{_id, user}}>
       <%= if user.status == :active do %>
-        <.button_link
+        <.button
           size="icon"
           variant="outline"
           icon="power-off"
-          patch={~p"/users/#{user}/edit"}
+          phx-value-id={user.id}
+          phx-click="deactivate"
         >
           Deactivate
-        </.button_link>
+        </.button>
       <% else %>
-        <.button_link size="icon" variant="outline" icon="power" patch={~p"/users/#{user}/edit"}>
+        <.button
+          size="icon"
+          variant="outline"
+          icon="power"
+          phx-value-id={user.id}
+          phx-click="activate"
+        >
           Activate
-        </.button_link>
+        </.button>
       <% end %>
     </:action>
     <:action :let={{_id, user}}>
@@ -57,7 +64,7 @@
       </.button_link>
     </:action>
     <:action :let={{id, user}}>
-      <.button_link
+      <.button
         size="icon"
         variant="outline"
         icon="trash"
@@ -65,7 +72,7 @@
         data-confirm="Are you sure?"
       >
         Delete
-      </.button_link>
+      </.button>
     </:action>
   </.table>
   <.pagination page={1} total_pages={1} />
