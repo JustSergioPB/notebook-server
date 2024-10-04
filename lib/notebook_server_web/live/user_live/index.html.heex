@@ -7,9 +7,10 @@
   </:actions>
 </.page_header>
 
-<section class="p-6">
+<section class="p-6 flex flex-col flex-1 space-y-6">
   <.table
     id="users"
+    class="flex-1"
     rows={@streams.users}
     row_click={fn {_id, user} -> JS.navigate(~p"/users/#{user}") end}
   >
@@ -67,6 +68,7 @@
       </.button_link>
     </:action>
   </.table>
+  <.pagination page={1} total_pages={1} />
 </section>
 
 <.modal :if={@live_action in [:new, :edit]} id="user-modal" show on_cancel={JS.patch(~p"/users")}>

@@ -16,6 +16,7 @@ defmodule NotebookServerWeb.CoreComponents do
   """
   use Phoenix.Component
 
+  alias Telemetry.Metrics.LastValue
   alias Phoenix.LiveView.JS
   import NotebookServerWeb.Gettext
 
@@ -381,11 +382,11 @@ defmodule NotebookServerWeb.CoreComponents do
   def input(%{type: "select"} = assigns) do
     ~H"""
     <div>
-      <.label for={@id}><%= @label %></.label>
+      <.label :if={@label} class="mb-2" for={@id}><%= @label %></.label>
       <select
         id={@id}
         name={@name}
-        class="mt-2 block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-slate-400 focus:ring-0 sm:text-sm"
+        class="block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-slate-400 focus:ring-0 sm:text-sm"
         multiple={@multiple}
         {@rest}
       >
@@ -442,11 +443,18 @@ defmodule NotebookServerWeb.CoreComponents do
   Renders a label.
   """
   attr :for, :string, default: nil
+  attr :class, :string, default: nil
   slot :inner_block, required: true
 
   def label(assigns) do
     ~H"""
-    <label for={@for} class="block text-sm font-semibold leading-6 text-slate-800">
+    <label
+      for={@for}
+      class={[
+        "block text-sm font-semibold leading-6 text-slate-800",
+        @class
+      ]}
+    >
       <%= render_slot(@inner_block) %>
     </label>
     """
@@ -536,6 +544,7 @@ defmodule NotebookServerWeb.CoreComponents do
   attr :rows, :list, required: true
   attr :row_id, :any, default: nil, doc: "the function for generating the row id"
   attr :row_click, :any, default: nil, doc: "the function for handling phx-click on each row"
+  attr :class, :string, default: nil, doc: "the class for the table"
 
   attr :row_item, :any,
     default: &Function.identity/1,
@@ -554,9 +563,12 @@ defmodule NotebookServerWeb.CoreComponents do
       end
 
     ~H"""
-    <div class="overflow-y-auto px-4 sm:overflow-visible sm:px-0 border border-slate-200 rounded-lg">
-      <table class="w-full">
-        <thead class="bg-slate-100 border-b border-slate-200">
+    <div class={[
+      "overflow-y-auto px-4 sm:overflow-visible sm:px-0 border border-slate-200 rounded-lg",
+      @class
+    ]}>
+      <table class="w-full h-fullflex flex-col">
+        <thead class="bg-slate-100 border-b border-slate-200 w-full">
           <tr>
             <th :for={col <- @col} class="text-sm text-left text-slate-700 p-3 font-semibold">
               <%= col[:label] %>
@@ -569,9 +581,9 @@ defmodule NotebookServerWeb.CoreComponents do
         <tbody
           id={@id}
           phx-update={match?(%Phoenix.LiveView.LiveStream{}, @rows) && "stream"}
-          class="relative divide-y divide-slate-100"
+          class="flex-1 divide-y divide-slate-100 w-full min-h-0 overflow-y-auto"
         >
-          <tr :for={row <- @rows} id={@row_id && @row_id.(row)}>
+          <tr :for={row <- @rows} id={@row_id && @row_id.(row)} class="h-[10%]">
             <td
               :for={{col, _i} <- Enum.with_index(@col)}
               phx-click={@row_click && @row_click.(row)}
@@ -580,13 +592,36 @@ defmodule NotebookServerWeb.CoreComponents do
               <%= render_slot(col, @row_item.(row)) %>
             </td>
             <td :if={@action != []} class="flex items-center justify-end gap-2 p-3">
-              <span :for={action <- @action} class="relative">
+              <span :for={action <- @action}>
                 <%= render_slot(action, @row_item.(row)) %>
               </span>
             </td>
           </tr>
         </tbody>
       </table>
+    </div>
+    """
+  end
+
+  attr :page, :integer, required: true
+  attr :total_pages, :integer, required: true
+
+  def pagination(assigns) do
+    ~H"""
+    <div class="flex items-center justify-end gap-8">
+      <div class="flex items-center gap-2 text-sm font-semibold">
+        <span>Rows per page:</span>
+        <.input name="rows_per_page" value="10" type="select" options={["10", "25", "50", "100"]} />
+      </div>
+      <p class="text-sm font-semibold">
+        Page <%= @page %> of <%= @total_pages %>
+      </p>
+      <div class="flex items-center gap-2">
+        <.button_link size="icon" icon="chevrons-left" variant="outline">Last page</.button_link>
+        <.button_link size="icon" icon="chevron-left" variant="outline">Previous page</.button_link>
+        <.button_link size="icon" icon="chevron-right" variant="outline">Next page</.button_link>
+        <.button_link size="icon" icon="chevrons-right" variant="outline">First page</.button_link>
+      </div>
     </div>
     """
   end
@@ -826,6 +861,7 @@ defmodule NotebookServerWeb.CoreComponents do
   attr :role, :string, required: true
   attr :class, :string, default: nil
   slot :inner_block, required: true
+
   def role_badge(assigns) do
     ~H"""
     <div class={[
