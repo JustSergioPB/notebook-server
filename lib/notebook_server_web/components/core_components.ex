@@ -15,10 +15,8 @@ defmodule NotebookServerWeb.CoreComponents do
   Icons are provided by [heroicons](https://heroicons.com). See `icon/1` for usage.
   """
   use Phoenix.Component
-
-  alias Telemetry.Metrics.LastValue
   alias Phoenix.LiveView.JS
-  import NotebookServerWeb.Gettext
+  use Gettext, backend: NotebookServerWeb.Gettext
 
   @doc """
   Renders a modal.
@@ -620,17 +618,17 @@ defmodule NotebookServerWeb.CoreComponents do
     ~H"""
     <div class="flex items-center justify-end gap-8">
       <div class="flex items-center gap-2 text-sm font-semibold">
-        <span>Rows per page:</span>
+        <span><%= gettext("rows_per_page") %>:</span>
         <.input name="rows_per_page" value="10" type="select" options={["10", "25", "50", "100"]} />
       </div>
       <p class="text-sm font-semibold">
-        Page <%= @page %> of <%= @total_pages %>
+        <%= gettext("page") %> <%= @page %> <%= gettext("of") %> <%= @total_pages %>
       </p>
       <div class="flex items-center gap-2">
-        <.button_link size="icon" icon="chevrons-left" variant="outline">Last page</.button_link>
-        <.button_link size="icon" icon="chevron-left" variant="outline">Previous page</.button_link>
-        <.button_link size="icon" icon="chevron-right" variant="outline">Next page</.button_link>
-        <.button_link size="icon" icon="chevrons-right" variant="outline">First page</.button_link>
+        <.button_link size="icon" icon="chevrons-left" variant="outline"><%= gettext("last_page") %></.button_link>
+        <.button_link size="icon" icon="chevron-left" variant="outline"><%= gettext("previous_page") %></.button_link>
+        <.button_link size="icon" icon="chevron-right" variant="outline"><%= gettext("next_page") %></.button_link>
+        <.button_link size="icon" icon="chevrons-right" variant="outline"><%= gettext("first_page") %></.button_link>
       </div>
     </div>
     """

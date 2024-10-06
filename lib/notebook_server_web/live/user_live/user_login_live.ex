@@ -1,39 +1,40 @@
 defmodule NotebookServerWeb.UserLoginLive do
   use NotebookServerWeb, :live_view_auth
+  use Gettext, backend: NotebookServerWeb.Gettext
 
   def render(assigns) do
     ~H"""
     <div class="w-1/2">
       <.header class="mb-12">
-        Welcome back!
+        <%= gettext("login_title") %>
         <:subtitle>
-          Enter your credentials to continue.
+          <%= gettext("login_subtitle") %>
         </:subtitle>
       </.header>
       <.simple_form for={@form} id="login_form" action={~p"/login"} phx-update="ignore">
         <.input
           field={@form[:email]}
           type="email"
-          label="Email"
-          placeholder="johndoe@example.com"
+          label={gettext("email")}
+          placeholder={gettext("email_placeholder")}
           required
         />
         <.input
           field={@form[:password]}
           type="password"
-          label="Password"
-          placeholder="mycoolpassword"
+          label={gettext("password")}
+          placeholder={gettext("password_placeholder")}
           required
         />
         <:actions>
-          <.input field={@form[:remember_me]} type="checkbox" label="Remember me" />
+          <.input field={@form[:remember_me]} type="checkbox" label={gettext("remember_me")} />
           <.link href={~p"/reset-password"} class="text-sm font-semibold hover:underline">
-            Forgot your password?
+            <%= gettext("forgot_password") %>
           </.link>
         </:actions>
         <:actions>
           <.button class="w-full" icon="log-in">
-            Log in
+            <%= gettext("login") %>
           </.button>
         </:actions>
       </.simple_form>

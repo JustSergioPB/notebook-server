@@ -2,6 +2,7 @@ defmodule NotebookServerWeb.OrgLive.FormComponent do
   use NotebookServerWeb, :live_component
 
   alias NotebookServer.Orgs
+  use Gettext, backend: NotebookServerWeb.Gettext
 
   @impl true
   def render(assigns) do
@@ -9,7 +10,6 @@ defmodule NotebookServerWeb.OrgLive.FormComponent do
     <div>
       <.header>
         <%= @title %>
-        <:subtitle>Use this form to manage org records in your database.</:subtitle>
       </.header>
 
       <.simple_form
@@ -19,9 +19,9 @@ defmodule NotebookServerWeb.OrgLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:name]} type="text" label="Name" />
+        <.input field={@form[:name]} type="text" label={gettext("name")} />
         <:actions>
-          <.button phx-disable-with="Saving...">Save Org</.button>
+          <.button><%= gettext("save") %></.button>
         </:actions>
       </.simple_form>
     </div>
@@ -55,7 +55,7 @@ defmodule NotebookServerWeb.OrgLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Org updated successfully")
+         |> put_flash(:info, gettext("org_update_success"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -70,7 +70,7 @@ defmodule NotebookServerWeb.OrgLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Org created successfully")
+         |> put_flash(:info, gettext("org_create_success"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

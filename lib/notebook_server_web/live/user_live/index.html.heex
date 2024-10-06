@@ -1,8 +1,8 @@
 <.page_header icon="users">
-  Users
+  <%= gettext("users") %>
   <:actions>
     <.link patch={~p"/users/new"}>
-      <.button icon="plus_circle">User</.button>
+      <.button icon="plus_circle"><%= gettext("user") %></.button>
     </.link>
   </:actions>
 </.page_header>
@@ -14,27 +14,22 @@
     rows={@streams.users}
     row_click={fn {_id, user} -> JS.navigate(~p"/users/#{user}") end}
   >
-    <:col :let={{_id, user}} label="Name">
+    <:col :let={{_id, user}} label={gettext("full_name")}>
       <p class="text-sm font-semibold"><%= user.name %> <%= user.last_name %></p>
     </:col>
-    <:col :let={{_id, user}} label="Email">
+    <:col :let={{_id, user}} label={gettext("email")}>
       <p class="text-sm font-light"><%= user.email %></p>
     </:col>
-    <:col :let={{_id, user}} label="Status">
+    <:col :let={{_id, user}} label={gettext("status")}>
       <.status_badge variant={if user.status == :active, do: "success", else: "outline"}>
         <%= user.status %>
       </.status_badge>
     </:col>
-    <:col :let={{_id, user}} label="Role">
+    <:col :let={{_id, user}} label={gettext("role")}>
       <.role_badge role={user.role}>
         <%= user.role %>
       </.role_badge>
     </:col>
-    <:action :let={{_id, user}}>
-      <div class="sr-only">
-        <.link navigate={~p"/users/#{user}"}>Show</.link>
-      </div>
-    </:action>
     <:action :let={{_id, user}}>
       <%= if user.status == :active do %>
         <.button
@@ -44,7 +39,7 @@
           phx-value-id={user.id}
           phx-click="deactivate"
         >
-          Deactivate
+          <%= gettext("deactivate") %>
         </.button>
       <% else %>
         <.button
@@ -54,13 +49,13 @@
           phx-value-id={user.id}
           phx-click="activate"
         >
-          Activate
+          <%= gettext("activate") %>
         </.button>
       <% end %>
     </:action>
     <:action :let={{_id, user}}>
       <.button_link size="icon" variant="outline" icon="pencil" patch={~p"/users/#{user}/edit"}>
-        Edit
+        <%= gettext("edit") %>
       </.button_link>
     </:action>
     <:action :let={{id, user}}>
@@ -69,9 +64,9 @@
         variant="outline"
         icon="trash"
         phx-click={JS.push("delete", value: %{id: user.id}) |> hide("##{id}")}
-        data-confirm="Are you sure?"
+        data-confirm={gettext("are_you_sure")}
       >
-        Delete
+        <%= gettext("delete") %>
       </.button>
     </:action>
   </.table>

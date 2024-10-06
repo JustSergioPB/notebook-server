@@ -1,18 +1,19 @@
 <.header>
-  Org <%= @org.id %>
-  <:subtitle>This is a org record from your database.</:subtitle>
+  <%= gettext("org") %> <%= @org.id %>
   <:actions>
     <.link patch={~p"/orgs/#{@org}/show/edit"} phx-click={JS.push_focus()}>
-      <.button>Edit org</.button>
+      <.button><%= gettext("edit_org") %></.button>
     </.link>
   </:actions>
 </.header>
 
 <.list>
-  <:item title="Name"><%= @org.name %></:item>
+  <:item title={gettext("name")}><%= @org.name %></:item>
 </.list>
 
-<.back navigate={~p"/orgs"}>Back to orgs</.back>
+<.back navigate={~p"/orgs"}>
+  <%= gettext("back_to_orgs") %>
+</.back>
 
 <.modal :if={@live_action == :edit} id="org-modal" show on_cancel={JS.patch(~p"/orgs/#{@org}")}>
   <.live_component

@@ -1,0 +1,419 @@
+## "msgid"s in this file come from POT (.pot) files.
+###
+### Do not add, change, or remove "msgid"s manually here as
+### they're tied to the ones in the corresponding POT file
+### (with the same domain).
+###
+### Use "mix gettext.extract --merge" or "mix gettext.merge"
+### to merge POT files into PO files.
+msgid ""
+msgstr ""
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: lib/notebook_server_web/components/core_components.ex:585
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr "Actions"
+
+#: lib/notebook_server_web/components/core_components.ex:163
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr "Attempting to reconnect"
+
+#: lib/notebook_server_web/components/core_components.ex:154
+#, elixir-autogen, elixir-format
+msgid "Error!"
+msgstr "Error!"
+
+#: lib/notebook_server_web/components/core_components.ex:175
+#, elixir-autogen, elixir-format
+msgid "Hang in there while we get back on track"
+msgstr "Hang in there while we get back on track"
+
+#: lib/notebook_server_web/components/core_components.ex:170
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr "Something went wrong!"
+
+#: lib/notebook_server_web/components/core_components.ex:153
+#, elixir-autogen, elixir-format
+msgid "Success!"
+msgstr "Success!"
+
+#: lib/notebook_server_web/components/core_components.ex:158
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr "We can't find the internet"
+
+#: lib/notebook_server_web/live/org_live/index.html.heex:44
+#: lib/notebook_server_web/live/user_live/index.html.heex:52
+#, elixir-autogen, elixir-format
+msgid "activate"
+msgstr "Activate"
+
+#: lib/notebook_server_web/live/org_live/index.html.heex:59
+#: lib/notebook_server_web/live/user_live/index.html.heex:67
+#, elixir-autogen, elixir-format
+msgid "are_you_sure"
+msgstr "Are you sure?"
+
+#: lib/notebook_server_web/live/org_live/show.html.heex:15
+#, elixir-autogen, elixir-format
+msgid "back_to_orgs"
+msgstr "Back to organisations"
+
+#: lib/notebook_server_web/live/user_live/show.html.heex:15
+#, elixir-autogen, elixir-format
+msgid "back_to_users"
+msgstr "Back to users"
+
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:39
+#, elixir-autogen, elixir-format
+msgid "change_email"
+msgstr "Change email"
+
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:83
+#, elixir-autogen, elixir-format
+msgid "change_password"
+msgstr "Change password"
+
+#: lib/notebook_server_web/components/core_components.ex:79
+#: lib/notebook_server_web/components/core_components.ex:133
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr "Close"
+
+#: lib/notebook_server_web/live/user_live/user_reset_password_live.ex:33
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:69
+#, elixir-autogen, elixir-format
+msgid "confirm_new_password"
+msgstr "Confirm new password"
+
+#: lib/notebook_server_web/live/user_live/user_reset_password_live.ex:34
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:70
+#, elixir-autogen, elixir-format
+msgid "confirm_new_password_placeholder"
+msgstr "MyNewCoolPassword"
+
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:145
+#, elixir-autogen, elixir-format
+msgid "confirmation_link_sent_to_new_email"
+msgstr "A confirmation link has been sent to your new email address."
+
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:33
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:76
+#, elixir-autogen, elixir-format
+msgid "current_password"
+msgstr "Current password"
+
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:34
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:77
+#, elixir-autogen, elixir-format
+msgid "current_password_placeholder"
+msgstr "MySuperSecretPassword"
+
+#: lib/notebook_server_web/live/org_live/index.html.heex:34
+#: lib/notebook_server_web/live/user_live/index.html.heex:42
+#, elixir-autogen, elixir-format
+msgid "deactivate"
+msgstr "Deactivate"
+
+#: lib/notebook_server_web/live/org_live/index.html.heex:61
+#: lib/notebook_server_web/live/user_live/index.html.heex:69
+#, elixir-autogen, elixir-format
+msgid "delete"
+msgstr "Delete"
+
+#: lib/notebook_server_web/live/org_live/index.html.heex:50
+#: lib/notebook_server_web/live/user_live/index.html.heex:58
+#, elixir-autogen, elixir-format
+msgid "edit"
+msgstr "Edit"
+
+#: lib/notebook_server_web/live/org_live/index.ex:20
+#: lib/notebook_server_web/live/org_live/show.ex:21
+#: lib/notebook_server_web/live/org_live/show.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "edit_org"
+msgstr "Edit organisation"
+
+#: lib/notebook_server_web/live/user_live/index.ex:20
+#: lib/notebook_server_web/live/user_live/show.ex:21
+#: lib/notebook_server_web/live/user_live/show.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "edit_user"
+msgstr "Edit user"
+
+#: lib/notebook_server_web/live/user_live/form_component.ex:22
+#: lib/notebook_server_web/live/user_live/index.html.heex:20
+#: lib/notebook_server_web/live/user_live/user_forgot_password_live.ex:19
+#: lib/notebook_server_web/live/user_live/user_login_live.ex:18
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:24
+#, elixir-autogen, elixir-format
+msgid "email"
+msgstr "Email"
+
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:98
+#, elixir-autogen, elixir-format
+msgid "email_change_link_is_invalid_or_expired"
+msgstr "Email change link is invalid or expired"
+
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:95
+#, elixir-autogen, elixir-format
+msgid "email_changed_successfully"
+msgstr "Email changed successfully"
+
+#: lib/notebook_server_web/live/user_live/user_forgot_password_live.ex:18
+#: lib/notebook_server_web/live/user_live/user_login_live.ex:19
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:25
+#, elixir-autogen, elixir-format
+msgid "email_placeholder"
+msgstr "myemail@example.com"
+
+#: lib/notebook_server_web/live/user_live/user_login_live.ex:32
+#, elixir-autogen, elixir-format
+msgid "forgot_password"
+msgstr "Forgot password?"
+
+#: lib/notebook_server_web/live/user_live/user_forgot_password_live.ex:12
+#, elixir-autogen, elixir-format
+msgid "forgot_password_subtitle"
+msgstr "Enter your email and we'll send you a link to reset your password."
+
+#: lib/notebook_server_web/live/user_live/user_forgot_password_live.ex:11
+#, elixir-autogen, elixir-format
+msgid "forgot_password_title"
+msgstr "Forgot password?"
+
+#: lib/notebook_server_web/live/user_live/index.html.heex:17
+#, elixir-autogen, elixir-format
+msgid "full_name"
+msgstr "Full name"
+
+#: lib/notebook_server_web/live/user_live/form_component.ex:21
+#, elixir-autogen, elixir-format
+msgid "last_name"
+msgstr "Last name"
+
+#: lib/notebook_server_web/live/user_live/user_forgot_password_live.ex:30
+#: lib/notebook_server_web/live/user_live/user_login_live.ex:37
+#: lib/notebook_server_web/live/user_live/user_reset_password_live.ex:50
+#, elixir-autogen, elixir-format
+msgid "login"
+msgstr "Login"
+
+#: lib/notebook_server_web/live/user_live/user_login_live.ex:11
+#, elixir-autogen, elixir-format
+msgid "login_subtitle"
+msgstr "Enter your email and password to login"
+
+#: lib/notebook_server_web/live/user_live/user_login_live.ex:9
+#, elixir-autogen, elixir-format
+msgid "login_title"
+msgstr "Welcome back!"
+
+#: lib/notebook_server_web/components/layouts/app.html.heex:26
+#, elixir-autogen, elixir-format
+msgid "logout"
+msgstr "Logout"
+
+#: lib/notebook_server_web/live/org_live/form_component.ex:22
+#: lib/notebook_server_web/live/org_live/index.html.heex:17
+#: lib/notebook_server_web/live/org_live/show.html.heex:11
+#: lib/notebook_server_web/live/user_live/form_component.ex:20
+#: lib/notebook_server_web/live/user_live/show.html.heex:11
+#, elixir-autogen, elixir-format
+msgid "name"
+msgstr "Name"
+
+#: lib/notebook_server_web/live/org_live/index.ex:26
+#, elixir-autogen, elixir-format
+msgid "new_org"
+msgstr "New organisation"
+
+#: lib/notebook_server_web/live/user_live/user_reset_password_live.ex:25
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:62
+#, elixir-autogen, elixir-format
+msgid "new_password"
+msgstr "New password"
+
+#: lib/notebook_server_web/live/user_live/user_reset_password_live.ex:26
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:63
+#, elixir-autogen, elixir-format
+msgid "new_password_placeholder"
+msgstr "MyNewCoolPassword"
+
+#: lib/notebook_server_web/live/user_live/index.ex:26
+#, elixir-autogen, elixir-format
+msgid "new_user"
+msgstr "New user"
+
+#: lib/notebook_server_web/live/user_live/user_reset_password_live.ex:39
+#, elixir-autogen, elixir-format
+msgid "oops_something_went_wrong"
+msgstr "Oops! Something went wrong"
+
+#: lib/notebook_server_web/live/org_live/index.html.heex:5
+#: lib/notebook_server_web/live/org_live/show.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "org"
+msgstr "Organisation"
+
+#: lib/notebook_server_web/live/org_live/form_component.ex:73
+#, elixir-autogen, elixir-format
+msgid "org_create_success"
+msgstr "Organisation created successfully"
+
+#: lib/notebook_server_web/live/org_live/form_component.ex:58
+#, elixir-autogen, elixir-format
+msgid "org_update_success"
+msgstr "Organisation updated successfully"
+
+#: lib/notebook_server_web/components/layouts/app.html.heex:13
+#: lib/notebook_server_web/live/org_live/index.ex:32
+#: lib/notebook_server_web/live/org_live/index.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "orgs"
+msgstr "Organisations"
+
+#: lib/notebook_server_web/live/user_live/user_login_live.ex:25
+#, elixir-autogen, elixir-format
+msgid "password"
+msgstr "Password"
+
+#: lib/notebook_server_web/live/user_live/user_login_live.ex:26
+#, elixir-autogen, elixir-format
+msgid "password_placeholder"
+msgstr "MySuperSecretPassword"
+
+#: lib/notebook_server_web/live/user_live/user_reset_password_live.ex:79
+#, elixir-autogen, elixir-format
+msgid "password_reset_successfully"
+msgstr "Password reset successfully"
+
+#: lib/notebook_server_web/live/user_live/user_login_live.ex:30
+#, elixir-autogen, elixir-format
+msgid "remember_me"
+msgstr "Remember me"
+
+#: lib/notebook_server_web/live/user_live/user_reset_password_live.ex:43
+#, elixir-autogen, elixir-format
+msgid "reset"
+msgstr "Reset"
+
+#: lib/notebook_server_web/live/user_live/user_forgot_password_live.ex:51
+#, elixir-autogen, elixir-format
+msgid "reset_email_sent"
+msgstr "A password reset email has been sent to your email address."
+
+#: lib/notebook_server_web/live/user_live/user_reset_password_live.ex:97
+#, elixir-autogen, elixir-format
+msgid "reset_password_link_is_invalid_or_expired"
+msgstr "The password reset link is invalid or expired"
+
+#: lib/notebook_server_web/live/user_live/user_reset_password_live.ex:11
+#, elixir-autogen, elixir-format
+msgid "reset_password_title"
+msgstr "Reset password"
+
+#: lib/notebook_server_web/live/user_live/form_component.ex:26
+#: lib/notebook_server_web/live/user_live/index.html.heex:28
+#, elixir-autogen, elixir-format
+msgid "role"
+msgstr "Role"
+
+#: lib/notebook_server_web/live/org_live/form_component.ex:24
+#: lib/notebook_server_web/live/user_live/form_component.ex:30
+#, elixir-autogen, elixir-format
+msgid "save"
+msgstr "Save"
+
+#: lib/notebook_server_web/live/user_live/user_forgot_password_live.ex:24
+#, elixir-autogen, elixir-format
+msgid "send_link"
+msgstr "Send link"
+
+#: lib/notebook_server_web/components/layouts/app.html.heex:25
+#, elixir-autogen, elixir-format
+msgid "settings"
+msgstr "Settings"
+
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:10
+#, elixir-autogen, elixir-format
+msgid "settings_subtitle"
+msgstr "Change your password and your email"
+
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:9
+#, elixir-autogen, elixir-format
+msgid "settings_title"
+msgstr "Settings"
+
+#: lib/notebook_server_web/live/org_live/show.ex:20
+#, elixir-autogen, elixir-format
+msgid "show_org"
+msgstr "Show organisation"
+
+#: lib/notebook_server_web/live/user_live/show.ex:20
+#, elixir-autogen, elixir-format
+msgid "show_user"
+msgstr "Show user"
+
+#: lib/notebook_server_web/live/org_live/index.html.heex:20
+#: lib/notebook_server_web/live/user_live/index.html.heex:23
+#, elixir-autogen, elixir-format
+msgid "status"
+msgstr "Status"
+
+#: lib/notebook_server_web/live/user_live/index.html.heex:5
+#: lib/notebook_server_web/live/user_live/show.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "user"
+msgstr "User"
+
+#: lib/notebook_server_web/components/layouts/app.html.heex:19
+#: lib/notebook_server_web/live/user_live/index.ex:32
+#: lib/notebook_server_web/live/user_live/index.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "users"
+msgstr "Users"
+
+#: lib/notebook_server_web/components/core_components.ex:631
+#, elixir-autogen, elixir-format
+msgid "first_page"
+msgstr "First page"
+
+#: lib/notebook_server_web/components/core_components.ex:628
+#, elixir-autogen, elixir-format, fuzzy
+msgid "last_page"
+msgstr "Last page"
+
+#: lib/notebook_server_web/components/core_components.ex:630
+#, elixir-autogen, elixir-format
+msgid "next_page"
+msgstr "Next page"
+
+#: lib/notebook_server_web/components/core_components.ex:625
+#, elixir-autogen, elixir-format
+msgid "of"
+msgstr "of"
+
+#: lib/notebook_server_web/components/core_components.ex:625
+#, elixir-autogen, elixir-format
+msgid "page"
+msgstr "Page"
+
+#: lib/notebook_server_web/components/core_components.ex:629
+#, elixir-autogen, elixir-format
+msgid "previous_page"
+msgstr "Previous page"
+
+#: lib/notebook_server_web/components/core_components.ex:621
+#, elixir-autogen, elixir-format
+msgid "rows_per_page"
+msgstr "Rows per page"
+
+#: lib/notebook_server_web/live/user_live/user_reset_password_live.ex:13
+#, elixir-autogen, elixir-format, fuzzy
+msgid "reset_password_subtitle"
+msgstr "Enter and confirm your new password"

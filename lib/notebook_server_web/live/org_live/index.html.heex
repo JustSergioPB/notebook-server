@@ -1,8 +1,8 @@
 <.page_header icon="building">
-  Organizations
+  <%= gettext("orgs") %>
   <:actions>
     <.link patch={~p"/orgs/new"}>
-      <.button icon="plus_circle">Organization</.button>
+      <.button icon="plus_circle"><%= gettext("org") %></.button>
     </.link>
   </:actions>
 </.page_header>
@@ -14,19 +14,14 @@
     rows={@streams.orgs}
     row_click={fn {_id, org} -> JS.navigate(~p"/orgs/#{org}") end}
   >
-    <:col :let={{_id, org}} label="Name">
+    <:col :let={{_id, org}} label={gettext("name")}>
       <p class="text-sm font-semibold"><%= org.name %></p>
     </:col>
-    <:col :let={{_id, org}} label="Status">
+    <:col :let={{_id, org}} label={gettext("status")}>
       <.status_badge variant={if org.status == :active, do: "success", else: "outline"}>
         <%= org.status %>
       </.status_badge>
     </:col>
-    <:action :let={{_id, org}}>
-      <div class="sr-only">
-        <.link navigate={~p"/orgs/#{org}"}>Show</.link>
-      </div>
-    </:action>
     <:action :let={{_id, org}}>
       <%= if org.status == :active do %>
         <.button
@@ -36,7 +31,7 @@
           phx-value-id={org.id}
           phx-click="deactivate"
         >
-          Deactivate
+          <%= gettext("deactivate") %>
         </.button>
       <% else %>
         <.button
@@ -46,13 +41,13 @@
           phx-value-id={org.id}
           phx-click="activate"
         >
-          Activate
+          <%= gettext("activate") %>
         </.button>
       <% end %>
     </:action>
     <:action :let={{_id, org}}>
       <.button_link size="icon" variant="outline" icon="pencil" patch={~p"/orgs/#{org}/edit"}>
-        Edit
+        <%= gettext("edit") %>
       </.button_link>
     </:action>
     <:action :let={{id, org}}>
@@ -61,9 +56,9 @@
         variant="outline"
         icon="trash"
         phx-click={JS.push("delete", value: %{id: org.id}) |> hide("##{id}")}
-        data-confirm="Are you sure?"
+        data-confirm={gettext("are_you_sure")}
       >
-        Delete
+        <%= gettext("delete") %>
       </.button>
     </:action>
   </.table>

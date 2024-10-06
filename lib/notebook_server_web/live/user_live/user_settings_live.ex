@@ -2,12 +2,12 @@ defmodule NotebookServerWeb.UserSettingsLive do
   use NotebookServerWeb, :live_view
 
   alias NotebookServer.Accounts
-
+  use Gettext, backend: NotebookServerWeb.Gettext
   def render(assigns) do
     ~H"""
     <.header class="text-center">
-      Account Settings
-      <:subtitle>Manage your account email address and password settings</:subtitle>
+      <%= gettext("settings_title") %>
+      <:subtitle><%= gettext("settings_subtitle") %></:subtitle>
     </.header>
 
     <div class="space-y-12 divide-y">
@@ -18,18 +18,25 @@ defmodule NotebookServerWeb.UserSettingsLive do
           phx-submit="update_email"
           phx-change="validate_email"
         >
-          <.input field={@email_form[:email]} type="email" label="Email" required />
+          <.input
+            field={@email_form[:email]}
+            type="email"
+            label={gettext("email")}
+            placeholder={gettext("email_placeholder")}
+            required
+          />
           <.input
             field={@email_form[:current_password]}
             name="current_password"
             id="current_password_for_email"
             type="password"
-            label="Current password"
+            label={gettext("current_password")}
+            placeholder={gettext("current_password_placeholder")}
             value={@email_form_current_password}
             required
           />
           <:actions>
-            <.button phx-disable-with="Changing...">Change Email</.button>
+            <.button><%= gettext("change_email") %></.button>
           </:actions>
         </.simple_form>
       </div>
@@ -49,23 +56,31 @@ defmodule NotebookServerWeb.UserSettingsLive do
             id="hidden_user_email"
             value={@current_email}
           />
-          <.input field={@password_form[:password]} type="password" label="New password" required />
+          <.input
+            field={@password_form[:password]}
+            type="password"
+            label={gettext("new_password")}
+            placeholder={gettext("new_password_placeholder")}
+            required
+          />
           <.input
             field={@password_form[:password_confirmation]}
             type="password"
-            label="Confirm new password"
+            label={gettext("confirm_new_password")}
+            placeholder={gettext("confirm_new_password_placeholder")}
           />
           <.input
             field={@password_form[:current_password]}
             name="current_password"
             type="password"
-            label="Current password"
+            label={gettext("current_password")}
+            placeholder={gettext("current_password_placeholder")}
             id="current_password_for_password"
             value={@current_password}
             required
           />
           <:actions>
-            <.button phx-disable-with="Changing...">Change Password</.button>
+            <.button><%= gettext("change_password") %></.button>
           </:actions>
         </.simple_form>
       </div>
@@ -77,10 +92,10 @@ defmodule NotebookServerWeb.UserSettingsLive do
     socket =
       case Accounts.update_user_email(socket.assigns.current_user, token) do
         :ok ->
-          put_flash(socket, :info, "Email changed successfully.")
+          put_flash(socket, :info, gettext("email_changed_successfully"))
 
         :error ->
-          put_flash(socket, :error, "Email change link is invalid or it has expired.")
+          put_flash(socket, :error, gettext("email_change_link_is_invalid_or_expired"))
       end
 
     {:ok, push_navigate(socket, to: ~p"/settings")}
@@ -127,7 +142,7 @@ defmodule NotebookServerWeb.UserSettingsLive do
         #  &url(~p"/settings/confirm_email/#{&1}")
         # )
 
-        info = "A link to confirm your email change has been sent to the new address."
+        info = gettext("confirmation_link_sent_to_new_email")
         {:noreply, socket |> put_flash(:info, info) |> assign(email_form_current_password: nil)}
 
       {:error, changeset} ->

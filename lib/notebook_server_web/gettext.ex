@@ -20,5 +20,5 @@ defmodule NotebookServerWeb.Gettext do
 
   See the [Gettext Docs](https://hexdocs.pm/gettext) for detailed usage.
   """
-  use Gettext, otp_app: :notebook_server
+  use Gettext.Backend, otp_app: :notebook_server
 end

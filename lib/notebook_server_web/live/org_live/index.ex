@@ -3,6 +3,8 @@ defmodule NotebookServerWeb.OrgLive.Index do
 
   alias NotebookServer.Orgs
   alias NotebookServer.Orgs.Org
+  use Gettext, backend: NotebookServerWeb.Gettext
+
   @impl true
   def mount(_params, _session, socket) do
     {:ok, stream(socket, :orgs, Orgs.list_orgs())}
@@ -15,19 +17,19 @@ defmodule NotebookServerWeb.OrgLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit Org")
+    |> assign(:page_title, gettext("edit_org"))
     |> assign(:org, Orgs.get_org!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Org")
+    |> assign(:page_title, gettext("new_org"))
     |> assign(:org, %Org{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Orgs")
+    |> assign(:page_title, gettext("orgs"))
     |> assign(:org, nil)
   end
 

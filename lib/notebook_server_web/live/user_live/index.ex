@@ -3,6 +3,7 @@ defmodule NotebookServerWeb.UserLive.Index do
 
   alias NotebookServer.Accounts
   alias NotebookServer.Accounts.User
+  use Gettext, backend: NotebookServerWeb.Gettext
 
   @impl true
   def mount(_params, _session, socket) do
@@ -16,19 +17,19 @@ defmodule NotebookServerWeb.UserLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit User")
+    |> assign(:page_title, gettext("edit_user"))
     |> assign(:user, Accounts.get_user!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New User")
+    |> assign(:page_title, gettext("new_user"))
     |> assign(:user, %User{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Accounts")
+    |> assign(:page_title, gettext("users"))
     |> assign(:user, nil)
   end
 

@@ -9,6 +9,7 @@ defmodule NotebookServerWeb.Layouts do
   `use NotebookServerWeb, :live_view`.
   """
   use NotebookServerWeb, :html
+  use Gettext, backend: NotebookServerWeb.Gettext
 
   embed_templates "layouts/*"
 end

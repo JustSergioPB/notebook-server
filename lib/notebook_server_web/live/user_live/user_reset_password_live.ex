@@ -2,11 +2,17 @@ defmodule NotebookServerWeb.UserResetPasswordLive do
   use NotebookServerWeb, :live_view_auth
 
   alias NotebookServer.Accounts
+  use Gettext, backend: NotebookServerWeb.Gettext
 
   def render(assigns) do
     ~H"""
     <div class="w-1/2">
-      <.header class="mb-12">Reset Password</.header>
+      <.header class="mb-12">
+        <%= gettext("reset_password_title") %>
+        <:subtitle>
+          <%= gettext("reset_password_subtitle") %>
+        </:subtitle>
+      </.header>
       <.simple_form
         for={@form}
         id="reset_password_form"
@@ -16,30 +22,32 @@ defmodule NotebookServerWeb.UserResetPasswordLive do
         <.input
           field={@form[:password]}
           type="password"
-          label="New password"
-          placeholder="MynewCoolPassword"
+          label={gettext("new_password")}
+          placeholder={gettext("new_password_placeholder")}
           phx-debounce="blur"
           required
         />
         <.input
           field={@form[:password_confirmation]}
           type="password"
-          label="Confirm new password"
-          placeholder="MynewCoolPassword"
+          label={gettext("confirm_new_password")}
+          placeholder={gettext("confirm_new_password_placeholder")}
           phx-debounce="blur"
           required
         />
         <.error :if={@form.errors != []}>
-          Oops, something went wrong! Please check the errors below.
+          <%= gettext("oops_something_went_wrong") %>
         </.error>
         <:actions>
-          <.button icon="rotate-ccw" class="w-full">Reset</.button>
+          <.button icon="rotate-ccw" class="w-full">
+            <%= gettext("reset") %>
+          </.button>
         </:actions>
       </.simple_form>
 
       <div class="flex justify-center">
         <.link class="text-center text-sm mt-4 font-semibold hover:underline" href={~p"/login"}>
-          Log in
+          <%= gettext("login") %>
         </.link>
       </div>
     </div>
@@ -68,7 +76,7 @@ defmodule NotebookServerWeb.UserResetPasswordLive do
       {:ok, _} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Password reset successfully.")
+         |> put_flash(:info, gettext("password_reset_successfully"))
          |> redirect(to: ~p"/login")}
 
       {:error, changeset} ->
@@ -86,7 +94,7 @@ defmodule NotebookServerWeb.UserResetPasswordLive do
       assign(socket, user: user, token: token)
     else
       socket
-      |> put_flash(:error, "Reset password link is invalid or it has expired.")
+      |> put_flash(:error, gettext("reset_password_link_is_invalid_or_expired"))
       |> redirect(to: ~p"/")
     end
   end

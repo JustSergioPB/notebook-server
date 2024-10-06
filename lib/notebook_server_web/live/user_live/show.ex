@@ -2,6 +2,7 @@ defmodule NotebookServerWeb.UserLive.Show do
   use NotebookServerWeb, :live_view
 
   alias NotebookServer.Accounts
+  use Gettext, backend: NotebookServerWeb.Gettext
 
   @impl true
   def mount(_params, _session, socket) do
@@ -16,6 +17,6 @@ defmodule NotebookServerWeb.UserLive.Show do
      |> assign(:user, Accounts.get_user!(id))}
   end
 
-  defp page_title(:show), do: "Show User"
-  defp page_title(:edit), do: "Edit User"
+  defp page_title(:show), do: gettext("show_user")
+  defp page_title(:edit), do: gettext("edit_user")
 end
