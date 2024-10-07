@@ -46,13 +46,13 @@ msgstr "Success!"
 msgid "We can't find the internet"
 msgstr "We can't find the internet"
 
-#: lib/notebook_server_web/live/org_live/index.html.heex:44
+#: lib/notebook_server_web/live/org_live/index.html.heex:42
 #: lib/notebook_server_web/live/user_live/index.html.heex:48
 #, elixir-autogen, elixir-format
 msgid "activate"
 msgstr "Activate"
 
-#: lib/notebook_server_web/live/org_live/index.html.heex:59
+#: lib/notebook_server_web/live/org_live/index.html.heex:57
 #: lib/notebook_server_web/live/user_live/index.html.heex:63
 #, elixir-autogen, elixir-format
 msgid "are_you_sure"
@@ -84,19 +84,19 @@ msgstr "Confirm new password"
 msgid "confirm_new_password_placeholder"
 msgstr "MyNewCoolPassword"
 
-#: lib/notebook_server_web/live/org_live/index.html.heex:34
+#: lib/notebook_server_web/live/org_live/index.html.heex:32
 #: lib/notebook_server_web/live/user_live/index.html.heex:38
 #, elixir-autogen, elixir-format
 msgid "deactivate"
 msgstr "Deactivate"
 
-#: lib/notebook_server_web/live/org_live/index.html.heex:61
+#: lib/notebook_server_web/live/org_live/index.html.heex:59
 #: lib/notebook_server_web/live/user_live/index.html.heex:65
 #, elixir-autogen, elixir-format
 msgid "delete"
 msgstr "Delete"
 
-#: lib/notebook_server_web/live/org_live/index.html.heex:50
+#: lib/notebook_server_web/live/org_live/index.html.heex:48
 #: lib/notebook_server_web/live/user_live/index.html.heex:54
 #, elixir-autogen, elixir-format
 msgid "edit"
@@ -328,7 +328,7 @@ msgstr "Show user"
 msgid "status"
 msgstr "Status"
 
-#: lib/notebook_server_web/components/core_components.ex:905
+#: lib/notebook_server_web/components/core_components.ex:878
 #: lib/notebook_server_web/live/user_live/index.html.heex:5
 #: lib/notebook_server_web/live/user_live/show.html.heex:2
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:48
@@ -418,24 +418,35 @@ msgstr "Settings updated successfully"
 msgid "settings_update_error"
 msgstr "Error updating settings"
 
-#: lib/notebook_server_web/components/core_components.ex:903
+#: lib/notebook_server_web/components/core_components.ex:876
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:46
 #, elixir-autogen, elixir-format
 msgid "admin"
 msgstr ""
 
-#: lib/notebook_server_web/components/core_components.ex:904
+#: lib/notebook_server_web/components/core_components.ex:877
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:47
 #, elixir-autogen, elixir-format
 msgid "org_admin"
 msgstr ""
 
-#: lib/notebook_server_web/components/core_components.ex:882
+#: lib/notebook_server_web/components/core_components.ex:855
 #, elixir-autogen, elixir-format, fuzzy
 msgid "active"
 msgstr "Active"
 
-#: lib/notebook_server_web/components/core_components.ex:883
+#: lib/notebook_server_web/components/core_components.ex:856
 #, elixir-autogen, elixir-format
 msgid "inactive"
 msgstr "Inactive"
+
+#: lib/notebook_server_web/user_auth.ex:221
+#, elixir-autogen, elixir-format
+msgid "admin_required"
+msgstr "You need admin access for this page"
+
+#: lib/notebook_server_web/user_auth.ex:160
+#: lib/notebook_server_web/user_auth.ex:209
+#, elixir-autogen, elixir-format
+msgid "logged_in_required"
+msgstr "You need to log in to access this page"

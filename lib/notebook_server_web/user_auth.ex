@@ -3,8 +3,8 @@ defmodule NotebookServerWeb.UserAuth do
 
   import Plug.Conn
   import Phoenix.Controller
-
   alias NotebookServer.Accounts
+  use Gettext, backend: NotebookServerWeb.Gettext
 
   # Make the remember me cookie valid for 60 days.
   # If you want bump or reduce this value, also change
@@ -157,7 +157,7 @@ defmodule NotebookServerWeb.UserAuth do
     else
       socket =
         socket
-        |> Phoenix.LiveView.put_flash(:error, "You must log in to access this page.")
+        |> Phoenix.LiveView.put_flash(:error, gettext("logged_in_required"))
         |> Phoenix.LiveView.redirect(to: ~p"/login")
 
       {:halt, socket}
@@ -206,7 +206,7 @@ defmodule NotebookServerWeb.UserAuth do
       conn
     else
       conn
-      |> put_flash(:error, "You must log in to access this page.")
+      |> put_flash(:error, gettext("logged_in_required"))
       |> maybe_store_return_to()
       |> redirect(to: ~p"/login")
       |> halt()
@@ -218,7 +218,7 @@ defmodule NotebookServerWeb.UserAuth do
       conn
     else
       conn
-      |> put_flash(:error, "You must log in to access this page.")
+      |> put_flash(:error, gettext("admin_required"))
       |> maybe_store_return_to()
       |> redirect(to: ~p"/login")
       |> halt()
