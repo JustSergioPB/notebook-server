@@ -33,8 +33,8 @@ RUN mix local.hex --force && \
 
 # set build ENV
 ENV MIX_ENV="prod"
-ENV DATABASE_URL $database_url
-ENV SECRET_KEY_BASE $secret_key_base
+ENV DATABASE_URL=$database_url
+ENV SECRET_KEY_BASE=$secret_key_base
 # install mix dependencies
 COPY mix.exs mix.lock ./
 RUN mix deps.get --only $MIX_ENV
@@ -75,9 +75,9 @@ RUN apt-get update -y && \
 # Set the locale
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
 
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
 
 WORKDIR "/app"
 RUN chown nobody /app
@@ -89,9 +89,8 @@ ENV MIX_ENV="prod"
 COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/notebook_server ./
 
 USER nobody
-
 # If using an environment that doesn't automatically reap zombie processes, it is
 # advised to add an init process such as tini via `apt-get install`
 # above and adding an entrypoint. See https://github.com/krallin/tini for details
 # ENTRYPOINT ["/tini", "--"]
-CMD ["_build/prod/rel/notebook_server/bin/notebook_server eval NotebookServer.Release.migrate && /app/bin/server"]
+CMD ["sh", "-c", "eval 'NotebookServer.Release.migrate' && /app/bin/server"]
