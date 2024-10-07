@@ -2,6 +2,7 @@ defmodule NotebookServerWeb.Router do
   use NotebookServerWeb, :router
 
   import NotebookServerWeb.UserAuth
+  import NotebookServerWeb.I18n
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -11,7 +12,7 @@ defmodule NotebookServerWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_user
-    plug NotebookServerWeb.Plugs.SetLocale
+    plug :fetch_locale
   end
 
   pipeline :api do

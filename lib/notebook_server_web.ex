@@ -54,6 +54,7 @@ defmodule NotebookServerWeb do
       use Phoenix.LiveView,
         layout: {NotebookServerWeb.Layouts, :app}
 
+      on_mount NotebookServerWeb.I18n
       unquote(html_helpers())
     end
   end
@@ -63,6 +64,7 @@ defmodule NotebookServerWeb do
       use Phoenix.LiveView,
         layout: {NotebookServerWeb.Layouts, :auth}
 
+      on_mount NotebookServerWeb.I18n
       unquote(html_helpers())
     end
   end

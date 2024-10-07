@@ -205,8 +205,10 @@ defmodule NotebookServerWeb.CoreComponents do
 
   def simple_form(assigns) do
     ~H"""
-    <.form :let={f} for={@for} as={@as} {@rest} class={["space-y-4", @class]}>
-      <%= render_slot(@inner_block, f) %>
+    <.form :let={f} for={@for} as={@as} {@rest} class={["space-y-4 flex flex-col", @class]}>
+      <div class="flex-1 space-y-4">
+        <%= render_slot(@inner_block, f) %>
+      </div>
       <div :for={action <- @actions} class="flex items-center justify-between gap-6 last:pt-6">
         <%= render_slot(action, f) %>
       </div>
@@ -330,6 +332,7 @@ defmodule NotebookServerWeb.CoreComponents do
   attr :id, :any, default: nil
   attr :name, :any
   attr :label, :string, default: nil
+  attr :class, :string, default: nil
   attr :value, :any
 
   attr :type, :string,
@@ -428,7 +431,7 @@ defmodule NotebookServerWeb.CoreComponents do
   # All other inputs text, datetime-local, url, password, etc. are handled here...
   def input(assigns) do
     ~H"""
-    <div>
+    <div class={@class}>
       <.label for={@id}><%= @label %></.label>
       <input
         type={@type}
@@ -436,9 +439,9 @@ defmodule NotebookServerWeb.CoreComponents do
         id={@id}
         value={Phoenix.HTML.Form.normalize_value(@type, @value)}
         class={[
-          "mt-2 block w-full rounded-lg text-slate-900 focus:ring-0 sm:text-sm sm:leading-6",
+          "mt-2 block w-full rounded-lg text-slate-900 focus:ring-0 sm:text-sm sm:leading-6 disabled:opacity-50",
           @errors == [] && "border-slate-300 focus:border-slate-400",
-          @errors != [] && "border-rose-400 focus:border-rose-400"
+          @errors != [] && "border-rose-400 focus:border-rose-400",
         ]}
         {@rest}
       />
@@ -519,7 +522,7 @@ defmodule NotebookServerWeb.CoreComponents do
   def page_header(assigns) do
     ~H"""
     <header class={[
-      @actions != [] && "flex items-center justify-between gap-4 p-6 border-b border-slate-200",
+      "flex items-center justify-between gap-4 p-6 border-b border-slate-200",
       @class
     ]}>
       <div>
@@ -535,6 +538,17 @@ defmodule NotebookServerWeb.CoreComponents do
       </div>
       <div class="flex-none"><%= render_slot(@actions) %></div>
     </header>
+    """
+  end
+
+  attr :class, :string, default: nil
+  slot :inner_block, required: true
+
+  def page_content(assigns) do
+    ~H"""
+    <section class={["p-6 flex flex-col flex-1 space-y-6", @class]}>
+      <%= render_slot(@inner_block) %>
+    </section>
     """
   end
 
@@ -625,10 +639,18 @@ defmodule NotebookServerWeb.CoreComponents do
         <%= gettext("page") %> <%= @page %> <%= gettext("of") %> <%= @total_pages %>
       </p>
       <div class="flex items-center gap-2">
-        <.button_link size="icon" icon="chevrons-left" variant="outline"><%= gettext("last_page") %></.button_link>
-        <.button_link size="icon" icon="chevron-left" variant="outline"><%= gettext("previous_page") %></.button_link>
-        <.button_link size="icon" icon="chevron-right" variant="outline"><%= gettext("next_page") %></.button_link>
-        <.button_link size="icon" icon="chevrons-right" variant="outline"><%= gettext("first_page") %></.button_link>
+        <.button_link size="icon" icon="chevrons-left" variant="outline">
+          <%= gettext("last_page") %>
+        </.button_link>
+        <.button_link size="icon" icon="chevron-left" variant="outline">
+          <%= gettext("previous_page") %>
+        </.button_link>
+        <.button_link size="icon" icon="chevron-right" variant="outline">
+          <%= gettext("next_page") %>
+        </.button_link>
+        <.button_link size="icon" icon="chevrons-right" variant="outline">
+          <%= gettext("first_page") %>
+        </.button_link>
       </div>
     </div>
     """
@@ -884,6 +906,35 @@ defmodule NotebookServerWeb.CoreComponents do
       <Lucide.pen_tool :if={@role == :user} class="h-4 w-4 text-blue-500" />
       <%= @role %>
     </div>
+    """
+  end
+
+  slot :tab, required: true do
+    attr :label, :string, required: true
+    attr :id, :string, required: true
+  end
+
+  attr :active_tab, :string, required: true
+
+  def tabs(assigns) do
+    ~H"""
+    <.page_content>
+      <div class="flex items-center gap-4">
+        <.link
+          :for={{tab, _i} <- Enum.with_index(@tab)}
+          patch={"/settings?tab=#{tab[:id]}"}
+          class={[
+            "px-3 py-2 text-sm rounded-lg",
+            @active_tab == tab[:id] && "bg-slate-100 font-semibold"
+          ]}
+        >
+          <%= tab[:label] %>
+        </.link>
+      </div>
+      <div :for={tab <- @tab} class={["flex-1", (@active_tab == tab[:id] && "flex") || "hidden"]}>
+        <%= render_slot(tab) %>
+      </div>
+    </.page_content>
     """
   end
 end

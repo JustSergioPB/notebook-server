@@ -11,7 +11,7 @@ msgstr ""
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lib/notebook_server_web/components/core_components.ex:585
+#: lib/notebook_server_web/components/core_components.ex:599
 #, elixir-autogen, elixir-format
 msgid "Actions"
 msgstr "Acciones"
@@ -68,16 +68,6 @@ msgstr "Volver a organizaciones"
 msgid "back_to_users"
 msgstr "Volver a usuarios"
 
-#: lib/notebook_server_web/live/user_live/user_settings_live.ex:39
-#, elixir-autogen, elixir-format
-msgid "change_email"
-msgstr "Cambiar email"
-
-#: lib/notebook_server_web/live/user_live/user_settings_live.ex:83
-#, elixir-autogen, elixir-format
-msgid "change_password"
-msgstr "Cambiar contraseña"
-
 #: lib/notebook_server_web/components/core_components.ex:79
 #: lib/notebook_server_web/components/core_components.ex:133
 #, elixir-autogen, elixir-format
@@ -85,33 +75,14 @@ msgid "close"
 msgstr "Cerrar"
 
 #: lib/notebook_server_web/live/user_live/user_reset_password_live.ex:33
-#: lib/notebook_server_web/live/user_live/user_settings_live.ex:69
 #, elixir-autogen, elixir-format
 msgid "confirm_new_password"
 msgstr "Confirmar nueva contraseña"
 
 #: lib/notebook_server_web/live/user_live/user_reset_password_live.ex:34
-#: lib/notebook_server_web/live/user_live/user_settings_live.ex:70
 #, elixir-autogen, elixir-format
 msgid "confirm_new_password_placeholder"
 msgstr "myNuev4Contraseña"
-
-#: lib/notebook_server_web/live/user_live/user_settings_live.ex:145
-#, elixir-autogen, elixir-format
-msgid "confirmation_link_sent_to_new_email"
-msgstr "Hemos enviado un enlace de confirmación a tu nuevo email"
-
-#: lib/notebook_server_web/live/user_live/user_settings_live.ex:33
-#: lib/notebook_server_web/live/user_live/user_settings_live.ex:76
-#, elixir-autogen, elixir-format
-msgid "current_password"
-msgstr "Contraseña actual"
-
-#: lib/notebook_server_web/live/user_live/user_settings_live.ex:34
-#: lib/notebook_server_web/live/user_live/user_settings_live.ex:77
-#, elixir-autogen, elixir-format
-msgid "current_password_placeholder"
-msgstr "myContraseñaActual"
 
 #: lib/notebook_server_web/live/org_live/index.html.heex:34
 #: lib/notebook_server_web/live/user_live/index.html.heex:42
@@ -149,24 +120,24 @@ msgstr "Editar usuario"
 #: lib/notebook_server_web/live/user_live/index.html.heex:20
 #: lib/notebook_server_web/live/user_live/user_forgot_password_live.ex:19
 #: lib/notebook_server_web/live/user_live/user_login_live.ex:18
-#: lib/notebook_server_web/live/user_live/user_settings_live.ex:24
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:37
 #, elixir-autogen, elixir-format
 msgid "email"
 msgstr "Email"
 
-#: lib/notebook_server_web/live/user_live/user_settings_live.ex:98
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:71
 #, elixir-autogen, elixir-format
 msgid "email_change_link_is_invalid_or_expired"
 msgstr "El enlace de para cambiar el email es inválido o ha expirado"
 
-#: lib/notebook_server_web/live/user_live/user_settings_live.ex:95
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:68
 #, elixir-autogen, elixir-format
 msgid "email_changed_successfully"
 msgstr "Tu email se ha actualizado correctamente"
 
 #: lib/notebook_server_web/live/user_live/user_forgot_password_live.ex:18
 #: lib/notebook_server_web/live/user_live/user_login_live.ex:19
-#: lib/notebook_server_web/live/user_live/user_settings_live.ex:25
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:38
 #, elixir-autogen, elixir-format
 msgid "email_placeholder"
 msgstr "johndoe@example.com"
@@ -192,6 +163,7 @@ msgid "full_name"
 msgstr "Nombre completo"
 
 #: lib/notebook_server_web/live/user_live/form_component.ex:21
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:29
 #, elixir-autogen, elixir-format
 msgid "last_name"
 msgstr "Apellidos"
@@ -223,6 +195,7 @@ msgstr "Cerrar sesión"
 #: lib/notebook_server_web/live/org_live/show.html.heex:11
 #: lib/notebook_server_web/live/user_live/form_component.ex:20
 #: lib/notebook_server_web/live/user_live/show.html.heex:11
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:21
 #, elixir-autogen, elixir-format
 msgid "name"
 msgstr "Nombre"
@@ -233,13 +206,11 @@ msgid "new_org"
 msgstr "Nueva organización"
 
 #: lib/notebook_server_web/live/user_live/user_reset_password_live.ex:25
-#: lib/notebook_server_web/live/user_live/user_settings_live.ex:62
 #, elixir-autogen, elixir-format
 msgid "new_password"
 msgstr "Nueva contraseña"
 
 #: lib/notebook_server_web/live/user_live/user_reset_password_live.ex:26
-#: lib/notebook_server_web/live/user_live/user_settings_live.ex:63
 #, elixir-autogen, elixir-format
 msgid "new_password_placeholder"
 msgstr "myNuev4Contraseña"
@@ -319,12 +290,14 @@ msgstr "Restablecer contraseña"
 
 #: lib/notebook_server_web/live/user_live/form_component.ex:26
 #: lib/notebook_server_web/live/user_live/index.html.heex:28
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:44
 #, elixir-autogen, elixir-format
 msgid "role"
 msgstr "Rol"
 
 #: lib/notebook_server_web/live/org_live/form_component.ex:24
 #: lib/notebook_server_web/live/user_live/form_component.ex:30
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:56
 #, elixir-autogen, elixir-format
 msgid "save"
 msgstr "Guardar"
@@ -334,17 +307,7 @@ msgstr "Guardar"
 msgid "send_link"
 msgstr "Enviar enlace"
 
-#: lib/notebook_server_web/components/layouts/app.html.heex:25
-#, elixir-autogen, elixir-format
-msgid "settings"
-msgstr "Ajustes"
-
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:10
-#, elixir-autogen, elixir-format
-msgid "settings_subtitle"
-msgstr "Cambia tu contraseña y tu email"
-
-#: lib/notebook_server_web/live/user_live/user_settings_live.ex:9
 #, elixir-autogen, elixir-format
 msgid "settings_title"
 msgstr "Ajustes"
@@ -378,37 +341,37 @@ msgstr "Usuario"
 msgid "users"
 msgstr "Usuarios"
 
-#: lib/notebook_server_web/components/core_components.ex:631
+#: lib/notebook_server_web/components/core_components.ex:652
 #, elixir-autogen, elixir-format
 msgid "first_page"
 msgstr "Primera página"
 
-#: lib/notebook_server_web/components/core_components.ex:628
+#: lib/notebook_server_web/components/core_components.ex:643
 #, elixir-autogen, elixir-format, fuzzy
 msgid "last_page"
 msgstr "Última página"
 
-#: lib/notebook_server_web/components/core_components.ex:630
+#: lib/notebook_server_web/components/core_components.ex:649
 #, elixir-autogen, elixir-format
 msgid "next_page"
 msgstr "Siguiente página"
 
-#: lib/notebook_server_web/components/core_components.ex:625
+#: lib/notebook_server_web/components/core_components.ex:639
 #, elixir-autogen, elixir-format
 msgid "of"
 msgstr "de"
 
-#: lib/notebook_server_web/components/core_components.ex:625
+#: lib/notebook_server_web/components/core_components.ex:639
 #, elixir-autogen, elixir-format
 msgid "page"
 msgstr "Página"
 
-#: lib/notebook_server_web/components/core_components.ex:629
+#: lib/notebook_server_web/components/core_components.ex:646
 #, elixir-autogen, elixir-format
 msgid "previous_page"
 msgstr "Página anterior"
 
-#: lib/notebook_server_web/components/core_components.ex:621
+#: lib/notebook_server_web/components/core_components.ex:635
 #, elixir-autogen, elixir-format
 msgid "rows_per_page"
 msgstr "Filas por página"
@@ -417,3 +380,48 @@ msgstr "Filas por página"
 #, elixir-autogen, elixir-format, fuzzy
 msgid "reset_password_subtitle"
 msgstr "Introduce y confirma tu nueva contraseña"
+
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:14
+#, elixir-autogen, elixir-format
+msgid "account"
+msgstr "Cuenta"
+
+#: lib/notebook_server_web/components/layouts/app.html.heex:25
+#, elixir-autogen, elixir-format, fuzzy
+msgid "settings"
+msgstr "Ajustes"
+
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:51
+#, elixir-autogen, elixir-format
+msgid "language"
+msgstr "Idioma"
+
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:52
+#, elixir-autogen, elixir-format, fuzzy
+msgid "language_placeholder"
+msgstr "Español"
+
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:30
+#, elixir-autogen, elixir-format, fuzzy
+msgid "last_name_placeholder"
+msgstr "Doe"
+
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:22
+#, elixir-autogen, elixir-format, fuzzy
+msgid "name_placeholder"
+msgstr "John"
+
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:45
+#, elixir-autogen, elixir-format, fuzzy
+msgid "role_placeholder"
+msgstr "Usuario"
+
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:96
+#, elixir-autogen, elixir-format
+msgid "settings_updated_successfully"
+msgstr "Ajustes actualizados correctamente"
+
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:101
+#, elixir-autogen, elixir-format
+msgid "settings_update_error"
+msgstr "Error al actualizar los ajustes"

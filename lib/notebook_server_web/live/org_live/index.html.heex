@@ -7,7 +7,7 @@
   </:actions>
 </.page_header>
 
-<section class="p-6 flex flex-col flex-1 space-y-6">
+<.page_content>
   <.table
     id="orgs"
     class="flex-1"
@@ -63,7 +63,7 @@
     </:action>
   </.table>
   <.pagination page={1} total_pages={1} />
-</section>
+</.page_content>
 
 <.modal :if={@live_action in [:new, :edit]} id="org-modal" show on_cancel={JS.patch(~p"/orgs")}>
   <.live_component
