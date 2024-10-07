@@ -3,7 +3,6 @@ defmodule NotebookServerWeb.UserSettingsLive do
 
   alias NotebookServer.Accounts
   use Gettext, backend: NotebookServerWeb.Gettext
-  import NotebookServerWeb.I18n
 
   def render(assigns) do
     ~H"""
@@ -102,7 +101,7 @@ defmodule NotebookServerWeb.UserSettingsLive do
       {:ok, _user} ->
         {:noreply,
          socket
-         |> push_navigate(to: ~p"/settings")
+         |> redirect(to: ~p"/settings")
          |> put_flash(:info, gettext("settings_updated_successfully"))}
 
       {:error, changeset} ->

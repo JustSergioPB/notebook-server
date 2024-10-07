@@ -1,5 +1,4 @@
 defmodule NotebookServerWeb.I18n do
-  alias NotebookServer.Accounts
   import Plug.Conn
 
   @supported_locales Gettext.known_locales(NotebookServerWeb.Gettext)
@@ -7,14 +6,28 @@ defmodule NotebookServerWeb.I18n do
 
   @spec fetch_locale(Plug.Conn.t(), any()) :: Plug.Conn.t()
   def fetch_locale(conn, _opts) do
-    locale = conn.cookies[@cookie] || get_req_header(conn, "accept-language")[0]
-    assign(conn, :locale, locale)
+    accept_language = get_req_header(conn, "accept-language") |> Enum.at(0)
+    user = conn.assigns.current_user
+
+    locale =
+      if is_nil(user),
+        do: conn.cookies[@cookie],
+        else: user.language |> Atom.to_string()
+
+    locale =
+      if is_nil(locale),
+        do: accept_language,
+        else: locale
+
+    conn
+    |> put_resp_cookie(@cookie, locale, max_age: 365 * 24 * 60 * 60)
+    |> put_session(:locale, locale)
+    |> assign(:locale, locale)
   end
 
   def on_mount(:default, _params, session, socket) do
-    user = Accounts.get_user_by_session_token(session["user_token"])
-    locale = (user.language || session["locale"]) |> Atom.to_string()
-    locale = check_locale(locale)
+    locale = check_locale(session["locale"])
+
     Gettext.put_locale(NotebookServerWeb.Gettext, locale)
     {:cont, socket}
   end
