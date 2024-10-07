@@ -95,4 +95,5 @@ USER nobody
 # above and adding an entrypoint. See https://github.com/krallin/tini for details
 # ENTRYPOINT ["/tini", "--"]
 
+RUN /app/bin/migrate
 CMD ["/app/bin/server"]
