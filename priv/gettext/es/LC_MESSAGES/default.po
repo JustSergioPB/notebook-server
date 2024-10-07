@@ -47,13 +47,13 @@ msgid "We can't find the internet"
 msgstr "No podemos conectarnos a internet"
 
 #: lib/notebook_server_web/live/org_live/index.html.heex:44
-#: lib/notebook_server_web/live/user_live/index.html.heex:52
+#: lib/notebook_server_web/live/user_live/index.html.heex:48
 #, elixir-autogen, elixir-format
 msgid "activate"
 msgstr "Activar"
 
 #: lib/notebook_server_web/live/org_live/index.html.heex:59
-#: lib/notebook_server_web/live/user_live/index.html.heex:67
+#: lib/notebook_server_web/live/user_live/index.html.heex:63
 #, elixir-autogen, elixir-format
 msgid "are_you_sure"
 msgstr "¿Estás seguro?"
@@ -85,19 +85,19 @@ msgid "confirm_new_password_placeholder"
 msgstr "myNuev4Contraseña"
 
 #: lib/notebook_server_web/live/org_live/index.html.heex:34
-#: lib/notebook_server_web/live/user_live/index.html.heex:42
+#: lib/notebook_server_web/live/user_live/index.html.heex:38
 #, elixir-autogen, elixir-format
 msgid "deactivate"
 msgstr "Desactivar"
 
 #: lib/notebook_server_web/live/org_live/index.html.heex:61
-#: lib/notebook_server_web/live/user_live/index.html.heex:69
+#: lib/notebook_server_web/live/user_live/index.html.heex:65
 #, elixir-autogen, elixir-format
 msgid "delete"
 msgstr "Eliminar"
 
 #: lib/notebook_server_web/live/org_live/index.html.heex:50
-#: lib/notebook_server_web/live/user_live/index.html.heex:58
+#: lib/notebook_server_web/live/user_live/index.html.heex:54
 #, elixir-autogen, elixir-format
 msgid "edit"
 msgstr "Editar"
@@ -125,12 +125,12 @@ msgstr "Editar usuario"
 msgid "email"
 msgstr "Email"
 
-#: lib/notebook_server_web/live/user_live/user_settings_live.ex:71
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:77
 #, elixir-autogen, elixir-format
 msgid "email_change_link_is_invalid_or_expired"
 msgstr "El enlace de para cambiar el email es inválido o ha expirado"
 
-#: lib/notebook_server_web/live/user_live/user_settings_live.ex:68
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:74
 #, elixir-autogen, elixir-format
 msgid "email_changed_successfully"
 msgstr "Tu email se ha actualizado correctamente"
@@ -289,7 +289,7 @@ msgid "reset_password_title"
 msgstr "Restablecer contraseña"
 
 #: lib/notebook_server_web/live/user_live/form_component.ex:26
-#: lib/notebook_server_web/live/user_live/index.html.heex:28
+#: lib/notebook_server_web/live/user_live/index.html.heex:26
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:44
 #, elixir-autogen, elixir-format
 msgid "role"
@@ -297,7 +297,7 @@ msgstr "Rol"
 
 #: lib/notebook_server_web/live/org_live/form_component.ex:24
 #: lib/notebook_server_web/live/user_live/form_component.ex:30
-#: lib/notebook_server_web/live/user_live/user_settings_live.ex:56
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:62
 #, elixir-autogen, elixir-format
 msgid "save"
 msgstr "Guardar"
@@ -328,8 +328,10 @@ msgstr "Mostrar usuario"
 msgid "status"
 msgstr "Estado"
 
+#: lib/notebook_server_web/components/core_components.ex:905
 #: lib/notebook_server_web/live/user_live/index.html.heex:5
 #: lib/notebook_server_web/live/user_live/show.html.heex:2
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:48
 #, elixir-autogen, elixir-format
 msgid "user"
 msgstr "Usuario"
@@ -391,15 +393,10 @@ msgstr "Cuenta"
 msgid "settings"
 msgstr "Ajustes"
 
-#: lib/notebook_server_web/live/user_live/user_settings_live.ex:51
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:55
 #, elixir-autogen, elixir-format
 msgid "language"
 msgstr "Idioma"
-
-#: lib/notebook_server_web/live/user_live/user_settings_live.ex:52
-#, elixir-autogen, elixir-format, fuzzy
-msgid "language_placeholder"
-msgstr "Español"
 
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:30
 #, elixir-autogen, elixir-format, fuzzy
@@ -411,17 +408,34 @@ msgstr "Doe"
 msgid "name_placeholder"
 msgstr "John"
 
-#: lib/notebook_server_web/live/user_live/user_settings_live.ex:45
-#, elixir-autogen, elixir-format, fuzzy
-msgid "role_placeholder"
-msgstr "Usuario"
-
-#: lib/notebook_server_web/live/user_live/user_settings_live.ex:96
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:105
 #, elixir-autogen, elixir-format
 msgid "settings_updated_successfully"
 msgstr "Ajustes actualizados correctamente"
 
-#: lib/notebook_server_web/live/user_live/user_settings_live.ex:101
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:110
 #, elixir-autogen, elixir-format
 msgid "settings_update_error"
 msgstr "Error al actualizar los ajustes"
+
+#: lib/notebook_server_web/components/core_components.ex:903
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:46
+#, elixir-autogen, elixir-format
+msgid "admin"
+msgstr "Admin"
+
+#: lib/notebook_server_web/components/core_components.ex:904
+#: lib/notebook_server_web/live/user_live/user_settings_live.ex:47
+#, elixir-autogen, elixir-format
+msgid "org_admin"
+msgstr "Org. Admin"
+
+#: lib/notebook_server_web/components/core_components.ex:882
+#, elixir-autogen, elixir-format, fuzzy
+msgid "active"
+msgstr "Activa"
+
+#: lib/notebook_server_web/components/core_components.ex:883
+#, elixir-autogen, elixir-format
+msgid "inactive"
+msgstr "Inactiva"

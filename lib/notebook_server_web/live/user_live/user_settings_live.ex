@@ -3,6 +3,7 @@ defmodule NotebookServerWeb.UserSettingsLive do
 
   alias NotebookServer.Accounts
   use Gettext, backend: NotebookServerWeb.Gettext
+  import NotebookServerWeb.I18n
 
   def render(assigns) do
     ~H"""
@@ -40,16 +41,23 @@ defmodule NotebookServerWeb.UserSettingsLive do
           />
           <.input
             field={@form[:role]}
-            type="text"
+            type="select"
             label={gettext("role")}
-            placeholder={gettext("role_placeholder")}
+            options={[
+              {gettext("admin"), "admin"},
+              {gettext("org_admin"), "org_admin"},
+              {gettext("user"), "user"}
+            ]}
             disabled
           />
           <.input
             field={@form[:language]}
             type="select"
             label={gettext("language")}
-            options={["en", "es"]}
+            options={[
+              "🇺🇸 English": "en",
+              "🇪🇸 Español": "es"
+            ]}
           />
           <:actions>
             <.button><%= gettext("save") %></.button>

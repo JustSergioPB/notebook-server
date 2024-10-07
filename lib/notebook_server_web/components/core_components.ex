@@ -397,7 +397,7 @@ defmodule NotebookServerWeb.CoreComponents do
       <select
         id={@id}
         name={@name}
-        class="block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-slate-400 focus:ring-0 sm:text-sm"
+        class="block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-slate-400 focus:ring-0 sm:text-sm disabled:opacity-50"
         multiple={@multiple}
         {@rest}
       >
@@ -441,7 +441,7 @@ defmodule NotebookServerWeb.CoreComponents do
         class={[
           "mt-2 block w-full rounded-lg text-slate-900 focus:ring-0 sm:text-sm sm:leading-6 disabled:opacity-50",
           @errors == [] && "border-slate-300 focus:border-slate-400",
-          @errors != [] && "border-rose-400 focus:border-rose-400",
+          @errors != [] && "border-rose-400 focus:border-rose-400"
         ]}
         {@rest}
       />
@@ -862,40 +862,36 @@ defmodule NotebookServerWeb.CoreComponents do
     """
   end
 
-  attr :variant, :string, default: "outline"
+  attr :variant, :string, default: "inactive"
   attr :class, :string, default: nil
-
-  slot :inner_block, required: true
 
   def status_badge(assigns) do
     ~H"""
     <div class={[
-      "inline-flex items-center gap-2 rounded-lg px-3 py-1 text-sm",
-      @variant == "primary" && "bg-slate-100 text-slate-700",
-      @variant == "success" && "bg-green-100 text-green-700",
-      @variant == "outline" && "border border-slate-200",
+      "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs",
+      @variant == :inactive && "bg-slate-100 text-slate-700",
+      @variant == :active && "bg-green-100 text-green-600",
       @class
     ]}>
       <div class={[
-        "h-2 w-2 rounded-full",
-        @variant == "primary" && "bg-slate-900",
-        @variant == "success" && "bg-green-700",
-        @variant == "outline" && "bg-slate-200"
+        "h-[6px] w-[6px] rounded-full",
+        @variant == :inactive && "bg-slate-200",
+        @variant == :active && "bg-green-600"
       ]}>
       </div>
-      <%= render_slot(@inner_block) %>
+      <span :if={@variant == :active}><%= gettext("active") %></span>
+      <span :if={@variant == :inactive}><%= gettext("inactive") %></span>
     </div>
     """
   end
 
   attr :role, :string, required: true
   attr :class, :string, default: nil
-  slot :inner_block, required: true
 
   def role_badge(assigns) do
     ~H"""
     <div class={[
-      "inline-flex items-center gap-2 rounded-lg px-3 py-1 text-sm",
+      "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs",
       @role == :admin && "bg-orange-100 text-orange-700",
       @role == :org_admin && "bg-purple-100 text-purple-700",
       @role == :user && "bg-blue-100 text-blue-700",
@@ -904,7 +900,9 @@ defmodule NotebookServerWeb.CoreComponents do
       <Lucide.shield_plus :if={@role == :admin} class="h-4 w-4 text-orange-500" />
       <Lucide.shield :if={@role == :org_admin} class="h-4 w-4 text-purple-500" />
       <Lucide.pen_tool :if={@role == :user} class="h-4 w-4 text-blue-500" />
-      <%= @role %>
+      <span :if={@role == :admin}><%= gettext("admin") %></span>
+      <span :if={@role == :org_admin}><%= gettext("org_admin") %></span>
+      <span :if={@role == :user}><%= gettext("user") %></span>
     </div>
     """
   end

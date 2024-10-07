@@ -18,9 +18,7 @@
       <p class="text-sm font-semibold"><%= org.name %></p>
     </:col>
     <:col :let={{_id, org}} label={gettext("status")}>
-      <.status_badge variant={if org.status == :active, do: "success", else: "outline"}>
-        <%= org.status %>
-      </.status_badge>
+      <.status_badge variant={org.status} />
     </:col>
     <:action :let={{_id, org}}>
       <%= if org.status == :active do %>

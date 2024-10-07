@@ -21,14 +21,10 @@
       <p class="text-sm font-light"><%= user.email %></p>
     </:col>
     <:col :let={{_id, user}} label={gettext("status")}>
-      <.status_badge variant={if user.status == :active, do: "success", else: "outline"}>
-        <%= user.status %>
-      </.status_badge>
+      <.status_badge variant={user.status} />
     </:col>
     <:col :let={{_id, user}} label={gettext("role")}>
-      <.role_badge role={user.role}>
-        <%= user.role %>
-      </.role_badge>
+      <.role_badge role={user.role}/>
     </:col>
     <:action :let={{_id, user}}>
       <%= if user.status == :active do %>
