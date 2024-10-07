@@ -6,7 +6,6 @@ defmodule NotebookServer.Repo.Migrations.ActiveUsersOrgs do
 
     alter table(:users) do
       add :status, :user_status, default: "active"
-      add :confirmed_at, :utc_datetime
     end
 
     execute "CREATE TYPE org_status AS ENUM ('active', 'inactive')", "DROP TYPE org_status"
