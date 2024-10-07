@@ -107,7 +107,9 @@ if config_env() == :prod do
   config :notebook_server, NotebookServer.Mailer,
     adapter: Swoosh.Adapters.Mailgun,
     api_key: System.get_env("MAILGUN_API_KEY"),
-    domain: System.get_env("MAILGUN_DOMAIN")
+    domain: System.get_env("MAILGUN_DOMAIN"),
+    email: System.get_env("EMAIL"),
+    from: System.get_env("FROM")
 
   #
   # For this example you need include a HTTP client required by Swoosh API client.

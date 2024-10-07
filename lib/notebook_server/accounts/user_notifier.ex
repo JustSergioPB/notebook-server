@@ -8,7 +8,10 @@ defmodule NotebookServer.Accounts.UserNotifier do
     email =
       new()
       |> to(recipient)
-      |> from({"NotebookServer", "contact@example.com"})
+      |> from(
+        {Application.get_env(:notebook_server, NotebookServer.Mailer)[:from],
+         Application.get_env(:notebook_server, NotebookServer.Mailer)[:email]}
+      )
       |> subject(subject)
       |> text_body(body)
 
