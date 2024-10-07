@@ -2,6 +2,7 @@ defmodule NotebookServerWeb.OrgLive.Show do
   use NotebookServerWeb, :live_view
 
   alias NotebookServer.Orgs
+  use Gettext, backend: NotebookServerWeb.Gettext
 
   @impl true
   def mount(_params, _session, socket) do
@@ -16,6 +17,6 @@ defmodule NotebookServerWeb.OrgLive.Show do
      |> assign(:org, Orgs.get_org!(id))}
   end
 
-  defp page_title(:show), do: "Show Org"
-  defp page_title(:edit), do: "Edit Org"
+  defp page_title(:show), do: gettext("show_org")
+  defp page_title(:edit), do: gettext("edit_org")
 end

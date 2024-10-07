@@ -10,20 +10,20 @@
     <ul class="flex-1 space-y-1">
       <.nav_link
         :if={@current_user.role == :admin}
-        label="Orgs"
+        label={gettext("orgs")}
         icon="building"
         href={~p"/orgs"}
       />
       <.nav_link
         :if={@current_user.role == :admin || @current_user.role == :org_admin}
-        label="Users"
+        label={gettext("users")}
         icon="users"
         href={~p"/users"}
       />
     </ul>
     <ul class="space-y-1">
-      <.nav_link label="Settings" icon="settings" href={~p"/settings"} />
-      <.nav_link label="Log Out" icon="log-out" method="delete" href={~p"/logout"} />
+      <.nav_link label={gettext("settings")} icon="settings" href={~p"/settings?tab=account"} />
+      <.nav_link label={gettext("logout")} icon="log-out" method="delete" href={~p"/logout"} />
     </ul>
   </nav>
   <section class="flex-1 bg-white flex flex-col">

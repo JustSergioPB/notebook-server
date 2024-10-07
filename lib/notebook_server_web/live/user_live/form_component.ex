@@ -2,14 +2,13 @@ defmodule NotebookServerWeb.UserLive.FormComponent do
   use NotebookServerWeb, :live_component
 
   alias NotebookServer.Accounts
-
+  use Gettext, backend: NotebookServerWeb.Gettext
   @impl true
   def render(assigns) do
     ~H"""
     <div>
       <.header>
         <%= @title %>
-        <:subtitle>Use this form to manage user records in your database.</:subtitle>
       </.header>
       <.simple_form
         for={@form}
@@ -18,17 +17,17 @@ defmodule NotebookServerWeb.UserLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:name]} type="text" label="Name" />
-        <.input field={@form[:last_name]} type="text" label="Last Name" />
-        <.input field={@form[:email]} type="text" label="Email" />
+        <.input field={@form[:name]} type="text" label={gettext("name")} />
+        <.input field={@form[:last_name]} type="text" label={gettext("last_name")} />
+        <.input field={@form[:email]} type="text" label={gettext("email")} />
         <.input
           field={@form[:role]}
           type="select"
-          label="Role"
+          label={gettext("role")}
           options={["org_admin", "user"]}
         />
         <:actions>
-          <.button phx-disable-with="Saving...">Save User</.button>
+          <.button><%= gettext("save") %></.button>
         </:actions>
       </.simple_form>
     </div>

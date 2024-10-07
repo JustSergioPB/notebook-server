@@ -356,6 +356,10 @@ defmodule NotebookServer.Accounts do
     User.form_changeset(user, attrs)
   end
 
+  def change_user_settings(user, attrs \\ %{}) do
+    User.settings_changeset(user, attrs)
+  end
+
   def create_user(attrs) do
     attrs_with_password = Map.put(attrs, "password", generate_random_password())
 
@@ -371,6 +375,12 @@ defmodule NotebookServer.Accounts do
   def update_user(user, attrs) do
     user
     |> User.form_changeset(attrs)
+    |> Repo.update()
+  end
+
+  def update_user_settings(user, attrs) do
+    user
+    |> User.settings_changeset(attrs)
     |> Repo.update()
   end
 

@@ -15,10 +15,8 @@ defmodule NotebookServerWeb.CoreComponents do
   Icons are provided by [heroicons](https://heroicons.com). See `icon/1` for usage.
   """
   use Phoenix.Component
-
-  alias Telemetry.Metrics.LastValue
   alias Phoenix.LiveView.JS
-  import NotebookServerWeb.Gettext
+  use Gettext, backend: NotebookServerWeb.Gettext
 
   @doc """
   Renders a modal.
@@ -80,7 +78,7 @@ defmodule NotebookServerWeb.CoreComponents do
                   class="-m-3 flex-none p-3 opacity-20 hover:opacity-40"
                   aria-label={gettext("close")}
                 >
-                  <.icon name="hero-x-mark-solid" class="h-5 w-5" />
+                  <Lucide.x class="h-5 w-5" />
                 </button>
               </div>
               <div id={"#{@id}-content"}>
@@ -120,20 +118,20 @@ defmodule NotebookServerWeb.CoreComponents do
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
       role="alert"
       class={[
-        "fixed top-2 right-2 mr-2 w-80 sm:w-96 z-50 rounded-lg p-3 ring-1",
-        @kind == :info && "bg-emerald-50 text-emerald-800 ring-emerald-500 fill-cyan-900",
-        @kind == :error && "bg-rose-50 text-rose-900 shadow-md ring-rose-500 fill-rose-900"
+        "fixed top-2 right-2 mr-2 w-80 sm:w-96 z-50 rounded-lg p-3 ring-1 shadow-md",
+        @kind == :info && "bg-green-50 text-green-800 ring-green-200 fill-cyan-900",
+        @kind == :error && "bg-rose-50 text-rose-900 shadow-md ring-rose-200 fill-rose-900"
       ]}
       {@rest}
     >
       <p :if={@title} class="flex items-center gap-1.5 text-sm font-semibold leading-6">
-        <.icon :if={@kind == :info} name="hero-information-circle-mini" class="h-4 w-4" />
-        <.icon :if={@kind == :error} name="hero-exclamation-circle-mini" class="h-4 w-4" />
+        <Lucide.check_check :if={@kind == :info} class="h-4 w-4" />
+        <Lucide.alert_triangle :if={@kind == :error} class="h-4 w-4" />
         <%= @title %>
       </p>
       <p class="mt-2 text-sm leading-5"><%= msg %></p>
       <button type="button" class="group absolute top-1 right-1 p-2" aria-label={gettext("close")}>
-        <.icon name="hero-x-mark-solid" class="h-5 w-5 opacity-40 group-hover:opacity-70" />
+        <Lucide.x class="h-5 w-5 opacity-40 group-hover:opacity-70" />
       </button>
     </div>
     """
@@ -163,7 +161,7 @@ defmodule NotebookServerWeb.CoreComponents do
         hidden
       >
         <%= gettext("Attempting to reconnect") %>
-        <.icon name="hero-arrow-path" class="ml-1 h-3 w-3 animate-spin" />
+        <Lucide.loader class="ml-1 h-4 w-4 animate-spin" />
       </.flash>
 
       <.flash
@@ -175,7 +173,7 @@ defmodule NotebookServerWeb.CoreComponents do
         hidden
       >
         <%= gettext("Hang in there while we get back on track") %>
-        <.icon name="hero-arrow-path" class="ml-1 h-3 w-3 animate-spin" />
+        <Lucide.loader class="ml-1 h-4 w-4 animate-spin" />
       </.flash>
     </div>
     """
@@ -207,8 +205,10 @@ defmodule NotebookServerWeb.CoreComponents do
 
   def simple_form(assigns) do
     ~H"""
-    <.form :let={f} for={@for} as={@as} {@rest} class={["space-y-4", @class]}>
-      <%= render_slot(@inner_block, f) %>
+    <.form :let={f} for={@for} as={@as} {@rest} class={["space-y-4 flex flex-col", @class]}>
+      <div class="flex-1 space-y-4">
+        <%= render_slot(@inner_block, f) %>
+      </div>
       <div :for={action <- @actions} class="flex items-center justify-between gap-6 last:pt-6">
         <%= render_slot(action, f) %>
       </div>
@@ -332,6 +332,7 @@ defmodule NotebookServerWeb.CoreComponents do
   attr :id, :any, default: nil
   attr :name, :any
   attr :label, :string, default: nil
+  attr :class, :string, default: nil
   attr :value, :any
 
   attr :type, :string,
@@ -396,7 +397,7 @@ defmodule NotebookServerWeb.CoreComponents do
       <select
         id={@id}
         name={@name}
-        class="block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-slate-400 focus:ring-0 sm:text-sm"
+        class="block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-slate-400 focus:ring-0 sm:text-sm disabled:opacity-50"
         multiple={@multiple}
         {@rest}
       >
@@ -430,7 +431,7 @@ defmodule NotebookServerWeb.CoreComponents do
   # All other inputs text, datetime-local, url, password, etc. are handled here...
   def input(assigns) do
     ~H"""
-    <div>
+    <div class={@class}>
       <.label for={@id}><%= @label %></.label>
       <input
         type={@type}
@@ -438,7 +439,7 @@ defmodule NotebookServerWeb.CoreComponents do
         id={@id}
         value={Phoenix.HTML.Form.normalize_value(@type, @value)}
         class={[
-          "mt-2 block w-full rounded-lg text-slate-900 focus:ring-0 sm:text-sm sm:leading-6",
+          "mt-2 block w-full rounded-lg text-slate-900 focus:ring-0 sm:text-sm sm:leading-6 disabled:opacity-50",
           @errors == [] && "border-slate-300 focus:border-slate-400",
           @errors != [] && "border-rose-400 focus:border-rose-400"
         ]}
@@ -521,7 +522,7 @@ defmodule NotebookServerWeb.CoreComponents do
   def page_header(assigns) do
     ~H"""
     <header class={[
-      @actions != [] && "flex items-center justify-between gap-4 p-6 border-b border-slate-200",
+      "flex items-center justify-between gap-4 p-6 border-b border-slate-200",
       @class
     ]}>
       <div>
@@ -537,6 +538,17 @@ defmodule NotebookServerWeb.CoreComponents do
       </div>
       <div class="flex-none"><%= render_slot(@actions) %></div>
     </header>
+    """
+  end
+
+  attr :class, :string, default: nil
+  slot :inner_block, required: true
+
+  def page_content(assigns) do
+    ~H"""
+    <section class={["p-6 flex flex-col flex-1 space-y-6", @class]}>
+      <%= render_slot(@inner_block) %>
+    </section>
     """
   end
 
@@ -620,17 +632,25 @@ defmodule NotebookServerWeb.CoreComponents do
     ~H"""
     <div class="flex items-center justify-end gap-8">
       <div class="flex items-center gap-2 text-sm font-semibold">
-        <span>Rows per page:</span>
+        <span><%= gettext("rows_per_page") %>:</span>
         <.input name="rows_per_page" value="10" type="select" options={["10", "25", "50", "100"]} />
       </div>
       <p class="text-sm font-semibold">
-        Page <%= @page %> of <%= @total_pages %>
+        <%= gettext("page") %> <%= @page %> <%= gettext("of") %> <%= @total_pages %>
       </p>
       <div class="flex items-center gap-2">
-        <.button_link size="icon" icon="chevrons-left" variant="outline">Last page</.button_link>
-        <.button_link size="icon" icon="chevron-left" variant="outline">Previous page</.button_link>
-        <.button_link size="icon" icon="chevron-right" variant="outline">Next page</.button_link>
-        <.button_link size="icon" icon="chevrons-right" variant="outline">First page</.button_link>
+        <.button_link size="icon" icon="chevrons-left" variant="outline">
+          <%= gettext("last_page") %>
+        </.button_link>
+        <.button_link size="icon" icon="chevron-left" variant="outline">
+          <%= gettext("previous_page") %>
+        </.button_link>
+        <.button_link size="icon" icon="chevron-right" variant="outline">
+          <%= gettext("next_page") %>
+        </.button_link>
+        <.button_link size="icon" icon="chevrons-right" variant="outline">
+          <%= gettext("first_page") %>
+        </.button_link>
       </div>
     </div>
     """
@@ -680,37 +700,10 @@ defmodule NotebookServerWeb.CoreComponents do
         navigate={@navigate}
         class="text-sm font-semibold leading-6 text-slate-900 hover:text-slate-700"
       >
-        <.icon name="hero-arrow-left-solid" class="h-3 w-3" />
+        <Lucide.arrow_left class="h-4 w-3" />
         <%= render_slot(@inner_block) %>
       </.link>
     </div>
-    """
-  end
-
-  @doc """
-  Renders a [Heroicon](https://heroicons.com).
-
-  Heroicons come in three styles – outline, solid, and mini.
-  By default, the outline style is used, but solid and mini may
-  be applied by using the `-solid` and `-mini` suffix.
-
-  You can customize the size and colors of the icons by setting
-  width, height, and background color classes.
-
-  Icons are extracted from the `deps/heroicons` directory and bundled within
-  your compiled app.css by the plugin in your `assets/tailwind.config.js`.
-
-  ## Examples
-
-      <.icon name="hero-x-mark-solid" />
-      <.icon name="hero-arrow-path" class="ml-1 w-3 h-3 animate-spin" />
-  """
-  attr :name, :string, required: true
-  attr :class, :string, default: nil
-
-  def icon(%{name: "hero-" <> _} = assigns) do
-    ~H"""
-    <span class={[@name, @class]} />
     """
   end
 
@@ -842,40 +835,36 @@ defmodule NotebookServerWeb.CoreComponents do
     """
   end
 
-  attr :variant, :string, default: "outline"
+  attr :variant, :string, default: "inactive"
   attr :class, :string, default: nil
-
-  slot :inner_block, required: true
 
   def status_badge(assigns) do
     ~H"""
     <div class={[
-      "inline-flex items-center gap-2 rounded-lg px-3 py-1 text-sm",
-      @variant == "primary" && "bg-slate-100 text-slate-700",
-      @variant == "success" && "bg-green-100 text-green-700",
-      @variant == "outline" && "border border-slate-200",
+      "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs",
+      @variant == :inactive && "bg-slate-100 text-slate-700",
+      @variant == :active && "bg-green-100 text-green-600",
       @class
     ]}>
       <div class={[
-        "h-2 w-2 rounded-full",
-        @variant == "primary" && "bg-slate-900",
-        @variant == "success" && "bg-green-700",
-        @variant == "outline" && "bg-slate-200"
+        "h-[6px] w-[6px] rounded-full",
+        @variant == :inactive && "bg-slate-200",
+        @variant == :active && "bg-green-600"
       ]}>
       </div>
-      <%= render_slot(@inner_block) %>
+      <span :if={@variant == :active}><%= gettext("active") %></span>
+      <span :if={@variant == :inactive}><%= gettext("inactive") %></span>
     </div>
     """
   end
 
   attr :role, :string, required: true
   attr :class, :string, default: nil
-  slot :inner_block, required: true
 
   def role_badge(assigns) do
     ~H"""
     <div class={[
-      "inline-flex items-center gap-2 rounded-lg px-3 py-1 text-sm",
+      "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs",
       @role == :admin && "bg-orange-100 text-orange-700",
       @role == :org_admin && "bg-purple-100 text-purple-700",
       @role == :user && "bg-blue-100 text-blue-700",
@@ -884,8 +873,39 @@ defmodule NotebookServerWeb.CoreComponents do
       <Lucide.shield_plus :if={@role == :admin} class="h-4 w-4 text-orange-500" />
       <Lucide.shield :if={@role == :org_admin} class="h-4 w-4 text-purple-500" />
       <Lucide.pen_tool :if={@role == :user} class="h-4 w-4 text-blue-500" />
-      <%= @role %>
+      <span :if={@role == :admin}><%= gettext("admin") %></span>
+      <span :if={@role == :org_admin}><%= gettext("org_admin") %></span>
+      <span :if={@role == :user}><%= gettext("user") %></span>
     </div>
+    """
+  end
+
+  slot :tab, required: true do
+    attr :label, :string, required: true
+    attr :id, :string, required: true
+  end
+
+  attr :active_tab, :string, required: true
+
+  def tabs(assigns) do
+    ~H"""
+    <.page_content>
+      <div class="flex items-center gap-4">
+        <.link
+          :for={{tab, _i} <- Enum.with_index(@tab)}
+          patch={"/settings?tab=#{tab[:id]}"}
+          class={[
+            "px-3 py-2 text-sm rounded-lg",
+            @active_tab == tab[:id] && "bg-slate-100 font-semibold"
+          ]}
+        >
+          <%= tab[:label] %>
+        </.link>
+      </div>
+      <div :for={tab <- @tab} class={["flex-1", (@active_tab == tab[:id] && "flex") || "hidden"]}>
+        <%= render_slot(tab) %>
+      </div>
+    </.page_content>
     """
   end
 end

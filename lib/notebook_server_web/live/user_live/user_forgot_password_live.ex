@@ -2,31 +2,32 @@ defmodule NotebookServerWeb.UserForgotPasswordLive do
   use NotebookServerWeb, :live_view_auth
 
   alias NotebookServer.Accounts
+  use Gettext, backend: NotebookServerWeb.Gettext
 
   def render(assigns) do
     ~H"""
     <div class="w-1/2">
       <.header class="mb-12">
-        Forgot your password?
-        <:subtitle>We'll send a link to reset your password to your inbox</:subtitle>
+        <%= gettext("forgot_password_title") %>
+        <:subtitle><%= gettext("forgot_password_subtitle") %></:subtitle>
       </.header>
       <.simple_form for={@form} id="reset_password_form" phx-submit="send_email">
         <.input
           field={@form[:email]}
           type="email"
-          placeholder="johndoe@example.com"
-          label="Email"
+          placeholder={gettext("email_placeholder")}
+          label={gettext("email")}
           required
         />
         <:actions>
           <.button icon="send" class="w-full">
-            Send link
+            <%= gettext("send_link") %>
           </.button>
         </:actions>
       </.simple_form>
       <div class="flex justify-center">
         <.link class="text-center text-sm mt-4 font-semibold hover:underline" href={~p"/login"}>
-          Log in
+          <%= gettext("login") %>
         </.link>
       </div>
     </div>
@@ -47,7 +48,7 @@ defmodule NotebookServerWeb.UserForgotPasswordLive do
 
     {:noreply,
      socket
-     |> put_flash(:info, "If your email is in our system, you will receive instructions to reset your password shortly.")
+     |> put_flash(:info, gettext("reset_email_sent"))
      |> redirect(to: ~p"/")}
   end
 end

@@ -10,6 +10,7 @@ defmodule NotebookServer.Accounts.User do
     field :hashed_password, :string, redact: true
     field :current_password, :string, virtual: true, redact: true
     field :status, Ecto.Enum, values: [:active, :inactive], default: :active
+    field :language, Ecto.Enum, values: [:en, :es], default: :es
     field :confirmed_at, :utc_datetime
     field :role, Ecto.Enum, values: [:admin, :org_admin, :user], default: :user
     belongs_to :org, NotebookServer.Orgs.Org
@@ -173,6 +174,19 @@ defmodule NotebookServer.Accounts.User do
       :email,
       :role
     ])
+    |> validate_length(:name, min: 3, message: "must be at least 3 characters")
+    |> validate_length(:last_name, min: 3, message: "must be at least 3 characters")
+    |> validate_inclusion(:role, [:admin, :org_admin, :user], message: "is not a valid role")
+    |> validate_email([])
+  end
+
+  def settings_changeset(user, attrs \\ %{}) do
+    user
+    |> cast(attrs, [:language, :name, :last_name])
+    |> validate_required([:language, :name, :last_name])
+    |> validate_length(:name, min: 3, message: "must be at least 3 characters")
+    |> validate_length(:last_name, min: 3, message: "must be at least 3 characters")
+    |> validate_inclusion(:language, [:en, :es], message: "is not a valid language")
   end
 
   def changeset(user, attrs \\ %{}, opts \\ []) do
