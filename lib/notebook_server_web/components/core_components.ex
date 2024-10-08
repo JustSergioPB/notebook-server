@@ -206,7 +206,7 @@ defmodule NotebookServerWeb.CoreComponents do
   def simple_form(assigns) do
     ~H"""
     <.form :let={f} for={@for} as={@as} {@rest} class={["space-y-4 flex flex-col", @class]}>
-      <div class="flex-1 space-y-4">
+      <div class="flex-1 space-y-2">
         <%= render_slot(@inner_block, f) %>
       </div>
       <div :for={action <- @actions} class="flex items-center justify-between gap-6 last:pt-6">
