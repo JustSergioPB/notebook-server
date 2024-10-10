@@ -418,8 +418,19 @@ defmodule NotebookServer.Accounts do
     Repo.delete(user)
   end
 
-  def list_users do
-    Repo.all(User)
+  def list_users(opts \\ []) do
+    org_id = Keyword.get(opts, :org_id)
+
+    query =
+      if(org_id) do
+        from(u in User, where: u.org_id == ^org_id)
+      else
+        from(u in User)
+      end
+
+    query = query |> order_by(desc: :inserted_at)
+
+    Repo.all(query) |> Repo.preload(:org)
   end
 
   def deactivate_user(user) do

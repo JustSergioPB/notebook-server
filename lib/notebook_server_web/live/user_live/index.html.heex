@@ -28,6 +28,9 @@
     <:col :let={{_id, user}} label={gettext("role")}>
       <.role_badge role={user.role} />
     </:col>
+    <:col :if={@current_user.role == :admin} :let={{_id, user}} label={gettext("org_name")}>
+      <p class="text-sm font-light"><%= user.org.name %></p>
+    </:col>
     <:action :let={{_id, user}}>
       <%= if user.status == :active do %>
         <.button

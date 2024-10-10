@@ -7,7 +7,9 @@ defmodule NotebookServerWeb.UserLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, stream(socket, :users, Accounts.list_users())}
+    org_id = socket.assigns.current_user.org_id
+    opts = if socket.assigns.current_user.role == :admin, do: [], else: [org_id: org_id]
+    {:ok, stream(socket, :users, Accounts.list_users(opts))}
   end
 
   @impl true
@@ -48,25 +50,30 @@ defmodule NotebookServerWeb.UserLive.Index do
 
   @impl true
   def handle_event("deactivate", %{"id" => id}, socket) do
+    org_id = socket.assigns.current_user.org_id
+    opts = if socket.assigns.current_user.role == :admin, do: [], else: [org_id: org_id]
     user = Accounts.get_user!(id)
     {:ok, _} = Accounts.deactivate_user(user)
 
-    {:noreply, stream(socket, :users, Accounts.list_users())}
+    {:noreply, stream(socket, :users, Accounts.list_users(opts))}
   end
 
   @impl true
   def handle_event("activate", %{"id" => id}, socket) do
+    org_id = socket.assigns.current_user.org_id
+    opts = if socket.assigns.current_user.role == :admin, do: [], else: [org_id: org_id]
     user = Accounts.get_user!(id)
     {:ok, _} = Accounts.activate_user(user)
 
-    {:noreply, stream(socket, :users, Accounts.list_users())}
+    {:noreply, stream(socket, :users, Accounts.list_users(opts))}
   end
 
   @impl true
   def handle_event("stop", %{"id" => id}, socket) do
     user = Accounts.get_user!(id)
+    org_id = socket.assigns.current_user.org_id
     {:ok, _} = Accounts.stop_user(user)
 
-    {:noreply, stream(socket, :users, Accounts.list_users())}
+    {:noreply, stream(socket, :users, Accounts.list_users(org_id))}
   end
 end
