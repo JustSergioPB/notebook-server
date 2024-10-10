@@ -36,14 +36,14 @@ defmodule NotebookServer.Accounts.UserRegister do
       submitting the form), this option can be set to `false`.
       Defaults to `true`.
   """
-  def changeset(user, attrs, opts \\ []) do
+  def changeset(user, attrs) do
     user
     |> cast(attrs, [:email, :password, :name, :last_name, :org_name])
     |> validate_required([:email, :password, :name, :last_name, :org_name])
     |> validate_length(:name, min: 3, message: "must be at least 3 characters")
     |> validate_length(:last_name, min: 3, message: "must be at least 3 characters")
     |> validate_length(:org_name, min: 3, message: "must be at least 3 characters")
-    |> UserEmail.validate(opts)
-    |> UserPassword.validate(opts)
+    |> UserEmail.validate(validate_email: false)
+    |> UserPassword.validate(hash_password: false)
   end
 end

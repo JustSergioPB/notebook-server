@@ -71,10 +71,9 @@ defmodule NotebookServerWeb.Router do
         {NotebookServerWeb.UserAuth, :ensure_authenticated}
       ] do
       live "/settings", UserSettingsLive, :edit
-      live "/home", HomeLive
+      live "/dashboard", DashboardLive
 
       delete "/logout", UserSessionController, :delete
-
 
       scope "/orgs" do
         pipe_through :require_admin_user

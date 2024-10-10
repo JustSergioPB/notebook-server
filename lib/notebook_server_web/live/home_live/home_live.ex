@@ -1,4 +1,4 @@
-defmodule NotebookServerWeb.HomeLive do
+defmodule NotebookServerWeb.DashboardLive do
   use NotebookServerWeb, :live_view
   use Gettext, backend: NotebookServerWeb.Gettext
 

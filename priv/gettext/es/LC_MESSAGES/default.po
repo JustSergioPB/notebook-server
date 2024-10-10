@@ -189,7 +189,7 @@ msgstr "Introduce tu email y contraseña para iniciar sesión"
 msgid "login_title"
 msgstr "¡Bienvenido de nuevo!"
 
-#: lib/notebook_server_web/components/layouts/app.html.heex:26
+#: lib/notebook_server_web/components/layouts/app.html.heex:31
 #, elixir-autogen, elixir-format
 msgid "logout"
 msgstr "Cerrar sesión"
@@ -246,7 +246,7 @@ msgstr "Organización creada correctamente"
 msgid "org_update_success"
 msgstr "Organización actualizada correctamente"
 
-#: lib/notebook_server_web/components/layouts/app.html.heex:13
+#: lib/notebook_server_web/components/layouts/app.html.heex:18
 #: lib/notebook_server_web/live/org_live/index.ex:32
 #: lib/notebook_server_web/live/org_live/index.html.heex:2
 #, elixir-autogen, elixir-format
@@ -343,7 +343,7 @@ msgstr "Estado"
 msgid "user"
 msgstr "Usuario"
 
-#: lib/notebook_server_web/components/layouts/app.html.heex:19
+#: lib/notebook_server_web/components/layouts/app.html.heex:24
 #: lib/notebook_server_web/live/user_live/index.ex:32
 #: lib/notebook_server_web/live/user_live/index.html.heex:2
 #, elixir-autogen, elixir-format
@@ -395,7 +395,7 @@ msgstr "Introduce y confirma tu nueva contraseña"
 msgid "account"
 msgstr "Cuenta"
 
-#: lib/notebook_server_web/components/layouts/app.html.heex:25
+#: lib/notebook_server_web/components/layouts/app.html.heex:30
 #, elixir-autogen, elixir-format, fuzzy
 msgid "settings"
 msgstr "Ajustes"
@@ -483,7 +483,7 @@ msgstr "Organización"
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:42
 #, elixir-autogen, elixir-format, fuzzy
 msgid "org_name_placeholder"
-msgstr "John"
+msgstr "Acme Inc."
 
 #: lib/notebook_server_web/live/user_live/user_login_live.ex:44
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:64
@@ -500,3 +500,8 @@ msgstr "Date de alta y comienza a certificar tu información en minutos"
 #, elixir-autogen, elixir-format
 msgid "register_title"
 msgstr "¡Encantados de conocerte!"
+
+#: lib/notebook_server_web/components/layouts/app.html.heex:12
+#, elixir-autogen, elixir-format
+msgid "dashboard"
+msgstr "Panel"

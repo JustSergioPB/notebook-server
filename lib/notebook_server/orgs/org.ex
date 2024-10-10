@@ -14,8 +14,7 @@ defmodule NotebookServer.Orgs.Org do
   def changeset(org, attrs) do
     org
     |> cast(attrs, [:name])
-    |> validate_required([:name], message: "Name is required")
-    |> validate_length(:name, min: 3, message: "Name must be at least 3 characters")
+    |> validate_name()
   end
 
   def deactivation_changeset(org) do
@@ -24,5 +23,13 @@ defmodule NotebookServer.Orgs.Org do
 
   def activation_changeset(org) do
     change(org, status: :active)
+  end
+
+  defp validate_name(changeset) do
+    changeset
+    |> validate_required(:name, message: "Name is required")
+    |> validate_length(:name, min: 3, message: "Name must be at least 3 characters")
+    |> unsafe_validate_unique(:name, NotebookServer.Repo)
+    |> unique_constraint(:name, message: "Name must be unique")
   end
 end

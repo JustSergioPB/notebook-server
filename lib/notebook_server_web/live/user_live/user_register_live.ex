@@ -8,17 +8,17 @@ defmodule NotebookServerWeb.UserRegisterLive do
   def render(assigns) do
     ~H"""
     <div class="w-1/2 space-y-12">
-      <.header >
+      <.header>
         <%= gettext("register_title") %>
         <:subtitle>
           <%= gettext("register_subtitle") %>
         </:subtitle>
       </.header>
-      <.simple_form for={@form} id="register_form" phx-submit="register" phx-change="validate">
+      <.simple_form for={@form} phx-change="validate" phx-submit="register">
         <div class="flex items-center gap-4">
           <.input
             class="w-1/3"
-            field={@form[:email]}
+            field={@form[:name]}
             type="text"
             label={gettext("name")}
             placeholder={gettext("name_placeholder")}
@@ -77,21 +77,27 @@ defmodule NotebookServerWeb.UserRegisterLive do
 
   def mount(_params, _session, socket) do
     changeset = Accounts.change_user_register(%UserRegister{})
-    {:ok, assign(socket, :form, to_form(changeset))}
+    {:ok, assign(socket, form: to_form(changeset))}
   end
 
-  def handle_event("validate", %{"user" => user_params}, socket) do
-    changeset = Accounts.change_user_register(user_params)
-    {:noreply, assign(socket, form: to_form(changeset))}
+  def handle_event("validate", %{"user_register" => user_params}, socket) do
+    changeset = Accounts.change_user_register(%UserRegister{}, user_params)
+    {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
   end
 
-  def handle_event("register", %{"user" => user_params}, socket) do
+  def handle_event("register", %{"user_register" => user_params}, socket) do
     case Accounts.register_user(user_params) do
       {:ok, _user} ->
-        {:noreply, redirect(socket, to: ~p"/home")}
+        {:noreply,
+         socket
+         |> put_flash(:info, "User registered successfully, please login to continue")
+         |> redirect(to: ~p"/login")}
 
       {:error, changeset} ->
-        {:noreply, assign(socket, form: to_form(changeset))}
+        {:noreply,
+         socket
+         |> assign(form: to_form(changeset))
+         |> put_flash(:error, "Either email or org name are already taken")}
     end
   end
 end

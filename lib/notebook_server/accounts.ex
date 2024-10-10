@@ -15,7 +15,7 @@ defmodule NotebookServer.Accounts do
   alias NotebookServer.Accounts.UserNotifier
   alias NotebookServer.Accounts.UserPassword
   alias NotebookServer.Accounts.UserEmail
-  alias NotebookServer.Orgs
+  alias NotebookServer.Orgs.Org
 
   ## Database getters
 
@@ -84,19 +84,29 @@ defmodule NotebookServer.Accounts do
 
   """
   def register_user(attrs) do
-    org_name = attrs["org_name"]
+    {org_name, user_params} = Map.pop(attrs, "org_name")
 
-    case Orgs.create_org(org_name) do
-      {:ok, org} ->
-        attrs = Map.put(attrs, "org_id", org.id)
-        attrs = Map.put(attrs, "role", :org_admin)
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(:org, Org.changeset(%Org{}, %{name: org_name}))
+    |> Ecto.Multi.insert(
+      :user,
+      fn %{org: org} ->
+        User.changeset(%User{org_id: org.id}, user_params,
+          validate_email: true,
+          hash_password: true
+        )
+      end
+    )
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{user: user, org: _org}} ->
+        {:ok, user}
 
-        %User{}
-        |> User.changeset(attrs)
-        |> Repo.insert()
+      {:error, :org, _value, _} ->
+        {:error, UserRegister.changeset(%UserRegister{}, attrs)}
 
-      {:error, changeset} ->
-        {:error, changeset}
+      {:error, :user, _value, _} ->
+        {:error, UserRegister.changeset(%UserRegister{}, attrs)}
     end
   end
 
@@ -110,7 +120,7 @@ defmodule NotebookServer.Accounts do
 
   """
   def change_user_register(%UserRegister{} = user, attrs \\ %{}) do
-    UserRegister.changeset(user, attrs, hash_password: false, validate_email: false)
+    UserRegister.changeset(user, attrs)
   end
 
   ## Settings

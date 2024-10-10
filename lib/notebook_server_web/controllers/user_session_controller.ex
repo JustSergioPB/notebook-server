@@ -15,7 +15,9 @@ defmodule NotebookServerWeb.UserSessionController do
   end
 
   def create(conn, params) do
-    create(conn, params, "Welcome back!")
+    conn
+    |> put_session(:user_return_to, ~p"/dashboard")
+    |> create(params, "Welcome back!")
   end
 
   defp create(conn, %{"user" => user_params}, info) do
