@@ -13,14 +13,22 @@ defmodule NotebookServerWeb.UserConfirmationLive do
         </:subtitle>
       </.header>
       <.simple_form for={@form} id="confirmation_form" phx-submit="confirm_account">
-          <input type="hidden" name={@form[:token].name} value={@form[:token].value} />
-          <:actions>
-            <.button icon="badge-check" class="w-full"><%= gettext("confirm") %></.button>
-          </:actions>
-        </.simple_form>
+        <input type="hidden" name={@form[:token].name} value={@form[:token].value} />
+        <:actions>
+          <.button icon="badge-check" class="w-full"><%= gettext("confirm") %></.button>
+        </:actions>
+      </.simple_form>
       <div class="flex gap-4">
-        <.button_link class="w-1/2" variant="ghost" href={~p"/register"}><%= gettext("register") %></.button_link>
-        <.button_link class="w-1/2" variant="ghost" href={~p"/login"}><%= gettext("login") %></.button_link>
+        <.link href={~p"/register"}>
+          <.button class="w-1/2" variant="ghost">
+            <%= gettext("register") %>
+          </.button>
+        </.link>
+        <.link href={~p"/login"}>
+          <.button class="w-1/2" variant="ghost">
+            <%= gettext("login") %>
+          </.button>
+        </.link>
       </div>
     </div>
     """

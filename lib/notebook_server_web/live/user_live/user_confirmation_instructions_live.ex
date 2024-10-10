@@ -29,12 +29,16 @@ defmodule NotebookServerWeb.UserConfirmationInstructionsLive do
       </.simple_form>
 
       <div class="flex gap-4">
-        <.button_link class="w-1/2" variant="ghost" href={~p"/register"}>
-          <%= gettext("register") %>
-        </.button_link>
-        <.button_link class="w-1/2" variant="ghost" href={~p"/login"}>
-          <%= gettext("login") %>
-        </.button_link>
+        <.link href={~p"/register"}>
+          <.button class="w-1/2" variant="ghost">
+            <%= gettext("register") %>
+          </.button>
+        </.link>
+        <.link href={~p"/login"}>
+          <.button class="w-1/2" variant="ghost">
+            <%= gettext("login") %>
+          </.button>
+        </.link>
       </div>
     </div>
     """

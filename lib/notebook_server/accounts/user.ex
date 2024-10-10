@@ -13,7 +13,7 @@ defmodule NotebookServer.Accounts.User do
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :current_password, :string, virtual: true, redact: true
-    field :status, Ecto.Enum, values: [:active, :inactive], default: :active
+    field :status, Ecto.Enum, values: [:active, :inactive, :stopped], default: :active
     field :language, Ecto.Enum, values: [:en, :es], default: :es
     field :confirmed_at, :utc_datetime
     field :role, Ecto.Enum, values: [:admin, :org_admin, :user], default: :user
@@ -56,7 +56,9 @@ defmodule NotebookServer.Accounts.User do
 
   def validate_status(changeset) do
     changeset
-    |> validate_inclusion(:status, [:active, :inactive], message: gettext("invalid_user_status"))
+    |> validate_inclusion(:status, [:active, :inactive, :stopped],
+      message: gettext("invalid_user_status")
+    )
   end
 
   def validate_language(changeset) do
@@ -80,11 +82,19 @@ defmodule NotebookServer.Accounts.User do
     change(user, confirmed_at: now)
   end
 
+  def stop_changeset(user) do
+    change(user, status: :stopped)
+  end
+
   def deactivation_changeset(user) do
     change(user, status: :inactive)
   end
 
   def activation_changeset(user) do
     change(user, status: :active)
+  end
+
+  def can_use_platform?(user) do
+    user.status == :active and user.confirmed_at != nil
   end
 end

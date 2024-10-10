@@ -2,7 +2,9 @@
   <%= gettext("orgs") %>
   <:actions>
     <.link patch={~p"/orgs/new"}>
-      <.button icon="plus_circle"><%= gettext("org") %></.button>
+      <.button icon="plus_circle" disabled={!User.can_use_platform?(@current_user)}>
+        <%= gettext("org") %>
+      </.button>
     </.link>
   </:actions>
 </.page_header>
@@ -28,6 +30,7 @@
           icon="power-off"
           phx-value-id={org.id}
           phx-click="deactivate"
+          disabled={!User.can_use_platform?(@current_user)}
         >
           <%= gettext("deactivate") %>
         </.button>
@@ -38,15 +41,23 @@
           icon="power"
           phx-value-id={org.id}
           phx-click="activate"
+          disabled={!User.can_use_platform?(@current_user)}
         >
           <%= gettext("activate") %>
         </.button>
       <% end %>
     </:action>
     <:action :let={{_id, org}}>
-      <.button_link size="icon" variant="outline" icon="pencil" patch={~p"/orgs/#{org}/edit"}>
-        <%= gettext("edit") %>
-      </.button_link>
+      <.link patch={~p"/orgs/#{org.id}/edit"}>
+        <.button
+          size="icon"
+          variant="outline"
+          icon="pencil"
+          disabled={!User.can_use_platform?(@current_user)}
+        >
+          <%= gettext("edit") %>
+        </.button>
+      </.link>
     </:action>
     <:action :let={{id, org}}>
       <.button
@@ -55,12 +66,13 @@
         icon="trash"
         phx-click={JS.push("delete", value: %{id: org.id}) |> hide("##{id}")}
         data-confirm={gettext("are_you_sure")}
+        disabled={!User.can_use_platform?(@current_user)}
       >
         <%= gettext("delete") %>
       </.button>
     </:action>
   </.table>
-  <.pagination page={1} total_pages={1} />
+  <.pagination page={1} total_pages={1} disabled={!User.can_use_platform?(@current_user)} />
 </.page_content>
 
 <.modal :if={@live_action in [:new, :edit]} id="org-modal" show on_cancel={JS.patch(~p"/orgs")}>

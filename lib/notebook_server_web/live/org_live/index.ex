@@ -3,6 +3,7 @@ defmodule NotebookServerWeb.OrgLive.Index do
 
   alias NotebookServer.Orgs
   alias NotebookServer.Orgs.Org
+  alias NotebookServer.Accounts.User
   use Gettext, backend: NotebookServerWeb.Gettext
 
   @impl true

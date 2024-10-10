@@ -238,70 +238,31 @@ defmodule NotebookServerWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        "phx-submit-loading:opacity-75 rounded-lg flex items-center justify-center group",
+        "phx-submit-loading:opacity-75 disabled:opacity-50 rounded-lg flex items-center justify-center group",
         "text-sm font-semibold leading-6",
         @size == "lg" && "py-3 px-4 gap-2",
         @size == "md" && "py-2 px-3 gap-2",
         @size == "sm" && "py-1 px-2 gap-2",
         @size == "icon" && "p-2",
-        @variant == "primary" && "bg-slate-900 hover:bg-slate-700 text-white active:text-white/80",
+        @variant == "primary" &&
+          "bg-slate-900 hover:bg-slate-700 text-white active:text-white/80 disabled:hover:bg-slate-900",
         @variant == "outline" &&
-          "bg-transparent shadow-sm border border-slate-200 hover:bg-slate-100",
-        @variant == "ghost" && "bg-transparent shadow-sm hover:bg-slate-100",
+          "bg-transparent shadow-sm border border-slate-200 hover:bg-slate-100 disabled:hover:bg-transparent",
+        @variant == "ghost" && "bg-transparent  hover:bg-slate-100 disabled:hover:bg-transparent",
         @class
       ]}
       {@rest}
     >
-      <Lucide.render :if={@icon} icon={@icon} class="w-4 h-4 group-[.phx-submit-loading]:hidden" />
-      <Lucide.loader class="w-4 h-4 animate-spin hidden group-[.phx-submit-loading]:block" />
-      <span class={[@size == "icon" && "sr-only"]}><%= render_slot(@inner_block) %></span>
+      <Lucide.render
+        :if={@icon}
+        icon={@icon}
+        class="w-4 h-4 group-[.phx-submit-loading]:hidden group-disabled:opacity-75"
+      />
+      <Lucide.loader class="w-4 h-4 animate-spin hidden group-[.phx-submit-loading]:block group-disabled:opacity-50" />
+      <span class={[@size == "icon" && "sr-only", "group-disabled:opacity-75"]}>
+        <%= render_slot(@inner_block) %>
+      </span>
     </button>
-    """
-  end
-
-  @doc """
-  Renders a button.
-
-  ## Examples
-
-      <.button>Send!</.button>
-      <.button phx-click="go" class="ml-2">Send!</.button>
-  """
-  attr :variant, :string, default: "primary"
-  attr :size, :string, default: "md"
-  attr :class, :string, default: nil
-  attr :patch, :string, default: nil
-  attr :navigate, :string, default: nil
-  attr :href, :string, default: nil
-  attr :icon, :string, default: nil
-  attr :rest, :global, include: ~w(disabled form name value)
-
-  slot :inner_block, required: true
-
-  def button_link(assigns) do
-    ~H"""
-    <.link
-      href={@href}
-      patch={@patch}
-      navigate={@navigate}
-      class={[
-        "rounded-lg flex items-center justify-center group",
-        "text-sm font-semibold leading-6",
-        @size == "lg" && "py-3 px-4 gap-2",
-        @size == "md" && "py-2 px-3 gap-2",
-        @size == "sm" && "py-1 px-2 gap-2",
-        @size == "icon" && "p-2",
-        @variant == "primary" && "bg-slate-900 hover:bg-slate-700 text-white active:text-white/80",
-        @variant == "outline" &&
-          "bg-transparent shadow-sm border border-slate-200 hover:bg-slate-100",
-        @variant == "ghost" && "hover:bg-slate-100",
-        @class
-      ]}
-      {@rest}
-    >
-      <Lucide.render :if={@icon} icon={@icon} class="w-4 h-4" />
-      <span class={[@size == "icon" && "sr-only"]}><%= render_slot(@inner_block) %></span>
-    </.link>
     """
   end
 
@@ -628,6 +589,7 @@ defmodule NotebookServerWeb.CoreComponents do
   end
 
   attr :page, :integer, required: true
+  attr :disabled, :boolean, default: false
   attr :total_pages, :integer, required: true
 
   def pagination(assigns) do
@@ -635,24 +597,40 @@ defmodule NotebookServerWeb.CoreComponents do
     <div class="flex items-center justify-end gap-8">
       <div class="flex items-center gap-2 text-sm font-semibold">
         <span><%= gettext("rows_per_page") %>:</span>
-        <.input name="rows_per_page" value="10" type="select" options={["10", "25", "50", "100"]} />
+        <.input
+          name="rows_per_page"
+          value="10"
+          type="select"
+          options={["10", "25", "50", "100"]}
+          disabled={@disabled}
+        />
       </div>
       <p class="text-sm font-semibold">
         <%= gettext("page") %> <%= @page %> <%= gettext("of") %> <%= @total_pages %>
       </p>
       <div class="flex items-center gap-2">
-        <.button_link size="icon" icon="chevrons-left" variant="outline">
+        <.button size="icon" icon="chevrons-left" variant="outline" disabled={@page == 1 || @disabled}>
           <%= gettext("last_page") %>
-        </.button_link>
-        <.button_link size="icon" icon="chevron-left" variant="outline">
+        </.button>
+        <.button size="icon" icon="chevron-left" variant="outline" disabled={@page == 1 || @disabled}>
           <%= gettext("previous_page") %>
-        </.button_link>
-        <.button_link size="icon" icon="chevron-right" variant="outline">
+        </.button>
+        <.button
+          size="icon"
+          icon="chevron-right"
+          variant="outline"
+          disabled={@page == @total_pages || @disabled}
+        >
           <%= gettext("next_page") %>
-        </.button_link>
-        <.button_link size="icon" icon="chevrons-right" variant="outline">
+        </.button>
+        <.button
+          size="icon"
+          icon="chevrons-right"
+          variant="outline"
+          disabled={@page == @total_pages || @disabled}
+        >
           <%= gettext("first_page") %>
-        </.button_link>
+        </.button>
       </div>
     </div>
     """
