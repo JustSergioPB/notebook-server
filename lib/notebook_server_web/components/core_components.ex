@@ -272,6 +272,7 @@ defmodule NotebookServerWeb.CoreComponents do
   attr :class, :string, default: nil
   attr :patch, :string, default: nil
   attr :navigate, :string, default: nil
+  attr :href, :string, default: nil
   attr :icon, :string, default: nil
   attr :rest, :global, include: ~w(disabled form name value)
 
@@ -280,6 +281,7 @@ defmodule NotebookServerWeb.CoreComponents do
   def button_link(assigns) do
     ~H"""
     <.link
+      href={@href}
       patch={@patch}
       navigate={@navigate}
       class={[
@@ -292,7 +294,7 @@ defmodule NotebookServerWeb.CoreComponents do
         @variant == "primary" && "bg-slate-900 hover:bg-slate-700 text-white active:text-white/80",
         @variant == "outline" &&
           "bg-transparent shadow-sm border border-slate-200 hover:bg-slate-100",
-        @variant == "ghost" && "bg-transparent shadow-sm hover:bg-slate-100",
+        @variant == "ghost" && "hover:bg-slate-100",
         @class
       ]}
       {@rest}

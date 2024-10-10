@@ -38,11 +38,19 @@ defmodule NotebookServerWeb.UserLoginLive do
           </.button>
         </:actions>
       </.simple_form>
-      <div class="text-sm gap-2 text-center">
-        <%= gettext("dont_have_account") %>
-        <.link class="font-bold hover:underline" patch={~p"/register"}>
-          <%= gettext("register") %>
-        </.link>
+      <div class="space-y-4">
+        <div class="text-sm gap-2 text-center">
+          <%= gettext("dont_have_account") %>
+          <.link class="font-bold hover:underline" patch={~p"/register"}>
+            <%= gettext("register") %>
+          </.link>
+        </div>
+        <div class="text-sm gap-2 text-center">
+          <%= gettext("dont_have_confirmation") %>
+          <.link class="font-bold hover:underline" patch={~p"/confirm"}>
+            <%= gettext("confirm") %>
+          </.link>
+        </div>
       </div>
     </div>
     """

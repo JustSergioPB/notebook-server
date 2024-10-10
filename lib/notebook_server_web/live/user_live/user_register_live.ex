@@ -14,7 +14,15 @@ defmodule NotebookServerWeb.UserRegisterLive do
           <%= gettext("register_subtitle") %>
         </:subtitle>
       </.header>
-      <.simple_form for={@form} phx-change="validate" phx-submit="register">
+      <.simple_form
+        for={@form}
+        id="registration_form"
+        phx-change="validate"
+        phx-submit="register"
+        phx-trigger-action={@trigger_submit}
+        action={~p"/login?_action=registered"}
+        method="post"
+      >
         <div class="flex items-center gap-4">
           <.input
             class="w-1/3"
@@ -77,7 +85,12 @@ defmodule NotebookServerWeb.UserRegisterLive do
 
   def mount(_params, _session, socket) do
     changeset = Accounts.change_user_register(%UserRegister{})
-    {:ok, assign(socket, form: to_form(changeset))}
+
+    socket =
+      socket
+      |> assign(trigger_submit: false, form: to_form(changeset))
+
+    {:ok, socket, temporary_assigns: [form: nil]}
   end
 
   def handle_event("validate", %{"user_register" => user_params}, socket) do
@@ -87,11 +100,15 @@ defmodule NotebookServerWeb.UserRegisterLive do
 
   def handle_event("register", %{"user_register" => user_params}, socket) do
     case Accounts.register_user(user_params) do
-      {:ok, _user} ->
-        {:noreply,
-         socket
-         |> put_flash(:info, gettext("user_register_success"))
-         |> redirect(to: ~p"/login")}
+      {:ok, user} ->
+        {:ok, _} =
+          Accounts.deliver_user_confirmation_instructions(
+            user,
+            &url(~p"/confirm/#{&1}")
+          )
+
+        changeset = Accounts.change_user_register(%UserRegister{}, user_params)
+        {:noreply, socket |> assign(trigger_submit: true) |> assign(form: to_form(changeset))}
 
       {:error, changeset} ->
         {:noreply,

@@ -73,8 +73,6 @@ defmodule NotebookServerWeb.Router do
       live "/settings", UserSettingsLive, :edit
       live "/dashboard", DashboardLive
 
-      delete "/logout", UserSessionController, :delete
-
       scope "/orgs" do
         pipe_through :require_admin_user
 
@@ -92,6 +90,18 @@ defmodule NotebookServerWeb.Router do
         live "/:id", UserLive.Show, :show
         live "/:id/show/edit", UserLive.Show, :edit
       end
+    end
+  end
+
+  scope "/", NotebookServerWeb do
+    pipe_through [:browser]
+
+    delete "/logout", UserSessionController, :delete
+
+    live_session :current_user,
+      on_mount: [{NotebookServerWeb.UserAuth, :mount_current_user}] do
+      live "/confirm/:token", UserConfirmationLive, :edit
+      live "/confirm", UserConfirmationInstructionsLive, :new
     end
   end
 end
