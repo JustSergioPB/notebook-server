@@ -505,3 +505,133 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "dashboard"
 msgstr ""
+
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:100
+#, elixir-autogen, elixir-format
+msgid "user_register_error"
+msgstr ""
+
+#: lib/notebook_server_web/controllers/user_session_controller.ex:9
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:93
+#, elixir-autogen, elixir-format
+msgid "user_register_success"
+msgstr ""
+
+#: lib/notebook_server_web/controllers/user_session_controller.ex:34
+#, elixir-autogen, elixir-format
+msgid "user_login_error"
+msgstr ""
+
+#: lib/notebook_server_web/controllers/user_session_controller.ex:21
+#, elixir-autogen, elixir-format
+msgid "user_login_success"
+msgstr ""
+
+#: lib/notebook_server_web/controllers/user_session_controller.ex:42
+#, elixir-autogen, elixir-format
+msgid "user_logout_success"
+msgstr ""
+
+#: lib/notebook_server_web/controllers/user_session_controller.ex:15
+#, elixir-autogen, elixir-format
+msgid "user_password_updated_success"
+msgstr ""
+
+#: lib/notebook_server/accounts/user.ex:39
+#: lib/notebook_server/accounts/user.ex:49
+#: lib/notebook_server/accounts/user.ex:69
+#: lib/notebook_server/accounts/user_email.ex:23
+#: lib/notebook_server/accounts/user_password.ex:27
+#, elixir-autogen, elixir-format
+msgid "field_required"
+msgstr ""
+
+#: lib/notebook_server/accounts/user.ex:64
+#, elixir-autogen, elixir-format
+msgid "invalid_user_language"
+msgstr ""
+
+#: lib/notebook_server/accounts/user.ex:71
+#, elixir-autogen, elixir-format
+msgid "invalid_user_role"
+msgstr ""
+
+#: lib/notebook_server/accounts/user.ex:59
+#, elixir-autogen, elixir-format
+msgid "invalid_user_status"
+msgstr ""
+
+#: lib/notebook_server/accounts/user_email.ex:25
+#, elixir-autogen, elixir-format
+msgid "max_length %{max}"
+msgstr ""
+
+#: lib/notebook_server/orgs/org.ex:35
+#, elixir-autogen, elixir-format
+msgid "org_name_length %{min} %{max}"
+msgstr ""
+
+#: lib/notebook_server/orgs/org.ex:44
+#, elixir-autogen, elixir-format
+msgid "org_name_must_be_unique"
+msgstr ""
+
+#: lib/notebook_server/orgs/org.ex:31
+#, elixir-autogen, elixir-format
+msgid "org_name_required"
+msgstr ""
+
+#: lib/notebook_server/accounts/user_email.ex:17
+#, elixir-autogen, elixir-format
+msgid "user_email_did_not_change"
+msgstr ""
+
+#: lib/notebook_server/accounts/user_email.ex:24
+#, elixir-autogen, elixir-format
+msgid "user_email_invalid"
+msgstr ""
+
+#: lib/notebook_server/accounts/user_email.ex:33
+#, elixir-autogen, elixir-format
+msgid "user_email_must_be_unique"
+msgstr ""
+
+#: lib/notebook_server/accounts/user.ex:53
+#, elixir-autogen, elixir-format
+msgid "user_last_name_length %{min} %{max}"
+msgstr ""
+
+#: lib/notebook_server/accounts/user.ex:43
+#, elixir-autogen, elixir-format
+msgid "user_name_length %{min} %{max}"
+msgstr ""
+
+#: lib/notebook_server/accounts/user_password.ex:40
+#, elixir-autogen, elixir-format
+msgid "user_password_at_least_one_digit_or_punctuation_character"
+msgstr ""
+
+#: lib/notebook_server/accounts/user_password.ex:34
+#, elixir-autogen, elixir-format
+msgid "user_password_at_least_one_lower_case_character"
+msgstr ""
+
+#: lib/notebook_server/accounts/user_password.ex:37
+#, elixir-autogen, elixir-format
+msgid "user_password_at_least_one_upper_case_character"
+msgstr ""
+
+#: lib/notebook_server/accounts/user_password.ex:21
+#, elixir-autogen, elixir-format
+msgid "user_password_does_not_match"
+msgstr ""
+
+#: lib/notebook_server/accounts/user_password.ex:54
+#, elixir-autogen, elixir-format
+msgid "user_password_is_not_valid"
+msgstr ""
+
+#: lib/notebook_server/accounts/user_password.ex:31
+#, elixir-autogen, elixir-format
+msgid "user_password_length %{min} %{max}"
+msgstr ""

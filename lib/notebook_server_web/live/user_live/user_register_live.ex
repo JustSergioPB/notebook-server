@@ -90,14 +90,14 @@ defmodule NotebookServerWeb.UserRegisterLive do
       {:ok, _user} ->
         {:noreply,
          socket
-         |> put_flash(:info, "User registered successfully, please login to continue")
+         |> put_flash(:info, gettext("user_register_success"))
          |> redirect(to: ~p"/login")}
 
       {:error, changeset} ->
         {:noreply,
          socket
          |> assign(form: to_form(changeset))
-         |> put_flash(:error, "Either email or org name are already taken")}
+         |> put_flash(:error, gettext("user_register_error"))}
     end
   end
 end

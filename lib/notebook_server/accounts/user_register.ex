@@ -2,8 +2,11 @@ defmodule NotebookServer.Accounts.UserRegister do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias NotebookServer.Orgs.Org
+  alias NotebookServer.Accounts.User
   alias NotebookServer.Accounts.UserEmail
   alias NotebookServer.Accounts.UserPassword
+  use Gettext, backend: NotebookServerWeb.Gettext
 
   schema "user_register" do
     field :name, :string
@@ -39,10 +42,9 @@ defmodule NotebookServer.Accounts.UserRegister do
   def changeset(user, attrs) do
     user
     |> cast(attrs, [:email, :password, :name, :last_name, :org_name])
-    |> validate_required([:email, :password, :name, :last_name, :org_name])
-    |> validate_length(:name, min: 3, message: "must be at least 3 characters")
-    |> validate_length(:last_name, min: 3, message: "must be at least 3 characters")
-    |> validate_length(:org_name, min: 3, message: "must be at least 3 characters")
+    |> User.validate_name()
+    |> User.validate_last_name()
+    |> Org.validate_name(:org_name, validate_unique: false)
     |> UserEmail.validate(validate_email: false)
     |> UserPassword.validate(hash_password: false)
   end

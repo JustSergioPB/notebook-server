@@ -1,6 +1,7 @@
 defmodule NotebookServer.Accounts.UserPassword do
   use Ecto.Schema
   import Ecto.Changeset
+  use Gettext, backend: NotebookServerWeb.Gettext
 
   @doc """
   A user changeset for changing the password.
@@ -17,18 +18,26 @@ defmodule NotebookServer.Accounts.UserPassword do
   def changeset(user, attrs, opts \\ []) do
     user
     |> cast(attrs, [:password])
-    |> validate_confirmation(:password, message: "does not match password")
+    |> validate_confirmation(:password, message: gettext("user_password_does_not_match"))
     |> validate(opts)
   end
 
   def validate(changeset, opts) do
     changeset
-    |> validate_required([:password])
-    |> validate_length(:password, min: 12, max: 72)
-    |> validate_format(:password, ~r/[a-z]/, message: "at least one lower case character")
-    |> validate_format(:password, ~r/[A-Z]/, message: "at least one upper case character")
+    |> validate_required([:password], message: gettext("field_required"))
+    |> validate_length(:password,
+      min: 12,
+      max: 72,
+      message: gettext("user_password_length %{min} %{max}", min: 12, max: 72)
+    )
+    |> validate_format(:password, ~r/[a-z]/,
+      message: gettext("user_password_at_least_one_lower_case_character")
+    )
+    |> validate_format(:password, ~r/[A-Z]/,
+      message: gettext("user_password_at_least_one_upper_case_character")
+    )
     |> validate_format(:password, ~r/[!?@#$%^&*_0-9]/,
-      message: "at least one digit or punctuation character"
+      message: gettext("user_password_at_least_one_digit_or_punctuation_character")
     )
     |> maybe_hash(opts)
   end
@@ -42,7 +51,7 @@ defmodule NotebookServer.Accounts.UserPassword do
     if valid?(changeset.data, password) do
       changeset
     else
-      add_error(changeset, :current_password, "is not valid")
+      add_error(changeset, :current_password, gettext("user_password_is_not_valid"))
     end
   end
 

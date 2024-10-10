@@ -1,6 +1,7 @@
 defmodule NotebookServer.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
+  use Gettext, backend: NotebookServerWeb.Gettext
 
   alias NotebookServer.Accounts.UserEmail
   alias NotebookServer.Accounts.UserPassword
@@ -24,9 +25,51 @@ defmodule NotebookServer.Accounts.User do
   def changeset(user, attrs \\ %{}, opts \\ []) do
     user
     |> cast(attrs, [:name, :last_name, :email, :role, :org_id, :password])
-    |> validate_required([:name, :last_name, :email, :role, :org_id, :password])
+    |> validate_name()
+    |> validate_last_name()
     |> UserEmail.validate(opts)
     |> UserPassword.validate(opts)
+    |> validate_role()
+    |> validate_status()
+    |> validate_language()
+  end
+
+  def validate_name(changeset) do
+    changeset
+    |> validate_required([:name], message: gettext("field_required"))
+    |> validate_length(:name,
+      min: 2,
+      max: 50,
+      message: gettext("user_name_length %{min} %{max}", min: 2, max: 50)
+    )
+  end
+
+  def validate_last_name(changeset) do
+    changeset
+    |> validate_required([:last_name], message: gettext("field_required"))
+    |> validate_length(:last_name,
+      min: 2,
+      max: 50,
+      message: gettext("user_last_name_length %{min} %{max}", min: 2, max: 50)
+    )
+  end
+
+  def validate_status(changeset) do
+    changeset
+    |> validate_inclusion(:status, [:active, :inactive], message: gettext("invalid_user_status"))
+  end
+
+  def validate_language(changeset) do
+    changeset
+    |> validate_inclusion(:language, [:en, :es], message: gettext("invalid_user_language"))
+  end
+
+  def validate_role(changeset) do
+    changeset
+    |> validate_required([:role], message: gettext("field_required"))
+    |> validate_inclusion(:role, [:admin, :org_admin, :user],
+      message: gettext("invalid_user_role")
+    )
   end
 
   @doc """
