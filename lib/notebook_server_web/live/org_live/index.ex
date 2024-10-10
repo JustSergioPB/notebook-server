@@ -62,4 +62,11 @@ defmodule NotebookServerWeb.OrgLive.Index do
 
     {:noreply, stream(socket, :orgs, Orgs.list_orgs())}
   end
+
+  def handle_event("stop", %{"id" => id}, socket) do
+    org = Orgs.get_org!(id)
+    {:ok, _} = Orgs.stop_org(org)
+
+    {:noreply, stream(socket, :orgs, Orgs.list_orgs())}
+  end
 end

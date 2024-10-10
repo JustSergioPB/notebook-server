@@ -433,4 +433,10 @@ defmodule NotebookServer.Accounts do
     |> User.activation_changeset()
     |> Repo.update()
   end
+
+  def stop_user(user) do
+    user
+    |> User.stop_changeset()
+    |> Repo.update()
+  end
 end

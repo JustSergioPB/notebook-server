@@ -824,16 +824,19 @@ defmodule NotebookServerWeb.CoreComponents do
       "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs",
       @variant == :inactive && "bg-slate-100 text-slate-700",
       @variant == :active && "bg-green-100 text-green-600",
+      @variant == :stopped && "bg-red-100 text-red-600",
       @class
     ]}>
       <div class={[
         "h-[6px] w-[6px] rounded-full",
         @variant == :inactive && "bg-slate-200",
-        @variant == :active && "bg-green-600"
+        @variant == :active && "bg-green-600",
+        @variant == :stopped && "bg-red-600"
       ]}>
       </div>
       <span :if={@variant == :active}><%= gettext("active") %></span>
       <span :if={@variant == :inactive}><%= gettext("inactive") %></span>
+      <span :if={@variant == :stopped}><%= gettext("stopped") %></span>
     </div>
     """
   end

@@ -108,4 +108,10 @@ defmodule NotebookServer.Orgs do
     |> Org.activation_changeset()
     |> Repo.update()
   end
+
+  def stop_org(%Org{} = org) do
+    org
+    |> Org.stop_changeset()
+    |> Repo.update()
+  end
 end

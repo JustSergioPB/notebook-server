@@ -61,4 +61,12 @@ defmodule NotebookServerWeb.UserLive.Index do
 
     {:noreply, stream(socket, :users, Accounts.list_users())}
   end
+
+  @impl true
+  def handle_event("stop", %{"id" => id}, socket) do
+    user = Accounts.get_user!(id)
+    {:ok, _} = Accounts.stop_user(user)
+
+    {:noreply, stream(socket, :users, Accounts.list_users())}
+  end
 end

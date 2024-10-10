@@ -5,7 +5,7 @@ defmodule NotebookServer.Orgs.Org do
 
   schema "orgs" do
     field :name, :string
-    field :status, Ecto.Enum, values: [:active, :inactive], default: :active
+    field :status, Ecto.Enum, values: [:active, :inactive, :stopped], default: :active
     has_many :users, NotebookServer.Accounts.User
 
     timestamps(type: :utc_datetime)
@@ -24,6 +24,10 @@ defmodule NotebookServer.Orgs.Org do
 
   def activation_changeset(org) do
     change(org, status: :active)
+  end
+
+  def stop_changeset(org) do
+    change(org, status: :stopped)
   end
 
   def validate_name(changeset, field, opts \\ []) do

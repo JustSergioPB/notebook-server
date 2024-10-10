@@ -54,6 +54,31 @@
       <% end %>
     </:action>
     <:action :let={{_id, user}}>
+      <%= if user.status != :stopped do %>
+        <.button
+          size="icon"
+          variant="outline"
+          icon="pause"
+          phx-value-id={user.id}
+          phx-click="stop"
+          disabled={!User.can_use_platform?(@current_user)}
+        >
+          <%= gettext("deactivate") %>
+        </.button>
+      <% else %>
+        <.button
+          size="icon"
+          variant="outline"
+          icon="play"
+          phx-value-id={user.id}
+          phx-click="deactivate"
+          disabled={!User.can_use_platform?(@current_user)}
+        >
+          <%= gettext("deactivate") %>
+        </.button>
+      <% end %>
+    </:action>
+    <:action :let={{_id, user}}>
       <.link patch={~p"/users/#{user.id}/edit"}>
         <.button
           size="icon"
