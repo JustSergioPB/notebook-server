@@ -520,7 +520,7 @@ msgstr "There is already a user with that email or organisation name"
 #: lib/notebook_server_web/controllers/user_session_controller.ex:9
 #, elixir-autogen, elixir-format
 msgid "user_register_success"
-msgstr "User registered successfully, we've sent you an email to verify your account. Please verify it and login to continue"
+msgstr "User registered successfully, we've sent you an email to verify your account. Please verify it in order to use the platform."
 
 #: lib/notebook_server_web/controllers/user_session_controller.ex:34
 #: lib/notebook_server_web/controllers/user_session_controller.ex:50
@@ -691,4 +691,4 @@ msgstr "User confirmed successfully"
 #: lib/notebook_server_web/live/user_live/user_login_live.ex:48
 #, elixir-autogen, elixir-format, fuzzy
 msgid "dont_have_confirmation"
-msgstr "Haven't received the confirmation email?"
+msgstr "Haven't received the confirmation email or has expired?"

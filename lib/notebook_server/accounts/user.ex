@@ -24,7 +24,7 @@ defmodule NotebookServer.Accounts.User do
 
   def changeset(user, attrs \\ %{}, opts \\ []) do
     user
-    |> cast(attrs, [:name, :last_name, :email, :role, :org_id, :password])
+    |> cast(attrs, [:name, :last_name, :email, :role, :org_id, :password, :status])
     |> validate_name()
     |> validate_last_name()
     |> UserEmail.validate(opts)

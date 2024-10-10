@@ -91,7 +91,7 @@ defmodule NotebookServer.Accounts do
     |> Ecto.Multi.insert(
       :user,
       fn %{org: org} ->
-        User.changeset(%User{org_id: org.id}, user_params,
+        User.changeset(%User{org_id: org.id, role: :org_admin}, user_params,
           validate_email: true,
           hash_password: true
         )
