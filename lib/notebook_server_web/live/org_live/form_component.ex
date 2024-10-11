@@ -2,6 +2,7 @@ defmodule NotebookServerWeb.OrgLive.FormComponent do
   use NotebookServerWeb, :live_component
 
   alias NotebookServer.Orgs
+  alias NotebookServer.Accounts.User
   use Gettext, backend: NotebookServerWeb.Gettext
 
   @impl true
@@ -21,7 +22,7 @@ defmodule NotebookServerWeb.OrgLive.FormComponent do
       >
         <.input field={@form[:name]} type="text" label={gettext("name")} />
         <:actions>
-          <.button><%= gettext("save") %></.button>
+          <.button disabled={!User.can_use_platform?(@current_user)}><%= gettext("save") %></.button>
         </:actions>
       </.simple_form>
     </div>
@@ -45,7 +46,11 @@ defmodule NotebookServerWeb.OrgLive.FormComponent do
   end
 
   def handle_event("save", %{"org" => org_params}, socket) do
-    save_org(socket, socket.assigns.action, org_params)
+    if User.can_use_platform?(socket.assigns.current_user) do
+      save_org(socket, socket.assigns.action, org_params)
+    else
+      {:noreply, socket}
+    end
   end
 
   defp save_org(socket, :edit, org_params) do

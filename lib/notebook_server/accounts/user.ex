@@ -95,6 +95,6 @@ defmodule NotebookServer.Accounts.User do
   end
 
   def can_use_platform?(user) do
-    user.status == :active and user.confirmed_at != nil
+    user.status == :active and user.confirmed_at != nil and user.org.status == :active
   end
 end
