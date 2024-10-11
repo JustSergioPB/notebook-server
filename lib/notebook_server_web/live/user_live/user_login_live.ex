@@ -4,8 +4,8 @@ defmodule NotebookServerWeb.UserLoginLive do
 
   def render(assigns) do
     ~H"""
-    <div class="w-1/2">
-      <.header class="mb-12">
+    <div class="w-1/2 space-y-12">
+      <.header>
         <%= gettext("login_title") %>
         <:subtitle>
           <%= gettext("login_subtitle") %>
@@ -38,6 +38,20 @@ defmodule NotebookServerWeb.UserLoginLive do
           </.button>
         </:actions>
       </.simple_form>
+      <div class="space-y-4">
+        <div class="text-sm gap-2 text-center">
+          <%= gettext("dont_have_account") %>
+          <.link class="font-bold hover:underline" patch={~p"/register"}>
+            <%= gettext("register") %>
+          </.link>
+        </div>
+        <div class="text-sm gap-2 text-center">
+          <%= gettext("dont_have_confirmation") %>
+          <.link class="font-bold hover:underline" patch={~p"/confirm"}>
+            <%= gettext("confirm") %>
+          </.link>
+        </div>
+      </div>
     </div>
     """
   end

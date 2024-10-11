@@ -7,7 +7,9 @@ defmodule NotebookServerWeb.UserLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, stream(socket, :users, Accounts.list_users())}
+    org_id = socket.assigns.current_user.org_id
+    opts = if socket.assigns.current_user.role == :admin, do: [], else: [org_id: org_id]
+    {:ok, stream(socket, :users, Accounts.list_users(opts))}
   end
 
   @impl true
@@ -40,25 +42,54 @@ defmodule NotebookServerWeb.UserLive.Index do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    user = Accounts.get_user!(id)
-    {:ok, _} = Accounts.delete_user(user)
-
-    {:noreply, stream_delete(socket, :users, user)}
+    if User.can_use_platform?(socket.assigns.current_user) do
+      user = Accounts.get_user!(id)
+      {:ok, _} = Accounts.delete_user(user)
+      {:noreply, stream_delete(socket, :users, user)}
+    else
+      {:noreply, socket}
+    end
   end
 
   @impl true
   def handle_event("deactivate", %{"id" => id}, socket) do
-    user = Accounts.get_user!(id)
-    {:ok, _} = Accounts.deactivate_user(user)
-
-    {:noreply, stream(socket, :users, Accounts.list_users())}
+    if User.can_use_platform?(socket.assigns.current_user) do
+      opts = org_filter(socket)
+      user = Accounts.get_user!(id)
+      {:ok, _} = Accounts.deactivate_user(user)
+      {:noreply, stream(socket, :users, Accounts.list_users(opts))}
+    else
+      {:noreply, socket}
+    end
   end
 
   @impl true
   def handle_event("activate", %{"id" => id}, socket) do
-    user = Accounts.get_user!(id)
-    {:ok, _} = Accounts.activate_user(user)
+    if User.can_use_platform?(socket.assigns.current_user) do
+      opts = org_filter(socket)
+      user = Accounts.get_user!(id)
+      {:ok, _} = Accounts.activate_user(user)
+      {:noreply, stream(socket, :users, Accounts.list_users(opts))}
+    else
+      {:noreply, socket}
+    end
+  end
 
-    {:noreply, stream(socket, :users, Accounts.list_users())}
+  @impl true
+  def handle_event("stop", %{"id" => id}, socket) do
+    if User.can_use_platform?(socket.assigns.current_user) do
+      user = Accounts.get_user!(id)
+      opts = org_filter(socket)
+      {:ok, _} = Accounts.stop_user(user)
+      {:noreply, stream(socket, :users, Accounts.list_users(opts))}
+    else
+      {:noreply, socket}
+    end
+  end
+
+  defp org_filter(socket) do
+    if socket.assigns.current_user.role == :admin,
+      do: [],
+      else: [org_id: socket.assigns.current_user.org_id]
   end
 end

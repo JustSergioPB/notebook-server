@@ -3,6 +3,7 @@ defmodule NotebookServerWeb.OrgLive.Index do
 
   alias NotebookServer.Orgs
   alias NotebookServer.Orgs.Org
+  alias NotebookServer.Accounts.User
   use Gettext, backend: NotebookServerWeb.Gettext
 
   @impl true
@@ -40,25 +41,44 @@ defmodule NotebookServerWeb.OrgLive.Index do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    org = Orgs.get_org!(id)
-    {:ok, _} = Orgs.delete_org(org)
-
-    {:noreply, stream_delete(socket, :orgs, org)}
+    if User.can_use_platform?(socket.assigns.current_user) do
+      org = Orgs.get_org!(id)
+      {:ok, _} = Orgs.delete_org(org)
+      {:noreply, stream_delete(socket, :orgs, org)}
+    else
+      {:noreply, socket}
+    end
   end
 
   @impl true
   def handle_event("deactivate", %{"id" => id}, socket) do
-    org = Orgs.get_org!(id)
-    {:ok, _} = Orgs.deactivate_org(org)
-
-    {:noreply, stream(socket, :orgs, Orgs.list_orgs())}
+    if User.can_use_platform?(socket.assigns.current_user) do
+      org = Orgs.get_org!(id)
+      {:ok, _} = Orgs.deactivate_org(org)
+      {:noreply, stream(socket, :orgs, Orgs.list_orgs())}
+    else
+      {:noreply, socket}
+    end
   end
 
   @impl true
   def handle_event("activate", %{"id" => id}, socket) do
-    org = Orgs.get_org!(id)
-    {:ok, _} = Orgs.activate_org(org)
+    if User.can_use_platform?(socket.assigns.current_user) do
+      org = Orgs.get_org!(id)
+      {:ok, _} = Orgs.deactivate_org(org)
+      {:noreply, stream(socket, :orgs, Orgs.list_orgs())}
+    else
+      {:noreply, socket}
+    end
+  end
 
-    {:noreply, stream(socket, :orgs, Orgs.list_orgs())}
+  def handle_event("stop", %{"id" => id}, socket) do
+    if User.can_use_platform?(socket.assigns.current_user) do
+      org = Orgs.get_org!(id)
+      {:ok, _} = Orgs.stop_org(org)
+      {:noreply, stream(socket, :orgs, Orgs.list_orgs())}
+    else
+      {:noreply, socket}
+    end
   end
 end

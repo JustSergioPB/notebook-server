@@ -6,7 +6,16 @@ defmodule NotebookServer.Accounts do
   import Ecto.Query, warn: false
   alias NotebookServer.Repo
 
-  alias NotebookServer.Accounts.{User, UserToken, UserNotifier}
+  alias NotebookServer.Accounts.User
+  alias NotebookServer.Accounts.UserSettings
+  alias NotebookServer.Accounts.UserCreate
+  alias NotebookServer.Accounts.UserRegister
+  alias NotebookServer.Accounts.UserSettings
+  alias NotebookServer.Accounts.UserToken
+  alias NotebookServer.Accounts.UserNotifier
+  alias NotebookServer.Accounts.UserPassword
+  alias NotebookServer.Accounts.UserEmail
+  alias NotebookServer.Orgs.Org
 
   ## Database getters
 
@@ -41,7 +50,7 @@ defmodule NotebookServer.Accounts do
   def get_user_by_email_and_password(email, password)
       when is_binary(email) and is_binary(password) do
     user = Repo.get_by(User, email: email)
-    if User.valid_password?(user, password), do: user
+    if UserPassword.valid?(user, password), do: user
   end
 
   @doc """
@@ -75,9 +84,30 @@ defmodule NotebookServer.Accounts do
 
   """
   def register_user(attrs) do
-    %User{}
-    |> User.registration_changeset(attrs)
-    |> Repo.insert()
+    {org_name, user_params} = Map.pop(attrs, "org_name")
+
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(:org, Org.changeset(%Org{}, %{name: org_name}))
+    |> Ecto.Multi.insert(
+      :user,
+      fn %{org: org} ->
+        User.changeset(%User{org_id: org.id, role: :org_admin}, user_params,
+          validate_email: true,
+          hash_password: true
+        )
+      end
+    )
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{user: user, org: _org}} ->
+        {:ok, user}
+
+      {:error, :org, _value, _} ->
+        {:error, UserRegister.changeset(%UserRegister{}, attrs)}
+
+      {:error, :user, _value, _} ->
+        {:error, UserRegister.changeset(%UserRegister{}, attrs)}
+    end
   end
 
   @doc """
@@ -89,8 +119,8 @@ defmodule NotebookServer.Accounts do
       %Ecto.Changeset{data: %User{}}
 
   """
-  def change_user_registration(%User{} = user, attrs \\ %{}) do
-    User.registration_changeset(user, attrs, hash_password: false, validate_email: false)
+  def change_user_register(%UserRegister{} = user, attrs \\ %{}) do
+    UserRegister.changeset(user, attrs)
   end
 
   ## Settings
@@ -105,7 +135,7 @@ defmodule NotebookServer.Accounts do
 
   """
   def change_user_email(user, attrs \\ %{}) do
-    User.email_changeset(user, attrs, validate_email: false)
+    UserEmail.changeset(user, attrs, validate_email: false)
   end
 
   @doc """
@@ -123,8 +153,8 @@ defmodule NotebookServer.Accounts do
   """
   def apply_user_email(user, password, attrs) do
     user
-    |> User.email_changeset(attrs)
-    |> User.validate_current_password(password)
+    |> UserEmail.changeset(attrs)
+    |> UserPassword.validate_current(password)
     |> Ecto.Changeset.apply_action(:update)
   end
 
@@ -149,7 +179,7 @@ defmodule NotebookServer.Accounts do
   defp user_email_multi(user, email, context) do
     changeset =
       user
-      |> User.email_changeset(%{email: email})
+      |> UserEmail.changeset(%{email: email})
       |> User.confirm_changeset()
 
     Ecto.Multi.new()
@@ -184,7 +214,7 @@ defmodule NotebookServer.Accounts do
 
   """
   def change_user_password(user, attrs \\ %{}) do
-    User.password_changeset(user, attrs, hash_password: false)
+    UserPassword.changeset(user, attrs, hash_password: false)
   end
 
   @doc """
@@ -202,8 +232,8 @@ defmodule NotebookServer.Accounts do
   def update_user_password(user, password, attrs) do
     changeset =
       user
-      |> User.password_changeset(attrs)
-      |> User.validate_current_password(password)
+      |> UserPassword.changeset(attrs)
+      |> UserPassword.validate_current(password)
 
     Ecto.Multi.new()
     |> Ecto.Multi.update(:user, changeset)
@@ -231,7 +261,7 @@ defmodule NotebookServer.Accounts do
   """
   def get_user_by_session_token(token) do
     {:ok, query} = UserToken.verify_session_token_query(token)
-    Repo.one(query)
+    Repo.one(query) |> Repo.preload(:org)
   end
 
   @spec delete_user_session_token(any()) :: :ok
@@ -343,7 +373,7 @@ defmodule NotebookServer.Accounts do
   """
   def reset_user_password(user, attrs) do
     Ecto.Multi.new()
-    |> Ecto.Multi.update(:user, User.password_changeset(user, attrs))
+    |> Ecto.Multi.update(:user, UserPassword.changeset(user, attrs))
     |> Ecto.Multi.delete_all(:tokens, UserToken.by_user_and_contexts_query(user, :all))
     |> Repo.transaction()
     |> case do
@@ -353,18 +383,18 @@ defmodule NotebookServer.Accounts do
   end
 
   def change_user(user, attrs \\ %{}) do
-    User.form_changeset(user, attrs)
+    User.changeset(user, attrs)
   end
 
   def change_user_settings(user, attrs \\ %{}) do
-    User.settings_changeset(user, attrs)
+    UserSettings.changeset(user, attrs)
   end
 
   def create_user(attrs) do
     attrs_with_password = Map.put(attrs, "password", generate_random_password())
 
     %User{}
-    |> User.changeset(attrs_with_password)
+    |> UserCreate.changeset(attrs_with_password)
     |> Repo.insert()
   end
 
@@ -374,13 +404,13 @@ defmodule NotebookServer.Accounts do
 
   def update_user(user, attrs) do
     user
-    |> User.form_changeset(attrs)
+    |> User.changeset(attrs)
     |> Repo.update()
   end
 
   def update_user_settings(user, attrs) do
     user
-    |> User.settings_changeset(attrs)
+    |> UserSettings.changeset(attrs)
     |> Repo.update()
   end
 
@@ -388,8 +418,19 @@ defmodule NotebookServer.Accounts do
     Repo.delete(user)
   end
 
-  def list_users do
-    Repo.all(User)
+  def list_users(opts \\ []) do
+    org_id = Keyword.get(opts, :org_id)
+
+    query =
+      if(org_id) do
+        from(u in User, where: u.org_id == ^org_id)
+      else
+        from(u in User)
+      end
+
+    query = query |> order_by(desc: :inserted_at)
+
+    Repo.all(query) |> Repo.preload(:org)
   end
 
   def deactivate_user(user) do
@@ -401,6 +442,12 @@ defmodule NotebookServer.Accounts do
   def activate_user(user) do
     user
     |> User.activation_changeset()
+    |> Repo.update()
+  end
+
+  def stop_user(user) do
+    user
+    |> User.stop_changeset()
     |> Repo.update()
   end
 end

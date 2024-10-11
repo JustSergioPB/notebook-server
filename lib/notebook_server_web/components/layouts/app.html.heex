@@ -9,6 +9,11 @@
     />
     <ul class="flex-1 space-y-1">
       <.nav_link
+        label={gettext("dashboard")}
+        icon="layout-dashboard"
+        href={~p"/dashboard"}
+      />
+      <.nav_link
         :if={@current_user.role == :admin}
         label={gettext("orgs")}
         icon="building"

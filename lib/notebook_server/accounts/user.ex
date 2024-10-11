@@ -1,6 +1,10 @@
 defmodule NotebookServer.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
+  use Gettext, backend: NotebookServerWeb.Gettext
+
+  alias NotebookServer.Accounts.UserEmail
+  alias NotebookServer.Accounts.UserPassword
 
   schema "users" do
     field :name, :string
@@ -9,7 +13,7 @@ defmodule NotebookServer.Accounts.User do
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :current_password, :string, virtual: true, redact: true
-    field :status, Ecto.Enum, values: [:active, :inactive], default: :active
+    field :status, Ecto.Enum, values: [:active, :inactive, :stopped], default: :active
     field :language, Ecto.Enum, values: [:en, :es], default: :es
     field :confirmed_at, :utc_datetime
     field :role, Ecto.Enum, values: [:admin, :org_admin, :user], default: :user
@@ -18,114 +22,56 @@ defmodule NotebookServer.Accounts.User do
     timestamps(type: :utc_datetime)
   end
 
-  @doc """
-  A user changeset for registration.
-
-  It is important to validate the length of both email and password.
-  Otherwise databases may truncate the email without warnings, which
-  could lead to unpredictable or insecure behaviour. Long passwords may
-  also be very expensive to hash for certain algorithms.
-
-  ## Options
-
-    * `:hash_password` - Hashes the password so it can be stored securely
-      in the database and ensures the password field is cleared to prevent
-      leaks in the logs. If password hashing is not needed and clearing the
-      password field is not desired (like when using this changeset for
-      validations on a LiveView form), this option can be set to `false`.
-      Defaults to `true`.
-
-    * `:validate_email` - Validates the uniqueness of the email, in case
-      you don't want to validate the uniqueness of the email (like when
-      using this changeset for validations on a LiveView form before
-      submitting the form), this option can be set to `false`.
-      Defaults to `true`.
-  """
-  def registration_changeset(user, attrs, opts \\ []) do
+  def changeset(user, attrs \\ %{}, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
-    |> validate_email(opts)
-    |> validate_password(opts)
+    |> cast(attrs, [:name, :last_name, :email, :role, :org_id, :password, :status])
+    |> validate_name()
+    |> validate_last_name()
+    |> UserEmail.validate(opts)
+    |> UserPassword.validate(opts)
+    |> validate_role()
+    |> validate_status()
+    |> validate_language()
   end
 
-  defp validate_email(changeset, opts) do
+  def validate_name(changeset) do
     changeset
-    |> validate_required([:email])
-    |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "must have the @ sign and no spaces")
-    |> validate_length(:email, max: 160)
-    |> maybe_validate_unique_email(opts)
+    |> validate_required([:name], message: gettext("field_required"))
+    |> validate_length(:name,
+      min: 2,
+      max: 50,
+      message: gettext("user_name_length %{min} %{max}", min: 2, max: 50)
+    )
   end
 
-  defp validate_password(changeset, opts) do
+  def validate_last_name(changeset) do
     changeset
-    |> validate_required([:password])
-    |> validate_length(:password, min: 12, max: 72)
-    # Examples of additional password validation:
-    # |> validate_format(:password, ~r/[a-z]/, message: "at least one lower case character")
-    # |> validate_format(:password, ~r/[A-Z]/, message: "at least one upper case character")
-    # |> validate_format(:password, ~r/[!?@#$%^&*_0-9]/, message: "at least one digit or punctuation character")
-    |> maybe_hash_password(opts)
+    |> validate_required([:last_name], message: gettext("field_required"))
+    |> validate_length(:last_name,
+      min: 2,
+      max: 50,
+      message: gettext("user_last_name_length %{min} %{max}", min: 2, max: 50)
+    )
   end
 
-  defp maybe_hash_password(changeset, opts) do
-    hash_password? = Keyword.get(opts, :hash_password, true)
-    password = get_change(changeset, :password)
-
-    if hash_password? && password && changeset.valid? do
-      changeset
-      # If using Bcrypt, then further validate it is at most 72 bytes long
-      |> validate_length(:password, max: 72, count: :bytes)
-      # Hashing could be done with `Ecto.Changeset.prepare_changes/2`, but that
-      # would keep the database transaction open longer and hurt performance.
-      |> put_change(:hashed_password, Bcrypt.hash_pwd_salt(password))
-      |> delete_change(:password)
-    else
-      changeset
-    end
+  def validate_status(changeset) do
+    changeset
+    |> validate_inclusion(:status, [:active, :inactive, :stopped],
+      message: gettext("invalid_user_status")
+    )
   end
 
-  defp maybe_validate_unique_email(changeset, opts) do
-    if Keyword.get(opts, :validate_email, true) do
-      changeset
-      |> unsafe_validate_unique(:email, NotebookServer.Repo)
-      |> unique_constraint(:email)
-    else
-      changeset
-    end
+  def validate_language(changeset) do
+    changeset
+    |> validate_inclusion(:language, [:en, :es], message: gettext("invalid_user_language"))
   end
 
-  @doc """
-  A user changeset for changing the email.
-
-  It requires the email to change otherwise an error is added.
-  """
-  def email_changeset(user, attrs, opts \\ []) do
-    user
-    |> cast(attrs, [:email])
-    |> validate_email(opts)
-    |> case do
-      %{changes: %{email: _}} = changeset -> changeset
-      %{} = changeset -> add_error(changeset, :email, "did not change")
-    end
-  end
-
-  @doc """
-  A user changeset for changing the password.
-
-  ## Options
-
-    * `:hash_password` - Hashes the password so it can be stored securely
-      in the database and ensures the password field is cleared to prevent
-      leaks in the logs. If password hashing is not needed and clearing the
-      password field is not desired (like when using this changeset for
-      validations on a LiveView form), this option can be set to `false`.
-      Defaults to `true`.
-  """
-  def password_changeset(user, attrs, opts \\ []) do
-    user
-    |> cast(attrs, [:password])
-    |> validate_confirmation(:password, message: "does not match password")
-    |> validate_password(opts)
+  def validate_role(changeset) do
+    changeset
+    |> validate_required([:role], message: gettext("field_required"))
+    |> validate_inclusion(:role, [:admin, :org_admin, :user],
+      message: gettext("invalid_user_role")
+    )
   end
 
   @doc """
@@ -136,65 +82,8 @@ defmodule NotebookServer.Accounts.User do
     change(user, confirmed_at: now)
   end
 
-  @doc """
-  Verifies the password.
-
-  If there is no user or the user doesn't have a password, we call
-  `Bcrypt.no_user_verify/0` to avoid timing attacks.
-  """
-  def valid_password?(%NotebookServer.Accounts.User{hashed_password: hashed_password}, password)
-      when is_binary(hashed_password) and byte_size(password) > 0 do
-    Bcrypt.verify_pass(password, hashed_password)
-  end
-
-  def valid_password?(_, _) do
-    Bcrypt.no_user_verify()
-    false
-  end
-
-  @doc """
-  Validates the current password otherwise adds an error to the changeset.
-  """
-  def validate_current_password(changeset, password) do
-    changeset = cast(changeset, %{current_password: password}, [:current_password])
-
-    if valid_password?(changeset.data, password) do
-      changeset
-    else
-      add_error(changeset, :current_password, "is not valid")
-    end
-  end
-
-  def form_changeset(user, attrs \\ %{}) do
-    user
-    |> cast(attrs, [:name, :last_name, :email, :role])
-    |> validate_required([
-      :name,
-      :last_name,
-      :email,
-      :role
-    ])
-    |> validate_length(:name, min: 3, message: "must be at least 3 characters")
-    |> validate_length(:last_name, min: 3, message: "must be at least 3 characters")
-    |> validate_inclusion(:role, [:admin, :org_admin, :user], message: "is not a valid role")
-    |> validate_email([])
-  end
-
-  def settings_changeset(user, attrs \\ %{}) do
-    user
-    |> cast(attrs, [:language, :name, :last_name])
-    |> validate_required([:language, :name, :last_name])
-    |> validate_length(:name, min: 3, message: "must be at least 3 characters")
-    |> validate_length(:last_name, min: 3, message: "must be at least 3 characters")
-    |> validate_inclusion(:language, [:en, :es], message: "is not a valid language")
-  end
-
-  def changeset(user, attrs \\ %{}, opts \\ []) do
-    user
-    |> cast(attrs, [:name, :last_name, :email, :role, :org_id, :password])
-    |> validate_required([:name, :last_name, :email, :role, :org_id, :password])
-    |> validate_email(opts)
-    |> validate_password(opts)
+  def stop_changeset(user) do
+    change(user, status: :stopped)
   end
 
   def deactivation_changeset(user) do
@@ -203,5 +92,9 @@ defmodule NotebookServer.Accounts.User do
 
   def activation_changeset(user) do
     change(user, status: :active)
+  end
+
+  def can_use_platform?(user) do
+    user.status == :active and user.confirmed_at != nil and user.org.status == :active
   end
 end

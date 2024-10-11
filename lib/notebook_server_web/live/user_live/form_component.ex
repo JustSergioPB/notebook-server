@@ -2,6 +2,7 @@ defmodule NotebookServerWeb.UserLive.FormComponent do
   use NotebookServerWeb, :live_component
 
   alias NotebookServer.Accounts
+  alias NotebookServer.Accounts.User
   use Gettext, backend: NotebookServerWeb.Gettext
   @impl true
   def render(assigns) do
@@ -27,7 +28,7 @@ defmodule NotebookServerWeb.UserLive.FormComponent do
           options={["org_admin", "user"]}
         />
         <:actions>
-          <.button><%= gettext("save") %></.button>
+          <.button disabled={!User.can_use_platform?(@current_user)}><%= gettext("save") %></.button>
         </:actions>
       </.simple_form>
     </div>
@@ -51,7 +52,11 @@ defmodule NotebookServerWeb.UserLive.FormComponent do
   end
 
   def handle_event("save", %{"user" => user_params}, socket) do
-    save_user(socket, socket.assigns.action, user_params)
+    if User.can_use_platform?(socket.assigns.current_user) do
+      save_user(socket, socket.assigns.action, user_params)
+    else
+      {:noreply, socket}
+    end
   end
 
   defp save_user(socket, :edit, user_params) do
@@ -71,6 +76,7 @@ defmodule NotebookServerWeb.UserLive.FormComponent do
 
   defp save_user(socket, :new, user_params) do
     user_params_with_org_id = Map.put(user_params, "org_id", socket.assigns.current_user.org_id)
+
     case Accounts.create_user(user_params_with_org_id) do
       {:ok, user} ->
         notify_parent({:saved, user})
