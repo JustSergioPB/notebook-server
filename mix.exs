@@ -53,7 +53,8 @@ defmodule NotebookServer.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
-      {:lucide_live_view, "~> 0.1.0"}
+      {:lucide_live_view, "~> 0.1.0"},
+      {:hackney, "~> 1.20"}
     ]
   end
 
