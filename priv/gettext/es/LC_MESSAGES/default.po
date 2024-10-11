@@ -680,7 +680,7 @@ msgstr "¿No has recibido el email?"
 #: lib/notebook_server_web/live/user_live/user_confirmation_instructions_live.ex:26
 #, elixir-autogen, elixir-format, fuzzy
 msgid "resend"
-msgstr "Restablecer"
+msgstr "Reenviar"
 
 #: lib/notebook_server_web/live/user_live/user_confirmation.ex:64
 #, elixir-autogen, elixir-format
