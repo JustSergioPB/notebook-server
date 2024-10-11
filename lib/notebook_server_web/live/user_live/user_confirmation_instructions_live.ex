@@ -28,14 +28,14 @@ defmodule NotebookServerWeb.UserConfirmationInstructionsLive do
         </:actions>
       </.simple_form>
 
-      <div class="flex gap-4">
-        <.link href={~p"/register"}>
-          <.button class="w-1/2" variant="ghost">
+      <div class="flex items-center justify-center gap-4">
+        <.link class="w-1/2" href={~p"/register"}>
+          <.button class="w-full" variant="ghost">
             <%= gettext("register") %>
           </.button>
         </.link>
-        <.link href={~p"/login"}>
-          <.button class="w-1/2" variant="ghost">
+        <.link class="w-1/2" href={~p"/login"}>
+          <.button class="w-full" variant="ghost">
             <%= gettext("login") %>
           </.button>
         </.link>
