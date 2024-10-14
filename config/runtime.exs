@@ -118,4 +118,5 @@ if config_env() == :prod do
   config :swoosh, :api_client, Swoosh.ApiClient.Hackney
   #
   # See https://hexdocs.pm/swoosh/Swoosh.html#module-installation for details.
+  config :notebook_server, NotebookServer.PKIs, pki_secret_key: System.get_env("PKIs_SECRET_KEY")
 end

@@ -18,6 +18,7 @@ defmodule NotebookServer.Accounts.User do
     field :confirmed_at, :utc_datetime
     field :role, Ecto.Enum, values: [:admin, :org_admin, :user], default: :user
     belongs_to :org, NotebookServer.Orgs.Org
+    has_many :public_keys, NotebookServer.PKIs.PublicKey
 
     timestamps(type: :utc_datetime)
   end

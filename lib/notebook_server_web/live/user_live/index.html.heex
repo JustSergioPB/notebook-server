@@ -28,17 +28,53 @@
     <:col :let={{_id, user}} label={gettext("role")}>
       <.role_badge role={user.role} />
     </:col>
-    <:col :if={@current_user.role == :admin} :let={{_id, user}} label={gettext("org_name")}>
+    <:col :let={{_id, user}} :if={@current_user.role == :admin} label={gettext("org_name")}>
       <p class="text-sm font-light"><%= user.org.name %></p>
     </:col>
+    <:action :let={{_id, user}}>
+      <.button
+        size="icon"
+        variant="outline"
+        icon="key"
+        phx-click="rotate_key_pair"
+        phx-value-id={user.id}
+        disabled={!User.can_use_platform?(@current_user)}
+      >
+        <%= gettext("rotate_key_pair") %>
+      </.button>
+    </:action>
+    <:action :let={{_id, user}}>
+      <.button
+        size="icon"
+        variant="outline"
+        icon="minus"
+        phx-click="revoke_key_pair"
+        phx-value-id={user.id}
+        disabled={!User.can_use_platform?(@current_user)}
+      >
+        <%= gettext("revoke_key_pair") %>
+      </.button>
+    </:action>
+    <:action :let={{_id, user}}>
+      <.button
+        size="icon"
+        variant="outline"
+        icon="plus"
+        phx-click="create_key_pair"
+        phx-value-id={user.id}
+        disabled={!User.can_use_platform?(@current_user)}
+      >
+        <%= gettext("create_key_pair") %>
+      </.button>
+    </:action>
     <:action :let={{_id, user}}>
       <%= if user.status == :active do %>
         <.button
           size="icon"
           variant="outline"
           icon="power-off"
-          phx-value-id={user.id}
           phx-click="deactivate"
+          phx-value-id={user.id}
           disabled={!User.can_use_platform?(@current_user)}
         >
           <%= gettext("deactivate") %>
@@ -48,8 +84,8 @@
           size="icon"
           variant="outline"
           icon="power"
-          phx-value-id={user.id}
           phx-click="activate"
+          phx-value-id={user.id}
           disabled={!User.can_use_platform?(@current_user)}
         >
           <%= gettext("activate") %>
@@ -62,8 +98,8 @@
           size="icon"
           variant="outline"
           icon="pause"
-          phx-value-id={user.id}
           phx-click="stop"
+          phx-value-id={user.id}
           disabled={!User.can_use_platform?(@current_user)}
         >
           <%= gettext("deactivate") %>
@@ -73,8 +109,8 @@
           size="icon"
           variant="outline"
           icon="play"
-          phx-value-id={user.id}
           phx-click="deactivate"
+          phx-value-id={user.id}
           disabled={!User.can_use_platform?(@current_user)}
         >
           <%= gettext("deactivate") %>
