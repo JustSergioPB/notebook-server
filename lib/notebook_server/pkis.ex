@@ -34,8 +34,8 @@ defmodule NotebookServer.PKIs do
         create_private_key(org_id, public_key.id, private_key)
         {:ok, public_key}
 
-      {:error, changeset} ->
-        {:error, changeset}
+      {:error, _changeset} ->
+        {:error}
     end
   end
 
@@ -50,7 +50,7 @@ defmodule NotebookServer.PKIs do
         user_id: user_id,
         org_id: org_id,
         expiration_date: expiration_date(),
-        replaces: old_public_key.id
+        replaces_id: old_public_key.id
       })
     end)
     |> Repo.transaction()
@@ -74,8 +74,8 @@ defmodule NotebookServer.PKIs do
         delete_private_key(public_key.org_id, public_key.id)
         {:ok, public_key}
 
-      {:error, changeset} ->
-        {:error, changeset}
+      {:error, _changeset} ->
+        {:error}
     end
   end
 
