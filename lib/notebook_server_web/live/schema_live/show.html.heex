@@ -1,0 +1,32 @@
+<.header>
+  <%= gettext("schema") %> <%= @schema.id %>
+  <:actions>
+    <.link patch={~p"/schemas/#{@schema}/show/edit"} phx-click={JS.push_focus()}>
+      <.button><%= gettext("edit_schema") %></.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Context"><%= @schema.context %></:item>
+</.list>
+
+<.back navigate={~p"/schemas"}>
+  <%= gettext("back_to_schemas") %>
+</.back>
+
+<.modal
+  :if={@live_action == :edit}
+  id="schema-modal"
+  show
+  on_cancel={JS.patch(~p"/schemas/#{@schema}")}
+>
+  <.live_component
+    module={NotebookServerWeb.SchemaLive.FormComponent}
+    id={@schema.id}
+    title={@page_title}
+    action={@live_action}
+    schema={@schema}
+    patch={~p"/schemas/#{@schema}"}
+  />
+</.modal>

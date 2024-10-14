@@ -25,6 +25,12 @@
         icon="users"
         href={~p"/users"}
       />
+      <.nav_link
+        :if={@current_user.role == :admin || @current_user.role == :org_admin}
+        label={gettext("schemas")}
+        icon="file-json"
+        href={~p"/schemas"}
+      />
     </ul>
     <ul class="space-y-1">
       <.nav_link label={gettext("settings")} icon="settings" href={~p"/settings?tab=account"} />

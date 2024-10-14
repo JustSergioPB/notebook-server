@@ -54,6 +54,7 @@ msgid "activate"
 msgstr "Activar"
 
 #: lib/notebook_server_web/live/org_live/index.html.heex:93
+#: lib/notebook_server_web/live/schema_live/index.html.heex:43
 #: lib/notebook_server_web/live/user_live/index.html.heex:139
 #, elixir-autogen, elixir-format
 msgid "are_you_sure"
@@ -95,12 +96,14 @@ msgid "deactivate"
 msgstr "Desactivar"
 
 #: lib/notebook_server_web/live/org_live/index.html.heex:96
+#: lib/notebook_server_web/live/schema_live/index.html.heex:45
 #: lib/notebook_server_web/live/user_live/index.html.heex:141
 #, elixir-autogen, elixir-format
 msgid "delete"
 msgstr "Eliminar"
 
 #: lib/notebook_server_web/live/org_live/index.html.heex:83
+#: lib/notebook_server_web/live/schema_live/index.html.heex:32
 #: lib/notebook_server_web/live/user_live/index.html.heex:128
 #, elixir-autogen, elixir-format
 msgid "edit"
@@ -198,7 +201,7 @@ msgstr "Introduce tu email y contraseña para iniciar sesión"
 msgid "login_title"
 msgstr "¡Bienvenido de nuevo!"
 
-#: lib/notebook_server_web/components/layouts/app.html.heex:31
+#: lib/notebook_server_web/components/layouts/app.html.heex:37
 #, elixir-autogen, elixir-format
 msgid "logout"
 msgstr "Cerrar sesión"
@@ -241,6 +244,7 @@ msgstr "¡Ups! Algo salió mal"
 
 #: lib/notebook_server_web/live/org_live/index.html.heex:6
 #: lib/notebook_server_web/live/org_live/show.html.heex:2
+#: lib/notebook_server_web/live/schema_live/index.html.heex:23
 #, elixir-autogen, elixir-format
 msgid "org"
 msgstr "Organización"
@@ -312,6 +316,7 @@ msgid "role"
 msgstr "Rol"
 
 #: lib/notebook_server_web/live/org_live/form_component.ex:25
+#: lib/notebook_server_web/live/schema_live/form_component.ex:32
 #: lib/notebook_server_web/live/user_live/form_component.ex:54
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:62
 #, elixir-autogen, elixir-format
@@ -405,7 +410,7 @@ msgstr "Introduce y confirma tu nueva contraseña"
 msgid "account"
 msgstr "Cuenta"
 
-#: lib/notebook_server_web/components/layouts/app.html.heex:30
+#: lib/notebook_server_web/components/layouts/app.html.heex:36
 #, elixir-autogen, elixir-format, fuzzy
 msgid "settings"
 msgstr "Ajustes"
@@ -582,17 +587,17 @@ msgstr "Estado inválido"
 msgid "max_length %{max}"
 msgstr "Máximo %{max} caracteres"
 
-#: lib/notebook_server/orgs/org.ex:40
+#: lib/notebook_server/orgs/org.ex:41
 #, elixir-autogen, elixir-format
 msgid "org_name_length %{min} %{max}"
 msgstr "El nombre de organización debe tener entre %{min} y %{max} caracteres"
 
-#: lib/notebook_server/orgs/org.ex:49
+#: lib/notebook_server/orgs/org.ex:50
 #, elixir-autogen, elixir-format
 msgid "org_name_must_be_unique"
 msgstr "El nombre de organización debe ser único"
 
-#: lib/notebook_server/orgs/org.ex:36
+#: lib/notebook_server/orgs/org.ex:37
 #, elixir-autogen, elixir-format, fuzzy
 msgid "org_name_required"
 msgstr "El nombre de organización es necesario"
@@ -762,3 +767,63 @@ msgstr "Error al crear el par de claves"
 #, elixir-autogen, elixir-format, fuzzy
 msgid "key_pair_created"
 msgstr "Par de claves creado correctamente"
+
+#: lib/notebook_server_web/components/layouts/app.html.heex:30
+#: lib/notebook_server_web/live/schema_live/index.ex:34
+#: lib/notebook_server_web/live/schema_live/index.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "schemas"
+msgstr "Esquemas"
+
+#: lib/notebook_server_web/live/schema_live/show.html.heex:15
+#, elixir-autogen, elixir-format, fuzzy
+msgid "back_to_schemas"
+msgstr "Volver a esquemas"
+
+#: lib/notebook_server_web/live/schema_live/form_component.ex:25
+#, elixir-autogen, elixir-format
+msgid "context"
+msgstr "Contexto"
+
+#: lib/notebook_server_web/live/schema_live/index.ex:22
+#: lib/notebook_server_web/live/schema_live/show.ex:21
+#: lib/notebook_server_web/live/schema_live/show.html.heex:5
+#, elixir-autogen, elixir-format, fuzzy
+msgid "edit_schema"
+msgstr "Editar esquema"
+
+#: lib/notebook_server_web/live/schema_live/index.ex:28
+#, elixir-autogen, elixir-format
+msgid "new_schema"
+msgstr "Nuevo esquema"
+
+#: lib/notebook_server_web/live/schema_live/index.html.heex:6
+#: lib/notebook_server_web/live/schema_live/show.html.heex:2
+#, elixir-autogen, elixir-format, fuzzy
+msgid "schema"
+msgstr "Esquema"
+
+#: lib/notebook_server_web/live/schema_live/form_component.ex:85
+#, elixir-autogen, elixir-format, fuzzy
+msgid "schema_created_successfully"
+msgstr "Esquema creado correctamente"
+
+#: lib/notebook_server_web/live/schema_live/form_component.ex:67
+#, elixir-autogen, elixir-format, fuzzy
+msgid "schema_updated_successfully"
+msgstr "Esquema actualizado correctamente"
+
+#: lib/notebook_server_web/live/schema_live/show.ex:20
+#, elixir-autogen, elixir-format, fuzzy
+msgid "show_schema"
+msgstr "Mostrar esquema"
+
+#: lib/notebook_server_web/live/schema_live/index.html.heex:20
+#, elixir-autogen, elixir-format
+msgid "description"
+msgstr "Descripción"
+
+#: lib/notebook_server_web/live/schema_live/index.html.heex:19
+#, elixir-autogen, elixir-format
+msgid "title"
+msgstr "Nombre"

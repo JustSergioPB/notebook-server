@@ -90,6 +90,14 @@ defmodule NotebookServerWeb.Router do
         live "/:id", UserLive.Show, :show
         live "/:id/show/edit", UserLive.Show, :edit
       end
+
+      scope "/schemas" do
+        live "/", SchemaLive.Index, :index
+        live "/new", SchemaLive.Index, :new
+        live "/:id/edit", SchemaLive.Index, :edit
+        live "/:id", SchemaLive.Show, :show
+        live "/:id/show/edit", SchemaLive.Show, :edit
+      end
     end
   end
 
