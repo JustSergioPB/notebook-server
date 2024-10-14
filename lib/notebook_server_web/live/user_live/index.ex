@@ -3,6 +3,7 @@ defmodule NotebookServerWeb.UserLive.Index do
 
   alias NotebookServer.Accounts
   alias NotebookServer.Accounts.User
+  alias NotebookServer.Orgs
   use Gettext, backend: NotebookServerWeb.Gettext
 
   @impl true
@@ -37,6 +38,9 @@ defmodule NotebookServerWeb.UserLive.Index do
 
   @impl true
   def handle_info({NotebookServerWeb.UserLive.FormComponent, {:saved, user}}, socket) do
+    # TODO: check if there's a better way to do this
+    org = Orgs.get_org!(user.org_id)
+    user = Map.put(user, :org, org)
     {:noreply, stream_insert(socket, :users, user)}
   end
 

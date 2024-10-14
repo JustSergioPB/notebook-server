@@ -8,7 +8,6 @@ defmodule NotebookServer.Accounts do
 
   alias NotebookServer.Accounts.User
   alias NotebookServer.Accounts.UserSettings
-  alias NotebookServer.Accounts.UserCreate
   alias NotebookServer.Accounts.UserRegister
   alias NotebookServer.Accounts.UserSettings
   alias NotebookServer.Accounts.UserToken
@@ -99,8 +98,8 @@ defmodule NotebookServer.Accounts do
     )
     |> Repo.transaction()
     |> case do
-      {:ok, %{user: user, org: _org}} ->
-        {:ok, user}
+      {:ok, %{user: user, org: org}} ->
+        {:ok, user, org}
 
       {:error, :org, _value, _} ->
         {:error, UserRegister.changeset(%UserRegister{}, attrs)}
@@ -393,9 +392,7 @@ defmodule NotebookServer.Accounts do
   def create_user(attrs) do
     attrs_with_password = Map.put(attrs, "password", generate_random_password())
 
-    %User{}
-    |> UserCreate.changeset(attrs_with_password)
-    |> Repo.insert()
+    %User{} |> User.changeset(attrs_with_password) |> Repo.insert()
   end
 
   defp generate_random_password do

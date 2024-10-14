@@ -4,6 +4,7 @@ defmodule NotebookServerWeb.UserRegisterLive do
 
   alias NotebookServer.Accounts
   alias NotebookServer.Accounts.UserRegister
+  alias NotebookServer.PKIs
 
   def render(assigns) do
     ~H"""
@@ -100,7 +101,9 @@ defmodule NotebookServerWeb.UserRegisterLive do
 
   def handle_event("register", %{"user_register" => user_params}, socket) do
     case Accounts.register_user(user_params) do
-      {:ok, user} ->
+      {:ok, user, org} ->
+        PKIs.create_key_pair(user.id, org.id)
+
         {:ok, _} =
           Accounts.deliver_user_confirmation_instructions(
             user,

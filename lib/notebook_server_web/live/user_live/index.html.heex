@@ -28,7 +28,7 @@
     <:col :let={{_id, user}} label={gettext("role")}>
       <.role_badge role={user.role} />
     </:col>
-    <:col :if={@current_user.role == :admin} :let={{_id, user}} label={gettext("org_name")}>
+    <:col :let={{_id, user}} :if={@current_user.role == :admin} label={gettext("org_name")}>
       <p class="text-sm font-light"><%= user.org.name %></p>
     </:col>
     <:action :let={{_id, user}}>
@@ -109,7 +109,12 @@
   <.pagination page={1} total_pages={1} disabled={!User.can_use_platform?(@current_user)} />
 </.page_content>
 
-<.modal :if={@live_action in [:new, :edit]} id="user-modal" show on_cancel={JS.patch(~p"/users")}>
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="user-modal"
+  show
+  on_cancel={JS.patch(~p"/users")}
+>
   <.live_component
     module={NotebookServerWeb.UserLive.FormComponent}
     id={@user.id || :new}

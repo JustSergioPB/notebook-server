@@ -48,13 +48,13 @@ msgstr ""
 
 #: lib/notebook_server_web/live/org_live/index.html.heex:46
 #: lib/notebook_server_web/live/org_live/index.html.heex:71
-#: lib/notebook_server_web/live/user_live/index.html.heex:52
+#: lib/notebook_server_web/live/user_live/index.html.heex:55
 #, elixir-autogen, elixir-format
 msgid "activate"
 msgstr ""
 
 #: lib/notebook_server_web/live/org_live/index.html.heex:93
-#: lib/notebook_server_web/live/user_live/index.html.heex:100
+#: lib/notebook_server_web/live/user_live/index.html.heex:103
 #, elixir-autogen, elixir-format
 msgid "are_you_sure"
 msgstr ""
@@ -87,21 +87,21 @@ msgstr ""
 
 #: lib/notebook_server_web/live/org_live/index.html.heex:35
 #: lib/notebook_server_web/live/org_live/index.html.heex:60
-#: lib/notebook_server_web/live/user_live/index.html.heex:41
-#: lib/notebook_server_web/live/user_live/index.html.heex:66
-#: lib/notebook_server_web/live/user_live/index.html.heex:77
+#: lib/notebook_server_web/live/user_live/index.html.heex:44
+#: lib/notebook_server_web/live/user_live/index.html.heex:69
+#: lib/notebook_server_web/live/user_live/index.html.heex:80
 #, elixir-autogen, elixir-format
 msgid "deactivate"
 msgstr ""
 
 #: lib/notebook_server_web/live/org_live/index.html.heex:96
-#: lib/notebook_server_web/live/user_live/index.html.heex:102
+#: lib/notebook_server_web/live/user_live/index.html.heex:105
 #, elixir-autogen, elixir-format
 msgid "delete"
 msgstr ""
 
 #: lib/notebook_server_web/live/org_live/index.html.heex:83
-#: lib/notebook_server_web/live/user_live/index.html.heex:89
+#: lib/notebook_server_web/live/user_live/index.html.heex:92
 #, elixir-autogen, elixir-format
 msgid "edit"
 msgstr ""
@@ -113,19 +113,19 @@ msgstr ""
 msgid "edit_org"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/index.ex:20
+#: lib/notebook_server_web/live/user_live/index.ex:23
 #: lib/notebook_server_web/live/user_live/show.ex:21
 #: lib/notebook_server_web/live/user_live/show.html.heex:5
 #, elixir-autogen, elixir-format
 msgid "edit_user"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/form_component.ex:22
+#: lib/notebook_server_web/live/user_live/form_component.ex:41
 #: lib/notebook_server_web/live/user_live/index.html.heex:22
 #: lib/notebook_server_web/live/user_live/user_confirmation_instructions_live.ex:20
 #: lib/notebook_server_web/live/user_live/user_forgot_password_live.ex:19
 #: lib/notebook_server_web/live/user_live/user_login_live.ex:18
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:57
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:58
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:37
 #, elixir-autogen, elixir-format
 msgid "email"
@@ -141,10 +141,11 @@ msgstr ""
 msgid "email_changed_successfully"
 msgstr ""
 
+#: lib/notebook_server_web/live/user_live/form_component.ex:42
 #: lib/notebook_server_web/live/user_live/user_confirmation_instructions_live.ex:21
 #: lib/notebook_server_web/live/user_live/user_forgot_password_live.ex:18
 #: lib/notebook_server_web/live/user_live/user_login_live.ex:19
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:58
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:59
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:38
 #, elixir-autogen, elixir-format
 msgid "email_placeholder"
@@ -170,8 +171,8 @@ msgstr ""
 msgid "full_name"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/form_component.ex:21
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:40
+#: lib/notebook_server_web/live/user_live/form_component.ex:34
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:41
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:29
 #, elixir-autogen, elixir-format
 msgid "last_name"
@@ -181,7 +182,7 @@ msgstr ""
 #: lib/notebook_server_web/live/user_live/user_confirmation_instructions_live.ex:39
 #: lib/notebook_server_web/live/user_live/user_forgot_password_live.ex:30
 #: lib/notebook_server_web/live/user_live/user_login_live.ex:37
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:79
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:80
 #: lib/notebook_server_web/live/user_live/user_reset_password_live.ex:50
 #, elixir-autogen, elixir-format
 msgid "login"
@@ -202,12 +203,12 @@ msgstr ""
 msgid "logout"
 msgstr ""
 
-#: lib/notebook_server_web/live/org_live/form_component.ex:22
+#: lib/notebook_server_web/live/org_live/form_component.ex:23
 #: lib/notebook_server_web/live/org_live/index.html.heex:19
 #: lib/notebook_server_web/live/org_live/show.html.heex:11
-#: lib/notebook_server_web/live/user_live/form_component.ex:20
+#: lib/notebook_server_web/live/user_live/form_component.ex:27
 #: lib/notebook_server_web/live/user_live/show.html.heex:11
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:31
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:32
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:21
 #, elixir-autogen, elixir-format
 msgid "name"
@@ -228,7 +229,7 @@ msgstr ""
 msgid "new_password_placeholder"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/index.ex:26
+#: lib/notebook_server_web/live/user_live/index.ex:29
 #, elixir-autogen, elixir-format
 msgid "new_user"
 msgstr ""
@@ -244,12 +245,12 @@ msgstr ""
 msgid "org"
 msgstr ""
 
-#: lib/notebook_server_web/live/org_live/form_component.ex:73
+#: lib/notebook_server_web/live/org_live/form_component.ex:78
 #, elixir-autogen, elixir-format
 msgid "org_create_success"
 msgstr ""
 
-#: lib/notebook_server_web/live/org_live/form_component.ex:58
+#: lib/notebook_server_web/live/org_live/form_component.ex:63
 #, elixir-autogen, elixir-format
 msgid "org_update_success"
 msgstr ""
@@ -262,13 +263,13 @@ msgid "orgs"
 msgstr ""
 
 #: lib/notebook_server_web/live/user_live/user_login_live.ex:25
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:65
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:66
 #, elixir-autogen, elixir-format
 msgid "password"
 msgstr ""
 
 #: lib/notebook_server_web/live/user_live/user_login_live.ex:26
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:66
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:67
 #, elixir-autogen, elixir-format
 msgid "password_placeholder"
 msgstr ""
@@ -303,15 +304,15 @@ msgstr ""
 msgid "reset_password_title"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/form_component.ex:26
+#: lib/notebook_server_web/live/user_live/form_component.ex:47
 #: lib/notebook_server_web/live/user_live/index.html.heex:28
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:44
 #, elixir-autogen, elixir-format
 msgid "role"
 msgstr ""
 
-#: lib/notebook_server_web/live/org_live/form_component.ex:24
-#: lib/notebook_server_web/live/user_live/form_component.ex:30
+#: lib/notebook_server_web/live/org_live/form_component.ex:25
+#: lib/notebook_server_web/live/user_live/form_component.ex:54
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:62
 #, elixir-autogen, elixir-format
 msgid "save"
@@ -344,6 +345,7 @@ msgid "status"
 msgstr ""
 
 #: lib/notebook_server_web/components/core_components.ex:861
+#: lib/notebook_server_web/live/user_live/form_component.ex:50
 #: lib/notebook_server_web/live/user_live/index.html.heex:6
 #: lib/notebook_server_web/live/user_live/show.html.heex:2
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:48
@@ -352,7 +354,7 @@ msgid "user"
 msgstr ""
 
 #: lib/notebook_server_web/components/layouts/app.html.heex:24
-#: lib/notebook_server_web/live/user_live/index.ex:32
+#: lib/notebook_server_web/live/user_live/index.ex:35
 #: lib/notebook_server_web/live/user_live/index.html.heex:2
 #, elixir-autogen, elixir-format
 msgid "users"
@@ -413,13 +415,15 @@ msgstr ""
 msgid "language"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:41
+#: lib/notebook_server_web/live/user_live/form_component.ex:35
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:42
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:30
 #, elixir-autogen, elixir-format
 msgid "last_name_placeholder"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:32
+#: lib/notebook_server_web/live/user_live/form_component.ex:28
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:33
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:22
 #, elixir-autogen, elixir-format
 msgid "name_placeholder"
@@ -442,6 +446,7 @@ msgid "admin"
 msgstr ""
 
 #: lib/notebook_server_web/components/core_components.ex:860
+#: lib/notebook_server_web/live/user_live/form_component.ex:49
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:47
 #, elixir-autogen, elixir-format
 msgid "org_admin"
@@ -468,7 +473,7 @@ msgstr ""
 msgid "logged_in_required"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:77
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:78
 #, elixir-autogen, elixir-format
 msgid "already_have_account"
 msgstr ""
@@ -478,17 +483,18 @@ msgstr ""
 msgid "dont_have_account"
 msgstr ""
 
-#: lib/notebook_server_web/live/home_live/home_live.ex:8
+#: lib/notebook_server_web/live/home_live/dashboard_live.ex:8
 #, elixir-autogen, elixir-format
 msgid "home_title"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:49
+#: lib/notebook_server_web/live/user_live/index.html.heex:31
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:50
 #, elixir-autogen, elixir-format
 msgid "org_name"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:50
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:51
 #, elixir-autogen, elixir-format
 msgid "org_name_placeholder"
 msgstr ""
@@ -496,17 +502,17 @@ msgstr ""
 #: lib/notebook_server_web/live/user_live/user_confirmation.ex:24
 #: lib/notebook_server_web/live/user_live/user_confirmation_instructions_live.ex:34
 #: lib/notebook_server_web/live/user_live/user_login_live.ex:45
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:72
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:73
 #, elixir-autogen, elixir-format
 msgid "register"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:14
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:15
 #, elixir-autogen, elixir-format
 msgid "register_subtitle"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:12
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:13
 #, elixir-autogen, elixir-format
 msgid "register_title"
 msgstr ""
@@ -516,7 +522,7 @@ msgstr ""
 msgid "dashboard"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:117
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:120
 #, elixir-autogen, elixir-format
 msgid "user_register_error"
 msgstr ""
@@ -547,26 +553,26 @@ msgstr ""
 msgid "user_password_updated_success"
 msgstr ""
 
-#: lib/notebook_server/accounts/user.ex:39
-#: lib/notebook_server/accounts/user.ex:49
-#: lib/notebook_server/accounts/user.ex:71
+#: lib/notebook_server/accounts/user.ex:40
+#: lib/notebook_server/accounts/user.ex:50
+#: lib/notebook_server/accounts/user.ex:72
 #: lib/notebook_server/accounts/user_email.ex:23
 #: lib/notebook_server/accounts/user_password.ex:27
 #, elixir-autogen, elixir-format
 msgid "field_required"
 msgstr ""
 
-#: lib/notebook_server/accounts/user.ex:66
+#: lib/notebook_server/accounts/user.ex:67
 #, elixir-autogen, elixir-format
 msgid "invalid_user_language"
 msgstr ""
 
-#: lib/notebook_server/accounts/user.ex:73
+#: lib/notebook_server/accounts/user.ex:74
 #, elixir-autogen, elixir-format
 msgid "invalid_user_role"
 msgstr ""
 
-#: lib/notebook_server/accounts/user.ex:60
+#: lib/notebook_server/accounts/user.ex:61
 #, elixir-autogen, elixir-format
 msgid "invalid_user_status"
 msgstr ""
@@ -576,17 +582,17 @@ msgstr ""
 msgid "max_length %{max}"
 msgstr ""
 
-#: lib/notebook_server/orgs/org.ex:39
+#: lib/notebook_server/orgs/org.ex:40
 #, elixir-autogen, elixir-format
 msgid "org_name_length %{min} %{max}"
 msgstr ""
 
-#: lib/notebook_server/orgs/org.ex:48
+#: lib/notebook_server/orgs/org.ex:49
 #, elixir-autogen, elixir-format
 msgid "org_name_must_be_unique"
 msgstr ""
 
-#: lib/notebook_server/orgs/org.ex:35
+#: lib/notebook_server/orgs/org.ex:36
 #, elixir-autogen, elixir-format
 msgid "org_name_required"
 msgstr ""
@@ -606,12 +612,12 @@ msgstr ""
 msgid "user_email_must_be_unique"
 msgstr ""
 
-#: lib/notebook_server/accounts/user.ex:53
+#: lib/notebook_server/accounts/user.ex:54
 #, elixir-autogen, elixir-format
 msgid "user_last_name_length %{min} %{max}"
 msgstr ""
 
-#: lib/notebook_server/accounts/user.ex:43
+#: lib/notebook_server/accounts/user.ex:44
 #, elixir-autogen, elixir-format
 msgid "user_name_length %{min} %{max}"
 msgstr ""
@@ -700,4 +706,14 @@ msgstr ""
 #: lib/notebook_server_web/components/core_components.ex:839
 #, elixir-autogen, elixir-format
 msgid "stopped"
+msgstr ""
+
+#: lib/notebook_server_web/live/user_live/form_component.ex:111
+#, elixir-autogen, elixir-format
+msgid "user_created_successfully"
+msgstr ""
+
+#: lib/notebook_server_web/live/user_live/form_component.ex:92
+#, elixir-autogen, elixir-format
+msgid "user_updated_successfully"
 msgstr ""

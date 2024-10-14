@@ -3,6 +3,7 @@ defmodule NotebookServerWeb.UserLive.FormComponent do
 
   alias NotebookServer.Accounts
   alias NotebookServer.Accounts.User
+  alias NotebookServer.PKIs
   use Gettext, backend: NotebookServerWeb.Gettext
   @impl true
   def render(assigns) do
@@ -18,14 +19,36 @@ defmodule NotebookServerWeb.UserLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:name]} type="text" label={gettext("name")} />
-        <.input field={@form[:last_name]} type="text" label={gettext("last_name")} />
-        <.input field={@form[:email]} type="text" label={gettext("email")} />
+        <div class="flex items-center gap-4">
+          <.input
+            field={@form[:name]}
+            class="w-1/3"
+            type="text"
+            label={gettext("name")}
+            placeholder={gettext("name_placeholder")}
+          />
+          <.input
+            field={@form[:last_name]}
+            class="w-2/3"
+            type="text"
+            label={gettext("last_name")}
+            placeholder={gettext("last_name_placeholder")}
+          />
+        </div>
+        <.input
+          field={@form[:email]}
+          type="text"
+          label={gettext("email")}
+          placeholder={gettext("email_placeholder")}
+        />
         <.input
           field={@form[:role]}
           type="select"
           label={gettext("role")}
-          options={["org_admin", "user"]}
+          options={[
+            {gettext("org_admin"), "org_admin"},
+            {gettext("user"), "user"}
+          ]}
         />
         <:actions>
           <.button disabled={!User.can_use_platform?(@current_user)}><%= gettext("save") %></.button>
@@ -66,7 +89,7 @@ defmodule NotebookServerWeb.UserLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "User updated successfully")
+         |> put_flash(:info, gettext("user_updated_successfully"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -75,15 +98,17 @@ defmodule NotebookServerWeb.UserLive.FormComponent do
   end
 
   defp save_user(socket, :new, user_params) do
-    user_params_with_org_id = Map.put(user_params, "org_id", socket.assigns.current_user.org_id)
+    org_id = socket.assigns.current_user.org_id
+    user_params = Map.put(user_params, "org_id", org_id)
 
-    case Accounts.create_user(user_params_with_org_id) do
+    case Accounts.create_user(user_params) do
       {:ok, user} ->
+        PKIs.create_key_pair(user.id, org_id)
         notify_parent({:saved, user})
 
         {:noreply,
          socket
-         |> put_flash(:info, "User created successfully")
+         |> put_flash(:info, gettext("user_created_successfully"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
