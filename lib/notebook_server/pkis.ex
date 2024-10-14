@@ -9,6 +9,13 @@ defmodule NotebookServer.PKIs do
   alias NotebookServer.PKIs.KeyPair
   alias NotebookServer.PKIs.PrivateKey
 
+  def get_public_key_by_user_id(user_id) do
+    PublicKey
+    |> where(user_id: ^user_id)
+    |> where(status: :active)
+    |> Repo.one()
+  end
+
   def create_key_pair(user_id, org_id) do
     {private_key, public_key} = KeyPair.generate()
 
@@ -36,19 +43,19 @@ defmodule NotebookServer.PKIs do
     {private_key, public_key} = KeyPair.generate()
 
     Ecto.Multi.new()
-    |> Ecto.Multi.update(:public_key, PublicKey.rotate_changeset(old_public_key))
-    |> Ecto.Multi.insert(:public_key, fn %{public_key: rotated_key} ->
+    |> Ecto.Multi.update(:old_public_key, PublicKey.rotate_changeset(old_public_key))
+    |> Ecto.Multi.insert(:new_public_key, fn %{old_public_key: old_public_key} ->
       PublicKey.changeset(%PublicKey{}, %{
         key: public_key,
         user_id: user_id,
         org_id: org_id,
         expiration_date: expiration_date(),
-        replaces: rotated_key.id
+        replaces: old_public_key.id
       })
     end)
     |> Repo.transaction()
     |> case do
-      {:ok, %{public_key: new_public_key}} ->
+      {:ok, %{old_public_key: old_public_key, new_public_key: new_public_key}} ->
         create_private_key(org_id, new_public_key.id, private_key)
         delete_private_key(org_id, old_public_key.id)
         {:ok, new_public_key}

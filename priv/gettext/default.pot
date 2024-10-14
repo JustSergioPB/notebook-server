@@ -48,13 +48,13 @@ msgstr ""
 
 #: lib/notebook_server_web/live/org_live/index.html.heex:46
 #: lib/notebook_server_web/live/org_live/index.html.heex:71
-#: lib/notebook_server_web/live/user_live/index.html.heex:55
+#: lib/notebook_server_web/live/user_live/index.html.heex:67
 #, elixir-autogen, elixir-format
 msgid "activate"
 msgstr ""
 
 #: lib/notebook_server_web/live/org_live/index.html.heex:93
-#: lib/notebook_server_web/live/user_live/index.html.heex:103
+#: lib/notebook_server_web/live/user_live/index.html.heex:115
 #, elixir-autogen, elixir-format
 msgid "are_you_sure"
 msgstr ""
@@ -87,21 +87,21 @@ msgstr ""
 
 #: lib/notebook_server_web/live/org_live/index.html.heex:35
 #: lib/notebook_server_web/live/org_live/index.html.heex:60
-#: lib/notebook_server_web/live/user_live/index.html.heex:44
-#: lib/notebook_server_web/live/user_live/index.html.heex:69
-#: lib/notebook_server_web/live/user_live/index.html.heex:80
+#: lib/notebook_server_web/live/user_live/index.html.heex:56
+#: lib/notebook_server_web/live/user_live/index.html.heex:81
+#: lib/notebook_server_web/live/user_live/index.html.heex:92
 #, elixir-autogen, elixir-format
 msgid "deactivate"
 msgstr ""
 
 #: lib/notebook_server_web/live/org_live/index.html.heex:96
-#: lib/notebook_server_web/live/user_live/index.html.heex:105
+#: lib/notebook_server_web/live/user_live/index.html.heex:117
 #, elixir-autogen, elixir-format
 msgid "delete"
 msgstr ""
 
 #: lib/notebook_server_web/live/org_live/index.html.heex:83
-#: lib/notebook_server_web/live/user_live/index.html.heex:92
+#: lib/notebook_server_web/live/user_live/index.html.heex:104
 #, elixir-autogen, elixir-format
 msgid "edit"
 msgstr ""
@@ -113,7 +113,7 @@ msgstr ""
 msgid "edit_org"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/index.ex:23
+#: lib/notebook_server_web/live/user_live/index.ex:25
 #: lib/notebook_server_web/live/user_live/show.ex:21
 #: lib/notebook_server_web/live/user_live/show.html.heex:5
 #, elixir-autogen, elixir-format
@@ -229,7 +229,7 @@ msgstr ""
 msgid "new_password_placeholder"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/index.ex:29
+#: lib/notebook_server_web/live/user_live/index.ex:31
 #, elixir-autogen, elixir-format
 msgid "new_user"
 msgstr ""
@@ -354,7 +354,7 @@ msgid "user"
 msgstr ""
 
 #: lib/notebook_server_web/components/layouts/app.html.heex:24
-#: lib/notebook_server_web/live/user_live/index.ex:35
+#: lib/notebook_server_web/live/user_live/index.ex:37
 #: lib/notebook_server_web/live/user_live/index.html.heex:2
 #, elixir-autogen, elixir-format
 msgid "users"
@@ -716,4 +716,19 @@ msgstr ""
 #: lib/notebook_server_web/live/user_live/form_component.ex:92
 #, elixir-autogen, elixir-format
 msgid "user_updated_successfully"
+msgstr ""
+
+#: lib/notebook_server_web/live/user_live/index.ex:108
+#, elixir-autogen, elixir-format
+msgid "error_rotating_key_pair"
+msgstr ""
+
+#: lib/notebook_server_web/live/user_live/index.ex:105
+#, elixir-autogen, elixir-format
+msgid "key_pair_rotated"
+msgstr ""
+
+#: lib/notebook_server_web/live/user_live/index.html.heex:43
+#, elixir-autogen, elixir-format
+msgid "rotate_key_pair"
 msgstr ""
