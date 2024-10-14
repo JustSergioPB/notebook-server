@@ -10,8 +10,7 @@ defmodule NotebookServerWeb.UserLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    org_id = socket.assigns.current_user.org_id
-    opts = if socket.assigns.current_user.role == :admin, do: [], else: [org_id: org_id]
+    opts = org_filter(socket)
     {:ok, stream(socket, :users, Accounts.list_users(opts))}
   end
 

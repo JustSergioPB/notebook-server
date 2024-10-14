@@ -8,6 +8,7 @@ defmodule NotebookServer.Orgs.Org do
     field :status, Ecto.Enum, values: [:active, :inactive, :stopped], default: :active
     has_many :users, NotebookServer.Accounts.User
     has_many :public_keys, NotebookServer.PKIs.PublicKey
+    has_many :schemas, NotebookServer.Credentials.Schema
 
     timestamps(type: :utc_datetime)
   end

@@ -54,6 +54,7 @@ msgid "activate"
 msgstr ""
 
 #: lib/notebook_server_web/live/org_live/index.html.heex:93
+#: lib/notebook_server_web/live/schema_live/index.html.heex:43
 #: lib/notebook_server_web/live/user_live/index.html.heex:139
 #, elixir-autogen, elixir-format
 msgid "are_you_sure"
@@ -95,12 +96,14 @@ msgid "deactivate"
 msgstr ""
 
 #: lib/notebook_server_web/live/org_live/index.html.heex:96
+#: lib/notebook_server_web/live/schema_live/index.html.heex:45
 #: lib/notebook_server_web/live/user_live/index.html.heex:141
 #, elixir-autogen, elixir-format
 msgid "delete"
 msgstr ""
 
 #: lib/notebook_server_web/live/org_live/index.html.heex:83
+#: lib/notebook_server_web/live/schema_live/index.html.heex:32
 #: lib/notebook_server_web/live/user_live/index.html.heex:128
 #, elixir-autogen, elixir-format
 msgid "edit"
@@ -198,7 +201,7 @@ msgstr ""
 msgid "login_title"
 msgstr ""
 
-#: lib/notebook_server_web/components/layouts/app.html.heex:31
+#: lib/notebook_server_web/components/layouts/app.html.heex:37
 #, elixir-autogen, elixir-format
 msgid "logout"
 msgstr ""
@@ -241,6 +244,7 @@ msgstr ""
 
 #: lib/notebook_server_web/live/org_live/index.html.heex:6
 #: lib/notebook_server_web/live/org_live/show.html.heex:2
+#: lib/notebook_server_web/live/schema_live/index.html.heex:23
 #, elixir-autogen, elixir-format
 msgid "org"
 msgstr ""
@@ -312,6 +316,7 @@ msgid "role"
 msgstr ""
 
 #: lib/notebook_server_web/live/org_live/form_component.ex:25
+#: lib/notebook_server_web/live/schema_live/form_component.ex:32
 #: lib/notebook_server_web/live/user_live/form_component.ex:54
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:62
 #, elixir-autogen, elixir-format
@@ -405,7 +410,7 @@ msgstr ""
 msgid "account"
 msgstr ""
 
-#: lib/notebook_server_web/components/layouts/app.html.heex:30
+#: lib/notebook_server_web/components/layouts/app.html.heex:36
 #, elixir-autogen, elixir-format
 msgid "settings"
 msgstr ""
@@ -582,17 +587,17 @@ msgstr ""
 msgid "max_length %{max}"
 msgstr ""
 
-#: lib/notebook_server/orgs/org.ex:40
+#: lib/notebook_server/orgs/org.ex:41
 #, elixir-autogen, elixir-format
 msgid "org_name_length %{min} %{max}"
 msgstr ""
 
-#: lib/notebook_server/orgs/org.ex:49
+#: lib/notebook_server/orgs/org.ex:50
 #, elixir-autogen, elixir-format
 msgid "org_name_must_be_unique"
 msgstr ""
 
-#: lib/notebook_server/orgs/org.ex:36
+#: lib/notebook_server/orgs/org.ex:37
 #, elixir-autogen, elixir-format
 msgid "org_name_required"
 msgstr ""
@@ -761,4 +766,64 @@ msgstr ""
 #: lib/notebook_server_web/live/user_live/index.ex:143
 #, elixir-autogen, elixir-format
 msgid "key_pair_created"
+msgstr ""
+
+#: lib/notebook_server_web/components/layouts/app.html.heex:30
+#: lib/notebook_server_web/live/schema_live/index.ex:34
+#: lib/notebook_server_web/live/schema_live/index.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "schemas"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/show.html.heex:15
+#, elixir-autogen, elixir-format
+msgid "back_to_schemas"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/form_component.ex:25
+#, elixir-autogen, elixir-format
+msgid "context"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/index.ex:22
+#: lib/notebook_server_web/live/schema_live/show.ex:21
+#: lib/notebook_server_web/live/schema_live/show.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "edit_schema"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/index.ex:28
+#, elixir-autogen, elixir-format
+msgid "new_schema"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/index.html.heex:6
+#: lib/notebook_server_web/live/schema_live/show.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "schema"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/form_component.ex:85
+#, elixir-autogen, elixir-format
+msgid "schema_created_successfully"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/form_component.ex:67
+#, elixir-autogen, elixir-format
+msgid "schema_updated_successfully"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/show.ex:20
+#, elixir-autogen, elixir-format
+msgid "show_schema"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/index.html.heex:20
+#, elixir-autogen, elixir-format
+msgid "description"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/index.html.heex:19
+#, elixir-autogen, elixir-format
+msgid "title"
 msgstr ""
