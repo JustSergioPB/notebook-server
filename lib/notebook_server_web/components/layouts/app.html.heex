@@ -27,6 +27,12 @@
       />
       <.nav_link
         :if={@current_user.role == :admin || @current_user.role == :org_admin}
+        label={gettext("keys")}
+        icon="key"
+        href={~p"/keys"}
+      />
+      <.nav_link
+        :if={@current_user.role == :admin || @current_user.role == :org_admin}
         label={gettext("schemas")}
         icon="file-json"
         href={~p"/schemas"}

@@ -32,92 +32,6 @@
       <p class="text-sm font-light"><%= user.org.name %></p>
     </:col>
     <:action :let={{_id, user}}>
-      <.button
-        size="icon"
-        variant="outline"
-        icon="key"
-        phx-click="rotate_key_pair"
-        phx-value-id={user.id}
-        disabled={!User.can_use_platform?(@current_user)}
-      >
-        <%= gettext("rotate_key_pair") %>
-      </.button>
-    </:action>
-    <:action :let={{_id, user}}>
-      <.button
-        size="icon"
-        variant="outline"
-        icon="minus"
-        phx-click="revoke_key_pair"
-        phx-value-id={user.id}
-        disabled={!User.can_use_platform?(@current_user)}
-      >
-        <%= gettext("revoke_key_pair") %>
-      </.button>
-    </:action>
-    <:action :let={{_id, user}}>
-      <.button
-        size="icon"
-        variant="outline"
-        icon="plus"
-        phx-click="create_key_pair"
-        phx-value-id={user.id}
-        disabled={!User.can_use_platform?(@current_user)}
-      >
-        <%= gettext("create_key_pair") %>
-      </.button>
-    </:action>
-    <:action :let={{_id, user}}>
-      <%= if user.status == :active do %>
-        <.button
-          size="icon"
-          variant="outline"
-          icon="power-off"
-          phx-click="deactivate"
-          phx-value-id={user.id}
-          disabled={!User.can_use_platform?(@current_user)}
-        >
-          <%= gettext("deactivate") %>
-        </.button>
-      <% else %>
-        <.button
-          size="icon"
-          variant="outline"
-          icon="power"
-          phx-click="activate"
-          phx-value-id={user.id}
-          disabled={!User.can_use_platform?(@current_user)}
-        >
-          <%= gettext("activate") %>
-        </.button>
-      <% end %>
-    </:action>
-    <:action :let={{_id, user}}>
-      <%= if user.status != :stopped do %>
-        <.button
-          size="icon"
-          variant="outline"
-          icon="pause"
-          phx-click="stop"
-          phx-value-id={user.id}
-          disabled={!User.can_use_platform?(@current_user)}
-        >
-          <%= gettext("deactivate") %>
-        </.button>
-      <% else %>
-        <.button
-          size="icon"
-          variant="outline"
-          icon="play"
-          phx-click="deactivate"
-          phx-value-id={user.id}
-          disabled={!User.can_use_platform?(@current_user)}
-        >
-          <%= gettext("deactivate") %>
-        </.button>
-      <% end %>
-    </:action>
-    <:action :let={{_id, user}}>
       <.link patch={~p"/users/#{user.id}/edit"}>
         <.button
           size="icon"
@@ -128,6 +42,31 @@
           <%= gettext("edit") %>
         </.button>
       </.link>
+    </:action>
+    <:action :let={{_id, user}}>
+      <%= if user.status != :stopped do %>
+        <.button
+          size="icon"
+          variant="outline"
+          icon="ban"
+          phx-click="stop"
+          phx-value-id={user.id}
+          disabled={!User.can_use_platform?(@current_user)}
+        >
+          <%= gettext("stop") %>
+        </.button>
+      <% else %>
+        <.button
+          size="icon"
+          variant="outline"
+          icon="play"
+          phx-click="activate"
+          phx-value-id={user.id}
+          disabled={!User.can_use_platform?(@current_user)}
+        >
+          <%= gettext("activate") %>
+        </.button>
+      <% end %>
     </:action>
     <:action :let={{id, user}}>
       <.button

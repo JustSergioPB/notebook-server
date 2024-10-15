@@ -911,6 +911,32 @@ defmodule NotebookServerWeb.CoreComponents do
     """
   end
 
+  attr :variant, :string, default: "inactive"
+  attr :class, :string, default: nil
+
+  def key_status_badge(assigns) do
+    ~H"""
+    <div class={[
+      "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs",
+      @variant == :rotated && "bg-slate-100 text-slate-700",
+      @variant == :active && "bg-green-100 text-green-600",
+      @variant == :revoked && "bg-red-100 text-red-600",
+      @class
+    ]}>
+      <div class={[
+        "h-[6px] w-[6px] rounded-full",
+        @variant == :rotated && "bg-slate-200",
+        @variant == :active && "bg-green-600",
+        @variant == :revoked && "bg-red-600"
+      ]}>
+      </div>
+      <span :if={@variant == :active}><%= gettext("active") %></span>
+      <span :if={@variant == :rotated}><%= gettext("rotated") %></span>
+      <span :if={@variant == :revoked}><%= gettext("revoked") %></span>
+    </div>
+    """
+  end
+
   slot :tab, required: true do
     attr :label, :string, required: true
     attr :id, :string, required: true

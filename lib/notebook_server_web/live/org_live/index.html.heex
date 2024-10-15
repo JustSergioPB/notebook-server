@@ -23,56 +23,6 @@
       <.status_badge variant={org.status} />
     </:col>
     <:action :let={{_id, org}}>
-      <%= if org.status == :active do %>
-        <.button
-          size="icon"
-          variant="outline"
-          icon="power-off"
-          phx-value-id={org.id}
-          phx-click="deactivate"
-          disabled={!User.can_use_platform?(@current_user)}
-        >
-          <%= gettext("deactivate") %>
-        </.button>
-      <% else %>
-        <.button
-          size="icon"
-          variant="outline"
-          icon="power"
-          phx-value-id={org.id}
-          phx-click="activate"
-          disabled={!User.can_use_platform?(@current_user)}
-        >
-          <%= gettext("activate") %>
-        </.button>
-      <% end %>
-    </:action>
-    <:action :let={{_id, org}}>
-      <%= if org.status != :stopped do %>
-        <.button
-          size="icon"
-          variant="outline"
-          icon="pause"
-          phx-value-id={org.id}
-          phx-click="stop"
-          disabled={!User.can_use_platform?(@current_user)}
-        >
-          <%= gettext("deactivate") %>
-        </.button>
-      <% else %>
-        <.button
-          size="icon"
-          variant="outline"
-          icon="play"
-          phx-value-id={org.id}
-          phx-click="deactivate"
-          disabled={!User.can_use_platform?(@current_user)}
-        >
-          <%= gettext("activate") %>
-        </.button>
-      <% end %>
-    </:action>
-    <:action :let={{_id, org}}>
       <.link patch={~p"/orgs/#{org.id}/edit"}>
         <.button
           size="icon"
@@ -83,6 +33,31 @@
           <%= gettext("edit") %>
         </.button>
       </.link>
+    </:action>
+    <:action :let={{_id, org}}>
+      <%= if org.status != :stopped do %>
+        <.button
+          size="icon"
+          variant="outline"
+          icon="ban"
+          phx-value-id={org.id}
+          phx-click="stop"
+          disabled={!User.can_use_platform?(@current_user)}
+        >
+          <%= gettext("stop") %>
+        </.button>
+      <% else %>
+        <.button
+          size="icon"
+          variant="outline"
+          icon="play"
+          phx-value-id={org.id}
+          phx-click="activate"
+          disabled={!User.can_use_platform?(@current_user)}
+        >
+          <%= gettext("activate") %>
+        </.button>
+      <% end %>
     </:action>
     <:action :let={{id, org}}>
       <.button

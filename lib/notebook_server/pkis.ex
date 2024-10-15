@@ -9,6 +9,21 @@ defmodule NotebookServer.PKIs do
   alias NotebookServer.PKIs.KeyPair
   alias NotebookServer.PKIs.PrivateKey
 
+  def list_public_keys(opts \\ []) do
+    org_id = Keyword.get(opts, :org_id)
+
+    query =
+      if(org_id) do
+        from(p in PublicKey, where: p.org_id == ^org_id)
+      else
+        from(p in PublicKey)
+      end
+
+    query = query |> order_by(asc: :user_id)
+
+    Repo.all(query) |> Repo.preload(:org) |> Repo.preload(:user)
+  end
+
   def get_public_key_by_user_id(user_id) do
     PublicKey
     |> where(user_id: ^user_id)
