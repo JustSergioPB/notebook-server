@@ -22,7 +22,9 @@
     <:col :let={{_id, schema}} label={gettext("description")}>
       <%= schema.context["description"] %>
     </:col>
-    <:col :let={{_id, schema}} label={gettext("org")}><%= schema.org.name %></:col>
+    <:col :let={{_id, schema}} :if={@current_user.role == :admin} label={gettext("org_name")}>
+      <%= schema.org.name %>
+    </:col>
     <:action :let={{_id, schema}}>
       <.link patch={~p"/schemas/#{schema.id}/edit"}>
         <.button
@@ -48,7 +50,9 @@
       </.button>
     </:action>
   </.table>
-  <.pagination page={1} total_pages={1} disabled={!User.can_use_platform?(@current_user)} />
+  <div class="p-6 border-t border-slate-200">
+    <.pagination page={1} total_pages={1} disabled={!User.can_use_platform?(@current_user)} />
+  </div>
 </.page_content>
 
 <.modal

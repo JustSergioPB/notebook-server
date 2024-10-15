@@ -132,7 +132,7 @@ defmodule NotebookServer.Credentials do
         from(c in Credential)
       end
 
-    Repo.all(query)
+    Repo.all(query) |> Repo.preload(:org) |> Repo.preload(:schema) |> Repo.preload(:user)
   end
 
   @doc """

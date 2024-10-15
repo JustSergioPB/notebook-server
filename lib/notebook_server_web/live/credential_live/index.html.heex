@@ -16,16 +16,15 @@
     rows={@streams.credentials}
     row_click={fn {_id, credential} -> JS.navigate(~p"/credentials/#{credential}") end}
   >
-    <:col :let={{_id, credential}} label={gettext("issuer")}>
-      <p class="text-sm font-semibold">
-        <%= credential.issuer.name %> <%= credential.issuer.last_name %>
+    <:col :let={{_id, credential}} label={gettext("schema")}>
+      <p>
+        <%= credential.schema[:title] %>
       </p>
     </:col>
-    <:col :let={{_id, credential}} label={gettext("org")}><%= credential.org.name %></:col>
-    <:col :let={{_id, credential}} label={gettext("schema")}>
-      <%= credential.schema[:title] %>
+    <:col :let={{_id, credential}} label={gettext("issuer")}>
+      <%= credential.issuer.name %> <%= credential.issuer.last_name %>
     </:col>
-
+    <:col :let={{_id, credential}} :if={@current_user.role == :admin} label={gettext("org")}><%= credential.org.name %></:col>
     <:action :let={{_id, credential}}>
       <.link patch={~p"/credentials/#{credential}/edit"}>
         <.button
@@ -51,7 +50,9 @@
       </.button>
     </:action>
   </.table>
-  <.pagination page={1} total_pages={1} disabled={!User.can_use_platform?(@current_user)} />
+  <div class="p-6 border-t border-slate-200">
+    <.pagination page={1} total_pages={1} disabled={!User.can_use_platform?(@current_user)} />
+  </div>
 </.page_content>
 
 <.modal

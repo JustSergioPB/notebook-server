@@ -8,11 +8,10 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div>
+    <div class="space-y-6">
       <.header>
         <%= @title %>
       </.header>
-
       <.simple_form
         for={@form}
         id="credential-form"
@@ -20,7 +19,7 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-
+        <.input field={@form[:name]} label={gettext("schema")} placeholder={gettext("schema_placeholder")} required />
         <:actions>
           <.button disabled={!User.can_use_platform?(@current_user)}>
             <%= gettext("save") %>

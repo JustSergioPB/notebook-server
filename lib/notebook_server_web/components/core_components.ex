@@ -485,7 +485,7 @@ defmodule NotebookServerWeb.CoreComponents do
   def page_header(assigns) do
     ~H"""
     <header class={[
-      "flex items-center justify-between gap-4 p-6 border-b border-slate-200",
+      "flex items-center justify-between gap-4 p-6",
       @class
     ]}>
       <div>
@@ -509,7 +509,7 @@ defmodule NotebookServerWeb.CoreComponents do
 
   def page_content(assigns) do
     ~H"""
-    <section class={["p-6 flex flex-col flex-1 space-y-6", @class]}>
+    <section class={["flex flex-col flex-1", @class]}>
       <%= render_slot(@inner_block) %>
     </section>
     """
@@ -549,13 +549,16 @@ defmodule NotebookServerWeb.CoreComponents do
 
     ~H"""
     <div class={[
-      "overflow-y-auto px-4 sm:overflow-visible sm:px-0 border border-slate-200 rounded-lg",
+      "overflow-y-auto px-4 sm:overflow-visible sm:px-0",
       @class
     ]}>
       <table class="w-full h-fullflex flex-col">
-        <thead class="bg-slate-100 border-b border-slate-200 w-full">
+        <thead class="border-b border-slate-200 w-full uppercase">
           <tr>
-            <th :for={col <- @col} class="text-sm text-left text-slate-700 p-3 font-semibold">
+            <th
+              :for={col <- @col}
+              class="text-xs text-left text-slate-700 p-3 font-semibold first:pl-6"
+            >
               <%= col[:label] %>
             </th>
             <th :if={@action != []}>
@@ -566,17 +569,17 @@ defmodule NotebookServerWeb.CoreComponents do
         <tbody
           id={@id}
           phx-update={match?(%Phoenix.LiveView.LiveStream{}, @rows) && "stream"}
-          class="flex-1 divide-y divide-slate-100 w-full min-h-0 overflow-y-auto"
+          class="flex-1 divide-y divide-slate-200 w-full min-h-0 overflow-y-auto"
         >
           <tr :for={row <- @rows} id={@row_id && @row_id.(row)} class="h-[10%]">
             <td
               :for={{col, _i} <- Enum.with_index(@col)}
               phx-click={@row_click && @row_click.(row)}
-              class="p-3 text-sm text-slate-700"
+              class="p-3 text-sm text-slate-700 first:pl-6"
             >
               <%= render_slot(col, @row_item.(row)) %>
             </td>
-            <td :if={@action != []} class="flex items-center justify-end gap-2 p-3">
+            <td :if={@action != []} class="flex items-center justify-end gap-2 p-3 pr-6">
               <span :for={action <- @action}>
                 <%= render_slot(action, @row_item.(row)) %>
               </span>
@@ -850,15 +853,15 @@ defmodule NotebookServerWeb.CoreComponents do
       "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs",
       @role == :admin && "bg-orange-100 text-orange-700",
       @role == :org_admin && "bg-purple-100 text-purple-700",
-      @role == :user && "bg-blue-100 text-blue-700",
+      @role == :issuer && "bg-blue-100 text-blue-700",
       @class
     ]}>
       <Lucide.shield_plus :if={@role == :admin} class="h-4 w-4 text-orange-500" />
       <Lucide.shield :if={@role == :org_admin} class="h-4 w-4 text-purple-500" />
-      <Lucide.pen_tool :if={@role == :user} class="h-4 w-4 text-blue-500" />
+      <Lucide.pen_tool :if={@role == :issuer} class="h-4 w-4 text-blue-500" />
       <span :if={@role == :admin}><%= gettext("admin") %></span>
       <span :if={@role == :org_admin}><%= gettext("org_admin") %></span>
-      <span :if={@role == :user}><%= gettext("user") %></span>
+      <span :if={@role == :issuer}><%= gettext("issuer") %></span>
     </div>
     """
   end
@@ -872,7 +875,7 @@ defmodule NotebookServerWeb.CoreComponents do
 
   def tabs(assigns) do
     ~H"""
-    <.page_content>
+    <section class="flex flex-col space-y-6 p-6 flex-1">
       <div class="flex items-center gap-4">
         <.link
           :for={{tab, _i} <- Enum.with_index(@tab)}
@@ -885,10 +888,10 @@ defmodule NotebookServerWeb.CoreComponents do
           <%= tab[:label] %>
         </.link>
       </div>
-      <div :for={tab <- @tab} class={["flex-1", (@active_tab == tab[:id] && "flex") || "hidden"]}>
+      <section :for={tab <- @tab} class={["flex-1", (@active_tab == tab[:id] && "flex") || "hidden"]}>
         <%= render_slot(tab) %>
-      </div>
-    </.page_content>
+      </section>
+    </section>
     """
   end
 end
