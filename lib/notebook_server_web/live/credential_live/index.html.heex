@@ -1,0 +1,72 @@
+<.page_header icon="file-text">
+  <%= gettext("credentials") %>
+  <:actions>
+    <.link patch={~p"/credentials/new"}>
+      <.button icon="plus_circle">
+        <%= gettext("credential") %>
+      </.button>
+    </.link>
+  </:actions>
+</.page_header>
+
+<.page_content>
+  <.table
+    id="credentials"
+    class="flex-1"
+    rows={@streams.credentials}
+    row_click={fn {_id, credential} -> JS.navigate(~p"/credentials/#{credential}") end}
+  >
+    <:col :let={{_id, credential}} label={gettext("issuer")}>
+      <p class="text-sm font-semibold">
+        <%= credential.issuer.name %> <%= credential.issuer.last_name %>
+      </p>
+    </:col>
+    <:col :let={{_id, credential}} label={gettext("org")}><%= credential.org.name %></:col>
+    <:col :let={{_id, credential}} label={gettext("schema")}>
+      <%= credential.schema[:title] %>
+    </:col>
+
+    <:action :let={{_id, credential}}>
+      <.link patch={~p"/credentials/#{credential}/edit"}>
+        <.button
+          size="icon"
+          variant="outline"
+          icon="pencil"
+          disabled={!User.can_use_platform?(@current_user)}
+        >
+          <%= gettext("edit") %>
+        </.button>
+      </.link>
+    </:action>
+    <:action :let={{id, credential}}>
+      <.button
+        size="icon"
+        variant="outline"
+        icon="trash"
+        disabled={!User.can_use_platform?(@current_user)}
+        phx-click={JS.push("delete", value: %{id: credential.id}) |> hide("##{id}")}
+        data-confirm={gettext("are_you_sure")}
+      >
+        <%= gettext("delete") %>
+      </.button>
+    </:action>
+  </.table>
+  <.pagination page={1} total_pages={1} disabled={!User.can_use_platform?(@current_user)} />
+</.page_content>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="credential-modal"
+  show
+  on_cancel={JS.patch(~p"/credentials")}
+>
+  <.live_component
+    module={NotebookServerWeb.CredentialLive.FormComponent}
+    id={@credential.id || :new}
+    title={@page_title}
+    action={@live_action}
+    credential={@credential}
+    current_user={@current_user}
+    patch={~p"/credentials"}
+  />
+</.modal>

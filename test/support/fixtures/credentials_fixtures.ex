@@ -17,4 +17,18 @@ defmodule NotebookServer.CredentialsFixtures do
 
     schema
   end
+
+  @doc """
+  Generate a credential.
+  """
+  def credential_fixture(attrs \\ %{}) do
+    {:ok, credential} =
+      attrs
+      |> Enum.into(%{
+        content: %{}
+      })
+      |> NotebookServer.Credentials.create_credential()
+
+    credential
+  end
 end

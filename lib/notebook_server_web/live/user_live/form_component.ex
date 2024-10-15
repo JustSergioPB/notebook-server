@@ -47,7 +47,7 @@ defmodule NotebookServerWeb.UserLive.FormComponent do
           label={gettext("role")}
           options={[
             {gettext("org_admin"), "org_admin"},
-            {gettext("user"), "user"}
+            {gettext("issuer"), "issuer"}
           ]}
         />
         <:actions>

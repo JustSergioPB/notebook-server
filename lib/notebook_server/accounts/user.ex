@@ -16,9 +16,11 @@ defmodule NotebookServer.Accounts.User do
     field :status, Ecto.Enum, values: [:active, :inactive, :stopped], default: :active
     field :language, Ecto.Enum, values: [:en, :es], default: :es
     field :confirmed_at, :utc_datetime
-    field :role, Ecto.Enum, values: [:admin, :org_admin, :user], default: :user
+    field :role, Ecto.Enum, values: [:admin, :org_admin, :issuer], default: :issuer
     belongs_to :org, NotebookServer.Orgs.Org
     has_many :public_keys, NotebookServer.PKIs.PublicKey
+    has_many :schemas, NotebookServer.Credentials.Schema
+    has_many :issued_credentials, NotebookServer.Credentials.Credential
 
     timestamps(type: :utc_datetime)
   end

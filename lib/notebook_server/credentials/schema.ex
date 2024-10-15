@@ -6,6 +6,7 @@ defmodule NotebookServer.Credentials.Schema do
   schema "schemas" do
     field :context, :map, default: %{}
     belongs_to :org, NotebookServer.Orgs.Org
+    belongs_to :user, NotebookServer.Accounts.User
 
     timestamps(type: :utc_datetime)
   end
@@ -21,7 +22,7 @@ defmodule NotebookServer.Credentials.Schema do
       end
 
     schema
-    |> cast(attrs, [:context, :org_id])
-    |> validate_required([:context, :org_id])
+    |> cast(attrs, [:context, :org_id, :user_id])
+    |> validate_required([:context, :org_id, :user_id])
   end
 end

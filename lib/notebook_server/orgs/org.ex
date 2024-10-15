@@ -9,6 +9,7 @@ defmodule NotebookServer.Orgs.Org do
     has_many :users, NotebookServer.Accounts.User
     has_many :public_keys, NotebookServer.PKIs.PublicKey
     has_many :schemas, NotebookServer.Credentials.Schema
+    has_many :issued_credentials, NotebookServer.Credentials.Credential
 
     timestamps(type: :utc_datetime)
   end
