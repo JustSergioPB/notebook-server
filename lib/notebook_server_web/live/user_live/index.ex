@@ -55,18 +55,6 @@ defmodule NotebookServerWeb.UserLive.Index do
   end
 
   @impl true
-  def handle_event("deactivate", %{"id" => id}, socket) do
-    if User.can_use_platform?(socket.assigns.current_user) do
-      opts = org_filter(socket)
-      user = Accounts.get_user!(id)
-      {:ok, _} = Accounts.deactivate_user(user)
-      {:noreply, stream(socket, :users, Accounts.list_users(opts))}
-    else
-      {:noreply, socket}
-    end
-  end
-
-  @impl true
   def handle_event("activate", %{"id" => id}, socket) do
     if User.can_use_platform?(socket.assigns.current_user) do
       opts = org_filter(socket)

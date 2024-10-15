@@ -360,7 +360,7 @@ defmodule NotebookServerWeb.CoreComponents do
       <select
         id={@id}
         name={@name}
-        class="block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-slate-400 focus:ring-0 sm:text-sm disabled:opacity-50"
+        class="block w-full rounded-md border border-slate-300 bg-white shadow-sm focus:border-slate-400 focus:ring-0 sm:text-sm disabled:opacity-50"
         multiple={@multiple}
         {@rest}
       >
@@ -394,7 +394,7 @@ defmodule NotebookServerWeb.CoreComponents do
   # All other inputs text, datetime-local, url, password, etc. are handled here...
   def input(assigns) do
     ~H"""
-    <div class={@class}>
+    <div class={["space-y-2", @class]}>
       <.label for={@id}><%= @label %></.label>
       <input
         type={@type}
@@ -402,7 +402,7 @@ defmodule NotebookServerWeb.CoreComponents do
         id={@id}
         value={Phoenix.HTML.Form.normalize_value(@type, @value)}
         class={[
-          "mt-2 block w-full rounded-lg text-slate-900 focus:ring-0 sm:text-sm sm:leading-6 disabled:opacity-50",
+          "block w-full rounded-lg text-slate-900 focus:ring-0 sm:text-sm sm:leading-6 disabled:opacity-50",
           @errors == [] && "border-slate-300 focus:border-slate-400",
           @errors != [] && "border-rose-400 focus:border-rose-400"
         ]}
@@ -574,7 +574,6 @@ defmodule NotebookServerWeb.CoreComponents do
           <tr :for={row <- @rows} id={@row_id && @row_id.(row)} class="h-[10%]">
             <td
               :for={{col, _i} <- Enum.with_index(@col)}
-              phx-click={@row_click && @row_click.(row)}
               class="p-3 text-sm text-slate-700 first:pl-6"
             >
               <%= render_slot(col, @row_item.(row)) %>

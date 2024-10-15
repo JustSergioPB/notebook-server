@@ -2,6 +2,7 @@ defmodule NotebookServerWeb.KeyLive.Index do
   use NotebookServerWeb, :live_view
 
   alias NotebookServer.PKIs
+  alias NotebookServer.PKIs.PublicKey
   alias NotebookServer.Accounts.User
   alias NotebookServer.Accounts
   alias NotebookServer.Orgs
@@ -21,7 +22,7 @@ defmodule NotebookServerWeb.KeyLive.Index do
   defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, gettext("new_key"))
-    |> assign(:key, %{})
+    |> assign(:key, %PublicKey{})
   end
 
   defp apply_action(socket, :index, _params) do
@@ -34,7 +35,9 @@ defmodule NotebookServerWeb.KeyLive.Index do
   def handle_info({NotebookServerWeb.KeyLive.FormComponent, {:saved, key}}, socket) do
     # TODO: check if there's a better way to do this
     org = Orgs.get_org!(key.org_id)
+    user = Accounts.get_user!(key.user_id)
     key = Map.put(key, :org, org)
+    key = Map.put(key, :user, user)
     {:noreply, stream_insert(socket, :keys, key)}
   end
 
@@ -47,8 +50,13 @@ defmodule NotebookServerWeb.KeyLive.Index do
 
       PKIs.rotate_key_pair(user.id, user.org_id, public_key)
       |> case do
-        {:ok, _public_key} ->
-          {:noreply, put_flash(socket, :info, gettext("key_pair_rotated"))}
+        {:ok, _} ->
+          socket =
+            socket
+            |> put_flash(:info, gettext("key_pair_rotated"))
+            |> stream(:keys, PKIs.list_public_keys(org_filter(socket)))
+
+          {:noreply, socket}
 
         {:error} ->
           {:noreply, put_flash(socket, :error, gettext("error_rotating_key_pair"))}
@@ -66,30 +74,19 @@ defmodule NotebookServerWeb.KeyLive.Index do
 
       PKIs.revoke_key_pair(public_key)
       |> case do
-        {:ok, _public_key} ->
-          {:noreply, put_flash(socket, :info, gettext("key_pair_revoked"))}
+        {:ok, _} ->
+          socket =
+            socket
+            |> put_flash(:info, gettext("key_pair_revoked"))
+            |> stream(:keys, PKIs.list_public_keys(org_filter(socket)))
+
+          {:noreply, socket}
 
         {:error} ->
           {:noreply, put_flash(socket, :error, gettext("error_revoking_key_pair"))}
       end
     else
       {:noreply, socket}
-    end
-  end
-
-  def handle_event("create_key_pair", %{"id" => id}, socket) do
-    if User.can_use_platform?(socket.assigns.current_user) do
-      # TODO: Add logic to check wether the user has a key pair
-      user = Accounts.get_user!(id)
-
-      PKIs.create_key_pair(user.id, user.org_id)
-      |> case do
-        {:ok, _public_key} ->
-          {:noreply, put_flash(socket, :info, gettext("key_pair_created"))}
-
-        {:error} ->
-          {:noreply, put_flash(socket, :error, gettext("error_creating_key_pair"))}
-      end
     end
   end
 

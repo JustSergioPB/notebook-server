@@ -31,6 +31,10 @@ defmodule NotebookServer.PKIs do
     |> Repo.one()
   end
 
+  def change_public_key(%PublicKey{} = public_key, attrs \\ %{}) do
+    PublicKey.changeset(public_key, attrs)
+  end
+
   def create_key_pair(user_id, org_id) do
     {private_key, public_key} = KeyPair.generate()
 
