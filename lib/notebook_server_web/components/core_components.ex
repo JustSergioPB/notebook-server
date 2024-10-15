@@ -866,6 +866,51 @@ defmodule NotebookServerWeb.CoreComponents do
     """
   end
 
+  attr :platform, :string, required: true
+  attr :class, :string, default: nil
+  slot :inner_block, required: true
+
+  def platform_badge(assigns) do
+    ~H"""
+    <div class={[
+      "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs uppercase",
+      @platform == :web2 && "bg-blue-100 text-blue-700",
+      @platform == :web3 && "bg-green-100 text-green-700",
+      @class
+    ]}>
+      <Lucide.globe :if={@platform == :web2} class="h-3 w-3 text-blue-500" />
+      <Lucide.link :if={@platform == :web3} class="h-3 w-3 text-green-500" />
+      <span><%= render_slot(@inner_block) %></span>
+    </div>
+    """
+  end
+
+  attr :variant, :string, default: "draft"
+  attr :class, :string, default: nil
+
+  def schema_status_badge(assigns) do
+    ~H"""
+    <div class={[
+      "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs",
+      @variant == :draft && "bg-amber-100 text-amber-700",
+      @variant == :published && "bg-green-100 text-green-600",
+      @variant == :archived && "bg-slate-100 text-slate-200",
+      @class
+    ]}>
+      <div class={[
+        "h-[6px] w-[6px] rounded-full",
+        @variant == :draft && "bg-amber-600",
+        @variant == :published && "bg-green-600",
+        @variant == :archived && "bg-slate-600"
+      ]}>
+      </div>
+      <span :if={@variant == :published}><%= gettext("published") %></span>
+      <span :if={@variant == :draft}><%= gettext("draft") %></span>
+      <span :if={@variant == :archived}><%= gettext("archived") %></span>
+    </div>
+    """
+  end
+
   slot :tab, required: true do
     attr :label, :string, required: true
     attr :id, :string, required: true
