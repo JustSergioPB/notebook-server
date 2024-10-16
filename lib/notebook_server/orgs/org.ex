@@ -7,7 +7,7 @@ defmodule NotebookServer.Orgs.Org do
     field :name, :string
     field :status, Ecto.Enum, values: [:active, :inactive, :banned], default: :active
     has_many :users, NotebookServer.Accounts.User
-    has_many :public_keys, NotebookServer.PKIs.PublicKey
+    has_many :user_certificates, NotebookServer.PKIs.UserCertificate
     has_many :schemas, NotebookServer.Credentials.Schema
     has_many :issued_credentials, NotebookServer.Credentials.Credential
 

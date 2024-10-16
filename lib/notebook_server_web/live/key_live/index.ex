@@ -2,7 +2,7 @@ defmodule NotebookServerWeb.KeyLive.Index do
   use NotebookServerWeb, :live_view
 
   alias NotebookServer.PKIs
-  alias NotebookServer.PKIs.PublicKey
+  alias NotebookServer.PKIs.UserCertificate
   alias NotebookServer.Accounts.User
   alias NotebookServer.Accounts
   alias NotebookServer.Orgs
@@ -11,7 +11,7 @@ defmodule NotebookServerWeb.KeyLive.Index do
   @impl true
   def mount(_params, _session, socket) do
     opts = org_filter(socket)
-    {:ok, stream(socket, :keys, PKIs.list_public_keys(opts))}
+    {:ok, stream(socket, :keys, PKIs.list_user_certificates(opts))}
   end
 
   @impl true
@@ -22,7 +22,7 @@ defmodule NotebookServerWeb.KeyLive.Index do
   defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, gettext("new_key"))
-    |> assign(:key, %PublicKey{})
+    |> assign(:key, %UserCertificate{})
   end
 
   defp apply_action(socket, :index, _params) do
@@ -46,15 +46,15 @@ defmodule NotebookServerWeb.KeyLive.Index do
     if User.can_use_platform?(socket.assigns.current_user) do
       # TODO: Add logic to check wether the user has a key pair or not
       user = Accounts.get_user!(id)
-      public_key = PKIs.get_public_key_by_user_id(user.id)
+      user_certificate = PKIs.get_user_certificate_by_user_id(user.id)
 
-      PKIs.rotate_key_pair(user.id, user.org_id, public_key)
+      PKIs.rotate_key_pair(user.id, user.org_id, user_certificate)
       |> case do
         {:ok, _} ->
           socket =
             socket
             |> put_flash(:info, gettext("key_pair_rotated"))
-            |> stream(:keys, PKIs.list_public_keys(org_filter(socket)))
+            |> stream(:keys, PKIs.list_user_certificates(org_filter(socket)))
 
           {:noreply, socket}
 
@@ -70,15 +70,15 @@ defmodule NotebookServerWeb.KeyLive.Index do
     if User.can_use_platform?(socket.assigns.current_user) do
       # TODO: Add logic to check wether the user has a key pair or not
       user = Accounts.get_user!(id)
-      public_key = PKIs.get_public_key_by_user_id(user.id)
+      user_certificate = PKIs.get_user_certificate_by_user_id(user.id)
 
-      PKIs.revoke_key_pair(public_key)
+      PKIs.revoke_key_pair(user_certificate)
       |> case do
         {:ok, _} ->
           socket =
             socket
             |> put_flash(:info, gettext("key_pair_revoked"))
-            |> stream(:keys, PKIs.list_public_keys(org_filter(socket)))
+            |> stream(:keys, PKIs.list_user_certificates(org_filter(socket)))
 
           {:noreply, socket}
 

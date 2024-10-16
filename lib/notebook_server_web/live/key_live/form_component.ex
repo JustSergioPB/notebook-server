@@ -4,7 +4,7 @@ defmodule NotebookServerWeb.KeyLive.FormComponent do
   alias NotebookServer.PKIs
   alias NotebookServer.Accounts
   alias NotebookServer.Accounts.User
-  alias NotebookServer.PKIs.PublicKey
+  alias NotebookServer.PKIs.UserCertificate
   alias NotebookServerWeb.Live.Components.SelectSearch
   use Gettext, backend: NotebookServerWeb.Gettext
 
@@ -50,13 +50,13 @@ defmodule NotebookServerWeb.KeyLive.FormComponent do
     {:ok,
      socket
      |> assign(assigns)
-     |> assign(:form, to_form(PKIs.change_public_key(%PublicKey{})))
+     |> assign(:form, to_form(PKIs.change_user_certificate(%UserCertificate{})))
      |> update_users_options()}
   end
 
   @impl true
   def handle_event("validate", %{"key" => key_params}, socket) do
-    changeset = PKIs.change_public_key(socket.assigns.key, key_params)
+    changeset = PKIs.change_user_certificate(socket.assigns.key, key_params)
     {:noreply, assign(socket, form: to_form(changeset))}
   end
 

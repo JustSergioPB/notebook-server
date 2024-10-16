@@ -5,18 +5,18 @@ defmodule NotebookServer.PKIFixtures do
   """
 
   @doc """
-  Generate a public_key.
+  Generate a user_certificate.
   """
-  def public_key_fixture(attrs \\ %{}) do
-    {:ok, public_key} =
+  def user_certificate_fixture(attrs \\ %{}) do
+    {:ok, user_certificate} =
       attrs
       |> Enum.into(%{
         expiration_date: ~U[2024-10-12 17:42:00Z],
         key: "some key",
         status: :revoked
       })
-      |> NotebookServer.PKI.create_public_key()
+      |> NotebookServer.PKI.create_user_certificate()
 
-    public_key
+    user_certificate
   end
 end

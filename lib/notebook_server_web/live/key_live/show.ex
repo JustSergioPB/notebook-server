@@ -14,7 +14,7 @@ defmodule NotebookServerWeb.KeyLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:key, PKIs.get_public_key_by_user_id(id))}
+     |> assign(:key, PKIs.get_user_certificate_by_user_id(id))}
   end
 
   defp page_title(:show), do: gettext("show_key")
