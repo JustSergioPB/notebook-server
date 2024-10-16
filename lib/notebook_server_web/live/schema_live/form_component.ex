@@ -8,7 +8,7 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div>
+    <div class="space-y-6">
       <.header>
         <%= @title %>
       </.header>
@@ -20,12 +20,35 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
         phx-submit="save"
       >
         <.input
+          type="text"
+          field={@form[:title]}
+          label={gettext("title")}
+          placeholder={gettext("title_placeholder")}
+          required
+        />
+        <.input
           type="textarea"
-          field={@form[:context]}
-          label={gettext("context")}
+          rows="2"
+          field={@form[:description]}
+          label={gettext("description")}
+          placeholder={gettext("description_placeholder")}
+        />
+        <.input
+          type="select"
+          field={@form[:platform]}
+          label={gettext("platform")}
+          options={[
+            {"web2", "web2"},
+            {"web3", "web3"}
+          ]}
+        />
+        <.input
+          type="textarea"
+          field={@form[:credential_subject]}
+          label={gettext("credential_subject")}
           autocomplete="off"
-          rows="15"
-          value={Jason.encode!(@form[:context].value, pretty: true)}
+          rows="5"
+          value={Jason.encode!(@form[:credential_subject].value, pretty: true)}
         />
         <:actions>
           <.button disabled={!User.can_use_platform?(@current_user)}>

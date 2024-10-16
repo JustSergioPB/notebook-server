@@ -27,9 +27,20 @@
       />
       <.nav_link
         :if={@current_user.role == :admin || @current_user.role == :org_admin}
+        label={gettext("keys")}
+        icon="key"
+        href={~p"/keys"}
+      />
+      <.nav_link
+        :if={@current_user.role == :admin || @current_user.role == :org_admin}
         label={gettext("schemas")}
         icon="file-json"
         href={~p"/schemas"}
+      />
+      <.nav_link
+        label={gettext("credentials")}
+        icon="file-text"
+        href={~p"/credentials"}
       />
     </ul>
     <ul class="space-y-1">

@@ -13,12 +13,14 @@ defmodule NotebookServer.Accounts.User do
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :current_password, :string, virtual: true, redact: true
-    field :status, Ecto.Enum, values: [:active, :inactive, :stopped], default: :active
+    field :status, Ecto.Enum, values: [:active, :inactive, :banned], default: :active
     field :language, Ecto.Enum, values: [:en, :es], default: :es
     field :confirmed_at, :utc_datetime
-    field :role, Ecto.Enum, values: [:admin, :org_admin, :user], default: :user
+    field :role, Ecto.Enum, values: [:admin, :org_admin, :issuer], default: :issuer
     belongs_to :org, NotebookServer.Orgs.Org
     has_many :public_keys, NotebookServer.PKIs.PublicKey
+    has_many :schemas, NotebookServer.Credentials.Schema
+    has_many :issued_credentials, NotebookServer.Credentials.Credential
 
     timestamps(type: :utc_datetime)
   end
@@ -57,7 +59,7 @@ defmodule NotebookServer.Accounts.User do
 
   def validate_status(changeset) do
     changeset
-    |> validate_inclusion(:status, [:active, :inactive, :stopped],
+    |> validate_inclusion(:status, [:active, :inactive, :banned],
       message: gettext("invalid_user_status")
     )
   end
@@ -83,8 +85,8 @@ defmodule NotebookServer.Accounts.User do
     change(user, confirmed_at: now)
   end
 
-  def stop_changeset(user) do
-    change(user, status: :stopped)
+  def ban_changeset(user) do
+    change(user, status: :banned)
   end
 
   def deactivation_changeset(user) do

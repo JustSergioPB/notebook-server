@@ -417,6 +417,7 @@ defmodule NotebookServer.Accounts do
 
   def list_users(opts \\ []) do
     org_id = Keyword.get(opts, :org_id)
+    email = Keyword.get(opts, :email)
 
     query =
       if(org_id) do
@@ -425,7 +426,14 @@ defmodule NotebookServer.Accounts do
         from(u in User)
       end
 
-    query = query |> order_by(desc: :inserted_at)
+    query =
+      if(email) do
+        from(u in query, where: ilike(u.email, ^"%#{email}%"))
+      else
+        query
+      end
+
+    query = query |> limit(10) |> order_by(desc: :inserted_at)
 
     Repo.all(query) |> Repo.preload(:org)
   end
@@ -442,9 +450,9 @@ defmodule NotebookServer.Accounts do
     |> Repo.update()
   end
 
-  def stop_user(user) do
+  def ban_user(user) do
     user
-    |> User.stop_changeset()
+    |> User.ban_changeset()
     |> Repo.update()
   end
 end

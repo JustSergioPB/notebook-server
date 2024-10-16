@@ -8,7 +8,7 @@ defmodule NotebookServerWeb.OrgLive.FormComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div>
+    <div class="space-y-6">
       <.header>
         <%= @title %>
       </.header>

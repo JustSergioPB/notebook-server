@@ -360,7 +360,7 @@ defmodule NotebookServerWeb.CoreComponents do
       <select
         id={@id}
         name={@name}
-        class="block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-slate-400 focus:ring-0 sm:text-sm disabled:opacity-50"
+        class="block w-full rounded-md border border-slate-300 bg-white shadow-sm focus:border-slate-400 focus:ring-0 sm:text-sm disabled:opacity-50"
         multiple={@multiple}
         {@rest}
       >
@@ -394,7 +394,7 @@ defmodule NotebookServerWeb.CoreComponents do
   # All other inputs text, datetime-local, url, password, etc. are handled here...
   def input(assigns) do
     ~H"""
-    <div class={@class}>
+    <div class={["space-y-2", @class]}>
       <.label for={@id}><%= @label %></.label>
       <input
         type={@type}
@@ -402,7 +402,7 @@ defmodule NotebookServerWeb.CoreComponents do
         id={@id}
         value={Phoenix.HTML.Form.normalize_value(@type, @value)}
         class={[
-          "mt-2 block w-full rounded-lg text-slate-900 focus:ring-0 sm:text-sm sm:leading-6 disabled:opacity-50",
+          "block w-full rounded-lg text-slate-900 focus:ring-0 sm:text-sm sm:leading-6 disabled:opacity-50",
           @errors == [] && "border-slate-300 focus:border-slate-400",
           @errors != [] && "border-rose-400 focus:border-rose-400"
         ]}
@@ -485,7 +485,7 @@ defmodule NotebookServerWeb.CoreComponents do
   def page_header(assigns) do
     ~H"""
     <header class={[
-      "flex items-center justify-between gap-4 p-6 border-b border-slate-200",
+      "flex items-center justify-between gap-4 p-6",
       @class
     ]}>
       <div>
@@ -509,7 +509,7 @@ defmodule NotebookServerWeb.CoreComponents do
 
   def page_content(assigns) do
     ~H"""
-    <section class={["p-6 flex flex-col flex-1 space-y-6", @class]}>
+    <section class={["flex flex-col flex-1", @class]}>
       <%= render_slot(@inner_block) %>
     </section>
     """
@@ -549,13 +549,16 @@ defmodule NotebookServerWeb.CoreComponents do
 
     ~H"""
     <div class={[
-      "overflow-y-auto px-4 sm:overflow-visible sm:px-0 border border-slate-200 rounded-lg",
+      "overflow-y-auto px-4 sm:overflow-visible sm:px-0",
       @class
     ]}>
       <table class="w-full h-fullflex flex-col">
-        <thead class="bg-slate-100 border-b border-slate-200 w-full">
+        <thead class="border-b border-slate-200 w-full uppercase">
           <tr>
-            <th :for={col <- @col} class="text-sm text-left text-slate-700 p-3 font-semibold">
+            <th
+              :for={col <- @col}
+              class="text-xs text-left text-slate-700 p-3 font-semibold first:pl-6"
+            >
               <%= col[:label] %>
             </th>
             <th :if={@action != []}>
@@ -566,17 +569,16 @@ defmodule NotebookServerWeb.CoreComponents do
         <tbody
           id={@id}
           phx-update={match?(%Phoenix.LiveView.LiveStream{}, @rows) && "stream"}
-          class="flex-1 divide-y divide-slate-100 w-full min-h-0 overflow-y-auto"
+          class="flex-1 divide-y divide-slate-200 w-full min-h-0 overflow-y-auto"
         >
           <tr :for={row <- @rows} id={@row_id && @row_id.(row)} class="h-[10%]">
             <td
               :for={{col, _i} <- Enum.with_index(@col)}
-              phx-click={@row_click && @row_click.(row)}
-              class="p-3 text-sm text-slate-700"
+              class="p-3 text-sm text-slate-700 first:pl-6"
             >
               <%= render_slot(col, @row_item.(row)) %>
             </td>
-            <td :if={@action != []} class="flex items-center justify-end gap-2 p-3">
+            <td :if={@action != []} class="flex items-center justify-end gap-2 p-3 pr-6">
               <span :for={action <- @action}>
                 <%= render_slot(action, @row_item.(row)) %>
               </span>
@@ -824,19 +826,19 @@ defmodule NotebookServerWeb.CoreComponents do
       "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs",
       @variant == :inactive && "bg-slate-100 text-slate-700",
       @variant == :active && "bg-green-100 text-green-600",
-      @variant == :stopped && "bg-red-100 text-red-600",
+      @variant == :banned && "bg-red-100 text-red-600",
       @class
     ]}>
       <div class={[
         "h-[6px] w-[6px] rounded-full",
         @variant == :inactive && "bg-slate-200",
         @variant == :active && "bg-green-600",
-        @variant == :stopped && "bg-red-600"
+        @variant == :banned && "bg-red-600"
       ]}>
       </div>
       <span :if={@variant == :active}><%= gettext("active") %></span>
       <span :if={@variant == :inactive}><%= gettext("inactive") %></span>
-      <span :if={@variant == :stopped}><%= gettext("stopped") %></span>
+      <span :if={@variant == :banned}><%= gettext("banned") %></span>
     </div>
     """
   end
@@ -850,15 +852,86 @@ defmodule NotebookServerWeb.CoreComponents do
       "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs",
       @role == :admin && "bg-orange-100 text-orange-700",
       @role == :org_admin && "bg-purple-100 text-purple-700",
-      @role == :user && "bg-blue-100 text-blue-700",
+      @role == :issuer && "bg-blue-100 text-blue-700",
       @class
     ]}>
       <Lucide.shield_plus :if={@role == :admin} class="h-4 w-4 text-orange-500" />
       <Lucide.shield :if={@role == :org_admin} class="h-4 w-4 text-purple-500" />
-      <Lucide.pen_tool :if={@role == :user} class="h-4 w-4 text-blue-500" />
+      <Lucide.pen_tool :if={@role == :issuer} class="h-4 w-4 text-blue-500" />
       <span :if={@role == :admin}><%= gettext("admin") %></span>
       <span :if={@role == :org_admin}><%= gettext("org_admin") %></span>
-      <span :if={@role == :user}><%= gettext("user") %></span>
+      <span :if={@role == :issuer}><%= gettext("issuer") %></span>
+    </div>
+    """
+  end
+
+  attr :platform, :string, required: true
+  attr :class, :string, default: nil
+  slot :inner_block, required: true
+
+  def platform_badge(assigns) do
+    ~H"""
+    <div class={[
+      "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs uppercase",
+      @platform == :web2 && "bg-blue-100 text-blue-700",
+      @platform == :web3 && "bg-green-100 text-green-700",
+      @class
+    ]}>
+      <Lucide.globe :if={@platform == :web2} class="h-3 w-3 text-blue-500" />
+      <Lucide.link :if={@platform == :web3} class="h-3 w-3 text-green-500" />
+      <span><%= render_slot(@inner_block) %></span>
+    </div>
+    """
+  end
+
+  attr :variant, :string, default: "draft"
+  attr :class, :string, default: nil
+
+  def schema_status_badge(assigns) do
+    ~H"""
+    <div class={[
+      "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs",
+      @variant == :draft && "bg-amber-100 text-amber-700",
+      @variant == :published && "bg-green-100 text-green-600",
+      @variant == :archived && "bg-slate-100 text-slate-200",
+      @class
+    ]}>
+      <div class={[
+        "h-[6px] w-[6px] rounded-full",
+        @variant == :draft && "bg-amber-600",
+        @variant == :published && "bg-green-600",
+        @variant == :archived && "bg-slate-600"
+      ]}>
+      </div>
+      <span :if={@variant == :published}><%= gettext("published") %></span>
+      <span :if={@variant == :draft}><%= gettext("draft") %></span>
+      <span :if={@variant == :archived}><%= gettext("archived") %></span>
+    </div>
+    """
+  end
+
+  attr :variant, :string, default: "inactive"
+  attr :class, :string, default: nil
+
+  def key_status_badge(assigns) do
+    ~H"""
+    <div class={[
+      "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs",
+      @variant == :rotated && "bg-slate-100 text-slate-700",
+      @variant == :active && "bg-green-100 text-green-600",
+      @variant == :revoked && "bg-red-100 text-red-600",
+      @class
+    ]}>
+      <div class={[
+        "h-[6px] w-[6px] rounded-full",
+        @variant == :rotated && "bg-slate-200",
+        @variant == :active && "bg-green-600",
+        @variant == :revoked && "bg-red-600"
+      ]}>
+      </div>
+      <span :if={@variant == :active}><%= gettext("active") %></span>
+      <span :if={@variant == :rotated}><%= gettext("rotated") %></span>
+      <span :if={@variant == :revoked}><%= gettext("revoked") %></span>
     </div>
     """
   end
@@ -872,7 +945,7 @@ defmodule NotebookServerWeb.CoreComponents do
 
   def tabs(assigns) do
     ~H"""
-    <.page_content>
+    <section class="flex flex-col space-y-6 p-6 flex-1">
       <div class="flex items-center gap-4">
         <.link
           :for={{tab, _i} <- Enum.with_index(@tab)}
@@ -885,10 +958,45 @@ defmodule NotebookServerWeb.CoreComponents do
           <%= tab[:label] %>
         </.link>
       </div>
-      <div :for={tab <- @tab} class={["flex-1", (@active_tab == tab[:id] && "flex") || "hidden"]}>
+      <section :for={tab <- @tab} class={["flex-1", (@active_tab == tab[:id] && "flex") || "hidden"]}>
         <%= render_slot(tab) %>
+      </section>
+    </section>
+    """
+  end
+
+  attr :text, :string, required: true
+  attr :class, :string, default: nil
+  attr :position, :string, default: "bottom"
+  slot :inner_block, required: true
+
+  def tooltip(assigns) do
+    position_class =
+      case assigns.position do
+        "top" -> "bottom-full mb-2"
+        "bottom" -> "top-full mt-2"
+        "left" -> "right-full mr-2"
+        "right" -> "left-full ml-2"
+        # Default to bottom if invalid position is provided
+        _ -> "top-full mt-2"
+      end
+
+    assigns = assign(assigns, :position_class, position_class)
+
+    ~H"""
+    <div class="relative group">
+      <div class={["inline-block", @class]}>
+        <%= render_slot(@inner_block) %>
       </div>
-    </.page_content>
+      <div class={[
+        "absolute z-10 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition",
+        "bg-gray-800 text-white text-xs rounded py-1 px-2 whitespace-nowrap",
+        "left-1/2 -translate-x-1/2",
+        @position_class
+      ]}>
+        <%= @text %>
+      </div>
+    </div>
     """
   end
 end

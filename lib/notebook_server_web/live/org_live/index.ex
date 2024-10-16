@@ -51,17 +51,6 @@ defmodule NotebookServerWeb.OrgLive.Index do
   end
 
   @impl true
-  def handle_event("deactivate", %{"id" => id}, socket) do
-    if User.can_use_platform?(socket.assigns.current_user) do
-      org = Orgs.get_org!(id)
-      {:ok, _} = Orgs.deactivate_org(org)
-      {:noreply, stream(socket, :orgs, Orgs.list_orgs())}
-    else
-      {:noreply, socket}
-    end
-  end
-
-  @impl true
   def handle_event("activate", %{"id" => id}, socket) do
     if User.can_use_platform?(socket.assigns.current_user) do
       org = Orgs.get_org!(id)
@@ -72,10 +61,10 @@ defmodule NotebookServerWeb.OrgLive.Index do
     end
   end
 
-  def handle_event("stop", %{"id" => id}, socket) do
+  def handle_event("ban", %{"id" => id}, socket) do
     if User.can_use_platform?(socket.assigns.current_user) do
       org = Orgs.get_org!(id)
-      {:ok, _} = Orgs.stop_org(org)
+      {:ok, _} = Orgs.ban_org(org)
       {:noreply, stream(socket, :orgs, Orgs.list_orgs())}
     else
       {:noreply, socket}

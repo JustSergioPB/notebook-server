@@ -45,7 +45,7 @@ defmodule NotebookServerWeb.UserSettingsLive do
             options={[
               {gettext("admin"), "admin"},
               {gettext("org_admin"), "org_admin"},
-              {gettext("user"), "user"}
+              {gettext("issuer"), "issuer"}
             ]}
             disabled
           />

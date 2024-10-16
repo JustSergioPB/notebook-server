@@ -5,6 +5,7 @@ defmodule NotebookServer.PKIs.PublicKey do
   schema "public_keys" do
     field :status, Ecto.Enum, values: [:revoked, :active, :rotated], default: :active
     field :key, :binary
+    field :platform, Ecto.Enum, values: [:web2, :web3], default: :web2
     field :expiration_date, :utc_datetime
     belongs_to :user, NotebookServer.Accounts.User
     belongs_to :org, NotebookServer.Orgs.Org

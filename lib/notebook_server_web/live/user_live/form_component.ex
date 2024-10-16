@@ -8,7 +8,7 @@ defmodule NotebookServerWeb.UserLive.FormComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div>
+    <div class="space-y-6">
       <.header>
         <%= @title %>
       </.header>
@@ -47,7 +47,7 @@ defmodule NotebookServerWeb.UserLive.FormComponent do
           label={gettext("role")}
           options={[
             {gettext("org_admin"), "org_admin"},
-            {gettext("user"), "user"}
+            {gettext("issuer"), "issuer"}
           ]}
         />
         <:actions>
