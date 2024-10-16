@@ -1,4 +1,4 @@
-defmodule NotebookServerWeb.KeyLive.FormComponent do
+defmodule NotebookServerWeb.CertificateLive.FormComponent do
   use NotebookServerWeb, :live_component
 
   alias NotebookServer.PKIs
@@ -17,7 +17,7 @@ defmodule NotebookServerWeb.KeyLive.FormComponent do
       </.header>
       <.simple_form
         for={@form}
-        id="key-form"
+        id="certificate-form"
         phx-target={@myself}
         phx-change="validate"
         phx-submit="save"
@@ -55,27 +55,27 @@ defmodule NotebookServerWeb.KeyLive.FormComponent do
   end
 
   @impl true
-  def handle_event("validate", %{"key" => key_params}, socket) do
-    changeset = PKIs.change_user_certificate(socket.assigns.key, key_params)
+  def handle_event("validate", %{"certificate" => certificate_params}, socket) do
+    changeset = PKIs.change_user_certificate(socket.assigns.certificate, certificate_params)
     {:noreply, assign(socket, form: to_form(changeset))}
   end
 
-  def handle_event("save", %{"key" => key_params}, socket) do
-    save_key(socket, socket.assigns.action, key_params)
+  def handle_event("save", %{"certificate" => certificate_params}, socket) do
+    save_certificate(socket, socket.assigns.action, certificate_params)
   end
 
   def handle_event("autocomplete_users", %{"query" => query}, socket) do
     {:noreply, update_users_options(socket, query)}
   end
 
-  defp save_key(socket, :new, _key_params) do
-    case PKIs.create_key_pair(0, 0) do
-      {:ok, key} ->
-        notify_parent({:saved, key})
+  defp save_certificate(socket, :new, _certificate_params) do
+    case PKIs.create_certificate(0, 0) do
+      {:ok, certificate} ->
+        notify_parent({:saved, certificate})
 
         {:noreply,
          socket
-         |> put_flash(:info, gettext("key_create_success"))
+         |> put_flash(:info, gettext("certificate_create_success"))
          |> push_patch(to: socket.assigns.patch)}
     end
   end

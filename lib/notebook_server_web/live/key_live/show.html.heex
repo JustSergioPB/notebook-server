@@ -1,16 +1,16 @@
 <.header>
-  <%= gettext("key") %> <%= @key.id %>
+  <%= gettext("certificate") %> <%= @certificate.id %>
   <:actions>
-    <.link patch={~p"/keys/#{@key}/show/edit"} phx-click={JS.push_focus()}>
-      <.button><%= gettext("edit_key") %></.button>
+    <.link patch={~p"/certificates/#{@certificate}/show/edit"} phx-click={JS.push_focus()}>
+      <.button><%= gettext("edit_certificate") %></.button>
     </.link>
   </:actions>
 </.header>
 
 <.list>
-  <:item title="Context"><%= @key.context %></:item>
+  <:item title="Context"><%= @certificate.context %></:item>
 </.list>
 
-<.back navigate={~p"/keys"}>
-  <%= gettext("back_to_keys") %>
+<.back navigate={~p"/certificates"}>
+  <%= gettext("back_to_certificates") %>
 </.back>

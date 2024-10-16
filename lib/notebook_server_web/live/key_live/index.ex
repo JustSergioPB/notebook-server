@@ -1,4 +1,4 @@
-defmodule NotebookServerWeb.KeyLive.Index do
+defmodule NotebookServerWeb.CertificateLive.Index do
   use NotebookServerWeb, :live_view
 
   alias NotebookServer.PKIs
@@ -11,7 +11,7 @@ defmodule NotebookServerWeb.KeyLive.Index do
   @impl true
   def mount(_params, _session, socket) do
     opts = org_filter(socket)
-    {:ok, stream(socket, :keys, PKIs.list_user_certificates(opts))}
+    {:ok, stream(socket, :certificates, PKIs.list_user_certificates(opts))}
   end
 
   @impl true
@@ -21,69 +21,69 @@ defmodule NotebookServerWeb.KeyLive.Index do
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, gettext("new_key"))
-    |> assign(:key, %UserCertificate{})
+    |> assign(:page_title, gettext("new_certificate"))
+    |> assign(:certificate, %UserCertificate{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, gettext("keys"))
-    |> assign(:key, nil)
+    |> assign(:page_title, gettext("certificates"))
+    |> assign(:certificate, nil)
   end
 
   @impl true
-  def handle_info({NotebookServerWeb.KeyLive.FormComponent, {:saved, key}}, socket) do
+  def handle_info({NotebookServerWeb.CertificateLive.FormComponent, {:saved, certificate}}, socket) do
     # TODO: check if there's a better way to do this
-    org = Orgs.get_org!(key.org_id)
-    user = Accounts.get_user!(key.user_id)
-    key = Map.put(key, :org, org)
-    key = Map.put(key, :user, user)
-    {:noreply, stream_insert(socket, :keys, key)}
+    org = Orgs.get_org!(certificate.org_id)
+    user = Accounts.get_user!(certificate.user_id)
+    certificate = Map.put(certificate, :org, org)
+    certificate = Map.put(certificate, :user, user)
+    {:noreply, stream_insert(socket, :certificates, certificate)}
   end
 
   @impl true
-  def handle_event("rotate_key_pair", %{"id" => id}, socket) do
+  def handle_event("rotate_certificate", %{"id" => id}, socket) do
     if User.can_use_platform?(socket.assigns.current_user) do
-      # TODO: Add logic to check wether the user has a key pair or not
+      # TODO: Add logic to check wether the user has a certificate pair or not
       user = Accounts.get_user!(id)
       user_certificate = PKIs.get_user_certificate_by_user_id(user.id)
 
-      PKIs.rotate_key_pair(user.id, user.org_id, user_certificate)
+      PKIs.rotate_certificate(user.id, user.org_id, user_certificate)
       |> case do
         {:ok, _} ->
           socket =
             socket
-            |> put_flash(:info, gettext("key_pair_rotated"))
-            |> stream(:keys, PKIs.list_user_certificates(org_filter(socket)))
+            |> put_flash(:info, gettext("certificate_rotated"))
+            |> stream(:certificates, PKIs.list_user_certificates(org_filter(socket)))
 
           {:noreply, socket}
 
         {:error} ->
-          {:noreply, put_flash(socket, :error, gettext("error_rotating_key_pair"))}
+          {:noreply, put_flash(socket, :error, gettext("error_rotating_certificate"))}
       end
     else
       {:noreply, socket}
     end
   end
 
-  def handle_event("revoke_key_pair", %{"id" => id}, socket) do
+  def handle_event("revoke_certificate", %{"id" => id}, socket) do
     if User.can_use_platform?(socket.assigns.current_user) do
-      # TODO: Add logic to check wether the user has a key pair or not
+      # TODO: Add logic to check wether the user has a certificate pair or not
       user = Accounts.get_user!(id)
       user_certificate = PKIs.get_user_certificate_by_user_id(user.id)
 
-      PKIs.revoke_key_pair(user_certificate)
+      PKIs.revoke_certificate(user_certificate)
       |> case do
         {:ok, _} ->
           socket =
             socket
-            |> put_flash(:info, gettext("key_pair_revoked"))
-            |> stream(:keys, PKIs.list_user_certificates(org_filter(socket)))
+            |> put_flash(:info, gettext("certificate_revoked"))
+            |> stream(:certificates, PKIs.list_user_certificates(org_filter(socket)))
 
           {:noreply, socket}
 
         {:error} ->
-          {:noreply, put_flash(socket, :error, gettext("error_revoking_key_pair"))}
+          {:noreply, put_flash(socket, :error, gettext("error_revoking_certificate"))}
       end
     else
       {:noreply, socket}

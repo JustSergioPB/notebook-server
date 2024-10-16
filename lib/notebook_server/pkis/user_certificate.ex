@@ -19,8 +19,8 @@ defmodule NotebookServer.PKIs.UserCertificate do
   @doc false
   def changeset(user_certificate, attrs) do
     user_certificate
-    |> cast(attrs, [:key, :expiration_date, :status, :user_id, :org_id, :replaces_id])
-    |> validate_required([:key, :expiration_date, :user_id, :org_id])
+    |> cast(attrs, [:signing_public_key_pem, :expiration_date, :status, :user_id, :org_id, :replaces_id])
+    |> validate_required([:signing_public_key_pem, :expiration_date, :user_id, :org_id])
   end
 
   def revoke_changeset(user_certificate, attrs) do

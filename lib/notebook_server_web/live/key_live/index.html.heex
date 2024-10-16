@@ -1,10 +1,10 @@
 <.page_header icon="file-json">
-  <%= gettext("keys") %>
+  <%= gettext("certificates") %>
   <:actions>
-    <.link patch={~p"/keys/new"}>
+    <.link patch={~p"/certificates/new"}>
       <!--TODO: ={!User.can_use_platform?(@current_user)} -->
       <.button icon="plus_circle" disabled>
-        <%= gettext("key") %>
+        <%= gettext("certificate") %>
       </.button>
     </.link>
   </:actions>
@@ -12,64 +12,64 @@
 
 <.page_content>
   <.table
-    id="keys"
+    id="certificates"
     class="flex-1"
-    rows={@streams.keys}
-    row_click={fn {_id, key} -> JS.navigate(~p"/keys/#{key}") end}
+    rows={@streams.certificates}
+    row_click={fn {_id, certificate} -> JS.navigate(~p"/certificates/#{certificate}") end}
   >
-    <:col :let={{_id, key}} label={gettext("user")}>
-      <p class="text-sm font-semibold"><%= key.user.name %> <%= key.user.last_name %></p>
+    <:col :let={{_id, certificate}} label={gettext("user")}>
+      <p class="text-sm font-semibold"><%= certificate.user.name %> <%= certificate.user.last_name %></p>
     </:col>
-    <:col :let={{_id, key}} :if={@current_user.role == :admin} label={gettext("org_name")}>
-      <%= key.org.name %>
+    <:col :let={{_id, certificate}} :if={@current_user.role == :admin} label={gettext("org_name")}>
+      <%= certificate.org.name %>
     </:col>
-    <:col :let={{_id, key}} label={gettext("platform")}>
-      <.platform_badge platform={key.platform}>
-        <%= key.platform %>
+    <:col :let={{_id, certificate}} label={gettext("platform")}>
+      <.platform_badge platform={certificate.platform}>
+        <%= certificate.platform %>
       </.platform_badge>
     </:col>
-    <:col :let={{_id, key}} label={gettext("status")}>
-      <.key_status_badge variant={key.status} />
+    <:col :let={{_id, certificate}} label={gettext("status")}>
+      <.certificate_status_badge variant={certificate.status} />
     </:col>
-    <:col :let={{_id, key}} label={gettext("expiration_date")}>
-      <%= Calendar.strftime(key.expiration_date, "%d-%m-%Y %H:%M:%S") %>
+    <:col :let={{_id, certificate}} label={gettext("expiration_date")}>
+      <%= Calendar.strftime(certificate.expiration_date, "%d-%m-%Y %H:%M:%S") %>
     </:col>
-    <:action :let={{_id, key}}>
-      <.tooltip text={gettext("rotate_key_pair")}>
+    <:action :let={{_id, certificate}}>
+      <.tooltip text={gettext("rotate_certificate")}>
         <.button
           size="icon"
           variant="outline"
           icon="rotate-ccw"
-          phx-click="rotate_key_pair"
-          phx-value-id={key.user.id}
-          disabled={!User.can_use_platform?(@current_user) || key.status != :active}
+          phx-click="rotate_certificate"
+          phx-value-id={certificate.user.id}
+          disabled={!User.can_use_platform?(@current_user) || certificate.status != :active}
         >
-          <%= gettext("rotate_key_pair") %>
+          <%= gettext("rotate_certificate") %>
         </.button>
       </.tooltip>
     </:action>
-    <:action :let={{_id, key}}>
-      <.tooltip text={gettext("revoke_key_pair")}>
+    <:action :let={{_id, certificate}}>
+      <.tooltip text={gettext("revoke_certificate")}>
         <.button
           size="icon"
           variant="outline"
           icon="ban"
-          phx-click="revoke_key_pair"
-          phx-value-id={key.user.id}
-          disabled={!User.can_use_platform?(@current_user) || key.status != :active}
+          phx-click="revoke_certificate"
+          phx-value-id={certificate.user.id}
+          disabled={!User.can_use_platform?(@current_user) || certificate.status != :active}
         >
-          <%= gettext("revoke_key_pair") %>
+          <%= gettext("revoke_certificate") %>
         </.button>
       </.tooltip>
     </:action>
-    <:action :let={{id, key}}>
+    <:action :let={{id, certificate}}>
       <.tooltip text={gettext("delete")}>
         <.button
           size="icon"
           variant="outline"
           icon="trash"
           disabled={!User.can_use_platform?(@current_user)}
-          phx-click={JS.push("delete", value: %{id: key.id}) |> hide("##{id}")}
+          phx-click={JS.push("delete", value: %{id: certificate.id}) |> hide("##{id}")}
           data-confirm={gettext("are_you_sure")}
         >
           <%= gettext("delete") %>
@@ -82,14 +82,14 @@
   </div>
 </.page_content>
 
-<.modal :if={@live_action in [:new]} id="key-modal" show on_cancel={JS.patch(~p"/keys")}>
+<.modal :if={@live_action in [:new]} id="certificate-modal" show on_cancel={JS.patch(~p"/certificates")}>
   <.live_component
-    module={NotebookServerWeb.KeyLive.FormComponent}
+    module={NotebookServerWeb.CertificateLive.FormComponent}
     id={:new}
     title={@page_title}
     action={@live_action}
-    key={@key}
+    certificate={@certificate}
     current_user={@current_user}
-    patch={~p"/keys"}
+    patch={~p"/certificates"}
   />
 </.modal>

@@ -12,7 +12,7 @@ defmodule NotebookServer.PKIFixtures do
       attrs
       |> Enum.into(%{
         expiration_date: ~U[2024-10-12 17:42:00Z],
-        key: "some key",
+        certificate: "some certificate",
         status: :revoked
       })
       |> NotebookServer.PKI.create_user_certificate()

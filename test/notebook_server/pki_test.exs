@@ -8,7 +8,7 @@ defmodule NotebookServer.PKITest do
 
     import NotebookServer.PKIFixtures
 
-    @invalid_attrs %{status: nil, key: nil, expiration_date: nil}
+    @invalid_attrs %{status: nil, certificate: nil, expiration_date: nil}
 
     test "list_user_certificates/0 returns all user_certificates" do
       user_certificate = user_certificate_fixture()
@@ -21,11 +21,11 @@ defmodule NotebookServer.PKITest do
     end
 
     test "create_user_certificate/1 with valid data creates a user_certificate" do
-      valid_attrs = %{status: :revoked, key: "some key", expiration_date: ~U[2024-10-12 17:42:00Z]}
+      valid_attrs = %{status: :revoked, certificate: "some certificate", expiration_date: ~U[2024-10-12 17:42:00Z]}
 
       assert {:ok, %UserCertificate{} = user_certificate} = PKI.create_user_certificate(valid_attrs)
       assert user_certificate.status == :revoked
-      assert user_certificate.key == "some key"
+      assert user_certificate.certificate == "some certificate"
       assert user_certificate.expiration_date == ~U[2024-10-12 17:42:00Z]
     end
 
@@ -35,11 +35,11 @@ defmodule NotebookServer.PKITest do
 
     test "update_user_certificate/2 with valid data updates the user_certificate" do
       user_certificate = user_certificate_fixture()
-      update_attrs = %{status: :active, key: "some updated key", expiration_date: ~U[2024-10-13 17:42:00Z]}
+      update_attrs = %{status: :active, certificate: "some updated certificate", expiration_date: ~U[2024-10-13 17:42:00Z]}
 
       assert {:ok, %UserCertificate{} = user_certificate} = PKI.update_user_certificate(user_certificate, update_attrs)
       assert user_certificate.status == :active
-      assert user_certificate.key == "some updated key"
+      assert user_certificate.certificate == "some updated certificate"
       assert user_certificate.expiration_date == ~U[2024-10-13 17:42:00Z]
     end
 

@@ -91,12 +91,12 @@ defmodule NotebookServerWeb.Router do
         live "/:id/show/edit", UserLive.Show, :edit
       end
 
-      scope "/keys" do
-        live "/", KeyLive.Index, :index
-        live "/new", KeyLive.Index, :new
-        live "/:id/edit", KeyLive.Index, :edit
-        live "/:id", KeyLive.Show, :show
-        live "/:id/show/edit", KeyLive.Show, :edit
+      scope "/certificates" do
+        live "/", CertificateLive.Index, :index
+        live "/new", CertificateLive.Index, :new
+        live "/:id/edit", CertificateLive.Index, :edit
+        live "/:id", CertificateLive.Show, :show
+        live "/:id/show/edit", CertificateLive.Show, :edit
       end
 
       scope "/schemas" do

@@ -27,9 +27,9 @@
       />
       <.nav_link
         :if={@current_user.role == :admin || @current_user.role == :org_admin}
-        label={gettext("keys")}
-        icon="key"
-        href={~p"/keys"}
+        label={gettext("certificates")}
+        icon="file-key"
+        href={~p"/certificates"}
       />
       <.nav_link
         :if={@current_user.role == :admin || @current_user.role == :org_admin}

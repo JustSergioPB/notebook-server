@@ -41,5 +41,5 @@ npm-debug.log
 # Visual Studio Code Elixir LS build artifacts
 .elixir_ls/
 
-# Ignore keys
-**/keys/
+# Ignore certificates
+**/certificates/

@@ -913,7 +913,7 @@ defmodule NotebookServerWeb.CoreComponents do
   attr :variant, :string, default: "inactive"
   attr :class, :string, default: nil
 
-  def key_status_badge(assigns) do
+  def certificate_status_badge(assigns) do
     ~H"""
     <div class={[
       "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs",

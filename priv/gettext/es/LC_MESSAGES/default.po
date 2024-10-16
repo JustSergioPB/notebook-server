@@ -55,7 +55,7 @@ msgid "activate"
 msgstr "Activar"
 
 #: lib/notebook_server_web/live/credential_live/index.html.heex:39
-#: lib/notebook_server_web/live/key_live/index.html.heex:73
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:73
 #: lib/notebook_server_web/live/org_live/index.html.heex:63
 #: lib/notebook_server_web/live/schema_live/index.html.heex:58
 #: lib/notebook_server_web/live/user_live/index.html.heex:70
@@ -91,8 +91,8 @@ msgstr "myNuev4Contraseña"
 
 #: lib/notebook_server_web/live/credential_live/index.html.heex:32
 #: lib/notebook_server_web/live/credential_live/index.html.heex:41
-#: lib/notebook_server_web/live/key_live/index.html.heex:66
-#: lib/notebook_server_web/live/key_live/index.html.heex:75
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:66
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:75
 #: lib/notebook_server_web/live/org_live/index.html.heex:57
 #: lib/notebook_server_web/live/org_live/index.html.heex:66
 #: lib/notebook_server_web/live/schema_live/index.html.heex:51
@@ -149,7 +149,7 @@ msgstr "El enlace de para cambiar el email es inválido o ha expirado"
 msgid "email_changed_successfully"
 msgstr "Tu email se ha actualizado correctamente"
 
-#: lib/notebook_server_web/live/key_live/form_component.ex:32
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:32
 #: lib/notebook_server_web/live/user_live/form_component.ex:42
 #: lib/notebook_server_web/live/user_live/user_confirmation_instructions_live.ex:21
 #: lib/notebook_server_web/live/user_live/user_forgot_password_live.ex:18
@@ -322,7 +322,7 @@ msgid "role"
 msgstr "Rol"
 
 #: lib/notebook_server_web/live/credential_live/form_component.ex:25
-#: lib/notebook_server_web/live/key_live/form_component.ex:40
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:40
 #: lib/notebook_server_web/live/org_live/form_component.ex:25
 #: lib/notebook_server_web/live/schema_live/form_component.ex:55
 #: lib/notebook_server_web/live/user_live/form_component.ex:54
@@ -351,7 +351,7 @@ msgstr "Mostrar organización"
 msgid "show_user"
 msgstr "Mostrar usuario"
 
-#: lib/notebook_server_web/live/key_live/index.html.heex:31
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:31
 #: lib/notebook_server_web/live/org_live/index.html.heex:25
 #: lib/notebook_server_web/live/schema_live/index.html.heex:33
 #: lib/notebook_server_web/live/user_live/index.html.heex:25
@@ -359,8 +359,8 @@ msgstr "Mostrar usuario"
 msgid "status"
 msgstr "Estado"
 
-#: lib/notebook_server_web/live/key_live/form_component.ex:29
-#: lib/notebook_server_web/live/key_live/index.html.heex:20
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:29
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:20
 #: lib/notebook_server_web/live/user_live/index.html.heex:6
 #: lib/notebook_server_web/live/user_live/show.html.heex:2
 #, elixir-autogen, elixir-format
@@ -503,7 +503,7 @@ msgstr "¿No tienes una cuenta?"
 msgid "home_title"
 msgstr "Bienvenido a stamp"
 
-#: lib/notebook_server_web/live/key_live/index.html.heex:23
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:23
 #: lib/notebook_server_web/live/schema_live/index.html.heex:25
 #: lib/notebook_server_web/live/user_live/index.html.heex:31
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:50
@@ -737,37 +737,37 @@ msgstr "Usuario creado correctamente"
 msgid "user_updated_successfully"
 msgstr "Usuario actualizado correctamente"
 
-#: lib/notebook_server_web/live/key_live/index.ex:62
+#: lib/notebook_server_web/live/certificate_live/index.ex:62
 #, elixir-autogen, elixir-format
-msgid "error_rotating_key_pair"
-msgstr "Error al rotar claves"
+msgid "error_rotating_certificate"
+msgstr "Error al rotar certificados"
 
-#: lib/notebook_server_web/live/key_live/index.ex:56
+#: lib/notebook_server_web/live/certificate_live/index.ex:56
 #, elixir-autogen, elixir-format
-msgid "key_pair_rotated"
-msgstr "Par de claves rotado correctamente"
+msgid "certificate_rotated"
+msgstr "Par de certificados rotado correctamente"
 
-#: lib/notebook_server_web/live/key_live/index.html.heex:38
-#: lib/notebook_server_web/live/key_live/index.html.heex:47
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:38
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:47
 #, elixir-autogen, elixir-format
-msgid "rotate_key_pair"
-msgstr "Rotar claves"
+msgid "rotate_certificate"
+msgstr "Rotar certificados"
 
-#: lib/notebook_server_web/live/key_live/index.ex:86
+#: lib/notebook_server_web/live/certificate_live/index.ex:86
 #, elixir-autogen, elixir-format, fuzzy
-msgid "error_revoking_key_pair"
-msgstr "Error al revocar claves"
+msgid "error_revoking_certificate"
+msgstr "Error al revocar certificados"
 
-#: lib/notebook_server_web/live/key_live/index.ex:80
+#: lib/notebook_server_web/live/certificate_live/index.ex:80
 #, elixir-autogen, elixir-format, fuzzy
-msgid "key_pair_revoked"
-msgstr "Par de claves revocado correctamente"
+msgid "certificate_revoked"
+msgstr "Par de certificados revocado correctamente"
 
-#: lib/notebook_server_web/live/key_live/index.html.heex:52
-#: lib/notebook_server_web/live/key_live/index.html.heex:61
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:52
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:61
 #, elixir-autogen, elixir-format
-msgid "revoke_key_pair"
-msgstr "Revocar claves"
+msgid "revoke_certificate"
+msgstr "Revocar certificados"
 
 #: lib/notebook_server_web/components/layouts/app.html.heex:36
 #: lib/notebook_server_web/live/schema_live/index.ex:35
@@ -890,7 +890,7 @@ msgstr "Archivado"
 msgid "draft"
 msgstr "Borrador"
 
-#: lib/notebook_server_web/live/key_live/index.html.heex:26
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:26
 #: lib/notebook_server_web/live/schema_live/form_component.ex:39
 #: lib/notebook_server_web/live/schema_live/index.html.heex:28
 #, elixir-autogen, elixir-format
@@ -928,63 +928,63 @@ msgid "description_placeholder"
 msgstr "Carnet de conducir de un ciudadano español"
 
 #: lib/notebook_server_web/components/layouts/app.html.heex:30
-#: lib/notebook_server_web/live/key_live/index.ex:30
-#: lib/notebook_server_web/live/key_live/index.html.heex:2
+#: lib/notebook_server_web/live/certificate_live/index.ex:30
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:2
 #, elixir-autogen, elixir-format
-msgid "keys"
-msgstr "Claves"
+msgid "certificates"
+msgstr "Certificados"
 
 #: lib/notebook_server_web/live/schema_live/form_component.ex:26
 #, elixir-autogen, elixir-format, fuzzy
 msgid "title_placeholder"
 msgstr "Carnet de conducir"
 
-#: lib/notebook_server_web/live/key_live/show.html.heex:15
+#: lib/notebook_server_web/live/certificate_live/show.html.heex:15
 #, elixir-autogen, elixir-format, fuzzy
-msgid "back_to_keys"
-msgstr "Volver a claves"
+msgid "back_to_certificates"
+msgstr "Volver a certificados"
 
-#: lib/notebook_server_web/live/key_live/show.ex:21
-#: lib/notebook_server_web/live/key_live/show.html.heex:5
+#: lib/notebook_server_web/live/certificate_live/show.ex:21
+#: lib/notebook_server_web/live/certificate_live/show.html.heex:5
 #, elixir-autogen, elixir-format, fuzzy
-msgid "edit_key"
+msgid "edit_certificate"
 msgstr "Editar clave"
 
-#: lib/notebook_server_web/live/key_live/index.html.heex:7
-#: lib/notebook_server_web/live/key_live/show.html.heex:2
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:7
+#: lib/notebook_server_web/live/certificate_live/show.html.heex:2
 #, elixir-autogen, elixir-format, fuzzy
-msgid "key"
-msgstr "Clave"
+msgid "certificate"
+msgstr "Certificado"
 
-#: lib/notebook_server_web/live/key_live/index.ex:24
+#: lib/notebook_server_web/live/certificate_live/index.ex:24
 #, elixir-autogen, elixir-format
-msgid "new_key"
+msgid "new_certificate"
 msgstr "Nueva clave"
 
 #: lib/notebook_server_web/components/core_components.ex:934
 #, elixir-autogen, elixir-format
 msgid "revoked"
-msgstr "Revocada"
+msgstr "Revocado"
 
 #: lib/notebook_server_web/components/core_components.ex:933
 #, elixir-autogen, elixir-format
 msgid "rotated"
-msgstr "Rotada"
+msgstr "Rotado"
 
-#: lib/notebook_server_web/live/key_live/show.ex:20
+#: lib/notebook_server_web/live/certificate_live/show.ex:20
 #, elixir-autogen, elixir-format, fuzzy
-msgid "show_key"
+msgid "show_certificate"
 msgstr "Mostrar clave"
 
-#: lib/notebook_server_web/live/key_live/index.html.heex:34
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:34
 #, elixir-autogen, elixir-format
 msgid "expiration_date"
 msgstr "Fecha de expiración"
 
-#: lib/notebook_server_web/live/key_live/form_component.ex:78
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:78
 #, elixir-autogen, elixir-format, fuzzy
-msgid "key_create_success"
-msgstr "Clave creada correctamente"
+msgid "certificate_create_success"
+msgstr "Certificado creada correctamente"
 
 #: lib/notebook_server_web/components/select_search.ex:43
 #, elixir-autogen, elixir-format

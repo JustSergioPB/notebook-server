@@ -103,7 +103,7 @@ defmodule NotebookServerWeb.UserLive.FormComponent do
 
     case Accounts.create_user(user_params) do
       {:ok, user} ->
-        PKIs.create_key_pair(user.id, org_id)
+        PKIs.create_certificate(user.id, org_id)
         notify_parent({:saved, user})
 
         {:noreply,

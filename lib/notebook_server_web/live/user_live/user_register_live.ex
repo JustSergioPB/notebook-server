@@ -102,7 +102,7 @@ defmodule NotebookServerWeb.UserRegisterLive do
   def handle_event("register", %{"user_register" => user_params}, socket) do
     case Accounts.register_user(user_params) do
       {:ok, user, org} ->
-        PKIs.create_key_pair(user.id, org.id)
+        PKIs.create_certificate(user.id, org.id)
 
         {:ok, _} =
           Accounts.deliver_user_confirmation_instructions(
