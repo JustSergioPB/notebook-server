@@ -6,6 +6,7 @@ defmodule NotebookServer.Orgs.Org do
   schema "orgs" do
     field :name, :string
     field :status, Ecto.Enum, values: [:active, :inactive, :banned], default: :active
+    field :level, Ecto.Enum, values: [:root, :intermediate], default: :intermediate
     has_many :users, NotebookServer.Accounts.User
     has_many :user_certificates, NotebookServer.PKIs.UserCertificate
     has_many :schemas, NotebookServer.Credentials.Schema
@@ -17,7 +18,7 @@ defmodule NotebookServer.Orgs.Org do
   @doc false
   def changeset(org, attrs) do
     org
-    |> cast(attrs, [:name])
+    |> cast(attrs, [:name, :level])
     |> validate_name(:name, validate_unique: true)
   end
 

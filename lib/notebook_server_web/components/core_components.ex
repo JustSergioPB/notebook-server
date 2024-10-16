@@ -999,4 +999,27 @@ defmodule NotebookServerWeb.CoreComponents do
     </div>
     """
   end
+
+  attr :level, :string, required: true
+  attr :class, :string, default: nil
+
+  def org_level_badge(assigns) do
+    ~H"""
+    <div class={[
+      "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs",
+      @level == :root && "bg-orange-100 text-orange-700",
+      @level == :intermediate && "bg-purple-100 text-purple-700",
+      @class
+    ]}>
+      <div class={[
+        "h-[6px] w-[6px] rounded-full",
+        @level == :root && "bg-orange-600",
+        @level == :intermediate && "bg-purple-600"
+      ]}>
+      </div>
+      <span :if={@level == :root}><%= gettext("root") %></span>
+      <span :if={@level == :intermediate}><%= gettext("intermediate") %></span>
+    </div>
+    """
+  end
 end

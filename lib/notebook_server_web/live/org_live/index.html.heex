@@ -19,6 +19,9 @@
     <:col :let={{_id, org}} label={gettext("name")}>
       <p class="text-sm font-semibold"><%= org.name %></p>
     </:col>
+    <:col :let={{_id, org}} :if={@current_user.role == :admin} label={gettext("level")}>
+      <.org_level_badge level={org.level} />
+    </:col>
     <:col :let={{_id, org}} label={gettext("status")}>
       <.status_badge variant={org.status} />
     </:col>
@@ -41,7 +44,7 @@
         <.button
           size="icon"
           variant="outline"
-          icon={if org.status == :banned, do: "ban", else: "play"}
+          icon={if org.status == :banned, do: "play", else: "ban"}
           phx-value-id={org.id}
           phx-click={if org.status == :banned, do: "activate", else: "ban"}
           disabled={!User.can_use_platform?(@current_user)}

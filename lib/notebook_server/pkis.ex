@@ -62,7 +62,10 @@ defmodule NotebookServer.PKIs do
     {private_key, user_certificate} = KeyPair.generate()
 
     Ecto.Multi.new()
-    |> Ecto.Multi.update(:old_user_certificate, UserCertificate.rotate_changeset(old_user_certificate))
+    |> Ecto.Multi.update(
+      :old_user_certificate,
+      UserCertificate.rotate_changeset(old_user_certificate)
+    )
     |> Ecto.Multi.insert(:new_user_certificate, fn %{old_user_certificate: old_user_certificate} ->
       UserCertificate.changeset(%UserCertificate{}, %{
         key: user_certificate,
@@ -74,7 +77,8 @@ defmodule NotebookServer.PKIs do
     end)
     |> Repo.transaction()
     |> case do
-      {:ok, %{old_user_certificate: old_user_certificate, new_user_certificate: new_user_certificate}} ->
+      {:ok,
+       %{old_user_certificate: old_user_certificate, new_user_certificate: new_user_certificate}} ->
         create_private_key(org_id, new_user_certificate.id, private_key)
         delete_private_key(org_id, old_user_certificate.id)
         {:ok, new_user_certificate}
@@ -86,7 +90,10 @@ defmodule NotebookServer.PKIs do
 
   def revoke_key_pair(user_certificate) do
     user_certificate
-    |> UserCertificate.revoke_changeset()
+    |> UserCertificate.revoke_changeset(%{
+      revocation_reason: "Revoked by user",
+      revocation_date: DateTime.utc_now()
+    })
     |> Repo.update()
     |> case do
       {:ok, user_certificate} ->
