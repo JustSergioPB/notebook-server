@@ -2,7 +2,8 @@
   <%= gettext("keys") %>
   <:actions>
     <.link patch={~p"/keys/new"}>
-      <.button icon="plus_circle" disabled={!User.can_use_platform?(@current_user)}>
+      <!--TODO: ={!User.can_use_platform?(@current_user)} -->
+      <.button icon="plus_circle" disabled>
         <%= gettext("key") %>
       </.button>
     </.link>
@@ -31,7 +32,7 @@
       <.key_status_badge variant={key.status} />
     </:col>
     <:col :let={{_id, key}} label={gettext("expiration_date")}>
-      <%= Calendar.strftime(key.expiration_date, "%y-%m-%d %I:%M:%S %p") %>
+      <%= Calendar.strftime(key.expiration_date, "%d-%m-%Y %H:%M:%S") %>
     </:col>
     <:action :let={{_id, key}}>
       <.tooltip text={gettext("rotate_key_pair")}>
