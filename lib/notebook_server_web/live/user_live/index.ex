@@ -67,11 +67,11 @@ defmodule NotebookServerWeb.UserLive.Index do
   end
 
   @impl true
-  def handle_event("stop", %{"id" => id}, socket) do
+  def handle_event("ban", %{"id" => id}, socket) do
     if User.can_use_platform?(socket.assigns.current_user) do
       user = Accounts.get_user!(id)
       opts = org_filter(socket)
-      {:ok, _} = Accounts.stop_user(user)
+      {:ok, _} = Accounts.ban_user(user)
       {:noreply, stream(socket, :users, Accounts.list_users(opts))}
     else
       {:noreply, socket}

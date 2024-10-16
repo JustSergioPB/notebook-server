@@ -24,52 +24,45 @@
     </:col>
     <:action :let={{_id, org}}>
       <.link patch={~p"/orgs/#{org.id}/edit"}>
-        <.button
-          size="icon"
-          variant="outline"
-          icon="pencil"
-          disabled={!User.can_use_platform?(@current_user)}
-        >
-          <%= gettext("edit") %>
-        </.button>
+        <.tooltip text={gettext("edit")}>
+          <.button
+            size="icon"
+            variant="outline"
+            icon="pencil"
+            disabled={!User.can_use_platform?(@current_user)}
+          >
+            <%= gettext("edit") %>
+          </.button>
+        </.tooltip>
       </.link>
     </:action>
     <:action :let={{_id, org}}>
-      <%= if org.status != :stopped do %>
+      <.tooltip text={if org.status == :banned, do: gettext("activate"), else: gettext("ban")}>
         <.button
           size="icon"
           variant="outline"
-          icon="ban"
+          icon={if org.status == :banned, do: "ban", else: "play"}
           phx-value-id={org.id}
-          phx-click="stop"
+          phx-click={if org.status == :banned, do: "activate", else: "ban"}
           disabled={!User.can_use_platform?(@current_user)}
         >
-          <%= gettext("stop") %>
+          <%= if org.status == :banned, do: gettext("activate"), else: gettext("ban") %>
         </.button>
-      <% else %>
-        <.button
-          size="icon"
-          variant="outline"
-          icon="play"
-          phx-value-id={org.id}
-          phx-click="activate"
-          disabled={!User.can_use_platform?(@current_user)}
-        >
-          <%= gettext("activate") %>
-        </.button>
-      <% end %>
+      </.tooltip>
     </:action>
     <:action :let={{id, org}}>
-      <.button
-        size="icon"
-        variant="outline"
-        icon="trash"
-        phx-click={JS.push("delete", value: %{id: org.id}) |> hide("##{id}")}
-        data-confirm={gettext("are_you_sure")}
-        disabled={!User.can_use_platform?(@current_user)}
-      >
-        <%= gettext("delete") %>
-      </.button>
+      <.tooltip text={gettext("delete")}>
+        <.button
+          size="icon"
+          variant="outline"
+          icon="trash"
+          phx-click={JS.push("delete", value: %{id: org.id}) |> hide("##{id}")}
+          data-confirm={gettext("are_you_sure")}
+          disabled={!User.can_use_platform?(@current_user)}
+        >
+          <%= gettext("delete") %>
+        </.button>
+      </.tooltip>
     </:action>
   </.table>
   <div class="p-6 border-t border-slate-200">

@@ -826,19 +826,19 @@ defmodule NotebookServerWeb.CoreComponents do
       "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs",
       @variant == :inactive && "bg-slate-100 text-slate-700",
       @variant == :active && "bg-green-100 text-green-600",
-      @variant == :stopped && "bg-red-100 text-red-600",
+      @variant == :banned && "bg-red-100 text-red-600",
       @class
     ]}>
       <div class={[
         "h-[6px] w-[6px] rounded-full",
         @variant == :inactive && "bg-slate-200",
         @variant == :active && "bg-green-600",
-        @variant == :stopped && "bg-red-600"
+        @variant == :banned && "bg-red-600"
       ]}>
       </div>
       <span :if={@variant == :active}><%= gettext("active") %></span>
       <span :if={@variant == :inactive}><%= gettext("inactive") %></span>
-      <span :if={@variant == :stopped}><%= gettext("stopped") %></span>
+      <span :if={@variant == :banned}><%= gettext("banned") %></span>
     </div>
     """
   end
@@ -962,6 +962,41 @@ defmodule NotebookServerWeb.CoreComponents do
         <%= render_slot(tab) %>
       </section>
     </section>
+    """
+  end
+
+  attr :text, :string, required: true
+  attr :class, :string, default: nil
+  attr :position, :string, default: "bottom"
+  slot :inner_block, required: true
+
+  def tooltip(assigns) do
+    position_class =
+      case assigns.position do
+        "top" -> "bottom-full mb-2"
+        "bottom" -> "top-full mt-2"
+        "left" -> "right-full mr-2"
+        "right" -> "left-full ml-2"
+        # Default to bottom if invalid position is provided
+        _ -> "top-full mt-2"
+      end
+
+    assigns = assign(assigns, :position_class, position_class)
+
+    ~H"""
+    <div class="relative group">
+      <div class={["inline-block", @class]}>
+        <%= render_slot(@inner_block) %>
+      </div>
+      <div class={[
+        "absolute z-10 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition",
+        "bg-gray-800 text-white text-xs rounded py-1 px-2 whitespace-nowrap",
+        "left-1/2 -translate-x-1/2",
+        @position_class
+      ]}>
+        <%= @text %>
+      </div>
+    </div>
     """
   end
 end

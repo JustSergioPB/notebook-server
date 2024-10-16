@@ -5,7 +5,7 @@ defmodule NotebookServer.Orgs.Org do
 
   schema "orgs" do
     field :name, :string
-    field :status, Ecto.Enum, values: [:active, :inactive, :stopped], default: :active
+    field :status, Ecto.Enum, values: [:active, :inactive, :banned], default: :active
     has_many :users, NotebookServer.Accounts.User
     has_many :public_keys, NotebookServer.PKIs.PublicKey
     has_many :schemas, NotebookServer.Credentials.Schema
@@ -29,8 +29,8 @@ defmodule NotebookServer.Orgs.Org do
     change(org, status: :active)
   end
 
-  def stop_changeset(org) do
-    change(org, status: :stopped)
+  def ban_changeset(org) do
+    change(org, status: :banned)
   end
 
   def validate_name(changeset, field, opts \\ []) do

@@ -2,7 +2,7 @@
   <%= gettext("credentials") %>
   <:actions>
     <.link patch={~p"/credentials/new"}>
-      <.button icon="plus_circle">
+      <.button icon="plus_circle" disabled={!User.can_use_platform?(@current_user)}>
         <%= gettext("credential") %>
       </.button>
     </.link>
@@ -24,30 +24,22 @@
     <:col :let={{_id, credential}} label={gettext("issuer")}>
       <%= credential.issuer.name %> <%= credential.issuer.last_name %>
     </:col>
-    <:col :let={{_id, credential}} :if={@current_user.role == :admin} label={gettext("org")}><%= credential.org.name %></:col>
-    <:action :let={{_id, credential}}>
-      <.link patch={~p"/credentials/#{credential}/edit"}>
+    <:col :let={{_id, credential}} :if={@current_user.role == :admin} label={gettext("org")}>
+      <%= credential.org.name %>
+    </:col>
+    <:action :let={{id, credential}}>
+      <.tooltip text={gettext("delete")}>
         <.button
           size="icon"
           variant="outline"
-          icon="pencil"
+          icon="trash"
           disabled={!User.can_use_platform?(@current_user)}
+          phx-click={JS.push("delete", value: %{id: credential.id}) |> hide("##{id}")}
+          data-confirm={gettext("are_you_sure")}
         >
-          <%= gettext("edit") %>
+          <%= gettext("delete") %>
         </.button>
-      </.link>
-    </:action>
-    <:action :let={{id, credential}}>
-      <.button
-        size="icon"
-        variant="outline"
-        icon="trash"
-        disabled={!User.can_use_platform?(@current_user)}
-        phx-click={JS.push("delete", value: %{id: credential.id}) |> hide("##{id}")}
-        data-confirm={gettext("are_you_sure")}
-      >
-        <%= gettext("delete") %>
-      </.button>
+      </.tooltip>
     </:action>
   </.table>
   <div class="p-6 border-t border-slate-200">

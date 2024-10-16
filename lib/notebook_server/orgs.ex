@@ -109,9 +109,9 @@ defmodule NotebookServer.Orgs do
     |> Repo.update()
   end
 
-  def stop_org(%Org{} = org) do
+  def ban_org(%Org{} = org) do
     org
-    |> Org.stop_changeset()
+    |> Org.ban_changeset()
     |> Repo.update()
   end
 end

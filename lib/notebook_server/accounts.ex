@@ -450,9 +450,9 @@ defmodule NotebookServer.Accounts do
     |> Repo.update()
   end
 
-  def stop_user(user) do
+  def ban_user(user) do
     user
-    |> User.stop_changeset()
+    |> User.ban_changeset()
     |> Repo.update()
   end
 end

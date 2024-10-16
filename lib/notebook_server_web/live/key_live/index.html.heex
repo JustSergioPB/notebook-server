@@ -2,7 +2,7 @@
   <%= gettext("keys") %>
   <:actions>
     <.link patch={~p"/keys/new"}>
-      <.button icon="plus_circle">
+      <.button icon="plus_circle" disabled={!User.can_use_platform?(@current_user)}>
         <%= gettext("key") %>
       </.button>
     </.link>
@@ -34,40 +34,46 @@
       <%= Calendar.strftime(key.expiration_date, "%y-%m-%d %I:%M:%S %p") %>
     </:col>
     <:action :let={{_id, key}}>
-      <.button
-        size="icon"
-        variant="outline"
-        icon="rotate-ccw"
-        phx-click="rotate_key_pair"
-        phx-value-id={key.user.id}
-        disabled={!User.can_use_platform?(@current_user) || key.status != :active}
-      >
-        <%= gettext("rotate_key_pair") %>
-      </.button>
+      <.tooltip text={gettext("rotate_key_pair")}>
+        <.button
+          size="icon"
+          variant="outline"
+          icon="rotate-ccw"
+          phx-click="rotate_key_pair"
+          phx-value-id={key.user.id}
+          disabled={!User.can_use_platform?(@current_user) || key.status != :active}
+        >
+          <%= gettext("rotate_key_pair") %>
+        </.button>
+      </.tooltip>
     </:action>
     <:action :let={{_id, key}}>
-      <.button
-        size="icon"
-        variant="outline"
-        icon="ban"
-        phx-click="revoke_key_pair"
-        phx-value-id={key.user.id}
-        disabled={!User.can_use_platform?(@current_user) || key.status != :active}
-      >
-        <%= gettext("revoke_key_pair") %>
-      </.button>
+      <.tooltip text={gettext("revoke_key_pair")}>
+        <.button
+          size="icon"
+          variant="outline"
+          icon="ban"
+          phx-click="revoke_key_pair"
+          phx-value-id={key.user.id}
+          disabled={!User.can_use_platform?(@current_user) || key.status != :active}
+        >
+          <%= gettext("revoke_key_pair") %>
+        </.button>
+      </.tooltip>
     </:action>
     <:action :let={{id, key}}>
-      <.button
-        size="icon"
-        variant="outline"
-        icon="trash"
-        disabled={!User.can_use_platform?(@current_user)}
-        phx-click={JS.push("delete", value: %{id: key.id}) |> hide("##{id}")}
-        data-confirm={gettext("are_you_sure")}
-      >
-        <%= gettext("delete") %>
-      </.button>
+      <.tooltip text={gettext("delete")}>
+        <.button
+          size="icon"
+          variant="outline"
+          icon="trash"
+          disabled={!User.can_use_platform?(@current_user)}
+          phx-click={JS.push("delete", value: %{id: key.id}) |> hide("##{id}")}
+          data-confirm={gettext("are_you_sure")}
+        >
+          <%= gettext("delete") %>
+        </.button>
+      </.tooltip>
     </:action>
   </.table>
   <div class="p-6 border-t border-slate-200">

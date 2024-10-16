@@ -46,15 +46,16 @@ msgstr ""
 msgid "We can't find the internet"
 msgstr ""
 
-#: lib/notebook_server_web/live/org_live/index.html.heex:58
+#: lib/notebook_server_web/live/org_live/index.html.heex:40
+#: lib/notebook_server_web/live/org_live/index.html.heex:49
 #: lib/notebook_server_web/live/user_live/index.html.heex:67
 #, elixir-autogen, elixir-format
 msgid "activate"
 msgstr ""
 
 #: lib/notebook_server_web/live/credential_live/index.html.heex:47
-#: lib/notebook_server_web/live/key_live/index.html.heex:67
-#: lib/notebook_server_web/live/org_live/index.html.heex:68
+#: lib/notebook_server_web/live/key_live/index.html.heex:72
+#: lib/notebook_server_web/live/org_live/index.html.heex:60
 #: lib/notebook_server_web/live/schema_live/index.html.heex:55
 #: lib/notebook_server_web/live/user_live/index.html.heex:78
 #, elixir-autogen, elixir-format
@@ -88,8 +89,10 @@ msgid "confirm_new_password_placeholder"
 msgstr ""
 
 #: lib/notebook_server_web/live/credential_live/index.html.heex:49
-#: lib/notebook_server_web/live/key_live/index.html.heex:69
-#: lib/notebook_server_web/live/org_live/index.html.heex:71
+#: lib/notebook_server_web/live/key_live/index.html.heex:65
+#: lib/notebook_server_web/live/key_live/index.html.heex:74
+#: lib/notebook_server_web/live/org_live/index.html.heex:54
+#: lib/notebook_server_web/live/org_live/index.html.heex:63
 #: lib/notebook_server_web/live/schema_live/index.html.heex:57
 #: lib/notebook_server_web/live/user_live/index.html.heex:80
 #, elixir-autogen, elixir-format
@@ -98,7 +101,8 @@ msgstr ""
 
 #: lib/notebook_server_web/live/credential_live/index.html.heex:36
 #: lib/notebook_server_web/live/credential_live/show.html.heex:6
-#: lib/notebook_server_web/live/org_live/index.html.heex:33
+#: lib/notebook_server_web/live/org_live/index.html.heex:27
+#: lib/notebook_server_web/live/org_live/index.html.heex:34
 #: lib/notebook_server_web/live/schema_live/index.html.heex:44
 #: lib/notebook_server_web/live/user_live/index.html.heex:42
 #, elixir-autogen, elixir-format
@@ -140,6 +144,7 @@ msgstr ""
 msgid "email_changed_successfully"
 msgstr ""
 
+#: lib/notebook_server_web/live/key_live/form_component.ex:32
 #: lib/notebook_server_web/live/user_live/form_component.ex:42
 #: lib/notebook_server_web/live/user_live/user_confirmation_instructions_live.ex:21
 #: lib/notebook_server_web/live/user_live/user_forgot_password_live.ex:18
@@ -312,7 +317,7 @@ msgid "role"
 msgstr ""
 
 #: lib/notebook_server_web/live/credential_live/form_component.ex:25
-#: lib/notebook_server_web/live/key_live/form_component.ex:31
+#: lib/notebook_server_web/live/key_live/form_component.ex:40
 #: lib/notebook_server_web/live/org_live/form_component.ex:25
 #: lib/notebook_server_web/live/schema_live/form_component.ex:55
 #: lib/notebook_server_web/live/user_live/form_component.ex:54
@@ -349,7 +354,7 @@ msgstr ""
 msgid "status"
 msgstr ""
 
-#: lib/notebook_server_web/live/key_live/form_component.ex:23
+#: lib/notebook_server_web/live/key_live/form_component.ex:29
 #: lib/notebook_server_web/live/key_live/index.html.heex:19
 #: lib/notebook_server_web/live/user_live/index.html.heex:6
 #: lib/notebook_server_web/live/user_live/show.html.heex:2
@@ -714,7 +719,7 @@ msgstr ""
 
 #: lib/notebook_server_web/components/core_components.ex:841
 #, elixir-autogen, elixir-format
-msgid "stopped"
+msgid "banned"
 msgstr ""
 
 #: lib/notebook_server_web/live/user_live/form_component.ex:111
@@ -737,7 +742,8 @@ msgstr ""
 msgid "key_pair_rotated"
 msgstr ""
 
-#: lib/notebook_server_web/live/key_live/index.html.heex:45
+#: lib/notebook_server_web/live/key_live/index.html.heex:37
+#: lib/notebook_server_web/live/key_live/index.html.heex:46
 #, elixir-autogen, elixir-format
 msgid "rotate_key_pair"
 msgstr ""
@@ -752,7 +758,8 @@ msgstr ""
 msgid "key_pair_revoked"
 msgstr ""
 
-#: lib/notebook_server_web/live/key_live/index.html.heex:57
+#: lib/notebook_server_web/live/key_live/index.html.heex:51
+#: lib/notebook_server_web/live/key_live/index.html.heex:60
 #, elixir-autogen, elixir-format
 msgid "revoke_key_pair"
 msgstr ""
@@ -969,28 +976,23 @@ msgstr ""
 msgid "expiration_date"
 msgstr ""
 
-#: lib/notebook_server_web/live/key_live/form_component.ex:69
+#: lib/notebook_server_web/live/key_live/form_component.ex:78
 #, elixir-autogen, elixir-format
 msgid "key_create_success"
 msgstr ""
 
-#: lib/notebook_server_web/live/org_live/index.html.heex:47
 #: lib/notebook_server_web/live/user_live/index.html.heex:56
 #, elixir-autogen, elixir-format
-msgid "stop"
+msgid "ban"
 msgstr ""
 
-#: lib/notebook_server_web/components/core_components.ex:1009
+#: lib/notebook_server_web/components/select_search.ex:43
 #, elixir-autogen, elixir-format
 msgid "no_results"
 msgstr ""
 
-#: lib/notebook_server_web/components/core_components.ex:971
+#: lib/notebook_server_web/live/org_live/index.html.heex:40
+#: lib/notebook_server_web/live/org_live/index.html.heex:49
 #, elixir-autogen, elixir-format
-msgid "search"
-msgstr ""
-
-#: lib/notebook_server_web/live/key_live/form_component.ex:26
-#, elixir-autogen, elixir-format
-msgid "search_by_mail"
+msgid "ban"
 msgstr ""

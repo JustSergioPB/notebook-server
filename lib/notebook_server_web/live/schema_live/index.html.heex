@@ -2,7 +2,7 @@
   <%= gettext("schemas") %>
   <:actions>
     <.link patch={~p"/schemas/new"}>
-      <.button icon="plus_circle">
+      <.button icon="plus_circle" disabled={!User.can_use_platform?(@current_user)}>
         <%= gettext("schema") %>
       </.button>
     </.link>
@@ -35,27 +35,31 @@
     </:col>
     <:action :let={{_id, schema}}>
       <.link patch={~p"/schemas/#{schema.id}/edit"}>
-        <.button
-          size="icon"
-          variant="outline"
-          icon="pencil"
-          disabled={!User.can_use_platform?(@current_user)}
-        >
-          <%= gettext("edit") %>
-        </.button>
+        <.tooltip text={gettext("edit")}>
+          <.button
+            size="icon"
+            variant="outline"
+            icon="pencil"
+            disabled={!User.can_use_platform?(@current_user)}
+          >
+            <%= gettext("edit") %>
+          </.button>
+        </.tooltip>
       </.link>
     </:action>
     <:action :let={{id, schema}}>
-      <.button
-        size="icon"
-        variant="outline"
-        icon="trash"
-        disabled={!User.can_use_platform?(@current_user)}
-        phx-click={JS.push("delete", value: %{id: schema.id}) |> hide("##{id}")}
-        data-confirm={gettext("are_you_sure")}
-      >
-        <%= gettext("delete") %>
-      </.button>
+      <.tooltip text={gettext("delete")}>
+        <.button
+          size="icon"
+          variant="outline"
+          icon="trash"
+          disabled={!User.can_use_platform?(@current_user)}
+          phx-click={JS.push("delete", value: %{id: schema.id}) |> hide("##{id}")}
+          data-confirm={gettext("are_you_sure")}
+        >
+          <%= gettext("delete") %>
+        </.button>
+      </.tooltip>
     </:action>
   </.table>
   <div class="p-6 border-t border-slate-200">
