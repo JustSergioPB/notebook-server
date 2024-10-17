@@ -19,7 +19,7 @@
     <:col :let={{_id, org}} label={gettext("name")}>
       <p class="text-sm font-semibold"><%= org.name %></p>
     </:col>
-    <:col :let={{_id, org}} :if={@current_user.role == :admin} label={gettext("level")}>
+    <:col :let={{_id, org}} label={gettext("level")}>
       <.org_level_badge level={org.level} />
     </:col>
     <:col :let={{_id, org}} label={gettext("status")}>

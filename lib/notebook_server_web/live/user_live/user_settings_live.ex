@@ -10,8 +10,8 @@ defmodule NotebookServerWeb.UserSettingsLive do
       <%= gettext("settings_title") %>
     </.page_header>
 
-    <.tabs active_tab={@active_tab}>
-      <:tab label={gettext("account")} id="account">
+    <.tabs active_tab={@active_tab} tab_content_class="p-6">
+      <:tab label={gettext("account")} id="account" patch={~p"/settings?tab=account"}>
         <.simple_form class="w-1/2" for={@form} phx-change="validate" phx-submit="save">
           <div class="flex space-x-4">
             <.input

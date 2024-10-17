@@ -54,8 +54,10 @@ msgstr "We can't find the internet"
 msgid "activate"
 msgstr "Activate"
 
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:80
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:161
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:243
 #: lib/notebook_server_web/live/credential_live/index.html.heex:39
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:73
 #: lib/notebook_server_web/live/org_live/index.html.heex:63
 #: lib/notebook_server_web/live/schema_live/index.html.heex:58
 #: lib/notebook_server_web/live/user_live/index.html.heex:70
@@ -89,10 +91,14 @@ msgstr "Confirm new password"
 msgid "confirm_new_password_placeholder"
 msgstr "MyNewCoolPassword"
 
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:73
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:82
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:154
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:163
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:236
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:245
 #: lib/notebook_server_web/live/credential_live/index.html.heex:32
 #: lib/notebook_server_web/live/credential_live/index.html.heex:41
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:66
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:75
 #: lib/notebook_server_web/live/org_live/index.html.heex:57
 #: lib/notebook_server_web/live/org_live/index.html.heex:66
 #: lib/notebook_server_web/live/schema_live/index.html.heex:51
@@ -128,12 +134,12 @@ msgstr "Edit organisation"
 msgid "edit_user"
 msgstr "Edit user"
 
-#: lib/notebook_server_web/live/user_live/form_component.ex:41
+#: lib/notebook_server_web/live/user_live/form_component.ex:40
 #: lib/notebook_server_web/live/user_live/index.html.heex:22
 #: lib/notebook_server_web/live/user_live/user_confirmation_instructions_live.ex:20
 #: lib/notebook_server_web/live/user_live/user_forgot_password_live.ex:19
 #: lib/notebook_server_web/live/user_live/user_login_live.ex:18
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:58
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:57
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:37
 #, elixir-autogen, elixir-format
 msgid "email"
@@ -150,11 +156,11 @@ msgid "email_changed_successfully"
 msgstr "Email changed successfully"
 
 #: lib/notebook_server_web/live/certificate_live/form_component.ex:32
-#: lib/notebook_server_web/live/user_live/form_component.ex:42
+#: lib/notebook_server_web/live/user_live/form_component.ex:41
 #: lib/notebook_server_web/live/user_live/user_confirmation_instructions_live.ex:21
 #: lib/notebook_server_web/live/user_live/user_forgot_password_live.ex:18
 #: lib/notebook_server_web/live/user_live/user_login_live.ex:19
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:59
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:58
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:38
 #, elixir-autogen, elixir-format
 msgid "email_placeholder"
@@ -180,8 +186,8 @@ msgstr "Forgot password?"
 msgid "full_name"
 msgstr "Full name"
 
-#: lib/notebook_server_web/live/user_live/form_component.ex:34
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:41
+#: lib/notebook_server_web/live/user_live/form_component.ex:33
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:40
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:29
 #, elixir-autogen, elixir-format
 msgid "last_name"
@@ -191,7 +197,7 @@ msgstr "Last name"
 #: lib/notebook_server_web/live/user_live/user_confirmation_instructions_live.ex:39
 #: lib/notebook_server_web/live/user_live/user_forgot_password_live.ex:30
 #: lib/notebook_server_web/live/user_live/user_login_live.ex:37
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:80
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:79
 #: lib/notebook_server_web/live/user_live/user_reset_password_live.ex:50
 #, elixir-autogen, elixir-format
 msgid "login"
@@ -215,9 +221,9 @@ msgstr "Logout"
 #: lib/notebook_server_web/live/org_live/form_component.ex:23
 #: lib/notebook_server_web/live/org_live/index.html.heex:19
 #: lib/notebook_server_web/live/org_live/show.html.heex:11
-#: lib/notebook_server_web/live/user_live/form_component.ex:27
+#: lib/notebook_server_web/live/user_live/form_component.ex:26
 #: lib/notebook_server_web/live/user_live/show.html.heex:11
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:32
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:31
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:21
 #, elixir-autogen, elixir-format
 msgid "name"
@@ -273,13 +279,13 @@ msgid "orgs"
 msgstr "Organisations"
 
 #: lib/notebook_server_web/live/user_live/user_login_live.ex:25
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:66
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:65
 #, elixir-autogen, elixir-format
 msgid "password"
 msgstr "Password"
 
 #: lib/notebook_server_web/live/user_live/user_login_live.ex:26
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:67
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:66
 #, elixir-autogen, elixir-format
 msgid "password_placeholder"
 msgstr "MySuperSecretPassword"
@@ -314,18 +320,18 @@ msgstr "The password reset link is invalid or expired"
 msgid "reset_password_title"
 msgstr "Reset password"
 
-#: lib/notebook_server_web/live/user_live/form_component.ex:47
+#: lib/notebook_server_web/live/user_live/form_component.ex:46
 #: lib/notebook_server_web/live/user_live/index.html.heex:28
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:44
 #, elixir-autogen, elixir-format
 msgid "role"
 msgstr "Role"
 
-#: lib/notebook_server_web/live/credential_live/form_component.ex:25
 #: lib/notebook_server_web/live/certificate_live/form_component.ex:40
+#: lib/notebook_server_web/live/credential_live/form_component.ex:25
 #: lib/notebook_server_web/live/org_live/form_component.ex:25
 #: lib/notebook_server_web/live/schema_live/form_component.ex:55
-#: lib/notebook_server_web/live/user_live/form_component.ex:54
+#: lib/notebook_server_web/live/user_live/form_component.ex:53
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:62
 #, elixir-autogen, elixir-format
 msgid "save"
@@ -351,7 +357,9 @@ msgstr "Show organisation"
 msgid "show_user"
 msgstr "Show user"
 
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:31
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:38
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:119
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:201
 #: lib/notebook_server_web/live/org_live/index.html.heex:25
 #: lib/notebook_server_web/live/schema_live/index.html.heex:33
 #: lib/notebook_server_web/live/user_live/index.html.heex:25
@@ -360,7 +368,9 @@ msgid "status"
 msgstr "Status"
 
 #: lib/notebook_server_web/live/certificate_live/form_component.ex:29
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:20
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:21
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:102
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:184
 #: lib/notebook_server_web/live/user_live/index.html.heex:6
 #: lib/notebook_server_web/live/user_live/show.html.heex:2
 #, elixir-autogen, elixir-format
@@ -429,15 +439,15 @@ msgstr "Settings"
 msgid "language"
 msgstr "Language"
 
-#: lib/notebook_server_web/live/user_live/form_component.ex:35
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:42
+#: lib/notebook_server_web/live/user_live/form_component.ex:34
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:41
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:30
 #, elixir-autogen, elixir-format, fuzzy
 msgid "last_name_placeholder"
 msgstr "Doe"
 
-#: lib/notebook_server_web/live/user_live/form_component.ex:28
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:33
+#: lib/notebook_server_web/live/user_live/form_component.ex:27
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:32
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:22
 #, elixir-autogen, elixir-format, fuzzy
 msgid "name_placeholder"
@@ -460,7 +470,7 @@ msgid "admin"
 msgstr "Admin"
 
 #: lib/notebook_server_web/components/core_components.ex:862
-#: lib/notebook_server_web/live/user_live/form_component.ex:49
+#: lib/notebook_server_web/live/user_live/form_component.ex:48
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:47
 #, elixir-autogen, elixir-format
 msgid "org_admin"
@@ -488,7 +498,7 @@ msgstr "You need admin access for this page"
 msgid "logged_in_required"
 msgstr "You need to log in to access this page"
 
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:78
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:77
 #, elixir-autogen, elixir-format
 msgid "already_have_account"
 msgstr "Already have an account?"
@@ -503,15 +513,17 @@ msgstr "Don't have an account?"
 msgid "home_title"
 msgstr "Welcome to stamp"
 
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:23
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:29
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:110
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:192
 #: lib/notebook_server_web/live/schema_live/index.html.heex:25
 #: lib/notebook_server_web/live/user_live/index.html.heex:31
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:50
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:49
 #, elixir-autogen, elixir-format, fuzzy
 msgid "org_name"
 msgstr "Organisation"
 
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:51
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:50
 #, elixir-autogen, elixir-format, fuzzy
 msgid "org_name_placeholder"
 msgstr "Acme Inc."
@@ -519,17 +531,17 @@ msgstr "Acme Inc."
 #: lib/notebook_server_web/live/user_live/user_confirmation.ex:24
 #: lib/notebook_server_web/live/user_live/user_confirmation_instructions_live.ex:34
 #: lib/notebook_server_web/live/user_live/user_login_live.ex:45
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:73
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:72
 #, elixir-autogen, elixir-format, fuzzy
 msgid "register"
 msgstr "Register"
 
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:15
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:14
 #, elixir-autogen, elixir-format
 msgid "register_subtitle"
 msgstr "Register and start certifying your information in minutes"
 
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:13
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:12
 #, elixir-autogen, elixir-format
 msgid "register_title"
 msgstr "Nice to meet you!"
@@ -539,7 +551,7 @@ msgstr "Nice to meet you!"
 msgid "dashboard"
 msgstr "Dashboard"
 
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:120
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:117
 #, elixir-autogen, elixir-format
 msgid "user_register_error"
 msgstr "There is already a user with that email or organisation name"
@@ -727,44 +739,52 @@ msgstr "Haven't received the confirmation email or has expired?"
 msgid "banned"
 msgstr "Banned"
 
-#: lib/notebook_server_web/live/user_live/form_component.ex:111
+#: lib/notebook_server_web/live/user_live/form_component.ex:109
 #, elixir-autogen, elixir-format, fuzzy
 msgid "user_created_successfully"
 msgstr "User created successfully"
 
-#: lib/notebook_server_web/live/user_live/form_component.ex:92
+#: lib/notebook_server_web/live/user_live/form_component.ex:91
 #, elixir-autogen, elixir-format, fuzzy
 msgid "user_updated_successfully"
 msgstr "User updated successfully"
 
-#: lib/notebook_server_web/live/certificate_live/index.ex:62
+#: lib/notebook_server_web/live/certificate_live/index.ex:66
 #, elixir-autogen, elixir-format
 msgid "error_rotating_certificate"
 msgstr "Error rotating certificate pair"
 
-#: lib/notebook_server_web/live/certificate_live/index.ex:56
+#: lib/notebook_server_web/live/certificate_live/index.ex:60
 #, elixir-autogen, elixir-format
 msgid "certificate_rotated"
 msgstr "Certificate pair rotated successfully"
 
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:38
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:47
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:45
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:54
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:126
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:135
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:208
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:217
 #, elixir-autogen, elixir-format
 msgid "rotate_certificate"
 msgstr "Rotate certificate pair"
 
-#: lib/notebook_server_web/live/certificate_live/index.ex:86
+#: lib/notebook_server_web/live/certificate_live/index.ex:88
 #, elixir-autogen, elixir-format, fuzzy
 msgid "error_revoking_certificate"
 msgstr "Error rotating certificate pair"
 
-#: lib/notebook_server_web/live/certificate_live/index.ex:80
+#: lib/notebook_server_web/live/certificate_live/index.ex:82
 #, elixir-autogen, elixir-format, fuzzy
 msgid "certificate_revoked"
 msgstr "Certificate pair revoked successfully"
 
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:52
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:61
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:59
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:68
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:140
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:149
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:222
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:231
 #, elixir-autogen, elixir-format
 msgid "revoke_certificate"
 msgstr "Revoke certificate pair"
@@ -864,7 +884,7 @@ msgstr "Edit credential"
 
 #: lib/notebook_server_web/components/core_components.ex:863
 #: lib/notebook_server_web/live/credential_live/index.html.heex:25
-#: lib/notebook_server_web/live/user_live/form_component.ex:50
+#: lib/notebook_server_web/live/user_live/form_component.ex:49
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:48
 #, elixir-autogen, elixir-format
 msgid "issuer"
@@ -890,7 +910,9 @@ msgstr "Archived"
 msgid "draft"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:26
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:33
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:114
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:196
 #: lib/notebook_server_web/live/schema_live/form_component.ex:39
 #: lib/notebook_server_web/live/schema_live/index.html.heex:28
 #, elixir-autogen, elixir-format
@@ -928,7 +950,7 @@ msgid "description_placeholder"
 msgstr "Driver's license of a EEUU citizen"
 
 #: lib/notebook_server_web/components/layouts/app.html.heex:30
-#: lib/notebook_server_web/live/certificate_live/index.ex:30
+#: lib/notebook_server_web/live/certificate_live/index.ex:33
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:2
 #, elixir-autogen, elixir-format
 msgid "certificates"
@@ -956,7 +978,7 @@ msgstr "Edit certificate"
 msgid "certificate"
 msgstr "Certificate"
 
-#: lib/notebook_server_web/live/certificate_live/index.ex:24
+#: lib/notebook_server_web/live/certificate_live/index.ex:27
 #, elixir-autogen, elixir-format
 msgid "new_certificate"
 msgstr "New certificate"
@@ -976,7 +998,9 @@ msgstr "Rotated"
 msgid "show_certificate"
 msgstr "Show certificate"
 
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:34
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:41
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:122
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:204
 #, elixir-autogen, elixir-format
 msgid "expiration_date"
 msgstr "Expiration date"
@@ -999,7 +1023,7 @@ msgstr "No results..."
 msgid "ban"
 msgstr "Ban"
 
-#: lib/notebook_server_web/components/core_components.ex:1021
+#: lib/notebook_server_web/components/core_components.ex:1034
 #, elixir-autogen, elixir-format
 msgid "intermediate"
 msgstr "Intermediate"
@@ -1009,7 +1033,7 @@ msgstr "Intermediate"
 msgid "level"
 msgstr "Level"
 
-#: lib/notebook_server_web/components/core_components.ex:1020
+#: lib/notebook_server_web/components/core_components.ex:1033
 #, elixir-autogen, elixir-format
 msgid "root"
 msgstr "Root"

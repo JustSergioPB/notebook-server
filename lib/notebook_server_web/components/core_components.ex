@@ -939,17 +939,23 @@ defmodule NotebookServerWeb.CoreComponents do
   slot :tab, required: true do
     attr :label, :string, required: true
     attr :id, :string, required: true
+    attr :patch, :string, required: true
   end
 
   attr :active_tab, :string, required: true
+  attr :class, :string, default: nil
+  attr :tab_content_class, :string, default: nil
 
   def tabs(assigns) do
     ~H"""
-    <section class="flex flex-col space-y-6 p-6 flex-1">
-      <div class="flex items-center gap-4">
+    <section class={[
+      "flex flex-col space-y-6 flex-1",
+      @class
+    ]}>
+      <div class="flex items-center gap-4 px-6">
         <.link
           :for={{tab, _i} <- Enum.with_index(@tab)}
-          patch={"/settings?tab=#{tab[:id]}"}
+          patch={tab[:patch]}
           class={[
             "px-3 py-2 text-sm rounded-lg",
             @active_tab == tab[:id] && "bg-slate-100 font-semibold"
@@ -958,7 +964,14 @@ defmodule NotebookServerWeb.CoreComponents do
           <%= tab[:label] %>
         </.link>
       </div>
-      <section :for={tab <- @tab} class={["flex-1", (@active_tab == tab[:id] && "flex") || "hidden"]}>
+      <section
+        :for={tab <- @tab}
+        class={[
+          "flex-1",
+          (@active_tab == tab[:id] && "flex flex-col") || "hidden",
+          @tab_content_class
+        ]}
+      >
         <%= render_slot(tab) %>
       </section>
     </section>
