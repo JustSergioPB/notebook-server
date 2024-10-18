@@ -783,7 +783,7 @@ defmodule NotebookServerWeb.CoreComponents do
           @active && "bg-slate-100"
         ]}
       >
-        <Lucide.render icon={@icon} class="h-4 w-4 group-hover" />
+        <Lucide.render icon={@icon} class="h-5 w-5 group-hover" />
         <%= @label %>
       </.link>
     </li>
