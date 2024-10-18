@@ -32,6 +32,14 @@ defmodule NotebookServer.Orgs do
   """
   def get_org!(id), do: Repo.get!(Org, id)
 
+  def get_root_org! do
+    from(o in Org, where: o.level == :root) |> Repo.one()
+  end
+
+  def get_org_by_name(name) do
+    Repo.get_by(Org, name: name)
+  end
+
   @doc """
   Creates a org.
 

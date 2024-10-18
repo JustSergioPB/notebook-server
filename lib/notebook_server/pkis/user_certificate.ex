@@ -4,8 +4,6 @@ defmodule NotebookServer.PKIs.UserCertificate do
 
   schema "user_certificates" do
     field :status, Ecto.Enum, values: [:revoked, :active, :rotated], default: :active
-    field :cert_pem, :string
-    field :public_key_pem, :string
     field :platform, Ecto.Enum, values: [:web2, :web3], default: :web2
     field :revocation_reason, :string
     field :revocation_date, :utc_datetime
@@ -20,19 +18,16 @@ defmodule NotebookServer.PKIs.UserCertificate do
   def changeset(user_certificate, attrs) do
     user_certificate
     |> cast(attrs, [
-      :cert_pem,
-      :public_key_pem,
-      :platform,
-      :expiration_date,
       :status,
+      :platform,
+      :revocation_reason,
+      :revocation_date,
+      :expiration_date,
       :user_id,
       :org_id,
       :replaces_id
     ])
     |> validate_required([
-      :cert_pem,
-      :public_key_pem,
-      :platform,
       :expiration_date,
       :user_id,
       :org_id

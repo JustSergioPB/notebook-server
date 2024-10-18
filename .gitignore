@@ -42,4 +42,6 @@ npm-debug.log
 .elixir_ls/
 
 # Ignore certificates
-**/certificates/
+**/root/
+**/intermediate/
+**/user/

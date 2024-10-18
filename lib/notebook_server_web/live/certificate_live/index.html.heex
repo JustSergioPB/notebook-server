@@ -118,7 +118,7 @@
               variant="outline"
               icon="rotate-ccw"
               phx-click="rotate_certificate"
-              phx-value-id={certificate.user.id}
+              phx-value-id={certificate.org.id}
               disabled={!User.can_use_platform?(@current_user) || certificate.status != :active}
             >
               <%= gettext("rotate_certificate") %>
@@ -132,7 +132,7 @@
               variant="outline"
               icon="ban"
               phx-click="revoke_certificate"
-              phx-value-id={certificate.user.id}
+              phx-value-id={certificate.org.id}
               disabled={!User.can_use_platform?(@current_user) || certificate.status != :active}
             >
               <%= gettext("revoke_certificate") %>
@@ -183,7 +183,7 @@
               variant="outline"
               icon="rotate-ccw"
               phx-click="rotate_certificate"
-              phx-value-id={certificate.user.id}
+              phx-value-id={certificate.org.id}
               disabled={!User.can_use_platform?(@current_user) || certificate.status != :active}
             >
               <%= gettext("rotate_certificate") %>
@@ -197,7 +197,7 @@
               variant="outline"
               icon="ban"
               phx-click="revoke_certificate"
-              phx-value-id={certificate.user.id}
+              phx-value-id={certificate.org.id}
               disabled={!User.can_use_platform?(@current_user) || certificate.status != :active}
             >
               <%= gettext("revoke_certificate") %>

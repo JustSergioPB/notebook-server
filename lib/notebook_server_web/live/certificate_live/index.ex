@@ -49,15 +49,32 @@ defmodule NotebookServerWeb.CertificateLive.Index do
 
   @impl true
   def handle_info(
-        {NotebookServerWeb.CertificateLive.FormComponent, {:saved, certificate}},
+        {NotebookServerWeb.CertificateLive.FormComponent, {:saved_root, certificate}},
         socket
       ) do
-    # TODO: check if there's a better way to do this
+    org = Orgs.get_org!(certificate.org_id)
+    certificate = Map.put(certificate, :org, org)
+    {:noreply, stream_insert(socket, :root_certificates, certificate)}
+  end
+
+  def handle_info(
+        {NotebookServerWeb.CertificateLive.FormComponent, {:saved_intermediate, certificate}},
+        socket
+      ) do
+    org = Orgs.get_org!(certificate.org_id)
+    certificate = Map.put(certificate, :org, org)
+    {:noreply, stream_insert(socket, :org_certificates, certificate)}
+  end
+
+  def handle_info(
+        {NotebookServerWeb.CertificateLive.FormComponent, {:saved_user, certificate}},
+        socket
+      ) do
     org = Orgs.get_org!(certificate.org_id)
     user = Accounts.get_user!(certificate.user_id)
     certificate = Map.put(certificate, :org, org)
     certificate = Map.put(certificate, :user, user)
-    {:noreply, stream_insert(socket, :certificates, certificate)}
+    {:noreply, stream_insert(socket, :user_certificates, certificate)}
   end
 
   @impl true
