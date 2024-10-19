@@ -46,8 +46,8 @@
               size="icon"
               variant="outline"
               icon="rotate-ccw"
-              phx-click="rotate_certificate"
-              phx-value-id={certificate.user.id}
+              phx-click="rotate"
+              phx-value-id={certificate.id}
               disabled={!User.can_use_platform?(@current_user) || certificate.status != :active}
             >
               <%= gettext("rotate_certificate") %>
@@ -55,32 +55,36 @@
           </.tooltip>
         </:action>
         <:action :let={{_id, certificate}}>
-          <.tooltip text={gettext("revoke_certificate")}>
-            <.button
-              size="icon"
-              variant="outline"
-              icon="ban"
-              phx-click="revoke_certificate"
-              phx-value-id={certificate.user.id}
-              disabled={!User.can_use_platform?(@current_user) || certificate.status != :active}
-            >
-              <%= gettext("revoke_certificate") %>
-            </.button>
-          </.tooltip>
+          <.link patch={~p"/certificates/#{certificate.id}/revoke?tab=user_certificates"}>
+            <.tooltip text={gettext("revoke_certificate")}>
+              <.button
+                size="icon"
+                variant="outline"
+                icon="ban"
+                phx-click="revoke"
+                phx-value-id={certificate.id}
+                disabled={!User.can_use_platform?(@current_user) || certificate.status != :active}
+              >
+                <%= gettext("revoke_certificate") %>
+              </.button>
+            </.tooltip>
+          </.link>
         </:action>
-        <:action :let={{id, certificate}}>
-          <.tooltip text={gettext("delete")}>
-            <.button
-              size="icon"
-              variant="outline"
-              icon="trash"
-              disabled={!User.can_use_platform?(@current_user)}
-              phx-click={JS.push("delete", value: %{id: certificate.id}) |> hide("##{id}")}
-              data-confirm={gettext("are_you_sure")}
-            >
-              <%= gettext("delete") %>
-            </.button>
-          </.tooltip>
+        <:action :let={{_id, certificate}}>
+          <.link patch={~p"/certificates/#{certificate.id}/delete?tab=user_certificates"}>
+            <.tooltip text={gettext("delete")}>
+              <.button
+                size="icon"
+                variant="outline"
+                icon="trash"
+                phx-click="rotate"
+                phx-value-id={certificate.id}
+                disabled={!User.can_use_platform?(@current_user)}
+              >
+                <%= gettext("delete") %>
+              </.button>
+            </.tooltip>
+          </.link>
         </:action>
       </.table>
       <div class="p-6 border-t border-slate-200">
@@ -230,7 +234,7 @@
   :if={@live_action in [:new]}
   id="certificate-modal"
   show
-  on_cancel={JS.patch(~p"/certificates")}
+  on_cancel={JS.patch(~p"/certificates?tab=#{@active_tab}")}
 >
   <.live_component
     module={NotebookServerWeb.CertificateLive.FormComponent}
@@ -240,6 +244,22 @@
     certificate={@certificate}
     current_user={@current_user}
     tab={@active_tab}
-    patch={~p"/certificates"}
+    patch={~p"/certificates?tab=#{@active_tab}"}
+  />
+</.modal>
+
+<.modal
+  :if={@live_action in [:revoke, :delete]}
+  id="confirm-modal"
+  show
+  on_cancel={JS.patch(~p"/certificates?tab=#{@active_tab}")}
+>
+  <.live_component
+    module={NotebookServerWeb.Components.ConfirmDialog}
+    id={@certificate.id}
+    title={@page_title}
+    subtitle={@page_subtitle}
+    current_user={@current_user}
+    patch={~p"/certificates?tab=#{@active_tab}"}
   />
 </.modal>

@@ -22,6 +22,7 @@ defmodule NotebookServerWeb.CertificateLive.FormComponent do
               do: gettext("email_placeholder"),
               else: gettext("org_name_placeholder")
           }
+          required
         />
         <:actions>
           <.button disabled={disable_button?(@current_user, @tab)}>

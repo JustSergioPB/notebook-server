@@ -1,4 +1,5 @@
 defmodule NotebookServerWeb.Router do
+  alias X509.Certificate
   use NotebookServerWeb, :router
 
   import NotebookServerWeb.UserAuth
@@ -92,9 +93,11 @@ defmodule NotebookServerWeb.Router do
       end
 
       scope "/certificates" do
+        pipe_through :require_admin_user
         live "/", CertificateLive.Index, :index
         live "/new", CertificateLive.Index, :new
-        live "/:id/edit", CertificateLive.Index, :edit
+        live "/:id/revoke", CertificateLive.Index, :revoke
+        live "/:id/delete", CertificateLive.Index, :delete
         live "/:id", CertificateLive.Show, :show
         live "/:id/show/edit", CertificateLive.Show, :edit
       end

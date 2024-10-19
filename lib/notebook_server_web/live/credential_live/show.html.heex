@@ -1,12 +1,5 @@
 <.header>
-  <%= gettext("credential") %> <%= @credential.id %>  
-  <:actions>
-    <.link patch={~p"/credentials/#{@credential}/show/edit"} phx-click={JS.push_focus()}>
-      <.button icon="pencil">
-        <%= gettext("edit") %>
-      </.button>
-    </.link>
-  </:actions>
+  <%= gettext("credential") %> <%= @credential.id %>
 </.header>
 
 <.list>
@@ -15,7 +8,12 @@
 
 <.back navigate={~p"/credentials"}><%= gettext("back_to_credentials") %></.back>
 
-<.modal :if={@live_action == :edit} id="credential-modal" show on_cancel={JS.patch(~p"/credentials/#{@credential}")}>
+<.modal
+  :if={@live_action == :edit}
+  id="credential-modal"
+  show
+  on_cancel={JS.patch(~p"/credentials/#{@credential}")}
+>
   <.live_component
     module={NotebookServerWeb.CredentialLive.FormComponent}
     id={@credential.id}

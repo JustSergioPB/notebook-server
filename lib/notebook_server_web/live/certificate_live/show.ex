@@ -14,7 +14,7 @@ defmodule NotebookServerWeb.CertificateLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:certificate, PKIs.get_user_certificate_by_user_id(id))}
+     |> assign(:certificate, PKIs.get_user_certificate!(id))}
   end
 
   defp page_title(:show), do: gettext("show_certificate")

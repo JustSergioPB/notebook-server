@@ -249,6 +249,7 @@ defmodule NotebookServerWeb.CoreComponents do
         @variant == "outline" &&
           "bg-transparent shadow-sm border border-slate-200 hover:bg-slate-100 disabled:hover:bg-transparent",
         @variant == "ghost" && "bg-transparent  hover:bg-slate-100 disabled:hover:bg-transparent",
+        @variant == "danger" && "bg-red-500 text-white  hover:bg-red-400 disabled:hover:bg-red-500",
         @class
       ]}
       {@rest}
@@ -1032,6 +1033,35 @@ defmodule NotebookServerWeb.CoreComponents do
       </div>
       <span :if={@level == :root}><%= gettext("root") %></span>
       <span :if={@level == :intermediate}><%= gettext("intermediate") %></span>
+    </div>
+    """
+  end
+
+  attr :variant, :string, default: "info"
+  attr :content, :string, required: true
+
+  def info_banner(assigns) do
+    icon =
+      case assigns.variant do
+        "danger" -> "alert-triangle"
+        "info" -> "info"
+        "warn" -> "alert-triangle"
+        "success" -> "circle-check"
+        _ -> "info"
+      end
+
+    assigns = assign(assigns, :icon, icon)
+
+    ~H"""
+    <div class={[
+      "flex items-start gap-2 rounded-lg p-4",
+      @variant == "danger" && "bg-red-100 text-red-500",
+      @variant == "info" && "bg-blue-100 text-blue-500",
+      @variant == "warn" && "bg-amber-100 text-amber-500",
+      @variant == "success" && "bg-green-100 text-green-500"
+    ]}>
+      <Lucide.render icon={@icon} class="h-6 w-6" />
+      <p class="w-[95%]"><%= @content %></p>
     </div>
     """
   end
