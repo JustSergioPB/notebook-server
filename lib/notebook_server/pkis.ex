@@ -5,10 +5,10 @@ defmodule NotebookServer.PKIs do
   import Ecto.Query, warn: false
   alias NotebookServer.PKIs.OrgCertificate
   alias NotebookServer.Repo
-
   alias NotebookServer.PKIs.UserCertificate
   alias NotebookServer.Orgs
   alias NotebookServer.Accounts
+  use Gettext, backend: NotebookServerWeb.Gettext
 
   @root_ca_subject "/CN=Root CA"
   @org_ca_subject "/CN=Stachelabs CA"
@@ -25,25 +25,42 @@ defmodule NotebookServer.PKIs do
   # AES-256
   @key_size 32
 
-  def create_root_certificate do
+  def create_root_certificate(replaces_id \\ nil) do
     root_org = Orgs.get_root_org!()
     max_age = expiration_date(20)
-
+    uuid = Ecto.UUID.generate()
     credentials = generate_root_credentials()
-    store_root_credentials(credentials.private_key, credentials.public_key, credentials.cert)
 
-    %OrgCertificate{}
-    |> OrgCertificate.changeset(%{
+    store_root_credentials(
+      credentials.private_key,
+      credentials.public_key,
+      credentials.cert,
+      uuid
+    )
+
+    changeset = %{
       level: :root,
       expiration_date: max_age,
-      org_id: root_org.id
-    })
+      org_id: root_org.id,
+      uuid: uuid
+    }
+
+    changeset =
+      if !is_nil(replaces_id) do
+        Map.put(changeset, :replaces_id, replaces_id)
+      else
+        changeset
+      end
+
+    %OrgCertificate{}
+    |> OrgCertificate.changeset(changeset)
     |> Repo.insert()
   end
 
-  def create_org_certificate(org_name) do
+  def create_org_certificate(org_name, replaces_id \\ nil) do
     org = Orgs.get_org_by_name(org_name)
     max_age = expiration_date(10)
+    uuid = Ecto.UUID.generate()
     root_credentials = retrieve_root_credentials()
 
     org_credentials =
@@ -53,20 +70,31 @@ defmodule NotebookServer.PKIs do
       org.id,
       org_credentials.private_key,
       org_credentials.public_key,
-      org_credentials.cert
+      org_credentials.cert,
+      uuid
     )
 
-    %OrgCertificate{}
-    |> OrgCertificate.changeset(%{
+    changeset = %{
       expiration_date: max_age,
-      org_id: org.id
-    })
+      org_id: org.id,
+      uuid: uuid
+    }
+
+    changeset =
+      if !is_nil(replaces_id) do
+        Map.put(changeset, :replaces_id, replaces_id)
+      else
+        changeset
+      end
+
+    %OrgCertificate{}
+    |> OrgCertificate.changeset(changeset)
     |> Repo.insert()
   end
 
-  def create_user_certificate(user_email) do
+  def create_user_certificate(user_email, replaces_id \\ nil) do
     user = Accounts.get_user_by_email_with_org(user_email)
-    IO.inspect(user)
+    uuid = Ecto.UUID.generate()
     org_credentials = retrieve_org_credentials(user.org.id)
 
     user_credentials =
@@ -82,15 +110,26 @@ defmodule NotebookServer.PKIs do
       user.id,
       user_credentials.private_key,
       user_credentials.public_key,
-      user_credentials.cert
+      user_credentials.cert,
+      uuid
     )
 
-    %UserCertificate{}
-    |> UserCertificate.changeset(%{
+    changeset = %{
       user_id: user.id,
       org_id: user.org_id,
-      expiration_date: expiration_date()
-    })
+      expiration_date: expiration_date(),
+      uuid: uuid
+    }
+
+    changeset =
+      if !is_nil(replaces_id) do
+        Map.put(changeset, :replaces_id, replaces_id)
+      else
+        changeset
+      end
+
+    %UserCertificate{}
+    |> UserCertificate.changeset(changeset)
     |> Repo.insert()
   end
 
@@ -100,9 +139,9 @@ defmodule NotebookServer.PKIs do
 
     query =
       if(org_id) do
-        from(p in OrgCertificate, where: p.org_id == ^org_id and p.level == ^level)
+        from(c in OrgCertificate, where: c.org_id == ^org_id and c.level == ^level)
       else
-        from(p in OrgCertificate, where: p.level == ^level)
+        from(c in OrgCertificate, where: c.level == ^level)
       end
 
     query |> order_by(desc: :inserted_at) |> Repo.all() |> Repo.preload(:org)
@@ -113,9 +152,9 @@ defmodule NotebookServer.PKIs do
 
     query =
       if(org_id) do
-        from(p in UserCertificate, where: p.org_id == ^org_id)
+        from(c in UserCertificate, where: c.org_id == ^org_id)
       else
-        from(p in UserCertificate)
+        from(c in UserCertificate)
       end
 
     query
@@ -125,9 +164,40 @@ defmodule NotebookServer.PKIs do
     |> Repo.preload(:user)
   end
 
-  def get_org_certificate!(id), do: Repo.get!(OrgCertificate, id)
+  def get_org_certificate!(id), do: Repo.get!(OrgCertificate, id) |> Repo.preload(:org)
 
   def get_user_certificate!(id), do: Repo.get!(UserCertificate, id) |> Repo.preload(:user)
+
+  def rotate_org_certificate(attrs) do
+    attrs
+    |> OrgCertificate.rotate_changeset()
+    |> Repo.update()
+    |> case do
+      {:ok, rotated} ->
+        org = Orgs.get_org!(rotated.org_id)
+
+        if rotated.level == :root,
+          do: create_root_certificate(rotated.id),
+          else: create_org_certificate(org.name, rotated.id)
+
+      {:error, _} ->
+        {:error, gettext("error_rotating_certificate")}
+    end
+  end
+
+  def rotate_user_certicate(attrs) do
+    attrs
+    |> UserCertificate.rotate_changeset()
+    |> Repo.update()
+    |> case do
+      {:ok, rotated} ->
+        user = Accounts.get_user!(rotated.user_id)
+        create_user_certificate(user.email, rotated.id)
+
+      {:error, _} ->
+        {:error, gettext("error_rotating_certificate")}
+    end
+  end
 
   defp generate_root_credentials do
     private_key = X509.PrivateKey.new_rsa(4096)
@@ -181,53 +251,54 @@ defmodule NotebookServer.PKIs do
     }
   end
 
-  defp store_root_credentials(private_key, public_key, cert) do
+  defp store_root_credentials(private_key, public_key, cert, uuid) do
     File.mkdir_p!(@root_path)
-    File.write!(@root_path <> @private_key_path, encrypt_private_key(private_key))
+    File.mkdir_p!("#{@root_path}/#{uuid}")
+    File.write!("#{@root_path}/#{uuid}#{@private_key_path}", encrypt_private_key(private_key))
 
     File.write!(
-      @root_path <> @public_key_path,
+      "#{@root_path}/#{uuid}#{@public_key_path}",
       public_key
     )
 
-    File.write!(@root_path <> @cert_path, cert)
+    File.write!("#{@root_path}/#{uuid}#{@cert_path}", cert)
   end
 
-  defp store_org_credentials(org_id, private_key, public_key, cert) do
+  defp store_org_credentials(org_id, private_key, public_key, cert, uuid) do
     File.mkdir_p!("./#{org_id}#{@intermediate_path}")
-
+    File.mkdir_p!("./#{org_id}#{@intermediate_path}/#{uuid}")
     File.write!(
-      "./#{org_id}#{@intermediate_path}#{@private_key_path}",
+      "./#{org_id}#{@intermediate_path}/#{uuid}#{@private_key_path}",
       encrypt_private_key(private_key)
     )
 
     File.write(
-      "./#{org_id}#{@intermediate_path}#{@public_key_path}",
+      "./#{org_id}#{@intermediate_path}/#{uuid}#{@public_key_path}",
       public_key
     )
 
     File.write(
-      "./#{org_id}#{@intermediate_path}#{@cert_path}",
+      "./#{org_id}#{@intermediate_path}/#{uuid}#{@cert_path}",
       cert
     )
   end
 
-  defp store_user_credentials(org_id, user_id, private_key, public_key, cert) do
+  defp store_user_credentials(org_id, user_id, private_key, public_key, cert, uuid) do
     File.mkdir_p!("./#{org_id}#{@user_path}")
     File.mkdir_p!("./#{org_id}#{@user_path}/#{user_id}")
-
+    File.mkdir_p!("./#{org_id}#{@user_path}/#{user_id}/#{uuid}")
     File.write!(
-      "./#{org_id}#{@user_path}/#{user_id}#{@private_key_path}",
+      "./#{org_id}#{@user_path}/#{user_id}/#{uuid}#{@private_key_path}",
       encrypt_private_key(private_key)
     )
 
     File.write!(
-      "./#{org_id}#{@user_path}/#{user_id}#{@public_key_path}",
+      "./#{org_id}#{@user_path}/#{user_id}/#{uuid}#{@public_key_path}",
       public_key
     )
 
     File.write!(
-      "./#{org_id}#{@user_path}/#{user_id}#{@cert_path}",
+      "./#{org_id}#{@user_path}/#{user_id}/#{uuid}#{@cert_path}",
       cert
     )
   end

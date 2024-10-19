@@ -12,7 +12,7 @@
 <.page_content>
   <.tabs active_tab={@active_tab}>
     <:tab
-      label={gettext("user")}
+      label={gettext("users")}
       id="user_certificates"
       patch={~p"/certificates?tab=user_certificates"}
     >
@@ -46,11 +46,11 @@
               size="icon"
               variant="outline"
               icon="rotate-ccw"
-              phx-click="rotate"
+              phx-click="rotate_user_certificate"
               phx-value-id={certificate.id}
               disabled={!User.can_use_platform?(@current_user) || certificate.status != :active}
             >
-              <%= gettext("rotate_certificate") %>
+              <%= gettext("rotate_user_certificate") %>
             </.button>
           </.tooltip>
         </:action>
@@ -92,7 +92,7 @@
       </div>
     </:tab>
     <:tab
-      label={gettext("org")}
+      label={gettext("orgs")}
       id="org_certificates"
       patch={~p"/certificates?tab=org_certificates"}
     >
@@ -121,8 +121,8 @@
               size="icon"
               variant="outline"
               icon="rotate-ccw"
-              phx-click="rotate_certificate"
-              phx-value-id={certificate.org.id}
+              phx-click="rotate_org_certificate"
+              phx-value-id={certificate.id}
               disabled={!User.can_use_platform?(@current_user) || certificate.status != :active}
             >
               <%= gettext("rotate_certificate") %>
@@ -136,7 +136,7 @@
               variant="outline"
               icon="ban"
               phx-click="revoke_certificate"
-              phx-value-id={certificate.org.id}
+              phx-value-id={certificate.id}
               disabled={!User.can_use_platform?(@current_user) || certificate.status != :active}
             >
               <%= gettext("revoke_certificate") %>
@@ -186,8 +186,8 @@
               size="icon"
               variant="outline"
               icon="rotate-ccw"
-              phx-click="rotate_certificate"
-              phx-value-id={certificate.org.id}
+              phx-click="rotate_root_certificate"
+              phx-value-id={certificate.id}
               disabled={!User.can_use_platform?(@current_user) || certificate.status != :active}
             >
               <%= gettext("rotate_certificate") %>
@@ -201,7 +201,7 @@
               variant="outline"
               icon="ban"
               phx-click="revoke_certificate"
-              phx-value-id={certificate.org.id}
+              phx-value-id={certificate.id}
               disabled={!User.can_use_platform?(@current_user) || certificate.status != :active}
             >
               <%= gettext("revoke_certificate") %>

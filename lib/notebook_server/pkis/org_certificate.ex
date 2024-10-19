@@ -3,6 +3,7 @@ defmodule NotebookServer.PKIs.OrgCertificate do
   import Ecto.Changeset
 
   schema "org_certificates" do
+    field :uuid, :string
     field :level, Ecto.Enum, values: [:root, :intermediate], default: :intermediate
     field :status, Ecto.Enum, values: [:revoked, :active, :rotated], default: :active
     field :platform, Ecto.Enum, values: [:web2, :web3], default: :web2
@@ -25,11 +26,13 @@ defmodule NotebookServer.PKIs.OrgCertificate do
       :revocation_date,
       :expiration_date,
       :org_id,
-      :replaces_id
+      :replaces_id,
+      :uuid,
     ])
     |> validate_required([
       :expiration_date,
-      :org_id
+      :org_id,
+      :uuid
     ])
   end
 

@@ -5,7 +5,7 @@ defmodule NotebookServerWeb.DashboardLive do
   def render(assigns) do
     ~H"""
     <.page_header icon="layout-dashboard">
-      <h1><%= gettext("home_title") %></h1>
+      <%= gettext("home_title") %>
     </.page_header>
     """
   end

@@ -3,6 +3,7 @@ defmodule NotebookServer.PKIs.UserCertificate do
   import Ecto.Changeset
 
   schema "user_certificates" do
+    field :uuid, :string
     field :status, Ecto.Enum, values: [:revoked, :active, :rotated], default: :active
     field :platform, Ecto.Enum, values: [:web2, :web3], default: :web2
     field :revocation_reason, :string
@@ -25,12 +26,14 @@ defmodule NotebookServer.PKIs.UserCertificate do
       :expiration_date,
       :user_id,
       :org_id,
-      :replaces_id
+      :replaces_id,
+      :uuid
     ])
     |> validate_required([
       :expiration_date,
       :user_id,
-      :org_id
+      :org_id,
+      :uuid
     ])
   end
 

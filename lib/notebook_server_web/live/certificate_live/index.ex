@@ -42,27 +42,15 @@ defmodule NotebookServerWeb.CertificateLive.Index do
   end
 
   defp apply_action(socket, :revoke, %{"id" => id, "tab" => tab}) do
-    call =
-      if tab == "org_certificates",
-        do: PKIs.get_org_certificate!(id),
-        else: PKIs.get_user_certificate!(id)
-
     socket
     |> assign(:page_title, gettext("revoke_certificate"))
     |> assign(:page_subtitle, gettext("revoke_certificate_subtitle"))
-    |> assign(:certificate, call)
   end
 
-  defp apply_action(socket, :delete, %{"id" => id, "tab" => tab}) do
-    call =
-      if tab == "org_certificates",
-        do: PKIs.get_org_certificate!(id),
-        else: PKIs.get_user_certificate!(id)
-
+  defp apply_action(socket, :delete, _params) do
     socket
     |> assign(:page_title, gettext("delete_certificate"))
     |> assign(:page_subtitle, gettext("delete_certificate_subtitle"))
-    |> assign(:certificate, call)
   end
 
   defp apply_action(socket, :index, _params) do
@@ -102,8 +90,41 @@ defmodule NotebookServerWeb.CertificateLive.Index do
   end
 
   @impl true
-  def handle_event("rotate", %{"id" => _id}, socket) do
-    {:noreply, socket}
+  def handle_event("rotate_root_certificate", %{"id" => id}, socket) do
+    if User.can_use_platform?(socket.assigns.current_user) do
+      opts = org_filter(socket)
+      certificate = PKIs.get_org_certificate!(id)
+      {:ok, _} = PKIs.rotate_org_certificate(certificate)
+
+      {:noreply,
+       socket |> stream(:root_certificates, PKIs.list_org_certificates(opts ++ [level: :root]))}
+    else
+      {:noreply, socket}
+    end
+  end
+
+  def handle_event("rotate_org_certificate", %{"id" => id}, socket) do
+    if User.can_use_platform?(socket.assigns.current_user) do
+      opts = org_filter(socket)
+      certificate = PKIs.get_org_certificate!(id)
+      {:ok, _} = PKIs.rotate_org_certificate(certificate)
+
+      {:noreply, socket |> stream(:org_certificates, PKIs.list_org_certificates(opts))}
+    else
+      {:noreply, socket}
+    end
+  end
+
+  def handle_event("rotate_user_certificate", %{"id" => id}, socket) do
+    if User.can_use_platform?(socket.assigns.current_user) do
+      opts = org_filter(socket)
+      certificate = PKIs.get_user_certificate!(id)
+      {:ok, _} = PKIs.rotate_user_certicate(certificate)
+
+      {:noreply, socket |> stream(:user_certificates, PKIs.list_user_certificates(opts))}
+    else
+      {:noreply, socket}
+    end
   end
 
   def handle_event("revoke", %{"id" => _id}, socket) do
