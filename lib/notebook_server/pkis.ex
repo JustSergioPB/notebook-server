@@ -62,6 +62,7 @@ defmodule NotebookServer.PKIs do
     max_age = expiration_date(10)
     uuid = Ecto.UUID.generate()
     root_credentials = retrieve_root_credentials()
+    active_root_certificate = get_active_root_certificate()
 
     org_credentials =
       generate_org_credentials(org.name, root_credentials.private_key, root_credentials.cert)
@@ -77,7 +78,8 @@ defmodule NotebookServer.PKIs do
     changeset = %{
       expiration_date: max_age,
       org_id: org.id,
-      uuid: uuid
+      uuid: uuid,
+      issued_by_id: active_root_certificate.id
     }
 
     changeset =
@@ -96,6 +98,7 @@ defmodule NotebookServer.PKIs do
     user = Accounts.get_user_by_email_with_org(user_email)
     uuid = Ecto.UUID.generate()
     org_credentials = retrieve_org_credentials(user.org.id)
+    active_org_certificate = get_active_org_certificate_by_org_id(user.org_id)
 
     user_credentials =
       generate_user_credentials(
@@ -118,7 +121,8 @@ defmodule NotebookServer.PKIs do
       user_id: user.id,
       org_id: user.org_id,
       expiration_date: expiration_date(),
-      uuid: uuid
+      uuid: uuid,
+      issued_by_id: active_org_certificate.id
     }
 
     changeset =
@@ -158,7 +162,7 @@ defmodule NotebookServer.PKIs do
       end
 
     query
-    |> order_by(asc: :inserted_at, asc: :user_id, desc: :status)
+    |> order_by(desc: :inserted_at, asc: :user_id, desc: :status)
     |> Repo.all()
     |> Repo.preload(:org)
     |> Repo.preload(:user)
@@ -167,6 +171,14 @@ defmodule NotebookServer.PKIs do
   def get_org_certificate!(id), do: Repo.get!(OrgCertificate, id) |> Repo.preload(:org)
 
   def get_user_certificate!(id), do: Repo.get!(UserCertificate, id) |> Repo.preload(:user)
+
+  def get_active_org_certificate_by_org_id(org_id) do
+    from(o in OrgCertificate, where: o.org_id == ^org_id and o.status == :active and o.level == :intermediate) |> Repo.one()
+  end
+
+  def get_active_root_certificate() do
+    from(o in OrgCertificate, where: o.level == :root and o.status == :active) |> Repo.one()
+  end
 
   def rotate_org_certificate(attrs) do
     attrs
@@ -267,6 +279,7 @@ defmodule NotebookServer.PKIs do
   defp store_org_credentials(org_id, private_key, public_key, cert, uuid) do
     File.mkdir_p!("./#{org_id}#{@intermediate_path}")
     File.mkdir_p!("./#{org_id}#{@intermediate_path}/#{uuid}")
+
     File.write!(
       "./#{org_id}#{@intermediate_path}/#{uuid}#{@private_key_path}",
       encrypt_private_key(private_key)
@@ -287,6 +300,7 @@ defmodule NotebookServer.PKIs do
     File.mkdir_p!("./#{org_id}#{@user_path}")
     File.mkdir_p!("./#{org_id}#{@user_path}/#{user_id}")
     File.mkdir_p!("./#{org_id}#{@user_path}/#{user_id}/#{uuid}")
+
     File.write!(
       "./#{org_id}#{@user_path}/#{user_id}/#{uuid}#{@private_key_path}",
       encrypt_private_key(private_key)

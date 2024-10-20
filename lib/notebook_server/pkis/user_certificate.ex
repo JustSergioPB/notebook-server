@@ -12,6 +12,7 @@ defmodule NotebookServer.PKIs.UserCertificate do
     belongs_to :user, NotebookServer.Accounts.User
     belongs_to :org, NotebookServer.Orgs.Org
     belongs_to :replaces, NotebookServer.PKIs.UserCertificate
+    belongs_to :issued_by, NotebookServer.PKIs.OrgCertificate
     timestamps(type: :utc_datetime)
   end
 
@@ -27,7 +28,8 @@ defmodule NotebookServer.PKIs.UserCertificate do
       :user_id,
       :org_id,
       :replaces_id,
-      :uuid
+      :uuid,
+      :issued_by_id
     ])
     |> validate_required([
       :expiration_date,
