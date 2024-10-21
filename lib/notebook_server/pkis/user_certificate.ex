@@ -13,6 +13,7 @@ defmodule NotebookServer.PKIs.UserCertificate do
     belongs_to :org, NotebookServer.Orgs.Org
     belongs_to :replaces, NotebookServer.PKIs.UserCertificate
     belongs_to :issued_by, NotebookServer.PKIs.OrgCertificate
+    belongs_to :issued_by_root, NotebookServer.PKIs.OrgCertificate
     timestamps(type: :utc_datetime)
   end
 
@@ -20,6 +21,7 @@ defmodule NotebookServer.PKIs.UserCertificate do
   def changeset(user_certificate, attrs) do
     user_certificate
     |> cast(attrs, [
+      :uuid,
       :status,
       :platform,
       :revocation_reason,
@@ -28,14 +30,16 @@ defmodule NotebookServer.PKIs.UserCertificate do
       :user_id,
       :org_id,
       :replaces_id,
-      :uuid,
-      :issued_by_id
+      :issued_by_id,
+      :issued_by_root_id,
     ])
     |> validate_required([
       :expiration_date,
       :user_id,
       :org_id,
-      :uuid
+      :uuid,
+      :issued_by_id,
+      :issued_by_root_id,
     ])
   end
 

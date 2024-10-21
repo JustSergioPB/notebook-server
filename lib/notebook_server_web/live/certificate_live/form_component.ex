@@ -47,13 +47,13 @@ defmodule NotebookServerWeb.CertificateLive.FormComponent do
   @impl true
   def handle_event("save", %{"field" => field}, socket) do
     case socket.assigns.tab do
-      "root_certificates" -> create_root_ca(socket)
+      "root_certificates" -> create_root_certificate(socket)
       "org_certificates" -> create_org_certificate(field, socket)
       "user_certificates" -> create_user_certificate(field, socket)
     end
   end
 
-  defp create_root_ca(socket) do
+  defp create_root_certificate(socket) do
     case PKIs.create_root_certificate() do
       {:ok, certificate} ->
         notify_parent({:saved_root, certificate})

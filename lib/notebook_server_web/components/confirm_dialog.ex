@@ -43,7 +43,7 @@ defmodule NotebookServerWeb.Components.ConfirmDialog do
   @impl true
   def handle_event("validate", %{"input" => input}, socket) do
     errors = if input != gettext("confirm"), do: [input: gettext("must_confirm")], else: []
-    assign(socket, form: to_form(%{"input" => input}, error: errors))
+    assign(socket, form: to_form(%{"input" => input}, error: errors, action: :validate))
   end
 
   def handle_event("save", _params, socket) do

@@ -54,9 +54,6 @@ msgstr ""
 msgid "activate"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:82
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:154
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:219
 #: lib/notebook_server_web/live/credential_live/index.html.heex:39
 #: lib/notebook_server_web/live/org_live/index.html.heex:63
 #: lib/notebook_server_web/live/schema_live/index.html.heex:58
@@ -91,12 +88,12 @@ msgstr ""
 msgid "confirm_new_password_placeholder"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:75
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:84
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:147
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:156
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:212
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:221
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:73
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:80
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:144
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:151
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:208
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:215
 #: lib/notebook_server_web/live/credential_live/index.html.heex:32
 #: lib/notebook_server_web/live/credential_live/index.html.heex:41
 #: lib/notebook_server_web/live/org_live/index.html.heex:57
@@ -192,6 +189,7 @@ msgstr ""
 msgid "last_name"
 msgstr ""
 
+#: lib/notebook_server_web/controllers/page_html/home.html.heex:12
 #: lib/notebook_server_web/live/user_live/user_confirmation.ex:29
 #: lib/notebook_server_web/live/user_live/user_confirmation_instructions_live.ex:39
 #: lib/notebook_server_web/live/user_live/user_forgot_password_live.ex:30
@@ -254,7 +252,6 @@ msgid "oops_something_went_wrong"
 msgstr ""
 
 #: lib/notebook_server_web/live/certificate_live/form_component.ex:19
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:95
 #: lib/notebook_server_web/live/credential_live/index.html.heex:28
 #: lib/notebook_server_web/live/org_live/index.html.heex:6
 #: lib/notebook_server_web/live/org_live/show.html.heex:2
@@ -273,6 +270,7 @@ msgid "org_update_success"
 msgstr ""
 
 #: lib/notebook_server_web/components/layouts/app.html.heex:18
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:91
 #: lib/notebook_server_web/live/org_live/index.ex:33
 #: lib/notebook_server_web/live/org_live/index.html.heex:2
 #, elixir-autogen, elixir-format
@@ -328,7 +326,7 @@ msgstr ""
 msgid "role"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/form_component.ex:28
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:29
 #: lib/notebook_server_web/live/credential_live/form_component.ex:25
 #: lib/notebook_server_web/live/org_live/form_component.ex:25
 #: lib/notebook_server_web/live/schema_live/form_component.ex:55
@@ -359,8 +357,8 @@ msgid "show_user"
 msgstr ""
 
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:37
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:112
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:177
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:108
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:172
 #: lib/notebook_server_web/live/org_live/index.html.heex:22
 #: lib/notebook_server_web/live/schema_live/index.html.heex:33
 #: lib/notebook_server_web/live/user_live/index.html.heex:25
@@ -369,7 +367,6 @@ msgid "status"
 msgstr ""
 
 #: lib/notebook_server_web/live/certificate_live/form_component.ex:19
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:15
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:20
 #: lib/notebook_server_web/live/user_live/index.html.heex:6
 #: lib/notebook_server_web/live/user_live/show.html.heex:2
@@ -378,6 +375,7 @@ msgid "user"
 msgstr ""
 
 #: lib/notebook_server_web/components/layouts/app.html.heex:24
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:15
 #: lib/notebook_server_web/live/user_live/index.ex:34
 #: lib/notebook_server_web/live/user_live/index.html.heex:2
 #, elixir-autogen, elixir-format
@@ -514,7 +512,7 @@ msgid "home_title"
 msgstr ""
 
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:28
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:103
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:99
 #: lib/notebook_server_web/live/schema_live/index.html.heex:25
 #: lib/notebook_server_web/live/user_live/index.html.heex:31
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:49
@@ -528,6 +526,7 @@ msgstr ""
 msgid "org_name_placeholder"
 msgstr ""
 
+#: lib/notebook_server_web/controllers/page_html/home.html.heex:19
 #: lib/notebook_server_web/live/user_live/user_confirmation.ex:24
 #: lib/notebook_server_web/live/user_live/user_confirmation_instructions_live.ex:34
 #: lib/notebook_server_web/live/user_live/user_login_live.ex:45
@@ -683,9 +682,10 @@ msgstr ""
 msgid "user_password_length %{min} %{max}"
 msgstr ""
 
-#: lib/notebook_server_web/components/confirm_dialog.ex:21
-#: lib/notebook_server_web/components/confirm_dialog.ex:22
+#: lib/notebook_server_web/components/confirm_dialog.ex:19
+#: lib/notebook_server_web/components/confirm_dialog.ex:20
 #: lib/notebook_server_web/components/confirm_dialog.ex:30
+#: lib/notebook_server_web/components/confirm_dialog.ex:45
 #: lib/notebook_server_web/live/user_live/user_confirmation.ex:18
 #: lib/notebook_server_web/live/user_live/user_login_live.ex:51
 #, elixir-autogen, elixir-format
@@ -754,21 +754,21 @@ msgstr ""
 
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:44
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:53
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:119
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:128
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:184
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:193
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:115
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:124
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:179
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:188
 #, elixir-autogen, elixir-format
 msgid "rotate_certificate"
 msgstr ""
 
 #: lib/notebook_server_web/live/certificate_live/index.ex:51
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:59
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:68
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:133
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:142
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:198
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:207
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:66
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:130
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:137
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:194
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:201
 #, elixir-autogen, elixir-format
 msgid "revoke_certificate"
 msgstr ""
@@ -895,8 +895,8 @@ msgid "draft"
 msgstr ""
 
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:32
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:107
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:172
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:103
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:167
 #: lib/notebook_server_web/live/schema_live/form_component.ex:39
 #: lib/notebook_server_web/live/schema_live/index.html.heex:28
 #, elixir-autogen, elixir-format
@@ -983,8 +983,8 @@ msgid "show_certificate"
 msgstr ""
 
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:40
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:115
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:180
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:111
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:175
 #, elixir-autogen, elixir-format
 msgid "expiration_date"
 msgstr ""
@@ -1013,17 +1013,17 @@ msgid "level"
 msgstr ""
 
 #: lib/notebook_server_web/components/core_components.ex:1034
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:167
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:162
 #, elixir-autogen, elixir-format
 msgid "root"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/form_component.ex:81
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:82
 #, elixir-autogen, elixir-format
 msgid "org_certificate_create_error"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/form_component.ex:77
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:78
 #, elixir-autogen, elixir-format
 msgid "org_certificate_create_success"
 msgstr ""
@@ -1033,22 +1033,22 @@ msgstr ""
 msgid "revoke_certificate_subtitle"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/form_component.ex:66
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:67
 #, elixir-autogen, elixir-format
 msgid "root_certificate_create_error"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/form_component.ex:62
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:63
 #, elixir-autogen, elixir-format
 msgid "root_certificate_create_success"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/form_component.ex:96
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:97
 #, elixir-autogen, elixir-format
 msgid "user_certificate_create_error"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/form_component.ex:92
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:93
 #, elixir-autogen, elixir-format
 msgid "user_certificate_create_success"
 msgstr ""
@@ -1061,4 +1061,65 @@ msgstr ""
 #: lib/notebook_server_web/live/certificate_live/index.ex:64
 #, elixir-autogen, elixir-format
 msgid "delete_certificate_subtitle"
+msgstr ""
+
+#: lib/notebook_server/pkis.ex:251
+#, elixir-autogen, elixir-format
+msgid "error_revokating_certificate"
+msgstr ""
+
+#: lib/notebook_server/pkis.ex:254
+#, elixir-autogen, elixir-format
+msgid "error_revokating_related_org_certificates"
+msgstr ""
+
+#: lib/notebook_server/pkis.ex:257
+#, elixir-autogen, elixir-format
+msgid "error_revokating_related_user_certificates"
+msgstr ""
+
+#: lib/notebook_server/pkis.ex:199
+#: lib/notebook_server/pkis.ex:213
+#, elixir-autogen, elixir-format
+msgid "error_rotating_certificate"
+msgstr ""
+
+#: lib/notebook_server_web/components/confirm_dialog.ex:45
+#, elixir-autogen, elixir-format
+msgid "must_confirm"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:103
+#, elixir-autogen, elixir-format
+msgid "org_certificate_revoke_success"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:27
+#, elixir-autogen, elixir-format
+msgid "revocation_reason"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:28
+#, elixir-autogen, elixir-format
+msgid "revocation_reason_placeholder"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:38
+#, elixir-autogen, elixir-format
+msgid "revoke"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:86
+#, elixir-autogen, elixir-format
+msgid "root_certificate_revoke_success"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:120
+#, elixir-autogen, elixir-format
+msgid "user_certificate_revoke_success"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:58
+#, elixir-autogen, elixir-format
+msgid "revocation_reason_length %{min} %{max}"
 msgstr ""

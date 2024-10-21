@@ -50,7 +50,7 @@
               phx-value-id={certificate.id}
               disabled={!User.can_use_platform?(@current_user) || certificate.status != :active}
             >
-              <%= gettext("rotate_user_certificate") %>
+              <%= gettext("rotate_certificate") %>
             </.button>
           </.tooltip>
         </:action>
@@ -61,8 +61,6 @@
                 size="icon"
                 variant="outline"
                 icon="ban"
-                phx-click="revoke"
-                phx-value-id={certificate.id}
                 disabled={!User.can_use_platform?(@current_user) || certificate.status != :active}
               >
                 <%= gettext("revoke_certificate") %>
@@ -77,8 +75,6 @@
                 size="icon"
                 variant="outline"
                 icon="trash"
-                phx-click="rotate"
-                phx-value-id={certificate.id}
                 disabled={!User.can_use_platform?(@current_user)}
               >
                 <%= gettext("delete") %>
@@ -130,32 +126,32 @@
           </.tooltip>
         </:action>
         <:action :let={{_id, certificate}}>
-          <.tooltip text={gettext("revoke_certificate")}>
-            <.button
-              size="icon"
-              variant="outline"
-              icon="ban"
-              phx-click="revoke_certificate"
-              phx-value-id={certificate.id}
-              disabled={!User.can_use_platform?(@current_user) || certificate.status != :active}
-            >
-              <%= gettext("revoke_certificate") %>
-            </.button>
-          </.tooltip>
+          <.link patch={~p"/certificates/#{certificate.id}/revoke?tab=org_certificates"}>
+            <.tooltip text={gettext("revoke_certificate")}>
+              <.button
+                size="icon"
+                variant="outline"
+                icon="ban"
+                disabled={!User.can_use_platform?(@current_user) || certificate.status != :active}
+              >
+                <%= gettext("revoke_certificate") %>
+              </.button>
+            </.tooltip>
+          </.link>
         </:action>
-        <:action :let={{id, certificate}}>
-          <.tooltip text={gettext("delete")}>
-            <.button
-              size="icon"
-              variant="outline"
-              icon="trash"
-              disabled={!User.can_use_platform?(@current_user)}
-              phx-click={JS.push("delete", value: %{id: certificate.id}) |> hide("##{id}")}
-              data-confirm={gettext("are_you_sure")}
-            >
-              <%= gettext("delete") %>
-            </.button>
-          </.tooltip>
+        <:action :let={{_id, certificate}}>
+          <.link patch={~p"/certificates/#{certificate.id}/delete?tab=org_certificates"}>
+            <.tooltip text={gettext("delete")}>
+              <.button
+                size="icon"
+                variant="outline"
+                icon="trash"
+                disabled={!User.can_use_platform?(@current_user)}
+              >
+                <%= gettext("delete") %>
+              </.button>
+            </.tooltip>
+          </.link>
         </:action>
       </.table>
       <div class="p-6 border-t border-slate-200">
@@ -163,7 +159,6 @@
       </div>
     </:tab>
     <:tab
-      :if={@current_user.role == :admin}
       label={gettext("root")}
       id="root_certificates"
       patch={~p"/certificates?tab=root_certificates"}
@@ -195,32 +190,32 @@
           </.tooltip>
         </:action>
         <:action :let={{_id, certificate}}>
-          <.tooltip text={gettext("revoke_certificate")}>
-            <.button
-              size="icon"
-              variant="outline"
-              icon="ban"
-              phx-click="revoke_certificate"
-              phx-value-id={certificate.id}
-              disabled={!User.can_use_platform?(@current_user) || certificate.status != :active}
-            >
-              <%= gettext("revoke_certificate") %>
-            </.button>
-          </.tooltip>
+          <.link patch={~p"/certificates/#{certificate.id}/revoke?tab=root_certificates"}>
+            <.tooltip text={gettext("revoke_certificate")}>
+              <.button
+                size="icon"
+                variant="outline"
+                icon="ban"
+                disabled={!User.can_use_platform?(@current_user) || certificate.status != :active}
+              >
+                <%= gettext("revoke_certificate") %>
+              </.button>
+            </.tooltip>
+          </.link>
         </:action>
-        <:action :let={{id, certificate}}>
-          <.tooltip text={gettext("delete")}>
-            <.button
-              size="icon"
-              variant="outline"
-              icon="trash"
-              disabled={!User.can_use_platform?(@current_user)}
-              phx-click={JS.push("delete", value: %{id: certificate.id}) |> hide("##{id}")}
-              data-confirm={gettext("are_you_sure")}
-            >
-              <%= gettext("delete") %>
-            </.button>
-          </.tooltip>
+        <:action :let={{_id, certificate}}>
+          <.link patch={~p"/certificates/#{certificate.id}/delete?tab=root_certificates"}>
+            <.tooltip text={gettext("delete")}>
+              <.button
+                size="icon"
+                variant="outline"
+                icon="trash"
+                disabled={!User.can_use_platform?(@current_user)}
+              >
+                <%= gettext("delete") %>
+              </.button>
+            </.tooltip>
+          </.link>
         </:action>
       </.table>
       <div class="p-6 border-t border-slate-200">
@@ -249,7 +244,7 @@
 </.modal>
 
 <.modal
-  :if={@live_action in [:revoke, :delete]}
+  :if={@live_action in [:delete]}
   id="confirm-modal"
   show
   on_cancel={JS.patch(~p"/certificates?tab=#{@active_tab}")}
@@ -260,6 +255,24 @@
     title={@page_title}
     subtitle={@page_subtitle}
     current_user={@current_user}
+    patch={~p"/certificates?tab=#{@active_tab}"}
+  />
+</.modal>
+
+<.modal
+  :if={@live_action in [:revoke]}
+  id="revoke-modal"
+  show
+  on_cancel={JS.patch(~p"/certificates?tab=#{@active_tab}")}
+>
+  <.live_component
+    module={NotebookServerWeb.CertificateLive.RevokeFormComponent}
+    id={@certificate.id}
+    title={@page_title}
+    subtitle={@page_subtitle}
+    current_user={@current_user}
+    certificate={@certificate}
+    tab={@active_tab}
     patch={~p"/certificates?tab=#{@active_tab}"}
   />
 </.modal>

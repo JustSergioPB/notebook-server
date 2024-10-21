@@ -42,15 +42,27 @@ defmodule NotebookServerWeb.CertificateLive.Index do
   end
 
   defp apply_action(socket, :revoke, %{"id" => id, "tab" => tab}) do
+    certificate =
+      if tab == "user_certificates",
+        do: PKIs.get_user_certificate!(id),
+        else: PKIs.get_org_certificate!(id)
+
     socket
     |> assign(:page_title, gettext("revoke_certificate"))
     |> assign(:page_subtitle, gettext("revoke_certificate_subtitle"))
+    |> assign(:certificate, certificate)
   end
 
-  defp apply_action(socket, :delete, _params) do
+  defp apply_action(socket, :delete, %{"id" => id, "tab" => tab}) do
+    certificate =
+      if tab == "user_certificates",
+        do: PKIs.get_user_certificate!(id),
+        else: PKIs.get_org_certificate!(id)
+
     socket
     |> assign(:page_title, gettext("delete_certificate"))
     |> assign(:page_subtitle, gettext("delete_certificate_subtitle"))
+    |> assign(:certificate, certificate)
   end
 
   defp apply_action(socket, :index, _params) do
@@ -89,6 +101,37 @@ defmodule NotebookServerWeb.CertificateLive.Index do
     {:noreply, stream_insert(socket, :user_certificates, certificate)}
   end
 
+  def handle_info(
+        {NotebookServerWeb.CertificateLive.RevokeFormComponent, {:revoked_root, _certificate}},
+        socket
+      ) do
+    opts = org_filter(socket)
+
+    {:noreply,
+     socket |> stream(:root_certificates, PKIs.list_org_certificates(opts ++ [level: :root]))}
+  end
+
+  def handle_info(
+        {NotebookServerWeb.CertificateLive.RevokeFormComponent,
+         {:revoked_intermediate, _certificate}},
+        socket
+      ) do
+    opts = org_filter(socket)
+
+    {:noreply,
+     socket |> stream(:org_certificates, PKIs.list_org_certificates(opts ++ [level: :root]))}
+  end
+
+  def handle_info(
+        {NotebookServerWeb.CertificateLive.RevokeFormComponent, {:revoked_user, _certificate}},
+        socket
+      ) do
+    opts = org_filter(socket)
+
+    {:noreply,
+     socket |> stream(:user_certificates, PKIs.list_org_certificates(opts ++ [level: :root]))}
+  end
+
   @impl true
   def handle_event("rotate_root_certificate", %{"id" => id}, socket) do
     if User.can_use_platform?(socket.assigns.current_user) do
@@ -125,10 +168,6 @@ defmodule NotebookServerWeb.CertificateLive.Index do
     else
       {:noreply, socket}
     end
-  end
-
-  def handle_event("revoke", %{"id" => _id}, socket) do
-    {:noreply, socket}
   end
 
   def handle_event("delete", %{"id" => _id}, socket) do

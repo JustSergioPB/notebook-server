@@ -61,8 +61,8 @@ defmodule NotebookServer.PKIs do
     org = Orgs.get_org_by_name(org_name)
     max_age = expiration_date(10)
     uuid = Ecto.UUID.generate()
-    root_credentials = retrieve_root_credentials()
     active_root_certificate = get_active_root_certificate()
+    root_credentials = retrieve_root_credentials(active_root_certificate.uuid)
 
     org_credentials =
       generate_org_credentials(org.name, root_credentials.private_key, root_credentials.cert)
@@ -97,8 +97,8 @@ defmodule NotebookServer.PKIs do
   def create_user_certificate(user_email, replaces_id \\ nil) do
     user = Accounts.get_user_by_email_with_org(user_email)
     uuid = Ecto.UUID.generate()
-    org_credentials = retrieve_org_credentials(user.org.id)
     active_org_certificate = get_active_org_certificate_by_org_id(user.org_id)
+    org_credentials = retrieve_org_credentials(user.org.id, active_org_certificate.uuid)
 
     user_credentials =
       generate_user_credentials(
@@ -122,7 +122,8 @@ defmodule NotebookServer.PKIs do
       org_id: user.org_id,
       expiration_date: expiration_date(),
       uuid: uuid,
-      issued_by_id: active_org_certificate.id
+      issued_by_id: active_org_certificate.id,
+      issued_by_root_id: active_org_certificate.issued_by_id
     }
 
     changeset =
@@ -173,7 +174,10 @@ defmodule NotebookServer.PKIs do
   def get_user_certificate!(id), do: Repo.get!(UserCertificate, id) |> Repo.preload(:user)
 
   def get_active_org_certificate_by_org_id(org_id) do
-    from(o in OrgCertificate, where: o.org_id == ^org_id and o.status == :active and o.level == :intermediate) |> Repo.one()
+    from(o in OrgCertificate,
+      where: o.org_id == ^org_id and o.status == :active and o.level == :intermediate
+    )
+    |> Repo.one()
   end
 
   def get_active_root_certificate() do
@@ -209,6 +213,70 @@ defmodule NotebookServer.PKIs do
       {:error, _} ->
         {:error, gettext("error_rotating_certificate")}
     end
+  end
+
+  def revoke_org_certificate(%OrgCertificate{} = org_certificate, attrs) do
+    revocation_date = DateTime.utc_now()
+    revocation_reason = Map.get(attrs, :revocation_reason)
+    attrs = Map.put(attrs, :revocation_date, revocation_date)
+
+    Ecto.Multi.new()
+    |> Ecto.Multi.update(
+      :revoke_certificate,
+      OrgCertificate.revoke_changeset(org_certificate, attrs)
+    )
+    |> Ecto.Multi.update_all(
+      :revoke_related_org_certificates,
+      fn %{revoke_certificate: revoked} ->
+        from(o in OrgCertificate,
+          where: o.issued_by_id == ^revoked.id,
+          update: [
+            set: [
+              status: :revoked,
+              revocation_date: ^revocation_date,
+              revocation_reason: ^revocation_reason
+            ]
+          ]
+        )
+      end,
+      []
+    )
+    |> Ecto.Multi.update_all(
+      :revoke_related_user_certificates,
+      fn %{revoke_certificate: revoked} ->
+        from(u in UserCertificate,
+          where:
+            u.issued_by_id == ^revoked.id or
+              (u.issued_by_root_id == ^revoked.id and u.status == :active),
+          update: [
+            set: [
+              status: :revoked,
+              revocation_date: ^revocation_date,
+              revocation_reason: ^revocation_reason
+            ]
+          ]
+        )
+      end,
+      []
+    )
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{revoke_certificate: revoked}} ->
+        {:ok, revoked}
+
+      {:error, :revoke_certificate, _value, _} ->
+        {:error, gettext("error_revokating_certificate")}
+
+      {:error, :revoke_related_org_certificates, _value, _} ->
+        {:error, gettext("error_revokating_related_org_certificates")}
+
+      {:error, :revoke_related_user_certificates, _value, _} ->
+        {:error, gettext("error_revokating_related_user_certificates")}
+    end
+  end
+
+  def revoke_user_certificate(%UserCertificate{} = user_certificate, attrs) do
+    user_certificate |> UserCertificate.revoke_changeset(attrs) |> Repo.update()
   end
 
   defp generate_root_credentials do
@@ -317,13 +385,13 @@ defmodule NotebookServer.PKIs do
     )
   end
 
-  defp retrieve_root_credentials do
-    public_key = File.read!(@root_path <> @public_key_path)
+  defp retrieve_root_credentials(uuid) do
+    public_key = File.read!("#{@root_path}/#{uuid}#{@public_key_path}")
 
     {:ok, private_key} =
-      decrypt_private_key(@root_path <> @private_key_path)
+      decrypt_private_key("#{@root_path}/#{uuid}#{@private_key_path}")
 
-    cert = File.read!(@root_path <> @cert_path)
+    cert = File.read!("#{@root_path}/#{uuid}#{@cert_path}")
 
     %{
       :public_key => public_key |> X509.PublicKey.from_pem!(),
@@ -332,13 +400,13 @@ defmodule NotebookServer.PKIs do
     }
   end
 
-  defp retrieve_org_credentials(org_id) do
-    public_key = File.read!("./#{org_id}" <> @intermediate_path <> @public_key_path)
+  defp retrieve_org_credentials(org_id, uuid) do
+    public_key = File.read!("./#{org_id}#{@intermediate_path}/#{uuid}#{@public_key_path}")
 
     {:ok, private_key} =
-      decrypt_private_key("./#{org_id}" <> @intermediate_path <> @private_key_path)
+      decrypt_private_key("./#{org_id}#{@intermediate_path}/#{uuid}#{@private_key_path}")
 
-    cert = File.read!("./#{org_id}" <> @intermediate_path <> @cert_path)
+    cert = File.read!("./#{org_id}#{@intermediate_path}/#{uuid}#{@cert_path}")
 
     %{
       :public_key => public_key |> X509.PublicKey.from_pem!(),

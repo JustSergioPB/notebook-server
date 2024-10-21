@@ -20,6 +20,7 @@ defmodule NotebookServer.PKIs.OrgCertificate do
   def changeset(org_certificate, attrs) do
     org_certificate
     |> cast(attrs, [
+      :uuid,
       :level,
       :status,
       :platform,
@@ -28,7 +29,6 @@ defmodule NotebookServer.PKIs.OrgCertificate do
       :expiration_date,
       :org_id,
       :replaces_id,
-      :uuid,
       :issued_by_id
     ])
     |> validate_required([
