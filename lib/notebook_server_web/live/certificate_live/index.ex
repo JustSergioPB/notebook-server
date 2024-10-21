@@ -2,7 +2,6 @@ defmodule NotebookServerWeb.CertificateLive.Index do
   use NotebookServerWeb, :live_view
 
   alias NotebookServer.PKIs
-  alias NotebookServer.PKIs.UserCertificate
   alias NotebookServer.Accounts.User
   alias NotebookServer.Accounts
   alias NotebookServer.Orgs

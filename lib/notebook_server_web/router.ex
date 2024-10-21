@@ -1,5 +1,4 @@
 defmodule NotebookServerWeb.Router do
-  alias X509.Certificate
   use NotebookServerWeb, :router
 
   import NotebookServerWeb.UserAuth
