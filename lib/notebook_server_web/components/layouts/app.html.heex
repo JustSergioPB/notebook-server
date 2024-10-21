@@ -26,10 +26,10 @@
         href={~p"/users"}
       />
       <.nav_link
-        :if={@current_user.role == :admin || @current_user.role == :org_admin}
-        label={gettext("keys")}
-        icon="key"
-        href={~p"/keys"}
+        :if={@current_user.role == :admin}
+        label={gettext("certificates")}
+        icon="file-key"
+        href={~p"/certificates"}
       />
       <.nav_link
         :if={@current_user.role == :admin || @current_user.role == :org_admin}
@@ -44,7 +44,7 @@
       />
     </ul>
     <ul class="space-y-1">
-      <.nav_link label={gettext("settings")} icon="settings" href={~p"/settings?tab=account"} />
+      <.nav_link label={gettext("settings")} icon="settings" href={~p"/settings"} />
       <.nav_link label={gettext("logout")} icon="log-out" method="delete" href={~p"/logout"} />
     </ul>
   </nav>

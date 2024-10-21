@@ -1,4 +1,4 @@
-defmodule NotebookServerWeb.KeyLive.Show do
+defmodule NotebookServerWeb.CertificateLive.Show do
   use NotebookServerWeb, :live_view
 
   alias NotebookServer.PKIs
@@ -14,9 +14,9 @@ defmodule NotebookServerWeb.KeyLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:key, PKIs.get_public_key_by_user_id(id))}
+     |> assign(:certificate, PKIs.get_user_certificate!(id))}
   end
 
-  defp page_title(:show), do: gettext("show_key")
-  defp page_title(:edit), do: gettext("edit_key")
+  defp page_title(:show), do: gettext("show_certificate")
+  defp page_title(:edit), do: gettext("edit_certificate")
 end

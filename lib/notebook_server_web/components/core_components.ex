@@ -249,6 +249,7 @@ defmodule NotebookServerWeb.CoreComponents do
         @variant == "outline" &&
           "bg-transparent shadow-sm border border-slate-200 hover:bg-slate-100 disabled:hover:bg-transparent",
         @variant == "ghost" && "bg-transparent  hover:bg-slate-100 disabled:hover:bg-transparent",
+        @variant == "danger" && "bg-red-500 text-white  hover:bg-red-400 disabled:hover:bg-red-500",
         @class
       ]}
       {@rest}
@@ -783,7 +784,7 @@ defmodule NotebookServerWeb.CoreComponents do
           @active && "bg-slate-100"
         ]}
       >
-        <Lucide.render icon={@icon} class="h-4 w-4 group-hover" />
+        <Lucide.render icon={@icon} class="h-5 w-5 group-hover" />
         <%= @label %>
       </.link>
     </li>
@@ -913,7 +914,7 @@ defmodule NotebookServerWeb.CoreComponents do
   attr :variant, :string, default: "inactive"
   attr :class, :string, default: nil
 
-  def key_status_badge(assigns) do
+  def certificate_status_badge(assigns) do
     ~H"""
     <div class={[
       "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs",
@@ -939,17 +940,23 @@ defmodule NotebookServerWeb.CoreComponents do
   slot :tab, required: true do
     attr :label, :string, required: true
     attr :id, :string, required: true
+    attr :patch, :string, required: true
   end
 
   attr :active_tab, :string, required: true
+  attr :class, :string, default: nil
+  attr :tab_content_class, :string, default: nil
 
   def tabs(assigns) do
     ~H"""
-    <section class="flex flex-col space-y-6 p-6 flex-1">
-      <div class="flex items-center gap-4">
+    <section class={[
+      "flex flex-col space-y-6 flex-1",
+      @class
+    ]}>
+      <div class="flex items-center gap-4 px-6">
         <.link
           :for={{tab, _i} <- Enum.with_index(@tab)}
-          patch={"/settings?tab=#{tab[:id]}"}
+          patch={tab[:patch]}
           class={[
             "px-3 py-2 text-sm rounded-lg",
             @active_tab == tab[:id] && "bg-slate-100 font-semibold"
@@ -958,7 +965,14 @@ defmodule NotebookServerWeb.CoreComponents do
           <%= tab[:label] %>
         </.link>
       </div>
-      <section :for={tab <- @tab} class={["flex-1", (@active_tab == tab[:id] && "flex") || "hidden"]}>
+      <section
+        :for={tab <- @tab}
+        class={[
+          "flex-1",
+          (@active_tab == tab[:id] && "flex flex-col") || "hidden",
+          @tab_content_class
+        ]}
+      >
         <%= render_slot(tab) %>
       </section>
     </section>
@@ -996,6 +1010,58 @@ defmodule NotebookServerWeb.CoreComponents do
       ]}>
         <%= @text %>
       </div>
+    </div>
+    """
+  end
+
+  attr :level, :string, required: true
+  attr :class, :string, default: nil
+
+  def org_level_badge(assigns) do
+    ~H"""
+    <div class={[
+      "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs",
+      @level == :root && "bg-orange-100 text-orange-700",
+      @level == :intermediate && "bg-purple-100 text-purple-700",
+      @class
+    ]}>
+      <div class={[
+        "h-[6px] w-[6px] rounded-full",
+        @level == :root && "bg-orange-600",
+        @level == :intermediate && "bg-purple-600"
+      ]}>
+      </div>
+      <span :if={@level == :root}><%= gettext("root") %></span>
+      <span :if={@level == :intermediate}><%= gettext("intermediate") %></span>
+    </div>
+    """
+  end
+
+  attr :variant, :string, default: "info"
+  attr :content, :string, required: true
+
+  def info_banner(assigns) do
+    icon =
+      case assigns.variant do
+        "danger" -> "alert-triangle"
+        "info" -> "info"
+        "warn" -> "alert-triangle"
+        "success" -> "circle-check"
+        _ -> "info"
+      end
+
+    assigns = assign(assigns, :icon, icon)
+
+    ~H"""
+    <div class={[
+      "flex items-start gap-2 rounded-lg p-4",
+      @variant == "danger" && "bg-red-100 text-red-500",
+      @variant == "info" && "bg-blue-100 text-blue-500",
+      @variant == "warn" && "bg-amber-100 text-amber-500",
+      @variant == "success" && "bg-green-100 text-green-500"
+    ]}>
+      <Lucide.render icon={@icon} class="h-6 w-6" />
+      <p class="w-[95%]"><%= @content %></p>
     </div>
     """
   end

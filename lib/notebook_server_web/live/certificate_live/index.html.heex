@@ -1,0 +1,278 @@
+<.page_header icon="file-json">
+  <%= gettext("certificates") %>
+  <:actions>
+    <.link patch={~p"/certificates/new?tab=#{@active_tab}"}>
+      <.button icon="plus_circle" disabled={!User.can_use_platform?(@current_user)}>
+        <%= gettext("certificate") %>
+      </.button>
+    </.link>
+  </:actions>
+</.page_header>
+
+<.page_content>
+  <.tabs active_tab={@active_tab}>
+    <:tab
+      label={gettext("users")}
+      id="user_certificates"
+      patch={~p"/certificates?tab=user_certificates"}
+    >
+      <.table id="certificates" class="flex-1" rows={@streams.user_certificates}>
+        <:col :let={{_id, certificate}} label={gettext("user")}>
+          <p class="text-sm font-semibold">
+            <%= certificate.user.name %> <%= certificate.user.last_name %>
+          </p>
+        </:col>
+        <:col
+          :let={{_id, certificate}}
+          :if={@current_user.role == :admin}
+          label={gettext("org_name")}
+        >
+          <%= certificate.org.name %>
+        </:col>
+        <:col :let={{_id, certificate}} label={gettext("platform")}>
+          <.platform_badge platform={certificate.platform}>
+            <%= certificate.platform %>
+          </.platform_badge>
+        </:col>
+        <:col :let={{_id, certificate}} label={gettext("status")}>
+          <.certificate_status_badge variant={certificate.status} />
+        </:col>
+        <:col :let={{_id, certificate}} label={gettext("expiration_date")}>
+          <%= Calendar.strftime(certificate.expiration_date, "%d-%m-%Y %H:%M:%S") %>
+        </:col>
+        <:action :let={{_id, certificate}}>
+          <.tooltip text={gettext("rotate_certificate")}>
+            <.button
+              size="icon"
+              variant="outline"
+              icon="rotate-ccw"
+              phx-click="rotate_user_certificate"
+              phx-value-id={certificate.id}
+              disabled={!User.can_use_platform?(@current_user) || certificate.status != :active}
+            >
+              <%= gettext("rotate_certificate") %>
+            </.button>
+          </.tooltip>
+        </:action>
+        <:action :let={{_id, certificate}}>
+          <.link patch={~p"/certificates/#{certificate.id}/revoke?tab=user_certificates"}>
+            <.tooltip text={gettext("revoke_certificate")}>
+              <.button
+                size="icon"
+                variant="outline"
+                icon="ban"
+                disabled={!User.can_use_platform?(@current_user) || certificate.status != :active}
+              >
+                <%= gettext("revoke_certificate") %>
+              </.button>
+            </.tooltip>
+          </.link>
+        </:action>
+        <:action :let={{_id, certificate}}>
+          <.link patch={~p"/certificates/#{certificate.id}/delete?tab=user_certificates"}>
+            <.tooltip text={gettext("delete")}>
+              <.button
+                size="icon"
+                variant="outline"
+                icon="trash"
+                disabled={!User.can_use_platform?(@current_user)}
+              >
+                <%= gettext("delete") %>
+              </.button>
+            </.tooltip>
+          </.link>
+        </:action>
+      </.table>
+      <div class="p-6 border-t border-slate-200">
+        <.pagination page={1} total_pages={1} disabled={!User.can_use_platform?(@current_user)} />
+      </div>
+    </:tab>
+    <:tab
+      label={gettext("orgs")}
+      id="org_certificates"
+      patch={~p"/certificates?tab=org_certificates"}
+    >
+      <.table id="certificates" class="flex-1" rows={@streams.org_certificates}>
+        <:col
+          :let={{_id, certificate}}
+          :if={@current_user.role == :admin}
+          label={gettext("org_name")}
+        >
+          <%= certificate.org.name %>
+        </:col>
+        <:col :let={{_id, certificate}} label={gettext("platform")}>
+          <.platform_badge platform={certificate.platform}>
+            <%= certificate.platform %>
+          </.platform_badge>
+        </:col>
+        <:col :let={{_id, certificate}} label={gettext("status")}>
+          <.certificate_status_badge variant={certificate.status} />
+        </:col>
+        <:col :let={{_id, certificate}} label={gettext("expiration_date")}>
+          <%= Calendar.strftime(certificate.expiration_date, "%d-%m-%Y %H:%M:%S") %>
+        </:col>
+        <:action :let={{_id, certificate}}>
+          <.tooltip text={gettext("rotate_certificate")}>
+            <.button
+              size="icon"
+              variant="outline"
+              icon="rotate-ccw"
+              phx-click="rotate_org_certificate"
+              phx-value-id={certificate.id}
+              disabled={!User.can_use_platform?(@current_user) || certificate.status != :active}
+            >
+              <%= gettext("rotate_certificate") %>
+            </.button>
+          </.tooltip>
+        </:action>
+        <:action :let={{_id, certificate}}>
+          <.link patch={~p"/certificates/#{certificate.id}/revoke?tab=org_certificates"}>
+            <.tooltip text={gettext("revoke_certificate")}>
+              <.button
+                size="icon"
+                variant="outline"
+                icon="ban"
+                disabled={!User.can_use_platform?(@current_user) || certificate.status != :active}
+              >
+                <%= gettext("revoke_certificate") %>
+              </.button>
+            </.tooltip>
+          </.link>
+        </:action>
+        <:action :let={{_id, certificate}}>
+          <.link patch={~p"/certificates/#{certificate.id}/delete?tab=org_certificates"}>
+            <.tooltip text={gettext("delete")}>
+              <.button
+                size="icon"
+                variant="outline"
+                icon="trash"
+                disabled={!User.can_use_platform?(@current_user)}
+              >
+                <%= gettext("delete") %>
+              </.button>
+            </.tooltip>
+          </.link>
+        </:action>
+      </.table>
+      <div class="p-6 border-t border-slate-200">
+        <.pagination page={1} total_pages={1} disabled={!User.can_use_platform?(@current_user)} />
+      </div>
+    </:tab>
+    <:tab
+      label={gettext("root")}
+      id="root_certificates"
+      patch={~p"/certificates?tab=root_certificates"}
+    >
+      <.table id="certificates" class="flex-1" rows={@streams.root_certificates}>
+        <:col :let={{_id, certificate}} label={gettext("platform")}>
+          <.platform_badge platform={certificate.platform}>
+            <%= certificate.platform %>
+          </.platform_badge>
+        </:col>
+        <:col :let={{_id, certificate}} label={gettext("status")}>
+          <.certificate_status_badge variant={certificate.status} />
+        </:col>
+        <:col :let={{_id, certificate}} label={gettext("expiration_date")}>
+          <%= Calendar.strftime(certificate.expiration_date, "%d-%m-%Y %H:%M:%S") %>
+        </:col>
+        <:action :let={{_id, certificate}}>
+          <.tooltip text={gettext("rotate_certificate")}>
+            <.button
+              size="icon"
+              variant="outline"
+              icon="rotate-ccw"
+              phx-click="rotate_root_certificate"
+              phx-value-id={certificate.id}
+              disabled={!User.can_use_platform?(@current_user) || certificate.status != :active}
+            >
+              <%= gettext("rotate_certificate") %>
+            </.button>
+          </.tooltip>
+        </:action>
+        <:action :let={{_id, certificate}}>
+          <.link patch={~p"/certificates/#{certificate.id}/revoke?tab=root_certificates"}>
+            <.tooltip text={gettext("revoke_certificate")}>
+              <.button
+                size="icon"
+                variant="outline"
+                icon="ban"
+                disabled={!User.can_use_platform?(@current_user) || certificate.status != :active}
+              >
+                <%= gettext("revoke_certificate") %>
+              </.button>
+            </.tooltip>
+          </.link>
+        </:action>
+        <:action :let={{_id, certificate}}>
+          <.link patch={~p"/certificates/#{certificate.id}/delete?tab=root_certificates"}>
+            <.tooltip text={gettext("delete")}>
+              <.button
+                size="icon"
+                variant="outline"
+                icon="trash"
+                disabled={!User.can_use_platform?(@current_user)}
+              >
+                <%= gettext("delete") %>
+              </.button>
+            </.tooltip>
+          </.link>
+        </:action>
+      </.table>
+      <div class="p-6 border-t border-slate-200">
+        <.pagination page={1} total_pages={1} disabled={!User.can_use_platform?(@current_user)} />
+      </div>
+    </:tab>
+  </.tabs>
+</.page_content>
+
+<.modal
+  :if={@live_action in [:new]}
+  id="certificate-modal"
+  show
+  on_cancel={JS.patch(~p"/certificates?tab=#{@active_tab}")}
+>
+  <.live_component
+    module={NotebookServerWeb.CertificateLive.FormComponent}
+    id={:new}
+    title={@page_title}
+    action={@live_action}
+    certificate={@certificate}
+    current_user={@current_user}
+    tab={@active_tab}
+    patch={~p"/certificates?tab=#{@active_tab}"}
+  />
+</.modal>
+
+<.modal
+  :if={@live_action in [:delete]}
+  id="confirm-modal"
+  show
+  on_cancel={JS.patch(~p"/certificates?tab=#{@active_tab}")}
+>
+  <.live_component
+    module={NotebookServerWeb.Components.ConfirmDialog}
+    id={@certificate.id}
+    title={@page_title}
+    subtitle={@page_subtitle}
+    current_user={@current_user}
+    patch={~p"/certificates?tab=#{@active_tab}"}
+  />
+</.modal>
+
+<.modal
+  :if={@live_action in [:revoke]}
+  id="revoke-modal"
+  show
+  on_cancel={JS.patch(~p"/certificates?tab=#{@active_tab}")}
+>
+  <.live_component
+    module={NotebookServerWeb.CertificateLive.RevokeFormComponent}
+    id={@certificate.id}
+    title={@page_title}
+    subtitle={@page_subtitle}
+    current_user={@current_user}
+    certificate={@certificate}
+    tab={@active_tab}
+    patch={~p"/certificates?tab=#{@active_tab}"}
+  />
+</.modal>

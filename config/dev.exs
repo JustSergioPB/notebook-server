@@ -86,7 +86,7 @@ config :phoenix_live_view,
 config :swoosh, :api_client, false
 
 config :notebook_server, NotebookServer.Mailer,
-  from: "DEV Stamp",
+  from: "DEV Notebook",
   email: "no-reply@stachelabs.es"
 
 config :notebook_server, NotebookServer.PKIs,

@@ -1,0 +1,16 @@
+<.header>
+  <%= gettext("certificate") %> <%= @certificate.id %>
+  <:actions>
+    <.link patch={~p"/certificates/#{@certificate}/show/edit"} phx-click={JS.push_focus()}>
+      <.button><%= gettext("edit_certificate") %></.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Context"><%= @certificate.context %></:item>
+</.list>
+
+<.back navigate={~p"/certificates"}>
+  <%= gettext("back_to_certificates") %>
+</.back>

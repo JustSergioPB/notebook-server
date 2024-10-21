@@ -18,7 +18,7 @@ defmodule NotebookServer.Accounts.User do
     field :confirmed_at, :utc_datetime
     field :role, Ecto.Enum, values: [:admin, :org_admin, :issuer], default: :issuer
     belongs_to :org, NotebookServer.Orgs.Org
-    has_many :public_keys, NotebookServer.PKIs.PublicKey
+    has_many :user_certificates, NotebookServer.PKIs.UserCertificate
     has_many :schemas, NotebookServer.Credentials.Schema
     has_many :issued_credentials, NotebookServer.Credentials.Credential
 
