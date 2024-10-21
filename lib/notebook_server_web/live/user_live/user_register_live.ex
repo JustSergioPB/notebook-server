@@ -3,7 +3,7 @@ defmodule NotebookServerWeb.UserRegisterLive do
   use Gettext, backend: NotebookServerWeb.Gettext
 
   alias NotebookServer.Accounts
-  alias NotebookServer.Accounts.UserRegister
+  alias NotebookServer.Accounts.User
 
   def render(assigns) do
     ~H"""
@@ -84,7 +84,7 @@ defmodule NotebookServerWeb.UserRegisterLive do
   end
 
   def mount(_params, _session, socket) do
-    changeset = Accounts.change_user_register(%UserRegister{})
+    changeset = Accounts.change_user_register(%User{})
 
     socket =
       socket
@@ -93,12 +93,12 @@ defmodule NotebookServerWeb.UserRegisterLive do
     {:ok, socket, temporary_assigns: [form: nil]}
   end
 
-  def handle_event("validate", %{"user_register" => user_params}, socket) do
-    changeset = Accounts.change_user_register(%UserRegister{}, user_params)
+  def handle_event("validate", %{"user" => user_params}, socket) do
+    changeset = Accounts.change_user_register(%User{}, user_params)
     {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
   end
 
-  def handle_event("register", %{"user_register" => user_params}, socket) do
+  def handle_event("register", %{"user" => user_params}, socket) do
     case Accounts.register_user(user_params) do
       {:ok, user, _org} ->
         {:ok, _} =
@@ -107,7 +107,7 @@ defmodule NotebookServerWeb.UserRegisterLive do
             &url(~p"/confirm/#{&1}")
           )
 
-        changeset = Accounts.change_user_register(%UserRegister{}, user_params)
+        changeset = Accounts.change_user_register(%User{}, user_params)
         {:noreply, socket |> assign(trigger_submit: true) |> assign(form: to_form(changeset))}
 
       {:error, changeset} ->

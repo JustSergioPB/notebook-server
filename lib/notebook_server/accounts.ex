@@ -7,9 +7,6 @@ defmodule NotebookServer.Accounts do
   alias NotebookServer.Repo
 
   alias NotebookServer.Accounts.User
-  alias NotebookServer.Accounts.UserSettings
-  alias NotebookServer.Accounts.UserRegister
-  alias NotebookServer.Accounts.UserSettings
   alias NotebookServer.Accounts.UserToken
   alias NotebookServer.Accounts.UserNotifier
   alias NotebookServer.Accounts.UserPassword
@@ -106,10 +103,10 @@ defmodule NotebookServer.Accounts do
         {:ok, user, org}
 
       {:error, :org, _value, _} ->
-        {:error, UserRegister.changeset(%UserRegister{}, attrs)}
+        {:error, User.resgister_changeset(%User{}, attrs)}
 
       {:error, :user, _value, _} ->
-        {:error, UserRegister.changeset(%UserRegister{}, attrs)}
+        {:error, User.resgister_changeset(%User{}, attrs)}
     end
   end
 
@@ -122,8 +119,8 @@ defmodule NotebookServer.Accounts do
       %Ecto.Changeset{data: %User{}}
 
   """
-  def change_user_register(%UserRegister{} = user, attrs \\ %{}) do
-    UserRegister.changeset(user, attrs)
+  def change_user_register(%User{} = user, attrs \\ %{}) do
+    User.resgister_changeset(user, attrs)
   end
 
   ## Settings
@@ -390,7 +387,11 @@ defmodule NotebookServer.Accounts do
   end
 
   def change_user_settings(user, attrs \\ %{}) do
-    UserSettings.changeset(user, attrs)
+    User.settings_changeset(user, attrs)
+  end
+
+  def change_user_create(user, attrs \\ %{}) do
+    User.create_changeset(user, attrs)
   end
 
   def create_user(attrs) do
@@ -411,7 +412,7 @@ defmodule NotebookServer.Accounts do
 
   def update_user_settings(user, attrs) do
     user
-    |> UserSettings.changeset(attrs)
+    |> User.settings_changeset(attrs)
     |> Repo.update()
   end
 

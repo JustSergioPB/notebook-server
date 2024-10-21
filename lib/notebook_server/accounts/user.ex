@@ -1,16 +1,19 @@
 defmodule NotebookServer.Accounts.User do
-  use Ecto.Schema
   import Ecto.Changeset
+
+  use Ecto.Schema
   use Gettext, backend: NotebookServerWeb.Gettext
 
   alias NotebookServer.Accounts.UserEmail
   alias NotebookServer.Accounts.UserPassword
+  alias NotebookServer.Orgs.Org
 
   schema "users" do
     field :name, :string
     field :last_name, :string
     field :email, :string
     field :password, :string, virtual: true, redact: true
+    field :org_name, :string, virtual: true
     field :hashed_password, :string, redact: true
     field :current_password, :string, virtual: true, redact: true
     field :status, Ecto.Enum, values: [:active, :inactive, :banned], default: :active
@@ -83,6 +86,33 @@ defmodule NotebookServer.Accounts.User do
   def confirm_changeset(user) do
     now = DateTime.utc_now() |> DateTime.truncate(:second)
     change(user, confirmed_at: now)
+  end
+
+  def settings_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:language, :name, :last_name])
+    |> validate_name()
+    |> validate_last_name()
+    |> validate_language()
+  end
+
+  def resgister_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:email, :password, :name, :last_name, :org_name])
+    |> validate_name()
+    |> validate_last_name()
+    |> Org.validate_name(:org_name, validate_unique: false)
+    |> UserEmail.validate(validate_email: false)
+    |> UserPassword.validate(hash_password: false)
+  end
+
+  def create_changeset(user, attrs \\ %{}) do
+    user
+    |> cast(attrs, [:name, :last_name, :email, :role])
+    |> validate_name()
+    |> validate_last_name()
+    |> validate_role()
+    |> UserEmail.validate([])
   end
 
   def ban_changeset(user) do

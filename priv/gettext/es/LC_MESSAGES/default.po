@@ -590,7 +590,7 @@ msgstr "Contraseña actualizada correctamente"
 #: lib/notebook_server/credentials/schema.ex:47
 #, elixir-autogen, elixir-format, fuzzy
 msgid "field_required"
-msgstr "Necesitas iniciar sesión para acceder a esta página"
+msgstr "Este campo es obligatorio"
 
 #: lib/notebook_server/accounts/user.ex:69
 #, elixir-autogen, elixir-format
