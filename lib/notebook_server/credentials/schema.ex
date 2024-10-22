@@ -16,7 +16,6 @@ defmodule NotebookServer.Credentials.Schema do
     timestamps(type: :utc_datetime)
   end
 
-  @doc false
   def changeset(schema, attrs) do
     attrs =
       with true <- is_binary(attrs["credential_subject"]),
@@ -27,14 +26,24 @@ defmodule NotebookServer.Credentials.Schema do
       end
 
     schema
-    |> cast(attrs, [:credential_subject, :org_id, :user_id])
+    |> cast(attrs, [
+      :title,
+      :description,
+      :platform,
+      :status,
+      :credential_subject,
+      :org_id,
+      :user_id
+    ])
     |> validate_title()
     |> validate_description()
   end
 
   def validate_title(changeset) do
     changeset
-    |> validate_required([:title], message: gettext("field_required"))
+    |> validate_required([:title],
+      message: gettext("field_required")
+    )
     |> validate_length(:title,
       min: 2,
       max: 50,
@@ -44,11 +53,22 @@ defmodule NotebookServer.Credentials.Schema do
 
   def validate_description(changeset) do
     changeset
-    |> validate_required([:description], message: gettext("field_required"))
     |> validate_length(:description,
       min: 2,
       max: 255,
       message: gettext("schema_description_length %{min} %{max}", min: 2, max: 255)
     )
+  end
+
+  def publish_changeset(schema) do
+    change(schema, status: :published)
+  end
+
+  def archive_changeset(schema) do
+    change(schema, status: :archived)
+  end
+
+  def archive_changeset(schema) do
+    change(schema, status: :archived)
   end
 end

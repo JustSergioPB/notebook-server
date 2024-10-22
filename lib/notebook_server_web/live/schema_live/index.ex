@@ -52,6 +52,28 @@ defmodule NotebookServerWeb.SchemaLive.Index do
     {:noreply, stream_delete(socket, :schemas, schema)}
   end
 
+  def handle_event("publish", %{"id" => id}, socket) do
+    if User.can_use_platform?(socket.assigns.current_user) do
+      opts = org_filter(socket)
+      schema = Credentials.get_schema!(id)
+      {:ok, _} = Credentials.publish_schema(schema)
+      {:noreply, stream(socket, :schemas, Credentials.list_schemas(opts))}
+    else
+      {:noreply, socket}
+    end
+  end
+
+  def handle_event("archive", %{"id" => id}, socket) do
+    if User.can_use_platform?(socket.assigns.current_user) do
+      opts = org_filter(socket)
+      schema = Credentials.get_schema!(id)
+      {:ok, _} = Credentials.archive_schema(schema)
+      {:noreply, stream(socket, :schemas, Credentials.list_schemas(opts))}
+    else
+      {:noreply, socket}
+    end
+  end
+
   defp org_filter(socket) do
     if socket.assigns.current_user.role == :admin,
       do: [],

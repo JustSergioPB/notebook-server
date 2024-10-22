@@ -2,8 +2,7 @@
   <%= gettext("credentials") %>
   <:actions>
     <.link patch={~p"/credentials/new"}>
-      <!--TODO: ={!User.can_use_platform?(@current_user)} -->
-      <.button icon="plus_circle" disabled>
+      <.button icon="plus_circle" disabled={!User.can_use_platform?(@current_user)}>
         <%= gettext("credential") %>
       </.button>
     </.link>

@@ -24,6 +24,7 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
           field={@form[:title]}
           label={gettext("title")}
           placeholder={gettext("title_placeholder")}
+          phx-debounce="blur"
           required
         />
         <.input
@@ -32,11 +33,13 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
           field={@form[:description]}
           label={gettext("description")}
           placeholder={gettext("description_placeholder")}
+          phx-debounce="blur"
         />
         <.input
           type="select"
           field={@form[:platform]}
           label={gettext("platform")}
+          phx-debounce="blur"
           options={[
             {"web2", "web2"},
             {"web3", "web3"}
@@ -48,7 +51,9 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
           label={gettext("credential_subject")}
           autocomplete="off"
           rows="5"
+          phx-debounce="blur"
           value={Jason.encode!(@form[:credential_subject].value, pretty: true)}
+          required
         />
         <:actions>
           <.button disabled={!User.can_use_platform?(@current_user)}>

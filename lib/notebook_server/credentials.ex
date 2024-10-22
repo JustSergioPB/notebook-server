@@ -82,6 +82,18 @@ defmodule NotebookServer.Credentials do
     |> Repo.update()
   end
 
+  def publish_schema(%Schema{} = schema) do
+    schema
+    |> Schema.publish_changeset()
+    |> Repo.update()
+  end
+
+  def archive_schema(%Schema{} = schema) do
+    schema
+    |> Schema.archive_changeset()
+    |> Repo.update()
+  end
+
   @doc """
   Deletes a schema.
 

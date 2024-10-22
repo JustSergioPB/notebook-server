@@ -34,6 +34,34 @@
       <.schema_status_badge variant={schema.status} />
     </:col>
     <:action :let={{_id, schema}}>
+      <.tooltip text={gettext("publish")}>
+        <.button
+          size="icon"
+          variant="outline"
+          icon="radio-tower"
+          phx-value-id={schema.id}
+          phx-click="publish"
+          disabled={!User.can_use_platform?(@current_user) || schema.status != :draft}
+        >
+          <%= gettext("publish") %>
+        </.button>
+      </.tooltip>
+    </:action>
+    <:action :let={{_id, schema}}>
+      <.tooltip text={gettext("archive")}>
+        <.button
+          size="icon"
+          variant="outline"
+          icon="archive"
+          phx-value-id={schema.id}
+          phx-click="archive"
+          disabled={!User.can_use_platform?(@current_user) || schema.status != :published}
+        >
+          <%= gettext("archive") %>
+        </.button>
+      </.tooltip>
+    </:action>
+    <:action :let={{_id, schema}}>
       <.link patch={~p"/schemas/#{schema.id}/edit"}>
         <.tooltip text={gettext("edit")}>
           <.button
