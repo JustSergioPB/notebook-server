@@ -425,18 +425,14 @@ defmodule NotebookServer.Accounts do
     email = Keyword.get(opts, :email)
 
     query =
-      if(org_id) do
-        from(u in User, where: u.org_id == ^org_id)
-      else
-        from(u in User)
-      end
+      if !is_nil(org_id),
+        do: from(u in User, where: u.org_id == ^org_id),
+        else: from(u in User)
 
     query =
-      if(email) do
-        from(u in query, where: ilike(u.email, ^"%#{email}%"))
-      else
-        query
-      end
+      if is_binary(email),
+        do: from(u in query, where: ilike(u.email, ^"%#{email}%")),
+        else: query
 
     query = query |> limit(10) |> order_by(desc: :inserted_at)
 

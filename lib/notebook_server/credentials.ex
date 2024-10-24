@@ -19,13 +19,25 @@ defmodule NotebookServer.Credentials do
   """
   def list_schemas(opts \\ []) do
     org_id = Keyword.get(opts, :org_id)
+    title = Keyword.get(opts, :title)
+    status = Keyword.get(opts, :status)
 
     query =
-      if(org_id) do
-        from(s in Schema, where: s.org_id == ^org_id)
-      else
-        from(s in Schema)
-      end
+      if !is_nil(org_id),
+        do: from(s in Schema, where: s.org_id == ^org_id),
+        else: from(s in Schema)
+
+    query =
+      if is_binary(title),
+        do: from(s in query, where: ilike(s.title, ^"%#{title}%")),
+        else: query
+
+    query =
+      if !is_nil(status),
+        do: from(s in query, where: s.status == ^status),
+        else: query
+
+    IO.inspect(query, label: "QUERY")
 
     Repo.all(query) |> Repo.preload(:org)
   end
@@ -138,11 +150,9 @@ defmodule NotebookServer.Credentials do
     org_id = Keyword.get(opts, :org_id)
 
     query =
-      if(org_id) do
-        from(c in Credential, where: c.org_id == ^org_id)
-      else
-        from(c in Credential)
-      end
+      if !is_nil(org_id),
+        do: from(c in Credential, where: c.org_id == ^org_id),
+        else: from(c in Credential)
 
     Repo.all(query) |> Repo.preload(:org) |> Repo.preload(:schema) |> Repo.preload(:user)
   end

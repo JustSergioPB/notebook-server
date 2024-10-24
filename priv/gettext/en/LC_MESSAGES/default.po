@@ -327,7 +327,7 @@ msgid "role"
 msgstr "Role"
 
 #: lib/notebook_server_web/live/certificate_live/form_component.ex:29
-#: lib/notebook_server_web/live/credential_live/form_component.ex:25
+#: lib/notebook_server_web/live/credential_live/form_component.ex:76
 #: lib/notebook_server_web/live/org_live/form_component.ex:25
 #: lib/notebook_server_web/live/schema_live/form_component.ex:60
 #: lib/notebook_server_web/live/user_live/form_component.ex:57
@@ -796,7 +796,7 @@ msgstr "Edit schema"
 msgid "new_schema"
 msgstr "New schema"
 
-#: lib/notebook_server_web/live/credential_live/form_component.ex:22
+#: lib/notebook_server_web/live/credential_live/form_component.ex:40
 #: lib/notebook_server_web/live/credential_live/index.html.heex:19
 #: lib/notebook_server_web/live/schema_live/index.html.heex:6
 #: lib/notebook_server_web/live/schema_live/show.html.heex:2
@@ -849,12 +849,12 @@ msgstr "Back to credentials"
 msgid "credential"
 msgstr "Credential"
 
-#: lib/notebook_server_web/live/credential_live/form_component.ex:75
+#: lib/notebook_server_web/live/credential_live/form_component.ex:150
 #, elixir-autogen, elixir-format
 msgid "credential_created_successfully"
 msgstr "Credential created successfully"
 
-#: lib/notebook_server_web/live/credential_live/form_component.ex:60
+#: lib/notebook_server_web/live/credential_live/form_component.ex:135
 #, elixir-autogen, elixir-format, fuzzy
 msgid "credential_updated_successfully"
 msgstr "Credential updated successfully"
@@ -1062,23 +1062,23 @@ msgstr ""
 msgid "delete_certificate_subtitle"
 msgstr ""
 
-#: lib/notebook_server/pkis.ex:268
+#: lib/notebook_server/pkis.ex:266
 #, elixir-autogen, elixir-format
 msgid "error_revokating_certificate"
 msgstr ""
 
-#: lib/notebook_server/pkis.ex:271
+#: lib/notebook_server/pkis.ex:269
 #, elixir-autogen, elixir-format
 msgid "error_revokating_related_org_certificates"
 msgstr ""
 
-#: lib/notebook_server/pkis.ex:274
+#: lib/notebook_server/pkis.ex:272
 #, elixir-autogen, elixir-format
 msgid "error_revokating_related_user_certificates"
 msgstr ""
 
-#: lib/notebook_server/pkis.ex:200
-#: lib/notebook_server/pkis.ex:214
+#: lib/notebook_server/pkis.ex:198
+#: lib/notebook_server/pkis.ex:212
 #, elixir-autogen, elixir-format
 msgid "error_rotating_certificate"
 msgstr ""
@@ -1129,3 +1129,39 @@ msgstr "Archived"
 #, elixir-autogen, elixir-format, fuzzy
 msgid "publish"
 msgstr "Published"
+
+#: lib/notebook_server_web/live/credential_live/form_component.ex:26
+#: lib/notebook_server_web/live/credential_live/form_component.ex:33
+#, elixir-autogen, elixir-format
+msgid "search"
+msgstr ""
+
+#: lib/notebook_server_web/live/credential_live/form_component.ex:21
+#, elixir-autogen, elixir-format
+msgid "search_schema"
+msgstr ""
+
+#: lib/notebook_server_web/live/credential_live/form_component.ex:73
+#, elixir-autogen, elixir-format
+msgid "back"
+msgstr ""
+
+#: lib/notebook_server_web/live/credential_live/form_component.ex:58
+#, elixir-autogen, elixir-format, fuzzy
+msgid "next"
+msgstr "Next page"
+
+#: lib/notebook_server_web/live/credential_live/form_component.ex:51
+#, elixir-autogen, elixir-format
+msgid "clear_search"
+msgstr ""
+
+#: lib/notebook_server_web/live/credential_live/form_component.ex:48
+#, elixir-autogen, elixir-format, fuzzy
+msgid "no_results_found"
+msgstr "No results..."
+
+#: lib/notebook_server_web/live/credential_live/form_component.ex:49
+#, elixir-autogen, elixir-format
+msgid "no_query_match"
+msgstr ""

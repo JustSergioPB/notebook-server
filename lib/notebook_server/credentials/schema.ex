@@ -67,8 +67,4 @@ defmodule NotebookServer.Credentials.Schema do
   def archive_changeset(schema) do
     change(schema, status: :archived)
   end
-
-  def archive_changeset(schema) do
-    change(schema, status: :archived)
-  end
 end
