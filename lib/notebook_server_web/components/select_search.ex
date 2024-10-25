@@ -5,7 +5,13 @@ defmodule NotebookServerWeb.Live.Components.SelectSearch do
   @impl true
   def render(assigns) do
     ~H"""
-    <div phx-feedback-for={@name} phx-hook="Select" autocomplete={@autocomplete} id={@id}>
+    <div
+      phx-feedback-for={@name}
+      phx-hook="Select"
+      autocomplete={@autocomplete}
+      id={@id}
+      target={@target}
+    >
       <.label for={@id}><%= @label %></.label>
       <div class="relative">
         <div class="relative">
@@ -20,8 +26,8 @@ defmodule NotebookServerWeb.Live.Components.SelectSearch do
             id={@id <> "_input"}
             type="text"
             autocomplete="off"
-            value={if @selected, do: @selected.name}
-            placeholder={@placeholder}
+            value={if @selected, do: @selected.name, else: ""}
+            placeholder={if is_binary(@placeholder), do: @placeholder, else: ""}
             class={[
               "mt-2 block w-full rounded-lg text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6",
               "phx-no-feedback:border-zinc-300 phx-no-feedback:focus:border-zinc-400",
@@ -39,13 +45,15 @@ defmodule NotebookServerWeb.Live.Components.SelectSearch do
         >
           <div class="relative max-h-[200px] overflow-y-auto">
             <%= if Enum.empty?(@options) do %>
-              <p class="text-sm">
-                <%= gettext("no_results") %>
-              </p>
+              <div class="p-2">
+                <p class="text-sm font-bold flex items-center justify-center">
+                  <%= gettext("no_results") %>
+                </p>
+              </div>
             <% else %>
               <%= for option <- @options do %>
                 <div
-                  class="cursor-default hover:bg-slate-100 hover:cursor-pointer text-sm flex items-center"
+                  class="cursor-default hover:bg-slate-100 hover:cursor-pointer text-sm flex flex-col items-start space-y p-2"
                   data-id={option.id}
                   data-text={option.text}
                 >

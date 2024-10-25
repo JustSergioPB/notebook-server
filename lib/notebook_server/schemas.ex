@@ -166,6 +166,29 @@ defmodule NotebookServer.Schemas do
     end
   end
 
+  def map_to_row(schema) do
+    latest_version =
+      schema.schema_versions
+      |> Enum.take(-1)
+      |> Enum.at(0)
+
+    published_version =
+      schema.schema_versions |> Enum.find(fn version -> version.status == :published end)
+
+    published_version_number =
+      if !is_nil(published_version), do: published_version.version_number, else: nil
+
+    Map.merge(schema, %{
+      description: latest_version.description,
+      org_name: schema.org.name,
+      version_number: latest_version.version_number,
+      published_version_number: published_version_number,
+      platform: latest_version.platform,
+      status: latest_version.status,
+      latest_version_id: latest_version.id
+    })
+  end
+
   def get_schema_version!(id),
     do:
       Repo.get!(SchemaVersion, id)

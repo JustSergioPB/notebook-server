@@ -15,7 +15,7 @@ defmodule NotebookServerWeb.SchemaLive.Index do
        socket,
        :schemas,
        Schemas.list_schemas(opts)
-       |> Enum.map(fn schema -> schema |> map_to_row() end)
+       |> Enum.map(fn schema -> schema |> Schemas.map_to_row() end)
      )}
   end
 
@@ -52,7 +52,7 @@ defmodule NotebookServerWeb.SchemaLive.Index do
 
   @impl true
   def handle_info(
-        {NotebookServerWeb.SchemaLive.FormComponent, {:saved, schema}},
+        {NotebookServerWeb.SchemaLive.FormComponent, {:saved, schema, _schema_version}},
         socket
       ) do
     schema = Schemas.get_schema!(schema.id)
@@ -62,7 +62,7 @@ defmodule NotebookServerWeb.SchemaLive.Index do
        socket,
        :schemas,
        schema
-       |> map_to_row()
+       |> Schemas.map_to_row()
      )}
   end
 
@@ -83,7 +83,7 @@ defmodule NotebookServerWeb.SchemaLive.Index do
            stream_insert(
              socket,
              :schemas,
-             Schemas.get_schema!(schema_version.schema_id) |> map_to_row()
+             Schemas.get_schema!(schema_version.schema_id) |> Schemas.map_to_row()
            )}
 
         {:error, message} ->
@@ -108,7 +108,7 @@ defmodule NotebookServerWeb.SchemaLive.Index do
            stream_insert(
              socket,
              :schemas,
-             Schemas.get_schema!(schema_version.schema_id) |> map_to_row()
+             Schemas.get_schema!(schema_version.schema_id) |> Schemas.map_to_row()
            )}
 
         {:error, message} ->
@@ -128,28 +128,5 @@ defmodule NotebookServerWeb.SchemaLive.Index do
     if socket.assigns.current_user.role == :admin,
       do: [],
       else: [org_id: socket.assigns.current_user.org_id]
-  end
-
-  defp map_to_row(schema) do
-    latest_version =
-      schema.schema_versions
-      |> Enum.take(-1)
-      |> Enum.at(0)
-
-    published_version =
-      schema.schema_versions |> Enum.find(fn version -> version.status == :published end)
-
-    published_version_number =
-      if !is_nil(published_version), do: published_version.version_number, else: nil
-
-    Map.merge(schema, %{
-      description: latest_version.description,
-      org_name: schema.org.name,
-      version_number: latest_version.version_number,
-      published_version_number: published_version_number,
-      platform: latest_version.platform,
-      status: latest_version.status,
-      latest_version_id: latest_version.id
-    })
   end
 end

@@ -113,9 +113,13 @@ Hooks.Select = {
     });
 
     this.textInput.addEventListener("input", (e) => {
-      this.pushEvent(this.el.getAttribute("autocomplete"), {
-        query: this.textInput.value,
-      });
+      this.pushEventTo(
+        this.el.getAttribute("target"),
+        this.el.getAttribute("autocomplete"),
+        {
+          query: this.textInput.value,
+        }
+      );
     });
   },
   updated() {
