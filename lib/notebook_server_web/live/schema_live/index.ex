@@ -52,7 +52,7 @@ defmodule NotebookServerWeb.SchemaLive.Index do
 
   @impl true
   def handle_info(
-        {NotebookServerWeb.SchemaLive.FormComponent, {:saved, schema, schema_version}},
+        {NotebookServerWeb.SchemaLive.FormComponent, {:saved, schema}},
         socket
       ) do
     schema = Schemas.get_schema!(schema.id)
@@ -76,18 +76,24 @@ defmodule NotebookServerWeb.SchemaLive.Index do
 
   def handle_event("publish", %{"id" => schema_version_id}, socket) do
     if User.can_use_platform?(socket.assigns.current_user) do
-      schema_version = Schemas.get_schema_version!(schema_version_id)
+      Schemas.publish_schema_version(schema_version_id)
+      |> case do
+        {:ok, schema_version} ->
+          {:noreply,
+           stream_insert(
+             socket,
+             :schemas,
+             Schemas.get_schema!(schema_version.schema_id) |> map_to_row()
+           )}
 
-      {:ok, _} = Schemas.publish_schema_version(schema_version)
-
-      schema = Schemas.get_schema!(schema_version.schema_id)
-
-      {:noreply,
-       stream_insert(
-         socket,
-         :schemas,
-         schema |> map_to_row()
-       )}
+        {:error, message} ->
+          {:noreply,
+           put_flash(
+             socket,
+             :error,
+             message
+           )}
+      end
     else
       {:noreply, socket}
     end
@@ -95,18 +101,24 @@ defmodule NotebookServerWeb.SchemaLive.Index do
 
   def handle_event("archive", %{"id" => schema_version_id}, socket) do
     if User.can_use_platform?(socket.assigns.current_user) do
-      schema_version = Schemas.get_schema_version!(schema_version_id)
+      Schemas.archive_schema_version(schema_version_id)
+      |> case do
+        {:ok, schema_version} ->
+          {:noreply,
+           stream_insert(
+             socket,
+             :schemas,
+             Schemas.get_schema!(schema_version.schema_id) |> map_to_row()
+           )}
 
-      {:ok, _} = Schemas.archive_schema_version(schema_version)
-
-      schema = Schemas.get_schema!(schema_version.schema_id)
-
-      {:noreply,
-       stream_insert(
-         socket,
-         :schemas,
-         schema |> map_to_row()
-       )}
+        {:error, message} ->
+          {:noreply,
+           put_flash(
+             socket,
+             :error,
+             message
+           )}
+      end
     else
       {:noreply, socket}
     end

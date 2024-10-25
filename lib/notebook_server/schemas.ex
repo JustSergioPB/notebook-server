@@ -171,11 +171,16 @@ defmodule NotebookServer.Schemas do
       Repo.get!(SchemaVersion, id)
       |> Repo.preload(:schema)
 
-  def publish_schema_version(%SchemaVersion{} = schema_version) do
+  def publish_schema_version(id) do
     Ecto.Multi.new()
+    |> Ecto.Multi.one(:schema_version, fn %{} ->
+      from(sv in SchemaVersion,
+        where: sv.id == ^id
+      )
+    end)
     |> Ecto.Multi.update_all(
       :old_version,
-      fn %{} ->
+      fn %{schema_version: schema_version} ->
         from(sv in SchemaVersion,
           where: sv.schema_id == ^schema_version.schema_id and sv.status == :published,
           update: [
@@ -185,11 +190,17 @@ defmodule NotebookServer.Schemas do
       end,
       []
     )
-    |> Ecto.Multi.update(:new_version, SchemaVersion.publish_changeset(schema_version))
+    |> Ecto.Multi.update(:new_version, fn %{schema_version: schema_version} ->
+      SchemaVersion.publish_changeset(schema_version)
+    end)
     |> Repo.transaction()
     |> case do
-      {:ok, %{old_version: _old_version, new_version: new_version}} ->
+      {:ok,
+       %{schema_version: _schema_version, old_version: _old_version, new_version: new_version}} ->
         {:ok, new_version}
+
+      {:error, :schema_version, _changeset, _} ->
+        {:error, gettext("schema_version_not_found")}
 
       {:error, :old_version, _changeset, _} ->
         {:error, gettext("error_while_archiving_old_version")}
@@ -199,10 +210,27 @@ defmodule NotebookServer.Schemas do
     end
   end
 
-  def archive_schema_version(%SchemaVersion{} = schema_version) do
-    schema_version
-    |> SchemaVersion.archive_changeset()
-    |> Repo.update()
+  def archive_schema_version(id) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.one(:schema_version, fn %{} ->
+      from(sv in SchemaVersion,
+        where: sv.id == ^id
+      )
+    end)
+    |> Ecto.Multi.update(:archived_version, fn %{schema_version: schema_version} ->
+      SchemaVersion.archive_changeset(schema_version)
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{schema_version: _schema_version, archived_version: archived_version}} ->
+        {:ok, archived_version}
+
+      {:error, :schema_version, _changeset, _} ->
+        {:error, gettext("schema_version_not_found")}
+
+      {:error, :archived_version, _changeset, _} ->
+        {:error, gettext("error_while_archiving_old_version")}
+    end
   end
 
   @doc """
