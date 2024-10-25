@@ -1,7 +1,7 @@
 defmodule NotebookServerWeb.SchemaLive.Show do
   use NotebookServerWeb, :live_view
 
-  alias NotebookServer.Credentials
+  alias NotebookServer.Schemas
   use Gettext, backend: NotebookServerWeb.Gettext
 
   @impl true
@@ -14,7 +14,7 @@ defmodule NotebookServerWeb.SchemaLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:schema, Credentials.get_schema!(id))}
+     |> assign(:schema, Schemas.get_schema!(id))}
   end
 
   defp page_title(:show), do: gettext("show_schema")

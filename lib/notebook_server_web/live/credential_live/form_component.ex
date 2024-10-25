@@ -1,6 +1,7 @@
 defmodule NotebookServerWeb.CredentialLive.FormComponent do
   use NotebookServerWeb, :live_component
 
+  alias NotebookServer.Schemas
   alias NotebookServer.Credentials
   alias NotebookServer.Accounts.User
   use Gettext, backend: NotebookServerWeb.Gettext
@@ -93,7 +94,7 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
   end
 
   @impl true
-  def update(%{credential: credential} = assigns, socket) do
+  def update(%{credential: _credential} = assigns, socket) do
     {:ok,
      socket
      |> assign(assigns)
@@ -104,24 +105,17 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
      end)
      |> assign_new(:select_form, fn ->
        to_form(%{"option" => nil})
-     end)
-     |> assign_new(:form, fn ->
-       to_form(Credentials.change_credential(credential))
      end)}
   end
 
   @impl true
-  def handle_event("validate", %{"credential" => credential_params}, socket) do
-    changeset = Credentials.change_credential(socket.assigns.credential, credential_params)
-    {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
-  end
 
   def handle_event("search", %{"search" => search}, socket) do
     opts = org_filter(socket) ++ [title: search, status: :published]
 
     {:noreply,
      socket
-     |> assign(:schemas, Credentials.list_schemas(opts))
+     |> assign(:schemas, Schemas.list_schemas(opts))
      |> assign(:search_form, to_form(%{"search" => search}))}
   end
 
@@ -144,25 +138,6 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
   end
 
   def handle_event("save", %{"credential" => credential_params}, socket) do
-    save_credential(socket, socket.assigns.action, credential_params)
-  end
-
-  defp save_credential(socket, :edit, credential_params) do
-    case Credentials.update_credential(socket.assigns.credential, credential_params) do
-      {:ok, credential} ->
-        notify_parent({:saved, credential})
-
-        {:noreply,
-         socket
-         |> put_flash(:info, gettext("credential_updated_successfully"))
-         |> push_patch(to: socket.assigns.patch)}
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign(socket, form: to_form(changeset))}
-    end
-  end
-
-  defp save_credential(socket, :new, credential_params) do
     case Credentials.create_credential(credential_params) do
       {:ok, credential} ->
         notify_parent({:saved, credential})

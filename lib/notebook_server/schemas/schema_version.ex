@@ -1,22 +1,24 @@
-defmodule NotebookServer.Credentials.Schema do
+defmodule NotebookServer.Schemas.SchemaVersion do
   use Ecto.Schema
   import Ecto.Changeset
   use Gettext, backend: NotebookServerWeb.Gettext
 
-  schema "schemas" do
-    field :title, :string
+  alias NotebookServer.Schemas.Schema
+
+  schema "schema_versions" do
+    field :title, :string, virtual: true
     field :description, :string
     field :platform, Ecto.Enum, values: [:web2, :web3], default: :web2
     field :status, Ecto.Enum, values: [:draft, :published, :archived], default: :draft
     field :credential_subject, :map, default: %{}
-    belongs_to :org, NotebookServer.Orgs.Org
+    field :version_number, :integer
     belongs_to :user, NotebookServer.Accounts.User
-    belongs_to :replaces, NotebookServer.Credentials.Schema
+    belongs_to :schema, NotebookServer.Schemas.Schema
 
     timestamps(type: :utc_datetime)
   end
 
-  def changeset(schema, attrs) do
+  def changeset(schema_version, attrs) do
     attrs =
       with true <- is_binary(attrs["credential_subject"]),
            {:ok, decoded_value} <- Jason.decode(attrs["credential_subject"]) do
@@ -25,30 +27,19 @@ defmodule NotebookServer.Credentials.Schema do
         _ -> attrs
       end
 
-    schema
+    schema_version
     |> cast(attrs, [
-      :title,
       :description,
       :platform,
       :status,
       :credential_subject,
-      :org_id,
-      :user_id
+      :version_number,
+      :user_id,
+      :schema_id,
+      :title
     ])
-    |> validate_title()
+    |> Schema.validate_title()
     |> validate_description()
-  end
-
-  def validate_title(changeset) do
-    changeset
-    |> validate_required([:title],
-      message: gettext("field_required")
-    )
-    |> validate_length(:title,
-      min: 2,
-      max: 50,
-      message: gettext("schema_title_length %{min} %{max}", min: 2, max: 50)
-    )
   end
 
   def validate_description(changeset) do
@@ -60,11 +51,11 @@ defmodule NotebookServer.Credentials.Schema do
     )
   end
 
-  def publish_changeset(schema) do
-    change(schema, status: :published)
+  def publish_changeset(schema_version) do
+    change(schema_version, status: :published)
   end
 
-  def archive_changeset(schema) do
-    change(schema, status: :archived)
+  def archive_changeset(schema_version) do
+    change(schema_version, status: :archived)
   end
 end
