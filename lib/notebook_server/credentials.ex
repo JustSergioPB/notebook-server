@@ -56,9 +56,9 @@ defmodule NotebookServer.Credentials do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_credential(attrs \\ %{}) do
+  def create_credential(schema, attrs \\ %{}) do
     %Credential{}
-    |> Credential.changeset(attrs)
+    |> Credential.changeset(attrs, schema)
     |> Repo.insert()
   end
 
@@ -74,9 +74,9 @@ defmodule NotebookServer.Credentials do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_credential(%Credential{} = credential, attrs) do
+  def update_credential(%Credential{} = credential, attrs, schema) do
     credential
-    |> Credential.changeset(attrs)
+    |> Credential.changeset(attrs, schema)
     |> Repo.update()
   end
 
@@ -105,7 +105,7 @@ defmodule NotebookServer.Credentials do
       %Ecto.Changeset{data: %Credential{}}
 
   """
-  def change_credential(%Credential{} = credential, attrs \\ %{}) do
-    Credential.changeset(credential, attrs)
+  def change_credential(%Credential{} = credential, schema, attrs \\ %{}) do
+    Credential.changeset(credential, attrs, schema)
   end
 end

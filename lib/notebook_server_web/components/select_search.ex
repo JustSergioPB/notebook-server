@@ -1,4 +1,4 @@
-defmodule NotebookServerWeb.Live.Components.SelectSearch do
+defmodule NotebookServerWeb.Components.SelectSearch do
   use NotebookServerWeb, :live_component
   use Gettext, backend: NotebookServerWeb.Gettext
 
