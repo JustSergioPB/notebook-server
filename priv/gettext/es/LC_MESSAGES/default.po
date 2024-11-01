@@ -914,7 +914,7 @@ msgstr "El titulo debe tener entre %{min} y %{max} caracteres"
 
 #: lib/notebook_server_web/live/schema_live/form_component.ex:56
 #, elixir-autogen, elixir-format, fuzzy
-msgid "credential_subject"
+msgid "raw_content"
 msgstr "Contenido de la credencial"
 
 #: lib/notebook_server_web/live/schema_live/form_component.ex:40

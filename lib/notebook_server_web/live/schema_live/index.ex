@@ -3,6 +3,7 @@ defmodule NotebookServerWeb.SchemaLive.Index do
   use NotebookServerWeb, :live_view
 
   alias NotebookServer.Schemas
+  alias NotebookServer.Schemas.Schema
   alias NotebookServer.Accounts.User
   use Gettext, backend: NotebookServerWeb.Gettext
 
@@ -15,7 +16,7 @@ defmodule NotebookServerWeb.SchemaLive.Index do
        socket,
        :schemas,
        Schemas.list_schemas(opts)
-       |> Enum.map(fn schema -> schema |> Schemas.map_to_row() end)
+       |> Enum.map(fn schema -> schema |> Schema.map_to_row() end)
      )}
   end
 
@@ -32,6 +33,7 @@ defmodule NotebookServerWeb.SchemaLive.Index do
       |> Enum.take(-1)
       |> Enum.at(0)
       |> Map.merge(%{title: schema.title, org_id: schema.org_id})
+      |> SchemaVersion.get_raw_content()
 
     socket
     |> assign(:page_title, gettext("edit_schema"))
@@ -62,7 +64,7 @@ defmodule NotebookServerWeb.SchemaLive.Index do
        socket,
        :schemas,
        schema
-       |> Schemas.map_to_row()
+       |> Schema.map_to_row()
      )}
   end
 
@@ -83,7 +85,7 @@ defmodule NotebookServerWeb.SchemaLive.Index do
            stream_insert(
              socket,
              :schemas,
-             Schemas.get_schema!(schema_version.schema_id) |> Schemas.map_to_row()
+             Schemas.get_schema!(schema_version.schema_id) |> Schema.map_to_row()
            )}
 
         {:error, message} ->
@@ -108,7 +110,7 @@ defmodule NotebookServerWeb.SchemaLive.Index do
            stream_insert(
              socket,
              :schemas,
-             Schemas.get_schema!(schema_version.schema_id) |> Schemas.map_to_row()
+             Schemas.get_schema!(schema_version.schema_id) |> Schema.map_to_row()
            )}
 
         {:error, message} ->

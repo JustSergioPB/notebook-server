@@ -29,13 +29,18 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
           id={@select_form[:schema_id].id}
           module={SelectSearch}
           label={gettext("search_schema")}
-          options={@schema_options}
+          options={@schema_version_options}
           placeholder={gettext("title_placeholder") <> "..."}
           autocomplete="autocomplete_schemas"
           target="#select-form"
         >
           <:option :let={schema}>
-            <p class="font-bold"><%= schema.text %></p>
+            <div class="flex items-center gap-1">
+              <div class="bg-white shadow-sm border border-slate-200 py-1 px-2 rounded-xl text-xs font-semibold">
+                V<%= schema.version_number %>
+              </div>
+              <p class="font-bold"><%= schema.text %></p>
+            </div>
             <p><%= schema.description %></p>
           </:option>
         </.live_component>
@@ -54,9 +59,9 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
         phx-submit="save"
       >
         <JsonSchemaComponents.json_schema_node
-          :if={is_map(@schema)}
+          :if={is_map(@schema_version)}
           field={@form[:raw_content]}
-          schema={@schema.credential_subject}
+          schema={@schema_version.raw_content}
         />
         <:actions>
           <.button
@@ -83,7 +88,7 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
      |> assign(assigns)
      |> update_schema_options()
      |> assign(:step, 0)
-     |> assign(:schema, nil)
+     |> assign(:schema_version, nil)
      |> assign_new(:select_form, fn ->
        to_form(%{"schema_id" => ""})
      end)
@@ -105,7 +110,7 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
     changeset =
       Credentials.change_credential(
         %Credential{},
-        socket.assigns.schema.credential_subject,
+        socket.assigns.schema.raw_content,
         credential_params
       )
 
@@ -149,67 +154,52 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
 
   defp update_schema_options(socket, query \\ "") do
     options =
-      Schemas.list_schemas([title: query] ++ org_filter(socket))
-      |> Enum.map(fn schema ->
-        published_version =
-          schema.schema_versions |> Enum.find(fn version -> version.status == :published end)
-
-        credential_subject = if published_version, do: published_version.credential_subject
-
-        schema
-        |> Schemas.map_to_row()
-        |> Map.merge(%{text: schema.title, credential_subject: credential_subject})
-      end)
-      |> Enum.filter(fn schema ->
-        !is_nil(schema.credential_subject)
+      Schemas.list_schema_versions([title: query, status: :published] ++ org_filter(socket))
+      |> Enum.map(fn schema_version ->
+        schema_version |> Map.merge(%{text: schema_version.title})
       end)
 
-    assign(socket, schema_options: options)
+    assign(socket, schema_version_options: options)
   end
 
-  defp handle_step(socket, %{"schema_id" => schema_id}) do
-    socket =
-      if String.length(schema_id) > 0 do
-        next_step = socket.assigns.step + 1
+  defp handle_step(socket, %{"schema_id" => schema_id}) when schema_id != "" do
+    schema_version =
+      socket.assigns.schema_version_options
+      |> Enum.find(fn schema_version -> schema_version.id == String.to_integer(schema_id) end)
 
-        schema =
-          socket.assigns.schema_options
-          |> Enum.find(fn schema -> schema.id == String.to_integer(schema_id) end)
+    raw_content = schema_version |> Map.get(:raw_content)
+    raw_content_decoded = Jason.decode!(raw_content)
+    schema_version = schema_version |> Map.put(:raw_content, raw_content_decoded)
 
-        changeset = Credentials.change_credential(%Credential{}, schema.credential_subject)
-
-        socket
-        |> assign(:step, next_step)
-        |> assign(:schema, schema)
-        |> assign(:form, to_form(changeset))
-      else
-        socket
-        |> assign(
-          :form,
-          to_form(%{"schema_id" => ""},
-            error: [schema_id: gettext("field_required")],
-            action: :validate
-          )
-        )
-      end
+    changeset = Credentials.change_credential(%Credential{}, schema_version)
 
     socket
+    |> assign(:step, socket.assigns.step + 1)
+    |> assign(:schema_version, schema_version)
+    |> assign(:form, to_form(changeset))
+  end
+
+  defp handle_step(socket, %{"schema_id" => _}) do
+    socket
+    |> assign(
+      :form,
+      to_form(%{"schema_id" => ""},
+        error: [schema_id: gettext("field_required")],
+        action: :validate
+      )
+    )
   end
 
   defp handle_step(socket, _), do: socket
 
   defp add_extra_params(credential_params, socket) do
-    IO.inspect(socket.assigns.current_user.org_id)
-    IO.inspect(socket.assigns.current_user.id)
-    IO.inspect(socket.assigns.schema.id)
-
     credential_params
     |> Map.merge(%{
       "org_id" => socket.assigns.current_user.org_id,
       "issuer_id" => socket.assigns.current_user.id,
-      "schema_id" => socket.assigns.schema.id,
-      "credential_id" => "coming-soon",
-      "schema_version_id" => "TODO"
+      "schema_id" => socket.assigns.schema_version.schema_id,
+      "schema_version_id" => socket.assigns.schema_version.id,
+      "credential_id" => "TODO"
     })
   end
 end

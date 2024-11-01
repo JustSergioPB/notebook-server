@@ -65,7 +65,9 @@ defmodule NotebookServerWeb.JsonSchemaComponents do
   def json_schema_node(%{schema: %{"type" => type} = schema} = assigns)
       when type in ["string", "integer", "number", "boolean"] do
     label = Map.get(schema, "title")
-    placeholder = schema |> Map.get("examples") |> Enum.at(0)
+    examples = schema |> Map.get("examples")
+
+    placeholder = if is_list(examples), do: examples |> Enum.at(0), else: ""
 
     props = if is_binary(label), do: Map.new() |> Map.put(:label, label), else: Map.new()
 

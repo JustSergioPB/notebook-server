@@ -52,12 +52,11 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
         />
         <.input
           type="textarea"
-          field={@form[:credential_subject]}
-          label={gettext("credential_subject")}
+          field={@form[:raw_content]}
+          label={gettext("raw_content")}
           autocomplete="off"
           rows="10"
           phx-debounce="blur"
-          value={Jason.encode!(@form[:credential_subject].value, pretty: true)}
           required
         />
         <:actions>

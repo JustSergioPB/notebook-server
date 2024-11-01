@@ -4,9 +4,10 @@ defmodule NotebookServer.Credentials.Credential do
   use Gettext, backend: NotebookServerWeb.Gettext
 
   schema "credentials" do
-    field :content, :map
     field :raw_content, :any, virtual: true
     field :credential_id, :string, virtual: true
+
+    field :content, :map
     belongs_to :issuer, NotebookServer.Accounts.User
     belongs_to :schema, NotebookServer.Schemas.Schema
     belongs_to :schema_version, NotebookServer.Schemas.SchemaVersion
@@ -20,7 +21,7 @@ defmodule NotebookServer.Credentials.Credential do
     credential
     |> cast(attrs, [:issuer_id, :schema_id, :schema_version_id, :org_id, :content])
     |> validate_required([:issuer_id, :schema_id, :schema_version_id, :org_id, :content])
-    |> validate_content(:raw_content, schema)
+    |> validate_content(:raw_content, schema.raw_content)
     |> maybe_transform_content(:raw_content, schema)
   end
 
@@ -86,6 +87,8 @@ defmodule NotebookServer.Credentials.Credential do
       nil -> changeset
       _ -> add_error(changeset, field, gettext("value_doesnt_match_null"))
     end
+
+    changeset
   end
 
   defp validate_content(changeset, field, %{"type" => "boolean"}) do
@@ -133,6 +136,8 @@ defmodule NotebookServer.Credentials.Credential do
       {:ok, _, _} -> changeset
       {:error, _} -> add_error(changeset, field, gettext("invalid_datetime_format"))
     end
+
+    changeset
   end
 
   defp maybe_validate_format(changeset, field, "date") do
@@ -142,6 +147,8 @@ defmodule NotebookServer.Credentials.Credential do
       {:ok, _} -> changeset
       {:error, _} -> add_error(changeset, field, gettext("invalid_date_format"))
     end
+
+    changeset
   end
 
   defp maybe_validate_format(changeset, field, "time") do
@@ -151,6 +158,8 @@ defmodule NotebookServer.Credentials.Credential do
       {:ok, _} -> changeset
       {:error, _} -> add_error(changeset, field, gettext("invalid_time_format"))
     end
+
+    changeset
   end
 
   defp maybe_validate_format(changeset, field, "uri") do
@@ -161,6 +170,8 @@ defmodule NotebookServer.Credentials.Credential do
       %URI{host: nil} -> add_error(changeset, field, gettext("invalid_uri_format_host"))
       _ -> changeset
     end
+
+    changeset
   end
 
   defp maybe_validate_format(changeset, _, _), do: changeset
@@ -198,6 +209,8 @@ defmodule NotebookServer.Credentials.Credential do
         gettext("must_be_a_multiple_of %{multiple_of}", multiple_of: multiple_of)
       )
     end
+
+    changeset
   end
 
   defp maybe_multiple_of(changeset, _, _), do: changeset
@@ -211,6 +224,7 @@ defmodule NotebookServer.Credentials.Credential do
     credential_id = changeset |> get_change(:credential_id)
     domain_url = Application.get_env(:notebook_server, :url)
 
+    #TODO this should be calculated based on schema and not harcoded
     content = %{
       "@context" => ["https://www.w3.org/ns/credentials/v2"],
       "title" => schema.title,
@@ -235,7 +249,6 @@ defmodule NotebookServer.Credentials.Credential do
       if(changeset.valid?) do
         changeset
         |> put_change(:content, content)
-        |> delete_change(:raw_content)
         |> delete_change(:credential_id)
       else
         changeset

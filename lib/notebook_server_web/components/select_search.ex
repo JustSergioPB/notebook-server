@@ -45,7 +45,7 @@ defmodule NotebookServerWeb.Components.SelectSearch do
         >
           <div class="relative max-h-[200px] overflow-y-auto">
             <%= if Enum.empty?(@options) do %>
-              <div class="p-2">
+              <div class="p-2  h-64 flex items-center justify-center">
                 <p class="text-sm font-bold flex items-center justify-center">
                   <%= gettext("no_results") %>
                 </p>

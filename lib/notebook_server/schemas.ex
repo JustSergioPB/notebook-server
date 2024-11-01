@@ -74,21 +74,9 @@ defmodule NotebookServer.Schemas do
     Repo.delete(schema)
   end
 
-  @doc """
-  Creates a schema.
-
-  ## Examples
-
-      iex> create_schema(%{field: value})
-      {:ok, %Schema{}}
-
-      iex> create_schema(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
   def create_schema(attrs \\ %{}) do
-    org_id = Map.get(attrs, "org_id")
-    title = Map.get(attrs, "title")
+    org_id = attrs |> Map.get("org_id")
+    title = attrs |> Map.get("title")
 
     Ecto.Multi.new()
     |> Ecto.Multi.insert(
@@ -96,8 +84,13 @@ defmodule NotebookServer.Schemas do
       Schema.changeset(%Schema{}, %{org_id: org_id, title: title})
     )
     |> Ecto.Multi.insert(:schema_version, fn %{schema: schema} ->
-      attrs = Map.put(attrs, "schema_id", schema.id)
-      attrs = Map.put(attrs, "version_number", 0)
+      attrs =
+        attrs
+        |> Map.merge(%{
+          "schema_id" => schema.id,
+          "version_number" => 0
+        })
+
       SchemaVersion.changeset(%SchemaVersion{}, attrs)
     end)
     |> Repo.transaction()
@@ -113,46 +106,17 @@ defmodule NotebookServer.Schemas do
     end
   end
 
-  @doc """
-  Updates a schema.
-
-  ## Examples
-
-      iex> update_schema(schema, %{field: new_value})
-      {:ok, %Schema{}}
-
-      iex> update_schema(schema, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
   def update_schema(%SchemaVersion{} = schema_version, attrs) do
-    title = Map.get(attrs, "title")
-    org_id = Map.get(schema_version, :org_id)
-    status = Map.get(schema_version, :status)
-    schema_id = Map.get(schema_version, :schema_id)
-    version_number = Map.get(schema_version, :version_number)
+    title = attrs |> Map.get("title")
+    org_id = schema_version |> Map.get(:org_id)
+    schema_id = schema_version |> Map.get(:schema_id)
 
-    multi =
-      Ecto.Multi.new()
-      |> Ecto.Multi.update(
-        :schema,
-        Schema.changeset(%Schema{id: schema_id, org_id: org_id}, %{title: title})
-      )
-
-    multi =
-      if status == :draft do
-        multi
-        |> Ecto.Multi.update(:schema_version, SchemaVersion.changeset(schema_version, attrs))
-      else
-        multi
-        |> Ecto.Multi.insert(:schema_version, fn %{schema: schema} ->
-          attrs = Map.put(attrs, "schema_id", schema.id)
-          attrs = Map.put(attrs, "version_number", version_number + 1)
-          SchemaVersion.changeset(%SchemaVersion{}, attrs)
-        end)
-      end
-
-    multi
+    Ecto.Multi.new()
+    |> Ecto.Multi.update(
+      :schema,
+      Schema.changeset(%Schema{id: schema_id, org_id: org_id}, %{title: title})
+    )
+    |> insert_or_update_schema_version(schema_version, attrs)
     |> Repo.transaction()
     |> case do
       {:ok, %{schema: schema, schema_version: schema_version}} ->
@@ -164,29 +128,6 @@ defmodule NotebookServer.Schemas do
       {:error, :schema_version, changeset, _} ->
         {:error, changeset, gettext("error_while_creating_schema_version")}
     end
-  end
-
-  def map_to_row(schema) do
-    latest_version =
-      schema.schema_versions
-      |> Enum.take(-1)
-      |> Enum.at(0)
-
-    published_version =
-      schema.schema_versions |> Enum.find(fn version -> version.status == :published end)
-
-    published_version_number =
-      if !is_nil(published_version), do: published_version.version_number, else: nil
-
-    Map.merge(schema, %{
-      description: latest_version.description,
-      org_name: schema.org.name,
-      version_number: latest_version.version_number,
-      published_version_number: published_version_number,
-      platform: latest_version.platform,
-      status: latest_version.status,
-      latest_version_id: latest_version.id
-    })
   end
 
   def get_schema_version!(id),
@@ -256,16 +197,75 @@ defmodule NotebookServer.Schemas do
     end
   end
 
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking schema changes.
-
-  ## Examples
-
-      iex> change_schema(schema)
-      %Ecto.Changeset{data: %Schema{}}
-
-  """
   def change_schema_version(%SchemaVersion{} = schema_version, attrs \\ %{}) do
     SchemaVersion.changeset(schema_version, attrs)
+  end
+
+  def list_schema_versions(opts \\ []) do
+    org_id = opts |> Keyword.get(:org_id)
+    title = opts |> Keyword.get(:title)
+
+    query =
+      if !is_nil(org_id),
+        do: from(s in Schema, where: s.org_id == ^org_id),
+        else: from(s in Schema)
+
+    query =
+      if is_binary(title),
+        do: from(s in query, where: ilike(s.title, ^"%#{title}%")),
+        else: query
+
+    Repo.all(query)
+    |> Repo.preload([
+      :org,
+      :schema_versions
+    ])
+    |> Enum.map(fn schema -> schema |> flatten_schema_version(opts) end)
+    |> Enum.filter(fn schema_version -> is_map(schema_version) end)
+  end
+
+  defp flatten_schema_version(schema, opts) do
+    status = opts |> Keyword.get(:status)
+    versions = schema |> Map.get(:schema_versions)
+
+    versions =
+      versions
+      |> Enum.map(fn version ->
+        version |> SchemaVersion.get_title(schema) |> SchemaVersion.get_raw_content()
+      end)
+
+    versions =
+      if is_atom(status) do
+        versions |> Enum.filter(fn version -> version.status == status end)
+      else
+        versions
+      end
+
+    versions |> Enum.at(0)
+  end
+
+  defp insert_or_update_schema_version(multi, schema_version, attrs) do
+    status = schema_version |> Map.get(:status)
+    version_number = schema_version |> Map.get(:version_number)
+
+    multi =
+      if status == :draft do
+        multi
+        |> Ecto.Multi.update(:schema_version, SchemaVersion.changeset(schema_version, attrs))
+      else
+        multi
+        |> Ecto.Multi.insert(:schema_version, fn %{schema: schema} ->
+          attrs =
+            attrs
+            |> Map.merge(%{
+              "schema_id" => schema.id,
+              "version_number" => version_number + 1
+            })
+
+          SchemaVersion.changeset(%SchemaVersion{}, attrs)
+        end)
+      end
+
+    multi
   end
 end
