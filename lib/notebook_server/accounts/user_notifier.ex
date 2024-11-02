@@ -15,9 +15,9 @@ defmodule NotebookServer.Accounts.UserNotifier do
       |> subject(subject)
       |> text_body(body)
 
-    with {:ok, _metadata} <- Mailer.deliver(email) do
-      IO.inspect("EVERYTHING WENT FINE")
-      {:ok, email}
+    Mailer.deliver(email) |> case do
+      {:ok, _} -> {:ok, email}
+      {:error, error} -> {:error, error}
     end
   end
 

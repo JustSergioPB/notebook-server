@@ -39,16 +39,25 @@ defmodule NotebookServerWeb.UserForgotPasswordLive do
   end
 
   def handle_event("send_email", %{"user" => %{"email" => email}}, socket) do
-    if user = Accounts.get_user_by_email(email) do
+    user = Accounts.get_user_by_email(email)
+
+    if !is_nil(user) do
       Accounts.deliver_user_reset_password_instructions(
         user,
         &url(~p"/reset-password/#{&1}")
       )
-    end
+      |> case do
+        {:ok, _} ->
+          {:noreply,
+           socket
+           |> put_flash(:info, gettext("reset_email_sent"))
+           |> redirect(to: ~p"/")}
 
-    {:noreply,
-     socket
-     |> put_flash(:info, gettext("reset_email_sent"))
-     |> redirect(to: ~p"/")}
+        {:error, error} ->
+          {:noreply, socket |> put_flash(:error, error)}
+      end
+    else
+      {:noreply, socket}
+    end
   end
 end
