@@ -5,13 +5,6 @@ defmodule NotebookServer.Accounts.UserNotifier do
 
   # Delivers the email using the application mailer.
   defp deliver(recipient, subject, body) do
-    IO.inspect("================================")
-    IO.inspect(Application.get_env(:notebook_server, NotebookServer.Mailer)[:api_key])
-    IO.inspect(Application.get_env(:notebook_server, NotebookServer.Mailer)[:domain])
-    IO.inspect(Application.get_env(:notebook_server, NotebookServer.Mailer)[:from])
-    IO.inspect(Application.get_env(:notebook_server, NotebookServer.Mailer)[:email])
-    IO.inspect("================================")
-
     email =
       new()
       |> to(recipient)
@@ -23,6 +16,7 @@ defmodule NotebookServer.Accounts.UserNotifier do
       |> text_body(body)
 
     with {:ok, _metadata} <- Mailer.deliver(email) do
+      IO.inspect("EVERYTHING WENT FINE")
       {:ok, email}
     end
   end
