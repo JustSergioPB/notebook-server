@@ -1,8 +1,13 @@
 defmodule NotebookServerWeb.CredentialLive.FormComponent do
+  alias NotebookServer.Credentials.Credential
   use NotebookServerWeb, :live_component
 
+  alias NotebookServer.Schemas
   alias NotebookServer.Credentials
   alias NotebookServer.Accounts.User
+  alias NotebookServer.Credentials
+  alias NotebookServerWeb.Components.SelectSearch
+  alias NotebookServerWeb.JsonSchemaComponents
   use Gettext, backend: NotebookServerWeb.Gettext
 
   @impl true
@@ -13,16 +18,63 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
         <%= @title %>
       </.header>
       <.simple_form
-        for={@form}
-        id="credential-form"
+        for={@select_form}
+        class={if @step == 0, do: "flex", else: "hidden"}
         phx-target={@myself}
-        phx-change="validate"
-        phx-submit="save"
+        id="select-form"
+        phx-submit="next"
       >
-        <.input field={@form[:name]} label={gettext("schema")} placeholder={gettext("schema_placeholder")} required />
+        <.live_component
+          field={@select_form[:schema_id]}
+          id={@select_form[:schema_id].id}
+          module={SelectSearch}
+          label={gettext("search_schema")}
+          options={@schema_version_options}
+          placeholder={gettext("title_placeholder") <> "..."}
+          autocomplete="autocomplete_schemas"
+          target="#select-form"
+        >
+          <:option :let={schema}>
+            <div class="flex items-center gap-1">
+              <div class="bg-white shadow-sm border border-slate-200 py-1 px-2 rounded-xl text-xs font-semibold">
+                V<%= schema.version_number %>
+              </div>
+              <p class="font-bold"><%= schema.text %></p>
+            </div>
+            <p><%= schema.description %></p>
+          </:option>
+        </.live_component>
         <:actions>
           <.button disabled={!User.can_use_platform?(@current_user)}>
-            <%= gettext("save") %>
+            <%= gettext("next") %>
+          </.button>
+        </:actions>
+      </.simple_form>
+      <.simple_form
+        id="credential-form"
+        class={if @step == 1, do: "flex", else: "hidden"}
+        for={@form}
+        phx-target={@myself}
+        phx-change="validate"
+        phx-submit="next"
+      >
+        <JsonSchemaComponents.json_schema_node
+          :if={is_map(@schema_version)}
+          field={@form[:raw_content]}
+          schema={@schema_version.raw_content}
+        />
+        <:actions>
+          <.button
+            variant="outline"
+            disabled={!User.can_use_platform?(@current_user)}
+            type="button"
+            phx-target={@myself}
+            phx-click="back"
+          >
+            <%= gettext("back") %>
+          </.button>
+          <.button disabled={!User.can_use_platform?(@current_user)}>
+            <%= gettext("next") %>
           </.button>
         </:actions>
       </.simple_form>
@@ -31,48 +83,88 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
   end
 
   @impl true
-  def update(%{credential: credential} = assigns, socket) do
+  def update(assigns, socket) do
     {:ok,
      socket
      |> assign(assigns)
+     |> assign_new(:step, fn -> 0 end)
+     |> update_schema_options()
+     |> assign_new(:select_form, fn ->
+       to_form(%{"schema_id" => ""})
+     end)
+     |> assign_new(:schema_version, fn -> nil end)
      |> assign_new(:form, fn ->
-       to_form(Credentials.change_credential(credential))
+       to_form(%{})
      end)}
   end
 
   @impl true
+  def handle_event("autocomplete_schemas", %{"query" => query}, socket) do
+    {:noreply, update_schema_options(socket, query)}
+  end
+
   def handle_event("validate", %{"credential" => credential_params}, socket) do
-    changeset = Credentials.change_credential(socket.assigns.credential, credential_params)
+    extra_params = socket |> get_extra_params()
+    credential_params = Map.merge(credential_params, extra_params)
+
+    changeset =
+      Credentials.change_credential(
+        socket.assigns.credential,
+        credential_params,
+        socket.assigns.schema_version
+      )
+
     {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
   end
 
-  def handle_event("save", %{"credential" => credential_params}, socket) do
-    save_credential(socket, socket.assigns.action, credential_params)
+  def handle_event("back", _, socket) do
+    {:noreply, socket |> assign(:step, socket.assigns.step - 1)}
   end
 
-  defp save_credential(socket, :edit, credential_params) do
-    case Credentials.update_credential(socket.assigns.credential, credential_params) do
+  def handle_event("next", %{"schema_id" => schema_id}, socket) when schema_id != "" do
+    schema_version =
+      socket.assigns.schema_version_options
+      |> Enum.find(fn schema_version -> schema_version.id == String.to_integer(schema_id) end)
+
+    raw_content = schema_version |> Map.get(:raw_content)
+    raw_content_decoded = Jason.decode!(raw_content)
+    schema_version = schema_version |> Map.put(:raw_content, raw_content_decoded)
+
+    changeset = Credentials.change_credential(%Credential{}, schema_version)
+
+    socket =
+      socket
+      |> assign(:schema_version, schema_version)
+      |> assign(:form, to_form(changeset))
+      |> assign(:step, socket.assigns.step + 1)
+
+    {:noreply, socket}
+  end
+
+  def handle_event("next", %{"schema_id" => _}, socket) do
+    socket =
+      socket
+      |> assign(
+        :form,
+        to_form(%{"schema_id" => ""},
+          error: [schema_id: gettext("field_required")],
+          action: :validate
+        )
+      )
+
+    {:noreply, socket}
+  end
+
+  def handle_event("next", %{"credential" => credential_params}, socket) do
+    extra_params = socket |> get_extra_params()
+    credential_params = Map.merge(credential_params, extra_params)
+
+    case Credentials.create_credential(credential_params, socket.assigns.schema_version) do
       {:ok, credential} ->
         notify_parent({:saved, credential})
 
         {:noreply,
          socket
-         |> put_flash(:info, gettext("credential_updated_successfully"))
-         |> push_patch(to: socket.assigns.patch)}
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign(socket, form: to_form(changeset))}
-    end
-  end
-
-  defp save_credential(socket, :new, credential_params) do
-    case Credentials.create_credential(credential_params) do
-      {:ok, credential} ->
-        notify_parent({:saved, credential})
-
-        {:noreply,
-         socket
-         |> put_flash(:info, gettext("credential_created_successfully"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -81,4 +173,30 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
+
+  defp org_filter(socket) do
+    if socket.assigns.current_user.role == :admin,
+      do: [],
+      else: [org_id: socket.assigns.current_user.org_id]
+  end
+
+  defp update_schema_options(socket, query \\ "") do
+    options =
+      Schemas.list_schema_versions([title: query, status: :published] ++ org_filter(socket))
+      |> Enum.map(fn schema_version ->
+        schema_version |> Map.merge(%{text: schema_version.title})
+      end)
+
+    assign(socket, schema_version_options: options)
+  end
+
+  defp get_extra_params(socket) do
+    %{
+      "org_id" => socket.assigns.current_user |> Map.get(:org_id),
+      "issuer_id" => socket.assigns.current_user |> Map.get(:id),
+      "schema_id" => socket.assigns.schema_version |> Map.get(:schema_id),
+      "schema_version_id" => socket.assigns.schema_version |> Map.get(:id),
+      "credential_id" => "TODO"
+    }
+  end
 end

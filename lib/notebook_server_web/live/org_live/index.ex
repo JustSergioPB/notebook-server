@@ -50,7 +50,6 @@ defmodule NotebookServerWeb.OrgLive.Index do
     end
   end
 
-  @impl true
   def handle_event("activate", %{"id" => id}, socket) do
     if User.can_use_platform?(socket.assigns.current_user) do
       org = Orgs.get_org!(id)

@@ -25,6 +25,7 @@ defmodule NotebookServerWeb.UserLive.FormComponent do
             type="text"
             label={gettext("name")}
             placeholder={gettext("name_placeholder")}
+            phx-debounce="blur"
           />
           <.input
             field={@form[:last_name]}
@@ -32,6 +33,7 @@ defmodule NotebookServerWeb.UserLive.FormComponent do
             type="text"
             label={gettext("last_name")}
             placeholder={gettext("last_name_placeholder")}
+            phx-debounce="blur"
           />
         </div>
         <.input
@@ -39,6 +41,7 @@ defmodule NotebookServerWeb.UserLive.FormComponent do
           type="text"
           label={gettext("email")}
           placeholder={gettext("email_placeholder")}
+          phx-debounce="blur"
         />
         <.input
           field={@form[:role]}
@@ -48,6 +51,7 @@ defmodule NotebookServerWeb.UserLive.FormComponent do
             {gettext("org_admin"), "org_admin"},
             {gettext("issuer"), "issuer"}
           ]}
+          phx-debounce="blur"
         />
         <:actions>
           <.button disabled={!User.can_use_platform?(@current_user)}><%= gettext("save") %></.button>
@@ -63,13 +67,13 @@ defmodule NotebookServerWeb.UserLive.FormComponent do
      socket
      |> assign(assigns)
      |> assign_new(:form, fn ->
-       to_form(Accounts.change_user(user))
+       to_form(Accounts.change_user_create(user))
      end)}
   end
 
   @impl true
   def handle_event("validate", %{"user" => user_params}, socket) do
-    changeset = Accounts.change_user(socket.assigns.user, user_params)
+    changeset = Accounts.change_user_create(socket.assigns.user, user_params)
     {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
   end
 

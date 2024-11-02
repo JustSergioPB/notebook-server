@@ -113,6 +113,7 @@ defmodule NotebookServerWeb.Router do
         live "/", CredentialLive.Index, :index
         live "/new", CredentialLive.Index, :new
         live "/:id", CredentialLive.Show, :show
+        live "/:id/qr", CredentialLive.Index, :qr
       end
     end
   end

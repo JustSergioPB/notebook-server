@@ -142,12 +142,12 @@ defmodule NotebookServer.PKIs do
     org_id = Keyword.get(opts, :org_id)
     level = Keyword.get(opts, :level) || :intermediate
 
+    query = from(c in OrgCertificate, where: c.level == ^level)
+
     query =
-      if(org_id) do
-        from(c in OrgCertificate, where: c.org_id == ^org_id and c.level == ^level)
-      else
-        from(c in OrgCertificate, where: c.level == ^level)
-      end
+      if !is_nil(org_id),
+        do: from(c in query, where: c.org_id == ^org_id),
+        else: query
 
     query |> order_by(desc: :inserted_at) |> Repo.all() |> Repo.preload(:org)
   end
@@ -156,11 +156,9 @@ defmodule NotebookServer.PKIs do
     org_id = Keyword.get(opts, :org_id)
 
     query =
-      if(org_id) do
-        from(c in UserCertificate, where: c.org_id == ^org_id)
-      else
-        from(c in UserCertificate)
-      end
+      if !is_nil(org_id),
+        do: from(c in UserCertificate, where: c.org_id == ^org_id),
+        else: from(c in UserCertificate)
 
     query
     |> order_by(desc: :inserted_at, asc: :user_id, desc: :status)

@@ -55,7 +55,9 @@ defmodule NotebookServer.MixProject do
       {:bandit, "~> 1.5"},
       {:lucide_live_view, "~> 0.1.0"},
       {:hackney, "~> 1.20"},
-      {:x509, "~> 0.8"}
+      {:x509, "~> 0.8"},
+      {:idna, "~> 6.1"},
+      {:qr_code, "~> 3.1.0"}
     ]
   end
 

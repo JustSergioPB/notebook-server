@@ -54,9 +54,9 @@ msgstr "No podemos conectarnos a internet"
 msgid "activate"
 msgstr "Activar"
 
-#: lib/notebook_server_web/live/credential_live/index.html.heex:39
+#: lib/notebook_server_web/live/credential_live/index.html.heex:57
 #: lib/notebook_server_web/live/org_live/index.html.heex:63
-#: lib/notebook_server_web/live/schema_live/index.html.heex:58
+#: lib/notebook_server_web/live/schema_live/index.html.heex:92
 #: lib/notebook_server_web/live/user_live/index.html.heex:70
 #, elixir-autogen, elixir-format
 msgid "are_you_sure"
@@ -88,18 +88,19 @@ msgstr "Confirmar nueva contraseña"
 msgid "confirm_new_password_placeholder"
 msgstr "myNuev4Contraseña"
 
+#: lib/notebook_server_web/components/json_schema_components.ex:56
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:73
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:80
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:144
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:151
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:208
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:215
-#: lib/notebook_server_web/live/credential_live/index.html.heex:32
-#: lib/notebook_server_web/live/credential_live/index.html.heex:41
+#: lib/notebook_server_web/live/credential_live/index.html.heex:50
+#: lib/notebook_server_web/live/credential_live/index.html.heex:59
 #: lib/notebook_server_web/live/org_live/index.html.heex:57
 #: lib/notebook_server_web/live/org_live/index.html.heex:66
-#: lib/notebook_server_web/live/schema_live/index.html.heex:51
-#: lib/notebook_server_web/live/schema_live/index.html.heex:60
+#: lib/notebook_server_web/live/schema_live/index.html.heex:85
+#: lib/notebook_server_web/live/schema_live/index.html.heex:94
 #: lib/notebook_server_web/live/user_live/index.html.heex:63
 #: lib/notebook_server_web/live/user_live/index.html.heex:72
 #, elixir-autogen, elixir-format
@@ -108,8 +109,8 @@ msgstr "Eliminar"
 
 #: lib/notebook_server_web/live/org_live/index.html.heex:30
 #: lib/notebook_server_web/live/org_live/index.html.heex:37
-#: lib/notebook_server_web/live/schema_live/index.html.heex:38
-#: lib/notebook_server_web/live/schema_live/index.html.heex:45
+#: lib/notebook_server_web/live/schema_live/index.html.heex:72
+#: lib/notebook_server_web/live/schema_live/index.html.heex:79
 #: lib/notebook_server_web/live/user_live/index.html.heex:36
 #: lib/notebook_server_web/live/user_live/index.html.heex:43
 #, elixir-autogen, elixir-format
@@ -130,7 +131,7 @@ msgstr "Editar organización"
 msgid "edit_user"
 msgstr "Editar usuario"
 
-#: lib/notebook_server_web/live/user_live/form_component.ex:40
+#: lib/notebook_server_web/live/user_live/form_component.ex:42
 #: lib/notebook_server_web/live/user_live/index.html.heex:22
 #: lib/notebook_server_web/live/user_live/user_confirmation_instructions_live.ex:20
 #: lib/notebook_server_web/live/user_live/user_forgot_password_live.ex:19
@@ -152,7 +153,7 @@ msgid "email_changed_successfully"
 msgstr "Tu email se ha actualizado correctamente"
 
 #: lib/notebook_server_web/live/certificate_live/form_component.ex:22
-#: lib/notebook_server_web/live/user_live/form_component.ex:41
+#: lib/notebook_server_web/live/user_live/form_component.ex:43
 #: lib/notebook_server_web/live/user_live/user_confirmation_instructions_live.ex:21
 #: lib/notebook_server_web/live/user_live/user_forgot_password_live.ex:18
 #: lib/notebook_server_web/live/user_live/user_login_live.ex:19
@@ -182,7 +183,7 @@ msgstr "¿Olvidaste tu contraseña?"
 msgid "full_name"
 msgstr "Nombre completo"
 
-#: lib/notebook_server_web/live/user_live/form_component.ex:33
+#: lib/notebook_server_web/live/user_live/form_component.ex:34
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:40
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:29
 #, elixir-autogen, elixir-format
@@ -252,7 +253,7 @@ msgid "oops_something_went_wrong"
 msgstr "¡Ups! Algo salió mal"
 
 #: lib/notebook_server_web/live/certificate_live/form_component.ex:19
-#: lib/notebook_server_web/live/credential_live/index.html.heex:28
+#: lib/notebook_server_web/live/credential_live/index.html.heex:32
 #: lib/notebook_server_web/live/org_live/index.html.heex:6
 #: lib/notebook_server_web/live/org_live/show.html.heex:2
 #, elixir-autogen, elixir-format
@@ -319,7 +320,7 @@ msgstr "El enlace para restablecer tu contraseña es inválido o ha expirado"
 msgid "reset_password_title"
 msgstr "Restablecer contraseña"
 
-#: lib/notebook_server_web/live/user_live/form_component.ex:46
+#: lib/notebook_server_web/live/user_live/form_component.ex:49
 #: lib/notebook_server_web/live/user_live/index.html.heex:28
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:44
 #, elixir-autogen, elixir-format
@@ -327,10 +328,9 @@ msgid "role"
 msgstr "Rol"
 
 #: lib/notebook_server_web/live/certificate_live/form_component.ex:29
-#: lib/notebook_server_web/live/credential_live/form_component.ex:25
 #: lib/notebook_server_web/live/org_live/form_component.ex:25
-#: lib/notebook_server_web/live/schema_live/form_component.ex:55
-#: lib/notebook_server_web/live/user_live/form_component.ex:53
+#: lib/notebook_server_web/live/schema_live/form_component.ex:64
+#: lib/notebook_server_web/live/user_live/form_component.ex:57
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:62
 #, elixir-autogen, elixir-format
 msgid "save"
@@ -360,7 +360,7 @@ msgstr "Mostrar usuario"
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:108
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:172
 #: lib/notebook_server_web/live/org_live/index.html.heex:22
-#: lib/notebook_server_web/live/schema_live/index.html.heex:33
+#: lib/notebook_server_web/live/schema_live/index.html.heex:39
 #: lib/notebook_server_web/live/user_live/index.html.heex:25
 #, elixir-autogen, elixir-format
 msgid "status"
@@ -437,7 +437,7 @@ msgstr "Ajustes"
 msgid "language"
 msgstr "Idioma"
 
-#: lib/notebook_server_web/live/user_live/form_component.ex:34
+#: lib/notebook_server_web/live/user_live/form_component.ex:35
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:41
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:30
 #, elixir-autogen, elixir-format, fuzzy
@@ -468,7 +468,7 @@ msgid "admin"
 msgstr "Admin"
 
 #: lib/notebook_server_web/components/core_components.ex:863
-#: lib/notebook_server_web/live/user_live/form_component.ex:48
+#: lib/notebook_server_web/live/user_live/form_component.ex:51
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:47
 #, elixir-autogen, elixir-format
 msgid "org_admin"
@@ -581,28 +581,28 @@ msgstr "Sesión cerrada correctamente"
 msgid "user_password_updated_success"
 msgstr "Contraseña actualizada correctamente"
 
-#: lib/notebook_server/accounts/user.ex:42
-#: lib/notebook_server/accounts/user.ex:52
-#: lib/notebook_server/accounts/user.ex:74
+#: lib/notebook_server/accounts/user.ex:45
+#: lib/notebook_server/accounts/user.ex:55
+#: lib/notebook_server/accounts/user.ex:77
 #: lib/notebook_server/accounts/user_email.ex:23
 #: lib/notebook_server/accounts/user_password.ex:27
-#: lib/notebook_server/credentials/schema.ex:37
-#: lib/notebook_server/credentials/schema.ex:47
+#: lib/notebook_server/schemas/schema.ex:27
+#: lib/notebook_server_web/live/credential_live/form_component.ex:150
 #, elixir-autogen, elixir-format, fuzzy
 msgid "field_required"
-msgstr "Necesitas iniciar sesión para acceder a esta página"
+msgstr "Este campo es obligatorio"
 
-#: lib/notebook_server/accounts/user.ex:69
+#: lib/notebook_server/accounts/user.ex:72
 #, elixir-autogen, elixir-format
 msgid "invalid_user_language"
 msgstr "Idioma inválido"
 
-#: lib/notebook_server/accounts/user.ex:76
+#: lib/notebook_server/accounts/user.ex:79
 #, elixir-autogen, elixir-format
 msgid "invalid_user_role"
 msgstr "Rol inválido"
 
-#: lib/notebook_server/accounts/user.ex:63
+#: lib/notebook_server/accounts/user.ex:66
 #, elixir-autogen, elixir-format
 msgid "invalid_user_status"
 msgstr "Estado inválido"
@@ -642,12 +642,12 @@ msgstr "Email inválido"
 msgid "user_email_must_be_unique"
 msgstr "El email debe ser único"
 
-#: lib/notebook_server/accounts/user.ex:56
+#: lib/notebook_server/accounts/user.ex:59
 #, elixir-autogen, elixir-format
 msgid "user_last_name_length %{min} %{max}"
 msgstr "Los apellidos deben tener entre %{min} y %{max} caracteres"
 
-#: lib/notebook_server/accounts/user.ex:46
+#: lib/notebook_server/accounts/user.ex:49
 #, elixir-autogen, elixir-format
 msgid "user_name_length %{min} %{max}"
 msgstr "El nombre debe tener entre %{min} y %{max} caracteres"
@@ -742,12 +742,12 @@ msgstr "¿No has recibido el email de confirmación o ha expirado?"
 msgid "banned"
 msgstr "Detenido"
 
-#: lib/notebook_server_web/live/user_live/form_component.ex:109
+#: lib/notebook_server_web/live/user_live/form_component.ex:113
 #, elixir-autogen, elixir-format, fuzzy
 msgid "user_created_successfully"
 msgstr "Usuario creado correctamente"
 
-#: lib/notebook_server_web/live/user_live/form_component.ex:91
+#: lib/notebook_server_web/live/user_live/form_component.ex:95
 #, elixir-autogen, elixir-format, fuzzy
 msgid "user_updated_successfully"
 msgstr "Usuario actualizado correctamente"
@@ -762,7 +762,7 @@ msgstr "Usuario actualizado correctamente"
 msgid "rotate_certificate"
 msgstr "Rotar certificado"
 
-#: lib/notebook_server_web/live/certificate_live/index.ex:51
+#: lib/notebook_server_web/live/certificate_live/index.ex:50
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:59
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:66
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:130
@@ -774,7 +774,7 @@ msgid "revoke_certificate"
 msgstr "Revocar certificado"
 
 #: lib/notebook_server_web/components/layouts/app.html.heex:36
-#: lib/notebook_server_web/live/schema_live/index.ex:35
+#: lib/notebook_server_web/live/schema_live/index.ex:51
 #: lib/notebook_server_web/live/schema_live/index.html.heex:2
 #, elixir-autogen, elixir-format
 msgid "schemas"
@@ -785,32 +785,31 @@ msgstr "Esquemas"
 msgid "back_to_schemas"
 msgstr "Volver a esquemas"
 
-#: lib/notebook_server_web/live/schema_live/index.ex:23
+#: lib/notebook_server_web/live/schema_live/index.ex:39
 #: lib/notebook_server_web/live/schema_live/show.ex:21
 #: lib/notebook_server_web/live/schema_live/show.html.heex:5
 #, elixir-autogen, elixir-format, fuzzy
 msgid "edit_schema"
 msgstr "Editar esquema"
 
-#: lib/notebook_server_web/live/schema_live/index.ex:29
+#: lib/notebook_server_web/live/schema_live/index.ex:45
 #, elixir-autogen, elixir-format
 msgid "new_schema"
 msgstr "Nuevo esquema"
 
-#: lib/notebook_server_web/live/credential_live/form_component.ex:22
-#: lib/notebook_server_web/live/credential_live/index.html.heex:20
+#: lib/notebook_server_web/live/credential_live/index.html.heex:19
 #: lib/notebook_server_web/live/schema_live/index.html.heex:6
 #: lib/notebook_server_web/live/schema_live/show.html.heex:2
 #, elixir-autogen, elixir-format, fuzzy
 msgid "schema"
 msgstr "Esquema"
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:108
+#: lib/notebook_server_web/live/schema_live/form_component.ex:123
 #, elixir-autogen, elixir-format, fuzzy
 msgid "schema_created_successfully"
 msgstr "Esquema creado correctamente"
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:90
+#: lib/notebook_server_web/live/schema_live/form_component.ex:108
 #, elixir-autogen, elixir-format, fuzzy
 msgid "schema_updated_successfully"
 msgstr "Esquema actualizado correctamente"
@@ -820,20 +819,20 @@ msgstr "Esquema actualizado correctamente"
 msgid "show_schema"
 msgstr "Mostrar esquema"
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:33
+#: lib/notebook_server_web/live/schema_live/form_component.ex:39
 #: lib/notebook_server_web/live/schema_live/index.html.heex:22
 #, elixir-autogen, elixir-format
 msgid "description"
 msgstr "Descripción"
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:25
+#: lib/notebook_server_web/live/schema_live/form_component.ex:30
 #: lib/notebook_server_web/live/schema_live/index.html.heex:19
 #, elixir-autogen, elixir-format
 msgid "title"
 msgstr "Título"
 
 #: lib/notebook_server_web/components/layouts/app.html.heex:41
-#: lib/notebook_server_web/live/credential_live/index.ex:34
+#: lib/notebook_server_web/live/credential_live/index.ex:38
 #: lib/notebook_server_web/live/credential_live/index.html.heex:2
 #, elixir-autogen, elixir-format
 msgid "credentials"
@@ -844,37 +843,27 @@ msgstr "Credenciales"
 msgid "back_to_credentials"
 msgstr "Volver a credenciales"
 
-#: lib/notebook_server_web/live/credential_live/index.html.heex:7
+#: lib/notebook_server_web/live/credential_live/index.html.heex:6
 #: lib/notebook_server_web/live/credential_live/show.html.heex:2
 #, elixir-autogen, elixir-format, fuzzy
 msgid "credential"
 msgstr "Credencial"
 
-#: lib/notebook_server_web/live/credential_live/form_component.ex:75
-#, elixir-autogen, elixir-format
-msgid "credential_created_successfully"
-msgstr "Credencial creada correctamente"
-
-#: lib/notebook_server_web/live/credential_live/form_component.ex:60
-#, elixir-autogen, elixir-format, fuzzy
-msgid "credential_updated_successfully"
-msgstr "Credencial actualizada correctamente"
-
-#: lib/notebook_server_web/live/credential_live/index.ex:22
+#: lib/notebook_server_web/live/credential_live/index.ex:26
 #: lib/notebook_server_web/live/credential_live/show.ex:21
 #, elixir-autogen, elixir-format
 msgid "edit_credential"
 msgstr "Editar credencial"
 
 #: lib/notebook_server_web/components/core_components.ex:864
-#: lib/notebook_server_web/live/credential_live/index.html.heex:25
-#: lib/notebook_server_web/live/user_live/form_component.ex:49
+#: lib/notebook_server_web/live/credential_live/index.html.heex:29
+#: lib/notebook_server_web/live/user_live/form_component.ex:52
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:48
 #, elixir-autogen, elixir-format
 msgid "issuer"
 msgstr "Emisor"
 
-#: lib/notebook_server_web/live/credential_live/index.ex:28
+#: lib/notebook_server_web/live/credential_live/index.ex:32
 #, elixir-autogen, elixir-format
 msgid "new_credential"
 msgstr "Nueva credencial"
@@ -897,8 +886,8 @@ msgstr "Borrador"
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:32
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:103
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:167
-#: lib/notebook_server_web/live/schema_live/form_component.ex:39
-#: lib/notebook_server_web/live/schema_live/index.html.heex:28
+#: lib/notebook_server_web/live/schema_live/form_component.ex:46
+#: lib/notebook_server_web/live/schema_live/index.html.heex:34
 #, elixir-autogen, elixir-format
 msgid "platform"
 msgstr "Plataforma"
@@ -908,39 +897,35 @@ msgstr "Plataforma"
 msgid "published"
 msgstr "Publicado"
 
-#: lib/notebook_server/credentials/schema.ex:51
+#: lib/notebook_server/schemas/schema_version.ex:46
 #, elixir-autogen, elixir-format
 msgid "schema_description_length %{min} %{max}"
 msgstr "La descripción debe tener entre %{min} y %{max} caracteres"
 
-#: lib/notebook_server_web/live/credential_live/form_component.ex:22
-#, elixir-autogen, elixir-format, fuzzy
-msgid "schema_placeholder"
-msgstr "Carnet de conducir"
-
-#: lib/notebook_server/credentials/schema.ex:41
+#: lib/notebook_server/schemas/schema.ex:32
 #, elixir-autogen, elixir-format, fuzzy
 msgid "schema_title_length %{min} %{max}"
 msgstr "El titulo debe tener entre %{min} y %{max} caracteres"
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:48
+#: lib/notebook_server_web/live/schema_live/form_component.ex:56
 #, elixir-autogen, elixir-format, fuzzy
-msgid "credential_subject"
+msgid "raw_content"
 msgstr "Contenido de la credencial"
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:34
+#: lib/notebook_server_web/live/schema_live/form_component.ex:40
 #, elixir-autogen, elixir-format, fuzzy
 msgid "description_placeholder"
 msgstr "Carnet de conducir de un ciudadano español"
 
 #: lib/notebook_server_web/components/layouts/app.html.heex:30
-#: lib/notebook_server_web/live/certificate_live/index.ex:70
+#: lib/notebook_server_web/live/certificate_live/index.ex:69
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:2
 #, elixir-autogen, elixir-format
 msgid "certificates"
 msgstr "Certificados"
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:26
+#: lib/notebook_server_web/live/credential_live/form_component.ex:33
+#: lib/notebook_server_web/live/schema_live/form_component.ex:31
 #, elixir-autogen, elixir-format, fuzzy
 msgid "title_placeholder"
 msgstr "Carnet de conducir"
@@ -962,7 +947,7 @@ msgstr "Editar certificado"
 msgid "certificate"
 msgstr "Certificado"
 
-#: lib/notebook_server_web/live/certificate_live/index.ex:40
+#: lib/notebook_server_web/live/certificate_live/index.ex:39
 #, elixir-autogen, elixir-format
 msgid "new_certificate"
 msgstr "Nuevo certificado"
@@ -989,7 +974,7 @@ msgstr "Mostrar certificado"
 msgid "expiration_date"
 msgstr "Fecha de expiración"
 
-#: lib/notebook_server_web/components/select_search.ex:43
+#: lib/notebook_server_web/components/select_search.ex:50
 #, elixir-autogen, elixir-format
 msgid "no_results"
 msgstr "Sin resultados..."
@@ -1028,7 +1013,7 @@ msgstr "Error al crear certificado de organización"
 msgid "org_certificate_create_success"
 msgstr "Certificado de organización creado correctamente"
 
-#: lib/notebook_server_web/live/certificate_live/index.ex:52
+#: lib/notebook_server_web/live/certificate_live/index.ex:51
 #, elixir-autogen, elixir-format, fuzzy
 msgid "revoke_certificate_subtitle"
 msgstr "¿Estás seguro? Esta acción es irreversible, todos los certificados emitidos a partir de este quedarán revocados."
@@ -1053,33 +1038,33 @@ msgstr "Error al crear el certificado de usuario"
 msgid "user_certificate_create_success"
 msgstr "Certificado de usuario creado correctamente"
 
-#: lib/notebook_server_web/live/certificate_live/index.ex:63
+#: lib/notebook_server_web/live/certificate_live/index.ex:62
 #, elixir-autogen, elixir-format
 msgid "delete_certificate"
 msgstr "Eliminar certificado"
 
-#: lib/notebook_server_web/live/certificate_live/index.ex:64
+#: lib/notebook_server_web/live/certificate_live/index.ex:63
 #, elixir-autogen, elixir-format
 msgid "delete_certificate_subtitle"
 msgstr "¿Estás seguro? Esta acción es irreversible. Todos los certificados emitidos a partir de este serán borrados junto a sus ficheros, considera revocarlos mejor."
 
-#: lib/notebook_server/pkis.ex:251
+#: lib/notebook_server/pkis.ex:266
 #, elixir-autogen, elixir-format
 msgid "error_revokating_certificate"
 msgstr "Error al revocar certificado"
 
-#: lib/notebook_server/pkis.ex:254
+#: lib/notebook_server/pkis.ex:269
 #, elixir-autogen, elixir-format
 msgid "error_revokating_related_org_certificates"
 msgstr "Error al revocar certificados de organizaciones relacionados"
 
-#: lib/notebook_server/pkis.ex:257
+#: lib/notebook_server/pkis.ex:272
 #, elixir-autogen, elixir-format
 msgid "error_revokating_related_user_certificates"
 msgstr "Error al revocar certificados de usuarios relacionados"
 
-#: lib/notebook_server/pkis.ex:199
-#: lib/notebook_server/pkis.ex:213
+#: lib/notebook_server/pkis.ex:198
+#: lib/notebook_server/pkis.ex:212
 #, elixir-autogen, elixir-format
 msgid "error_rotating_certificate"
 msgstr "Error al rotar certicado"
@@ -1119,7 +1104,160 @@ msgstr "Certificado raíz revocado"
 msgid "user_certificate_revoke_success"
 msgstr "Certificado de usuario revocado"
 
-#: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:58
+#: lib/notebook_server_web/live/schema_live/index.html.heex:57
+#: lib/notebook_server_web/live/schema_live/index.html.heex:66
 #, elixir-autogen, elixir-format, fuzzy
-msgid "revocation_reason_length %{min} %{max}"
-msgstr "La razón de revocación debe tener entre %{min} y %{max} caracteres"
+msgid "archive"
+msgstr "Archivar"
+
+#: lib/notebook_server_web/live/schema_live/index.html.heex:43
+#: lib/notebook_server_web/live/schema_live/index.html.heex:52
+#, elixir-autogen, elixir-format, fuzzy
+msgid "publish"
+msgstr "Publicar"
+
+#: lib/notebook_server_web/live/credential_live/form_component.ex:31
+#, elixir-autogen, elixir-format
+msgid "search_schema"
+msgstr "Buscar esquema"
+
+#: lib/notebook_server_web/live/credential_live/form_component.ex:74
+#, elixir-autogen, elixir-format
+msgid "back"
+msgstr "Atrás"
+
+#: lib/notebook_server_web/live/credential_live/form_component.ex:49
+#: lib/notebook_server_web/live/credential_live/form_component.ex:77
+#, elixir-autogen, elixir-format, fuzzy
+msgid "next"
+msgstr "Siguiente"
+
+#: lib/notebook_server/schemas.ex:170
+#: lib/notebook_server/schemas.ex:196
+#, elixir-autogen, elixir-format
+msgid "error_while_archiving_old_version"
+msgstr ""
+
+#: lib/notebook_server/schemas.ex:102
+#, elixir-autogen, elixir-format
+msgid "error_while_creating_schema"
+msgstr ""
+
+#: lib/notebook_server/schemas.ex:105
+#: lib/notebook_server/schemas.ex:129
+#, elixir-autogen, elixir-format
+msgid "error_while_creating_schema_version"
+msgstr ""
+
+#: lib/notebook_server/schemas.ex:173
+#, elixir-autogen, elixir-format
+msgid "error_while_publishin_new_version"
+msgstr ""
+
+#: lib/notebook_server/schemas.ex:126
+#, elixir-autogen, elixir-format
+msgid "error_while_updating_schema"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/form_component.ex:17
+#, elixir-autogen, elixir-format
+msgid "schema_is_not_draft_edit_will_create_new_draft"
+msgstr "La versión actual no está en estado 'Borrador', editar este esquema creará una nueva versión en estado 'Borrador'"
+
+#: lib/notebook_server_web/live/credential_live/index.html.heex:24
+#: lib/notebook_server_web/live/schema_live/index.html.heex:28
+#, elixir-autogen, elixir-format
+msgid "version"
+msgstr "Versión"
+
+#: lib/notebook_server_web/live/schema_live/index.html.heex:31
+#, elixir-autogen, elixir-format, fuzzy
+msgid "published_version"
+msgstr "V. publica"
+
+#: lib/notebook_server_web/components/json_schema_components.ex:42
+#, elixir-autogen, elixir-format
+msgid "add"
+msgstr "Añadir"
+
+#: lib/notebook_server/schemas.ex:167
+#: lib/notebook_server/schemas.ex:193
+#, elixir-autogen, elixir-format
+msgid "schema_version_not_found"
+msgstr ""
+
+#: lib/notebook_server/credentials/credential.ex:151
+#, elixir-autogen, elixir-format
+msgid "invalid_date_format"
+msgstr ""
+
+#: lib/notebook_server/credentials/credential.ex:140
+#, elixir-autogen, elixir-format
+msgid "invalid_datetime_format"
+msgstr ""
+
+#: lib/notebook_server/credentials/credential.ex:131
+#, elixir-autogen, elixir-format
+msgid "invalid_email_format"
+msgstr ""
+
+#: lib/notebook_server/schemas/schema_version.ex:68
+#, elixir-autogen, elixir-format, fuzzy
+msgid "invalid_json"
+msgstr "Rol inválido"
+
+#: lib/notebook_server/credentials/credential.ex:162
+#, elixir-autogen, elixir-format
+msgid "invalid_time_format"
+msgstr ""
+
+#: lib/notebook_server/credentials/credential.ex:173
+#, elixir-autogen, elixir-format
+msgid "invalid_uri_format_host"
+msgstr ""
+
+#: lib/notebook_server/credentials/credential.ex:172
+#, elixir-autogen, elixir-format
+msgid "invalid_uri_format_scheme"
+msgstr ""
+
+#: lib/notebook_server/credentials/credential.ex:213
+#, elixir-autogen, elixir-format
+msgid "must_be_a_multiple_of %{multiple_of}"
+msgstr ""
+
+#: lib/notebook_server_web/live/credential_live/index.html.heex:37
+#: lib/notebook_server_web/live/credential_live/index.html.heex:44
+#, elixir-autogen, elixir-format
+msgid "open_qr"
+msgstr ""
+
+#: lib/notebook_server/credentials/credential.ex:104
+#, elixir-autogen, elixir-format
+msgid "value_doesnt_match_boolean"
+msgstr ""
+
+#: lib/notebook_server/credentials/credential.ex:33
+#, elixir-autogen, elixir-format
+msgid "value_doesnt_match_constant"
+msgstr ""
+
+#: lib/notebook_server/credentials/credential.ex:91
+#, elixir-autogen, elixir-format
+msgid "value_doesnt_match_null"
+msgstr ""
+
+#: lib/notebook_server/credentials/credential.ex:46
+#, elixir-autogen, elixir-format
+msgid "value_doesnt_match_option"
+msgstr ""
+
+#: lib/notebook_server_web/live/credential_live/index.ex:44
+#, elixir-autogen, elixir-format, fuzzy
+msgid "credential_qr"
+msgstr "Código QR"
+
+#: lib/notebook_server_web/live/credential_live/qr.ex:18
+#, elixir-autogen, elixir-format
+msgid "qr_alt"
+msgstr "Código QR de la credencial"

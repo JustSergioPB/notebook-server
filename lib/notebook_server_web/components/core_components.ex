@@ -894,7 +894,7 @@ defmodule NotebookServerWeb.CoreComponents do
       "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs",
       @variant == :draft && "bg-amber-100 text-amber-700",
       @variant == :published && "bg-green-100 text-green-600",
-      @variant == :archived && "bg-slate-100 text-slate-200",
+      @variant == :archived && "bg-slate-100 text-slate-600",
       @class
     ]}>
       <div class={[

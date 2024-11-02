@@ -23,7 +23,13 @@
       <%= schema.description %>
     </:col>
     <:col :let={{_id, schema}} :if={@current_user.role == :admin} label={gettext("org_name")}>
-      <%= schema.org.name %>
+      <%= schema.org_name %>
+    </:col>
+    <:col :let={{_id, schema}} label={gettext("version")}>
+      <%= schema.version_number %>
+    </:col>
+    <:col :let={{_id, schema}} label={gettext("published_version")}>
+      <%= schema.published_version_number %>
     </:col>
     <:col :let={{_id, schema}} label={gettext("platform")}>
       <.platform_badge platform={schema.platform}>
@@ -33,6 +39,34 @@
     <:col :let={{_id, schema}} label={gettext("status")}>
       <.schema_status_badge variant={schema.status} />
     </:col>
+    <:action :let={{_id, schema}}>
+      <.tooltip text={gettext("publish")}>
+        <.button
+          size="icon"
+          variant="outline"
+          icon="radio-tower"
+          phx-value-id={schema.latest_version_id}
+          phx-click="publish"
+          disabled={!User.can_use_platform?(@current_user) || schema.status != :draft}
+        >
+          <%= gettext("publish") %>
+        </.button>
+      </.tooltip>
+    </:action>
+    <:action :let={{_id, schema}}>
+      <.tooltip text={gettext("archive")}>
+        <.button
+          size="icon"
+          variant="outline"
+          icon="archive"
+          phx-value-id={schema.latest_version_id}
+          phx-click="archive"
+          disabled={!User.can_use_platform?(@current_user) || schema.status != :published}
+        >
+          <%= gettext("archive") %>
+        </.button>
+      </.tooltip>
+    </:action>
     <:action :let={{_id, schema}}>
       <.link patch={~p"/schemas/#{schema.id}/edit"}>
         <.tooltip text={gettext("edit")}>
@@ -75,10 +109,10 @@
 >
   <.live_component
     module={NotebookServerWeb.SchemaLive.FormComponent}
-    id={@schema.id || :new}
+    id={@schema_version.id || :new}
     title={@page_title}
     action={@live_action}
-    schema={@schema}
+    schema_version={@schema_version}
     current_user={@current_user}
     patch={~p"/schemas"}
   />
