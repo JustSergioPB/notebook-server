@@ -1,8 +1,12 @@
 defmodule NotebookServerWeb.CredentialLive.Index do
+  alias NotebookServer.Accounts
   use NotebookServerWeb, :live_view
 
   alias NotebookServer.Credentials
   alias NotebookServer.Credentials.Credential
+  alias NotebookServer.Accounts
+  alias NotebookServer.Orgs
+  alias NotebookServer.Schemas
   alias NotebookServer.Accounts.User
   use Gettext, backend: NotebookServerWeb.Gettext
 
@@ -37,6 +41,19 @@ defmodule NotebookServerWeb.CredentialLive.Index do
 
   @impl true
   def handle_info({NotebookServerWeb.CredentialLive.FormComponent, {:saved, credential}}, socket) do
+    user = Accounts.get_user!(credential.issuer_id)
+    org = Orgs.get_org!(credential.org_id)
+    schema = Schemas.get_schema!(credential.schema_id)
+    schema_version = Schemas.get_schema_version!(credential.schema_version_id)
+
+    credential =
+      Map.merge(credential, %{
+        issuer: user,
+        org: org,
+        schema: schema,
+        schema_version: schema_version
+      })
+
     {:noreply, stream_insert(socket, :credentials, credential)}
   end
 

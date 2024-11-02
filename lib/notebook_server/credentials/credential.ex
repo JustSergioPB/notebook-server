@@ -17,12 +17,12 @@ defmodule NotebookServer.Credentials.Credential do
   end
 
   @doc false
-  def changeset(credential, attrs, schema) do
+  def changeset(credential, attrs, schema_version) do
     credential
-    |> cast(attrs, [:issuer_id, :schema_id, :schema_version_id, :org_id, :content])
-    |> validate_required([:issuer_id, :schema_id, :schema_version_id, :org_id, :content])
-    |> validate_content(:raw_content, schema.raw_content)
-    |> maybe_transform_content(:raw_content, schema)
+    |> cast(attrs, [:issuer_id, :schema_id, :schema_version_id, :org_id, :raw_content])
+    |> validate_required([:issuer_id, :schema_id, :schema_version_id, :org_id, :raw_content])
+    |> validate_content(:raw_content, schema_version.raw_content)
+    |> maybe_transform_content(:raw_content, schema_version)
   end
 
   defp validate_content(changeset, field, %{"const" => const}) do
@@ -68,6 +68,8 @@ defmodule NotebookServer.Credentials.Credential do
 
   defp validate_content(changeset, field, %{"type" => type} = schema)
        when type in ["integer", "number"] do
+    content = changeset |> get_change(field) |> cast_content(schema)
+
     minimum = schema |> Map.get("minimum")
     exclusive_minimum = schema |> Map.get("exclusiveMinimum")
     maximum = schema |> Map.get("maximum")
@@ -75,9 +77,10 @@ defmodule NotebookServer.Credentials.Credential do
     multipe_of = schema |> Map.get("multipleOf")
 
     changeset
+    |> put_change(field, content)
     |> maybe_validate_min(field, minimum, exclusive_minimum)
     |> maybe_validate_max(field, maximum, exclusive_maximum)
-    |> maybe_multiple_of(field, multipe_of)
+    |> maybe_multiple_of(field, multipe_of, schema)
   end
 
   defp validate_content(changeset, field, %{"type" => "null"}) do
@@ -91,8 +94,8 @@ defmodule NotebookServer.Credentials.Credential do
     changeset
   end
 
-  defp validate_content(changeset, field, %{"type" => "boolean"}) do
-    content = get_field(changeset, field)
+  defp validate_content(changeset, field, %{"type" => "boolean"} = schema) do
+    content = get_field(changeset, field) |> cast_content(schema)
 
     changeset =
       if is_boolean(content) do
@@ -196,10 +199,11 @@ defmodule NotebookServer.Credentials.Credential do
 
   defp maybe_validate_max(changeset, _, _, _), do: changeset
 
-  defp maybe_multiple_of(changeset, field, multiple_of)
+  defp maybe_multiple_of(changeset, field, multiple_of, schema)
        when is_integer(multiple_of) or is_number(multiple_of) do
-    content = get_change(changeset, field)
+    content = get_change(changeset, field) |> cast_content(schema)
 
+    # TODO add support for float numbers
     if rem(content, multiple_of) == 0 do
       changeset
     else
@@ -213,9 +217,9 @@ defmodule NotebookServer.Credentials.Credential do
     changeset
   end
 
-  defp maybe_multiple_of(changeset, _, _), do: changeset
+  defp maybe_multiple_of(changeset, _, _, _), do: changeset
 
-  defp maybe_transform_content(changeset, field, schema) do
+  defp maybe_transform_content(changeset, field, schema_version) do
     raw_content = changeset |> get_change(field)
     issuer_id = changeset |> get_change(:issuer_id)
     schema_id = changeset |> get_change(:schema_id)
@@ -224,15 +228,15 @@ defmodule NotebookServer.Credentials.Credential do
     credential_id = changeset |> get_change(:credential_id)
     domain_url = Application.get_env(:notebook_server, :url)
 
-    #TODO this should be calculated based on schema and not harcoded
+    # TODO this should be calculated based on schema and not harcoded
     content = %{
       "@context" => ["https://www.w3.org/ns/credentials/v2"],
-      "title" => schema.title,
+      "title" => schema_version.title,
       "type" => ["VerifiableCredential"],
       "issuer" => "#{domain_url}/#{org_id}/#{issuer_id}",
       "credentialSubject" => %{
         "id" => credential_id,
-        "content" => raw_content
+        "content" => cast_content(raw_content, schema_version.raw_content)
       },
       "credentialSchema" => %{
         "id" => "#{domain_url}/#{schema_id}/v#{schema_version_id}",
@@ -240,7 +244,7 @@ defmodule NotebookServer.Credentials.Credential do
       }
     }
 
-    description = schema |> Map.get("description")
+    description = schema_version |> Map.get("description")
 
     content =
       if is_binary(description), do: Map.put(content, "description", description), else: content
@@ -256,4 +260,39 @@ defmodule NotebookServer.Credentials.Credential do
 
     changeset
   end
+
+  defp cast_content(content, %{"type" => "boolean"}) do
+    converted =
+      cond do
+        content == "true" -> true
+        content == "false" -> false
+        true -> "invalid"
+      end
+
+    converted
+  end
+
+  defp cast_content(content, %{"type" => "integer"}) do
+    converted =
+      if is_binary(content) do
+        content |> String.to_integer()
+      else
+        0
+      end
+
+    converted
+  end
+
+  defp cast_content(content, %{"type" => "number"}) do
+    converted =
+      if is_binary(content) do
+        content |> String.to_float()
+      else
+        0.0
+      end
+
+    converted
+  end
+
+  defp cast_content(content, _), do: content
 end

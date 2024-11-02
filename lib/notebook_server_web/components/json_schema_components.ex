@@ -62,17 +62,29 @@ defmodule NotebookServerWeb.JsonSchemaComponents do
     """
   end
 
+  def json_schema_node(%{schema: %{"enum" => enum} = schema} = assigns) do
+    label = Map.get(schema, "title")
+    props = if is_binary(label), do: Map.new() |> Map.put(:label, label), else: Map.new()
+    props = props |> Map.put(:type, "select") |> Map.put(:options, enum)
+
+    assigns =
+      assigns
+      |> assign(:props, props)
+
+    ~H"""
+    <CoreComponents.input id={@field.id} field={@field} {@props} {@rest} phx-debounce="blur" />
+    """
+  end
+
   def json_schema_node(%{schema: %{"type" => type} = schema} = assigns)
       when type in ["string", "integer", "number", "boolean"] do
     label = Map.get(schema, "title")
     examples = schema |> Map.get("examples")
 
-    placeholder = if is_list(examples), do: examples |> Enum.at(0), else: ""
+    placeholder = if is_list(examples), do: examples |> Enum.at(0) |> to_string(), else: ""
 
     props = if is_binary(label), do: Map.new() |> Map.put(:label, label), else: Map.new()
-
-    props =
-      if is_binary(placeholder), do: props |> Map.put(:placeholder, placeholder), else: props
+    props = props |> Map.put(:placeholder, placeholder)
 
     props = Map.merge(props, get_props(schema))
 
@@ -81,12 +93,8 @@ defmodule NotebookServerWeb.JsonSchemaComponents do
       |> assign(:props, props)
 
     ~H"""
-    <CoreComponents.input id={@field.id} field={@field} {@props} {@rest} phx-debounce="blur"/>
+    <CoreComponents.input id={@field.id} field={@field} {@props} {@rest} phx-debounce="blur" />
     """
-  end
-
-  defp get_props(%{"enum" => enum}) do
-    Map.new() |> Map.put(:type, "select") |> Map.put(:options, enum)
   end
 
   defp get_props(%{"type" => "string"} = schema) do

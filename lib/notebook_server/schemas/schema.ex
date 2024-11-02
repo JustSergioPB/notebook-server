@@ -2,7 +2,6 @@ defmodule NotebookServer.Schemas.Schema do
   use Ecto.Schema
   import Ecto.Changeset
   use Gettext, backend: NotebookServerWeb.Gettext
-  alias NotebookServer.Schemas.SchemaVersion
 
   schema "schemas" do
     field :title, :string

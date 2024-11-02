@@ -25,7 +25,7 @@ defmodule NotebookServer.Credentials do
         do: from(c in Credential, where: c.org_id == ^org_id),
         else: from(c in Credential)
 
-    Repo.all(query) |> Repo.preload(:org) |> Repo.preload(:schema) |> Repo.preload(:user)
+    Repo.all(query) |> Repo.preload([:org, :schema, :schema_version, :issuer])
   end
 
   @doc """
@@ -56,7 +56,7 @@ defmodule NotebookServer.Credentials do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_credential(schema, attrs \\ %{}) do
+  def create_credential(attrs \\ %{}, schema) do
     %Credential{}
     |> Credential.changeset(attrs, schema)
     |> Repo.insert()
@@ -105,7 +105,7 @@ defmodule NotebookServer.Credentials do
       %Ecto.Changeset{data: %Credential{}}
 
   """
-  def change_credential(%Credential{} = credential, schema, attrs \\ %{}) do
-    Credential.changeset(credential, attrs, schema)
+  def change_credential(%Credential{} = credential, attrs \\ %{}, schema_version) do
+    Credential.changeset(credential, attrs, schema_version)
   end
 end

@@ -68,6 +68,7 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
             variant="outline"
             disabled={!User.can_use_platform?(@current_user)}
             type="button"
+            phx-target={@myself}
             phx-click="back"
           >
             <%= gettext("back") %>
@@ -86,15 +87,15 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
     {:ok,
      socket
      |> assign(assigns)
-     |> update_schema_options()
-     |> assign(:step, 0)
-     |> assign(:schema_version, nil)
+     |> assign_new(:step, fn -> 0 end)
+     |> assign_new(:schema_version, fn -> nil end)
      |> assign_new(:select_form, fn ->
        to_form(%{"schema_id" => ""})
      end)
      |> assign_new(:form, fn ->
        to_form(%{})
-     end)}
+     end)
+     |> update_schema_options()}
   end
 
   @impl true
@@ -103,34 +104,24 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
   end
 
   def handle_event("validate", %{"credential" => credential_params}, socket) do
-    credential_params =
-      credential_params
-      |> add_extra_params(socket)
+    extra_params = socket |> get_extra_params()
+    credential_params = Map.merge(credential_params, extra_params)
 
     changeset =
       Credentials.change_credential(
-        %Credential{},
-        socket.assigns.schema.raw_content,
-        credential_params
+        socket.assigns.credential,
+        credential_params,
+        socket.assigns.schema_version
       )
 
     {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
   end
 
-  def handle_event("back", _, socket) do
-    {:noreply, socket |> assign(:step, socket.assigns.step - 1)}
-  end
-
-  def handle_event("next", params, socket) do
-    {:noreply, socket |> handle_step(params)}
-  end
-
   def handle_event("save", %{"credential" => credential_params}, socket) do
-    credential_params =
-      credential_params
-      |> add_extra_params(socket)
+    extra_params = socket |> get_extra_params()
+    credential_params = Map.merge(credential_params, extra_params)
 
-    case Credentials.create_credential(credential_params) do
+    case Credentials.create_credential(credential_params, socket.assigns.schema_version) do
       {:ok, credential} ->
         notify_parent({:saved, credential})
 
@@ -142,6 +133,14 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}
     end
+  end
+
+  def handle_event("back", _, socket) do
+    {:noreply, socket |> assign(:step, socket.assigns.step - 1)}
+  end
+
+  def handle_event("next", params, socket) do
+    {:noreply, socket |> handle_step(params)}
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
@@ -192,14 +191,13 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
 
   defp handle_step(socket, _), do: socket
 
-  defp add_extra_params(credential_params, socket) do
-    credential_params
-    |> Map.merge(%{
-      "org_id" => socket.assigns.current_user.org_id,
-      "issuer_id" => socket.assigns.current_user.id,
-      "schema_id" => socket.assigns.schema_version.schema_id,
-      "schema_version_id" => socket.assigns.schema_version.id,
+  defp get_extra_params(socket) do
+    %{
+      "org_id" => socket.assigns.current_user |> Map.get(:org_id),
+      "issuer_id" => socket.assigns.current_user |> Map.get(:id),
+      "schema_id" => socket.assigns.schema_version |> Map.get(:schema_id),
+      "schema_version_id" => socket.assigns.schema_version |> Map.get(:id),
       "credential_id" => "TODO"
-    })
+    }
   end
 end
