@@ -9,7 +9,7 @@ defmodule NotebookServer.Orgs.Org do
     field :level, Ecto.Enum, values: [:root, :intermediate], default: :intermediate
     has_many :users, NotebookServer.Accounts.User
     has_many :user_certificates, NotebookServer.PKIs.UserCertificate
-    has_many :schemas, NotebookServer.Credentials.Schema
+    has_many :schemas, NotebookServer.Schemas.Schema
     has_many :issued_credentials, NotebookServer.Credentials.Credential
 
     timestamps(type: :utc_datetime)

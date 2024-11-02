@@ -22,7 +22,7 @@ defmodule NotebookServer.Accounts.User do
     field :role, Ecto.Enum, values: [:admin, :org_admin, :issuer], default: :issuer
     belongs_to :org, NotebookServer.Orgs.Org
     has_many :user_certificates, NotebookServer.PKIs.UserCertificate
-    has_many :schemas, NotebookServer.Credentials.Schema
+    has_many :schema_versions, NotebookServer.Schemas.SchemaVersion
     has_many :issued_credentials, NotebookServer.Credentials.Credential
 
     timestamps(type: :utc_datetime)

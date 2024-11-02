@@ -57,9 +57,28 @@ defmodule NotebookServer.Credentials do
 
   """
   def create_credential(attrs \\ %{}, schema) do
-    %Credential{}
-    |> Credential.changeset(attrs, schema)
-    |> Repo.insert()
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(:credential, Credential.changeset(%Credential{}, attrs, schema))
+    |> Ecto.Multi.run(:qr, fn _repo, %{credential: credential} ->
+      # TODO improve QRCode storing
+      File.mkdir_p!("./priv/static/qrs")
+
+      credential.content
+      |> Jason.encode!()
+      |> QRCode.create(:high)
+      |> QRCode.render()
+      |> QRCode.save("./priv/static/qrs/#{credential.id}-credential-qr.svg")
+      |> case do
+        {:ok, _} -> {:ok, nil}
+        {:error, _} -> {:error, nil}
+      end
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{credential: credential, qr: _}} -> {:ok, credential}
+      {:error, :credential, changeset, _} -> {:error, changeset}
+      {:error, :qr, _, _} -> {:error}
+    end
   end
 
   @doc """

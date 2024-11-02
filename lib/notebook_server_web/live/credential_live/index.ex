@@ -39,6 +39,12 @@ defmodule NotebookServerWeb.CredentialLive.Index do
     |> assign(:credential, nil)
   end
 
+  defp apply_action(socket, :qr, %{"id" => id}) do
+    socket
+    |> assign(:page_title, gettext("credential_qr"))
+    |> assign(:credential, Credentials.get_credential!(id))
+  end
+
   @impl true
   def handle_info({NotebookServerWeb.CredentialLive.FormComponent, {:saved, credential}}, socket) do
     user = Accounts.get_user!(credential.issuer_id)

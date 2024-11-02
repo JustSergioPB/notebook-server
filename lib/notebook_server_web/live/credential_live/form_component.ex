@@ -56,7 +56,7 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
         for={@form}
         phx-target={@myself}
         phx-change="validate"
-        phx-submit="save"
+        phx-submit="next"
       >
         <JsonSchemaComponents.json_schema_node
           :if={is_map(@schema_version)}
@@ -88,14 +88,14 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
      socket
      |> assign(assigns)
      |> assign_new(:step, fn -> 0 end)
-     |> assign_new(:schema_version, fn -> nil end)
+     |> update_schema_options()
      |> assign_new(:select_form, fn ->
        to_form(%{"schema_id" => ""})
      end)
+     |> assign_new(:schema_version, fn -> nil end)
      |> assign_new(:form, fn ->
        to_form(%{})
-     end)
-     |> update_schema_options()}
+     end)}
   end
 
   @impl true
@@ -117,7 +117,45 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
     {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
   end
 
-  def handle_event("save", %{"credential" => credential_params}, socket) do
+  def handle_event("back", _, socket) do
+    {:noreply, socket |> assign(:step, socket.assigns.step - 1)}
+  end
+
+  def handle_event("next", %{"schema_id" => schema_id}, socket) when schema_id != "" do
+    schema_version =
+      socket.assigns.schema_version_options
+      |> Enum.find(fn schema_version -> schema_version.id == String.to_integer(schema_id) end)
+
+    raw_content = schema_version |> Map.get(:raw_content)
+    raw_content_decoded = Jason.decode!(raw_content)
+    schema_version = schema_version |> Map.put(:raw_content, raw_content_decoded)
+
+    changeset = Credentials.change_credential(%Credential{}, schema_version)
+
+    socket =
+      socket
+      |> assign(:schema_version, schema_version)
+      |> assign(:form, to_form(changeset))
+      |> assign(:step, socket.assigns.step + 1)
+
+    {:noreply, socket}
+  end
+
+  def handle_event("next", %{"schema_id" => _}, socket) do
+    socket =
+      socket
+      |> assign(
+        :form,
+        to_form(%{"schema_id" => ""},
+          error: [schema_id: gettext("field_required")],
+          action: :validate
+        )
+      )
+
+    {:noreply, socket}
+  end
+
+  def handle_event("next", %{"credential" => credential_params}, socket) do
     extra_params = socket |> get_extra_params()
     credential_params = Map.merge(credential_params, extra_params)
 
@@ -127,20 +165,11 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, gettext("credential_created_successfully"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}
     end
-  end
-
-  def handle_event("back", _, socket) do
-    {:noreply, socket |> assign(:step, socket.assigns.step - 1)}
-  end
-
-  def handle_event("next", params, socket) do
-    {:noreply, socket |> handle_step(params)}
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
@@ -160,36 +189,6 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
 
     assign(socket, schema_version_options: options)
   end
-
-  defp handle_step(socket, %{"schema_id" => schema_id}) when schema_id != "" do
-    schema_version =
-      socket.assigns.schema_version_options
-      |> Enum.find(fn schema_version -> schema_version.id == String.to_integer(schema_id) end)
-
-    raw_content = schema_version |> Map.get(:raw_content)
-    raw_content_decoded = Jason.decode!(raw_content)
-    schema_version = schema_version |> Map.put(:raw_content, raw_content_decoded)
-
-    changeset = Credentials.change_credential(%Credential{}, schema_version)
-
-    socket
-    |> assign(:step, socket.assigns.step + 1)
-    |> assign(:schema_version, schema_version)
-    |> assign(:form, to_form(changeset))
-  end
-
-  defp handle_step(socket, %{"schema_id" => _}) do
-    socket
-    |> assign(
-      :form,
-      to_form(%{"schema_id" => ""},
-        error: [schema_id: gettext("field_required")],
-        action: :validate
-      )
-    )
-  end
-
-  defp handle_step(socket, _), do: socket
 
   defp get_extra_params(socket) do
     %{
