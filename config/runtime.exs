@@ -109,7 +109,8 @@ if config_env() == :prod do
     api_key: System.get_env("MAILGUN_API_KEY"),
     domain: System.get_env("MAILGUN_DOMAIN"),
     email: System.get_env("EMAIL"),
-    from: System.get_env("FROM")
+    from: System.get_env("FROM"),
+    base_url: "https://api.eu.mailgun.net/v3"
 
   #
   # For this example you need include a HTTP client required by Swoosh API client.
