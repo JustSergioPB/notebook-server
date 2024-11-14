@@ -225,10 +225,11 @@ defmodule NotebookServerWeb.CoreComponents do
       <.button phx-click="go" class="ml-2">Send!</.button>
   """
   attr :type, :string, default: nil
-  attr :variant, :string, default: "primary"
+  attr :variant, :string, default: "slate"
   attr :size, :string, default: "md"
   attr :class, :string, default: nil
   attr :icon, :string, default: nil
+  attr :icon_side, :string, default: "left", values: ["left", "right"]
   attr :rest, :global, include: ~w(disabled form name value)
 
   slot :inner_block, required: true
@@ -244,12 +245,15 @@ defmodule NotebookServerWeb.CoreComponents do
         @size == "md" && "py-2 px-3 gap-2",
         @size == "sm" && "py-1 px-2 gap-2",
         @size == "icon" && "p-2",
-        @variant == "primary" &&
+        @variant == "slate" &&
           "bg-slate-900 hover:bg-slate-700 text-white active:text-white/80 disabled:hover:bg-slate-900",
         @variant == "outline" &&
           "bg-transparent shadow-sm border border-slate-200 hover:bg-slate-100 disabled:hover:bg-transparent",
         @variant == "ghost" && "bg-transparent  hover:bg-slate-100 disabled:hover:bg-transparent",
         @variant == "danger" && "bg-red-500 text-white  hover:bg-red-400 disabled:hover:bg-red-500",
+        @variant == "link" &&
+          "bg-transparent hover:bg-slate-100 hover:underline disabled:hover:bg-transparent",
+        @icon_side == "right" && "flex-row-reverse",
         @class
       ]}
       {@rest}
@@ -453,7 +457,7 @@ defmodule NotebookServerWeb.CoreComponents do
   Renders a header with title.
   """
   attr :class, :string, default: nil
-
+  attr :variant, :atom, default: :primary, values: [:primary, :secondary]
   slot :inner_block, required: true
   slot :subtitle
   slot :actions
@@ -462,10 +466,14 @@ defmodule NotebookServerWeb.CoreComponents do
     ~H"""
     <header class={[@actions != [] && "flex items-center justify-between gap-4", @class]}>
       <div>
-        <h1 class="text-2xl font-semibold leading-8 text-slate-800">
+        <h1 class={[
+          "text-3xl font-semibold mb-1",
+          @variant == :primary && "text-slate-800",
+          @variant == :secondary && "text-slate-100"
+        ]}>
           <%= render_slot(@inner_block) %>
         </h1>
-        <p :if={@subtitle != []} class="text-sm leading-6 text-slate-600">
+        <p :if={@subtitle != []} class="text-slate-600">
           <%= render_slot(@subtitle) %>
         </p>
       </div>
@@ -491,12 +499,12 @@ defmodule NotebookServerWeb.CoreComponents do
     ]}>
       <div>
         <span class="flex items-center">
-          <Lucide.render :if={@icon} icon={@icon} class="h-5 w-5 mr-2" />
-          <h1 class="text-lg font-bold text-slate-800">
+          <Lucide.render :if={@icon} icon={@icon} class="h-6 w-6 mr-2" />
+          <h1 class="text-2xl font-bold text-slate-800">
             <%= render_slot(@inner_block) %>
           </h1>
         </span>
-        <p :if={@subtitle != []} class="text-sm leading-6 text-slate-600">
+        <p :if={@subtitle != []} class="text-slate-600 mt-1">
           <%= render_slot(@subtitle) %>
         </p>
       </div>
@@ -678,15 +686,14 @@ defmodule NotebookServerWeb.CoreComponents do
 
   def back(assigns) do
     ~H"""
-    <div class="mt-16">
-      <.link
-        navigate={@navigate}
-        class="text-sm font-semibold leading-6 text-slate-900 hover:text-slate-700"
-      >
-        <Lucide.arrow_left class="h-4 w-3" />
+    <.link
+      navigate={@navigate}
+      class="text-sm font-semibold leading-6 text-slate-900 hover:text-slate-700"
+    >
+      <.button variant="ghost" icon="arrow-left">
         <%= render_slot(@inner_block) %>
-      </.link>
-    </div>
+      </.button>
+    </.link>
     """
   end
 
@@ -784,7 +791,7 @@ defmodule NotebookServerWeb.CoreComponents do
           @active && "bg-slate-100"
         ]}
       >
-        <Lucide.render icon={@icon} class="h-5 w-5 group-hover" />
+        <Lucide.render icon={@icon} class="h-4 w-4 group-hover" />
         <%= @label %>
       </.link>
     </li>
@@ -832,7 +839,7 @@ defmodule NotebookServerWeb.CoreComponents do
     ]}>
       <div class={[
         "h-[6px] w-[6px] rounded-full",
-        @variant == :inactive && "bg-slate-200",
+        @variant == :inactive && "bg-slate-600",
         @variant == :active && "bg-green-600",
         @variant == :banned && "bg-red-600"
       ]}>
@@ -945,7 +952,7 @@ defmodule NotebookServerWeb.CoreComponents do
 
   attr :active_tab, :string, required: true
   attr :class, :string, default: nil
-  attr :tab_content_class, :string, default: nil
+  attr :variant, :string, default: "neutral", values: ["compact", "neutral", "public"]
 
   def tabs(assigns) do
     ~H"""
@@ -953,13 +960,18 @@ defmodule NotebookServerWeb.CoreComponents do
       "flex flex-col space-y-6 flex-1",
       @class
     ]}>
-      <div class="flex items-center gap-4 px-6">
+      <div class={[
+        "flex items-center gap-4 border-b border-slate-200",
+        @variant == "public" && "px-64",
+        @variant != "public" && "px-6"
+      ]}>
         <.link
           :for={{tab, _i} <- Enum.with_index(@tab)}
           patch={tab[:patch]}
           class={[
-            "px-3 py-2 text-sm rounded-lg",
-            @active_tab == tab[:id] && "bg-slate-100 font-semibold"
+            "px-3 py-2 text-sm",
+            @active_tab == tab[:id] && "font-semibold border-b-2 border-slate-900",
+            @active_tab != tab[:id] && "text-slate-500"
           ]}
         >
           <%= tab[:label] %>
@@ -970,7 +982,8 @@ defmodule NotebookServerWeb.CoreComponents do
         class={[
           "flex-1",
           (@active_tab == tab[:id] && "flex flex-col") || "hidden",
-          @tab_content_class
+          @variant == "neutral" && "p-6",
+          @variant == "public" && "px-64 py-6"
         ]}
       >
         <%= render_slot(tab) %>
@@ -1063,6 +1076,115 @@ defmodule NotebookServerWeb.CoreComponents do
       <Lucide.render icon={@icon} class="h-6 w-6" />
       <p class="w-[95%]"><%= @content %></p>
     </div>
+    """
+  end
+
+  attr :version, :integer, required: true
+
+  def version_badge(assigns) do
+    ~H"""
+    <div class="bg-white shadow-sm border border-slate-200 py-1 px-2 rounded-xl text-xs font-semibold inline-flex">
+      V<%= @version %>
+    </div>
+    """
+  end
+
+  attr :schema, :any, required: true
+
+  def schema_version_option(assigns) do
+    ~H"""
+    <div class="flex items-center gap-1">
+      <.version_badge version={@schema.version_number} />
+      <p class="font-bold"><%= @schema.text %></p>
+    </div>
+    <p><%= @schema.description %></p>
+    """
+  end
+
+  attr :label, :string, required: true
+  attr :version, :integer, required: true
+
+  def version_cell(assigns) do
+    ~H"""
+    <div class="flex items-center gap-1">
+      <.version_badge version={@version} />
+      <p class="text-sm font-semibold"><%= @label %></p>
+    </div>
+    """
+  end
+
+  attr :label, :integer, required: true
+
+  def badge(assigns) do
+    ~H"""
+    <div class="bg-white shadow-sm border border-slate-200 py-1 px-2 rounded-xl text-xs font-semibold inline-flex">
+      <%= @label %>
+    </div>
+    """
+  end
+
+  attr :id, :string, required: true
+  attr :checked, :boolean, required: true, doc: "The current state of the switch"
+  attr :disabled, :boolean, default: false, doc: "Whether the switch is disabled"
+  attr :size, :string, default: "md", values: ["sm", "md", "lg"], doc: "Size of the switch"
+  attr :label, :string, default: nil, doc: "Optional label for the switch"
+  attr :class, :string, default: "", doc: "Additional CSS classes"
+  attr :on_click, :string, required: true
+  attr :rest, :global, doc: "Additional HTML attributes"
+
+  def switch(assigns) do
+    ~H"""
+    <label class={["flex items-center justify-between", @class]}>
+      <p :if={@label} class="text-sm font-semibold"><%= @label %></p>
+      <div class="relative inline-flex cursor-pointer items-center gap-2">
+        <input
+          id="switch"
+          type="checkbox"
+          class="peer sr-only"
+          phx-click={@on_click}
+          phx-value-id={@id}
+          checked={@checked}
+        />
+        <label for="switch" class="hidden"></label>
+        <div class="peer h-6 w-11 rounded-full border bg-slate-200 after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-slate-800 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:ring-slate-300">
+        </div>
+      </div>
+    </label>
+    """
+  end
+
+  slot :step, required: true do
+    attr :label, :string, required: true
+    attr :step, :integer, required: true
+  end
+
+  attr :active_step, :integer, required: true
+  attr :class, :string, default: nil
+
+  def stepper(assigns) do
+    ~H"""
+    <section class={[
+      "flex flex-col space-y-6 flex-1",
+      @class
+    ]}>
+      <div class={[
+        "flex items-center gap-2"
+      ]}>
+        <div :for={{step, i} <- Enum.with_index(@step)} class="text-sm flex-1 space-y-2">
+          <p class={[@active_step == step[:step] && "font-semibold", @active_step != step[:step] && "text-slate-500"]}><%= "#{i + 1}. #{step[:label]}" %></p>
+          <div class={["rounded-md h-2", @active_step >= step[:step] && "bg-slate-900", @active_step < step[:step] && "bg-slate-200"]}></div>
+        </div>
+      </div>
+      <section
+        :for={step <- @step}
+        class={[
+          "flex-1 py-6",
+          (@active_step == step[:step] && "flex flex-col") || "hidden"
+        ]}
+      >
+        <%= render_slot(step) %>
+      </section>
+    </section>
     """
   end
 end

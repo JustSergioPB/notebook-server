@@ -14,6 +14,7 @@ defmodule NotebookServer.Schemas.SchemaVersion do
     field :status, Ecto.Enum, values: [:draft, :published, :archived], default: :draft
     field :content, :map
     field :version_number, :integer
+    field :public_id, :binary_id, default: Ecto.UUID.generate()
     belongs_to :user, NotebookServer.Accounts.User
     belongs_to :schema, NotebookServer.Schemas.Schema
 
@@ -162,6 +163,11 @@ defmodule NotebookServer.Schemas.SchemaVersion do
   def get_title(schema_version, schema) do
     title = schema |> Map.get(:title)
     schema_version |> Map.put(:title, title)
+  end
+
+  def get_credential_subject_content(schema_version) do
+    content = schema_version.content["properties"]["credentialSubject"]["properties"]["content"]
+    schema_version |> Map.put(:credential_subject_content, content)
   end
 
   def get_raw_content(schema_version) do

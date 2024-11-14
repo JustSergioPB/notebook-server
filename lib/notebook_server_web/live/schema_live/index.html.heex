@@ -17,7 +17,7 @@
     row_click={fn {_id, schema} -> JS.navigate(~p"/schemas/#{schema}") end}
   >
     <:col :let={{_id, schema}} label={gettext("title")}>
-      <p class="text-sm font-semibold"><%= schema.title %></p>
+      <.version_cell label={schema.title} version={schema.version_number} />
     </:col>
     <:col :let={{_id, schema}} label={gettext("description")}>
       <%= schema.description %>
@@ -25,11 +25,8 @@
     <:col :let={{_id, schema}} :if={@current_user.role == :admin} label={gettext("org_name")}>
       <%= schema.org_name %>
     </:col>
-    <:col :let={{_id, schema}} label={gettext("version")}>
-      <%= schema.version_number %>
-    </:col>
     <:col :let={{_id, schema}} label={gettext("published_version")}>
-      <%= schema.published_version_number %>
+      <.version_badge version={schema.published_version_number} />
     </:col>
     <:col :let={{_id, schema}} label={gettext("platform")}>
       <.platform_badge platform={schema.platform}>

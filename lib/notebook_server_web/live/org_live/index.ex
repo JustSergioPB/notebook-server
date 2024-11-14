@@ -1,5 +1,5 @@
 defmodule NotebookServerWeb.OrgLive.Index do
-  use NotebookServerWeb, :live_view
+  use NotebookServerWeb, :live_view_app
 
   alias NotebookServer.Orgs
   alias NotebookServer.Orgs.Org

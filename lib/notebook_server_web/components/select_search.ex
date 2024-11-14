@@ -29,9 +29,9 @@ defmodule NotebookServerWeb.Components.SelectSearch do
             value={if @selected, do: @selected.name, else: ""}
             placeholder={if is_binary(@placeholder), do: @placeholder, else: ""}
             class={[
-              "mt-2 block w-full rounded-lg text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6",
-              "phx-no-feedback:border-zinc-300 phx-no-feedback:focus:border-zinc-400",
-              @errors == [] && "border-zinc-300 focus:border-zinc-400",
+              "mt-2 block w-full rounded-lg text-slate-900 focus:ring-0 sm:text-sm sm:leading-6",
+              "phx-no-feedback:border-slate-300 phx-no-feedback:focus:border-slate-400",
+              @errors == [] && "border-slate-300 focus:border-slate-400",
               @errors != [] && "border-rose-400 focus:border-rose-400"
             ]}
           />
@@ -41,11 +41,11 @@ defmodule NotebookServerWeb.Components.SelectSearch do
         </div>
         <div
           id={@id <> "_select"}
-          class="absolute w-full top-[100%] border border-zinc-300 rounded shadow-md my-2 bg-white hidden"
+          class="absolute w-full top-[100%] border border-slate-300 rounded shadow-md my-2 bg-white hidden z-50"
         >
           <div class="relative max-h-[200px] overflow-y-auto">
             <%= if Enum.empty?(@options) do %>
-              <div class="p-2  h-64 flex items-center justify-center">
+              <div class="p-2 h-64 flex items-center justify-center">
                 <p class="text-sm font-bold flex items-center justify-center">
                   <%= gettext("no_results") %>
                 </p>

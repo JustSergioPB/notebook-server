@@ -5,9 +5,9 @@ defmodule NotebookServer.Schemas.Schema do
 
   schema "schemas" do
     field :title, :string
+    field :public_id, :binary_id, default: Ecto.UUID.generate()
     belongs_to :org, NotebookServer.Orgs.Org
     has_many :schema_versions, NotebookServer.Schemas.SchemaVersion
-    has_many :credentials, NotebookServer.Credentials.Credential
 
     timestamps(type: :utc_datetime)
   end

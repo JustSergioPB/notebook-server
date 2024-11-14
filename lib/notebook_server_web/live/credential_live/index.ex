@@ -1,36 +1,41 @@
 defmodule NotebookServerWeb.CredentialLive.Index do
-  alias NotebookServer.Accounts
-  use NotebookServerWeb, :live_view
-
   alias NotebookServer.Credentials
-  alias NotebookServer.Credentials.Credential
-  alias NotebookServer.Accounts
-  alias NotebookServer.Orgs
-  alias NotebookServer.Schemas
-  alias NotebookServer.Accounts.User
+  alias NotebookServer.Credentials.UserCredential
+  use NotebookServerWeb, :live_view_app
   use Gettext, backend: NotebookServerWeb.Gettext
 
   @impl true
   def mount(_params, _session, socket) do
     opts = org_filter(socket)
-    {:ok, stream(socket, :credentials, Credentials.list_credentials(opts))}
+
+    {:ok,
+     socket
+     |> stream(:user_credentials, Credentials.list_credentials(:user, opts))
+     |> stream(:org_credentials, Credentials.list_credentials(:org, opts))}
   end
 
   @impl true
   def handle_params(params, _url, socket) do
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+    tab = if params["tab"], do: "#{params["tab"]}-credentials", else: "user-credentials"
+
+    {:noreply,
+     socket
+     |> apply_action(socket.assigns.live_action, params)
+     |> assign(:active_tab, tab)}
   end
 
-  defp apply_action(socket, :edit, %{"id" => id}) do
+  defp apply_action(socket, :edit, %{"id" => id, "tab" => term}) do
+    atom = term |> String.to_atom()
+
     socket
     |> assign(:page_title, gettext("edit_credential"))
-    |> assign(:credential, Credentials.get_credential!(id))
+    |> assign(:credential, Credentials.get_credential!(atom, id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, gettext("new_credential"))
-    |> assign(:credential, %Credential{})
+    |> assign(:credential, %UserCredential{})
   end
 
   defp apply_action(socket, :index, _params) do
@@ -39,36 +44,27 @@ defmodule NotebookServerWeb.CredentialLive.Index do
     |> assign(:credential, nil)
   end
 
-  defp apply_action(socket, :qr, %{"id" => id}) do
+  defp apply_action(socket, :qr, %{"id" => id, "tab" => term}) do
+    atom = term |> String.to_atom()
+
     socket
     |> assign(:page_title, gettext("credential_qr"))
-    |> assign(:credential, Credentials.get_credential!(id))
+    |> assign(:credential, Credentials.get_credential!(atom, id))
   end
 
   @impl true
   def handle_info({NotebookServerWeb.CredentialLive.FormComponent, {:saved, credential}}, socket) do
-    user = Accounts.get_user!(credential.issuer_id)
-    org = Orgs.get_org!(credential.org_id)
-    schema = Schemas.get_schema!(credential.schema_id)
-    schema_version = Schemas.get_schema_version!(credential.schema_version_id)
-
-    credential =
-      Map.merge(credential, %{
-        issuer: user,
-        org: org,
-        schema: schema,
-        schema_version: schema_version
-      })
-
-    {:noreply, stream_insert(socket, :credentials, credential)}
+    credential = Credentials.get_credential!(:user, credential.id)
+    {:noreply, stream_insert(socket, :user_credentials, credential)}
   end
 
   @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    credential = Credentials.get_credential!(id)
-    {:ok, _} = Credentials.delete_credential(credential)
+  def handle_event("delete", %{"id" => id, "term" => term}, socket) do
+    atom = term |> String.to_atom()
+    credential = Credentials.get_credential!(atom, id)
+    {:ok, _} = Credentials.delete_credential(atom, credential)
 
-    {:noreply, stream_delete(socket, :credentials, credential)}
+    {:noreply, stream_delete(socket, :user_credentials, credential)}
   end
 
   defp org_filter(socket) do

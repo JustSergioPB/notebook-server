@@ -1,5 +1,5 @@
 defmodule NotebookServerWeb.CredentialLive.Show do
-  use NotebookServerWeb, :live_view
+  use NotebookServerWeb, :live_view_app
 
   alias NotebookServer.Credentials
   use Gettext, backend: NotebookServerWeb.Gettext
@@ -14,7 +14,7 @@ defmodule NotebookServerWeb.CredentialLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:credential, Credentials.get_credential!(id))}
+     |> assign(:credential, Credentials.get_credential!(:user, id))}
   end
 
   defp page_title(:show), do: gettext("show_credential")

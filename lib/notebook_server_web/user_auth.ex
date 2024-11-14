@@ -133,7 +133,7 @@ defmodule NotebookServerWeb.UserAuth do
   the current_user:
 
       defmodule NotebookServerWeb.PageLive do
-        use NotebookServerWeb, :live_view
+        use NotebookServerWeb, :live_view_app
 
         on_mount {NotebookServerWeb.UserAuth, :mount_current_user}
         ...
@@ -220,7 +220,19 @@ defmodule NotebookServerWeb.UserAuth do
       conn
       |> put_flash(:error, gettext("admin_required"))
       |> maybe_store_return_to()
-      |> redirect(to: ~p"/login")
+      |> redirect(to: ~p"/dashboard")
+      |> halt()
+    end
+  end
+
+  def require_org_admin_user(conn, _opts) do
+    if conn.assigns[:current_user] && conn.assigns[:current_user].role in [:org_admin, :admin] do
+      conn
+    else
+      conn
+      |> put_flash(:error, gettext("admin_required"))
+      |> maybe_store_return_to()
+      |> redirect(to: ~p"/dashboard")
       |> halt()
     end
   end

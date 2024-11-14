@@ -49,7 +49,17 @@ defmodule NotebookServerWeb do
     end
   end
 
-  def live_view do
+  def live_view_blank do
+    quote do
+      use Phoenix.LiveView,
+        layout: {NotebookServerWeb.Layouts, :blank}
+
+      on_mount NotebookServerWeb.I18n
+      unquote(html_helpers())
+    end
+  end
+
+  def live_view_app do
     quote do
       use Phoenix.LiveView,
         layout: {NotebookServerWeb.Layouts, :app}

@@ -1,5 +1,5 @@
 defmodule NotebookServerWeb.SchemaLive.Show do
-  use NotebookServerWeb, :live_view
+  use NotebookServerWeb, :live_view_app
 
   alias NotebookServer.Schemas
   use Gettext, backend: NotebookServerWeb.Gettext

@@ -6,7 +6,7 @@ defmodule NotebookServerWeb.Layouts do
   The "root" layout is a skeleton rendered as part of the
   application router. The "app" layout is set as the default
   layout on both `use NotebookServerWeb, :controller` and
-  `use NotebookServerWeb, :live_view`.
+  `use NotebookServerWeb, :live_view_app`.
   """
   use NotebookServerWeb, :html
   use Gettext, backend: NotebookServerWeb.Gettext

@@ -1,0 +1,57 @@
+<.page_header icon="cable">
+  <%= gettext("bridges") %>
+  <:actions>
+    <.link patch={~p"/bridges/new"}>
+      <.button icon="plus_circle" disabled={!User.can_use_platform?(@current_user)}>
+        <%= gettext("bridge") %>
+      </.button>
+    </.link>
+  </:actions>
+</.page_header>
+
+<.page_content>
+  <.table
+    id="bridges"
+    class="flex-1"
+    rows={@streams.bridges}
+    row_click={fn {_id, bridge} -> JS.navigate(~p"/bridges/#{bridge}") end}
+  >
+    <:col :let={{_id, bridge}} label={gettext("tag")}>
+      <.badge label={bridge.tag} />
+    </:col>
+    <:action :let={{id, bridge}}>
+      <.tooltip text={gettext("delete")}>
+        <.button
+          size="icon"
+          variant="outline"
+          icon="trash"
+          phx-click={JS.push("delete", value: %{id: bridge.id}) |> hide("##{id}")}
+          data-confirm={gettext("are_you_sure")}
+          disabled={!User.can_use_platform?(@current_user)}
+        >
+          <%= gettext("delete") %>
+        </.button>
+      </.tooltip>
+    </:action>
+  </.table>
+  <div class="p-6 border-t border-slate-200">
+    <.pagination page={1} total_pages={1} disabled={!User.can_use_platform?(@current_user)} />
+  </div>
+</.page_content>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="bridge-modal"
+  show
+  on_cancel={JS.patch(~p"/bridges")}
+>
+  <.live_component
+    module={NotebookServerWeb.BridgeLive.FormComponent}
+    id={@bridge.id || :new}
+    title={@page_title}
+    action={@live_action}
+    bridge={@bridge}
+    current_user={@current_user}
+    patch={~p"/bridges"}
+  />
+</.modal>

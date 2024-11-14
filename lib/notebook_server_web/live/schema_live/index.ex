@@ -1,6 +1,6 @@
 defmodule NotebookServerWeb.SchemaLive.Index do
   alias NotebookServer.Schemas.SchemaVersion
-  use NotebookServerWeb, :live_view
+  use NotebookServerWeb, :live_view_app
 
   alias NotebookServer.Schemas
   alias NotebookServer.Schemas.Schema

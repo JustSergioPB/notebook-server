@@ -1,0 +1,41 @@
+<.page_header icon="brick-wall">
+  <%= gettext("wall") %>
+  <:subtitle>
+    <%= gettext("your_wall") %>
+  </:subtitle>
+</.page_header>
+<.page_content>
+  <.link
+    href={@url}
+    class="flex items-center gap-1 text-sm p-2 border border-slate py-1 px-2 self-start m-6 mt-0 rounded-lg shadow-sm"
+  >
+    <Lucide.link_2 class="h-4 w-4" />
+    <%= @url %>
+  </.link>
+  <.tabs active_tab={@active_tab}>
+    <:tab
+      label={gettext("evidence_bridges")}
+      id="evidence_bridges"
+      patch={~p"/wall/show?tab=evidence_bridges"}
+    >
+      <h2 class="text-lg font-semibold"><%= gettext("evidence_bridges") %></h2>
+      <p class="text-slate-600 mb-6"><%= gettext("configure_bridge_credentials") %></p>
+      <div class="grid grid-cols-4 gap-6">
+        <div
+          :for={{_, evidence_bridge} <- @streams.evidence_bridges}
+          class="border border-slate-200 p-4 rounded-lg space-y-6 h-32 mx-h-32"
+        >
+          <div class="flex items-center justify-between">
+            <h3 class="font-semibold text-base">
+              <%= evidence_bridge.published_version.title %>
+            </h3>
+            <.switch id={evidence_bridge.id} checked={evidence_bridge.active} on_click="toggle" />
+          </div>
+          <p class="text-sm text-slate-600">
+            <%= evidence_bridge.published_version.description %>
+          </p>
+        </div>
+      </div>
+    </:tab>
+  </.tabs>
+</.page_content>

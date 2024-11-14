@@ -20,10 +20,11 @@ defmodule NotebookServer.Accounts.User do
     field :language, Ecto.Enum, values: [:en, :es], default: :es
     field :confirmed_at, :utc_datetime
     field :role, Ecto.Enum, values: [:admin, :org_admin, :issuer], default: :issuer
+    field :public_id, :binary_id, default: Ecto.UUID.generate()
     belongs_to :org, NotebookServer.Orgs.Org
     has_many :user_certificates, NotebookServer.PKIs.UserCertificate
     has_many :schema_versions, NotebookServer.Schemas.SchemaVersion
-    has_many :issued_credentials, NotebookServer.Credentials.Credential
+    has_many :credentials, NotebookServer.Credentials.UserCrendential
 
     timestamps(type: :utc_datetime)
   end

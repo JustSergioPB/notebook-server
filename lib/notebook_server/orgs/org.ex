@@ -7,10 +7,14 @@ defmodule NotebookServer.Orgs.Org do
     field :name, :string
     field :status, Ecto.Enum, values: [:active, :inactive, :banned], default: :active
     field :level, Ecto.Enum, values: [:root, :intermediate], default: :intermediate
+    field :public_id, :binary_id, default: Ecto.UUID.generate()
     has_many :users, NotebookServer.Accounts.User
     has_many :user_certificates, NotebookServer.PKIs.UserCertificate
     has_many :schemas, NotebookServer.Schemas.Schema
-    has_many :issued_credentials, NotebookServer.Credentials.Credential
+    has_many :credentials, NotebookServer.Credentials.OrgCredential
+    has_many :user_credentials, NotebookServer.Credentials.UserCredential
+    has_many :evidence_bridges, NotebookServer.Bridges.EvidenceBridge
+    has_many :email_evidence_bridges, NotebookServer.Bridges.EmailEvidenceBridge
 
     timestamps(type: :utc_datetime)
   end

@@ -71,7 +71,7 @@ defmodule NotebookServerWeb.Router do
         {NotebookServerWeb.UserAuth, :ensure_authenticated}
       ] do
       live "/settings", UserSettingsLive, :edit
-      live "/dashboard", DashboardLive
+      live "/dashboard", DashboardLive.Show
 
       scope "/orgs" do
         pipe_through :require_admin_user
@@ -81,14 +81,6 @@ defmodule NotebookServerWeb.Router do
         live "/:id/edit", OrgLive.Index, :edit
         live "/:id", OrgLive.Show, :show
         live "/:id/show/edit", OrgLive.Show, :edit
-      end
-
-      scope "/users" do
-        live "/", UserLive.Index, :index
-        live "/new", UserLive.Index, :new
-        live "/:id/edit", UserLive.Index, :edit
-        live "/:id", UserLive.Show, :show
-        live "/:id/show/edit", UserLive.Show, :edit
       end
 
       scope "/certificates" do
@@ -101,12 +93,43 @@ defmodule NotebookServerWeb.Router do
         live "/:id/show/edit", CertificateLive.Show, :edit
       end
 
+      scope "/bridges" do
+        pipe_through :require_admin_user
+        live "/", BridgeLive.Index, :index
+        live "/new", BridgeLive.Index, :new
+        live "/:id/edit", BridgeLive.Index, :edit
+        live "/:id", BridgeLive.Show, :show
+        live "/:id/show/edit", BridgeLive.Show, :edit
+      end
+
+      scope "/users" do
+        pipe_through :require_org_admin_user
+        live "/", UserLive.Index, :index
+        live "/new", UserLive.Index, :new
+        live "/:id/edit", UserLive.Index, :edit
+        live "/:id", UserLive.Show, :show
+        live "/:id/show/edit", UserLive.Show, :edit
+      end
+
       scope "/schemas" do
+        pipe_through :require_org_admin_user
         live "/", SchemaLive.Index, :index
         live "/new", SchemaLive.Index, :new
         live "/:id/edit", SchemaLive.Index, :edit
         live "/:id", SchemaLive.Show, :show
         live "/:id/show/edit", SchemaLive.Show, :edit
+      end
+
+      scope "/evidence-bridges" do
+        pipe_through :require_org_admin_user
+        live "/", EvidenceBridgeLive.Index, :index
+        live "/new", EvidenceBridgeLive.Index, :new
+        live "/:id/edit", EvidenceBridgeLive.Index, :edit
+      end
+
+      scope "/wall" do
+        pipe_through :require_org_admin_user
+        live "/show", WallLive.Show, :show
       end
 
       scope "/credentials" do
@@ -122,6 +145,11 @@ defmodule NotebookServerWeb.Router do
     pipe_through [:browser]
 
     delete "/logout", UserSessionController, :delete
+
+    scope "/:id/wall" do
+      live "/", WallLive.Public, :show
+      live "/evidence-bridges/email/:public_id", EmailEvidenceBridgeLive.FormComponent, :show
+    end
 
     live_session :current_user,
       on_mount: [{NotebookServerWeb.UserAuth, :mount_current_user}] do

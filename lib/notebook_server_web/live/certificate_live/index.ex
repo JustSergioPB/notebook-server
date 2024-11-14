@@ -1,5 +1,5 @@
 defmodule NotebookServerWeb.CertificateLive.Index do
-  use NotebookServerWeb, :live_view
+  use NotebookServerWeb, :live_view_app
 
   alias NotebookServer.PKIs
   alias NotebookServer.Accounts.User

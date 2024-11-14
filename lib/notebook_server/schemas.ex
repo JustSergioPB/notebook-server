@@ -204,44 +204,34 @@ defmodule NotebookServer.Schemas do
   def list_schema_versions(opts \\ []) do
     org_id = opts |> Keyword.get(:org_id)
     title = opts |> Keyword.get(:title)
+    status = opts |> Keyword.get(:status)
 
     query =
-      if !is_nil(org_id),
-        do: from(s in Schema, where: s.org_id == ^org_id),
-        else: from(s in Schema)
+      if is_atom(status),
+        do: from(sv in SchemaVersion, where: sv.status == ^status),
+        else: from(sv in SchemaVersion)
 
     query =
       if is_binary(title),
-        do: from(s in query, where: ilike(s.title, ^"%#{title}%")),
+        do:
+          from(sv in query,
+            left_join: s in Schema,
+            on: sv.schema_id == s.id,
+            where: ilike(s.title, ^"%#{title}%")
+          ),
         else: query
 
-    Repo.all(query)
-    |> Repo.preload([
-      :org,
-      :schema_versions
-    ])
-    |> Enum.map(fn schema -> schema |> flatten_schema_version(opts) end)
-    |> Enum.filter(fn schema_version -> is_map(schema_version) end)
-  end
+    query =
+      if is_integer(org_id),
+        do:
+          from(sv in query,
+            left_join: s in Schema,
+            on: sv.schema_id == s.id,
+            where: s.org_id == ^org_id
+          ),
+        else: query
 
-  defp flatten_schema_version(schema, opts) do
-    status = opts |> Keyword.get(:status)
-    versions = schema |> Map.get(:schema_versions)
-
-    versions =
-      versions
-      |> Enum.map(fn version ->
-        version |> SchemaVersion.get_title(schema) |> SchemaVersion.get_raw_content()
-      end)
-
-    versions =
-      if is_atom(status) do
-        versions |> Enum.filter(fn version -> version.status == status end)
-      else
-        versions
-      end
-
-    versions |> Enum.at(0)
+    Repo.all(query) |> Repo.preload(:schema)
   end
 
   defp insert_or_update_schema_version(multi, schema_version, attrs) do

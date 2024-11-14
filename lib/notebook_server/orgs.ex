@@ -122,4 +122,7 @@ defmodule NotebookServer.Orgs do
     |> Org.ban_changeset()
     |> Repo.update()
   end
+
+  def get_org_by_public_id!(public_id),
+    do: Repo.get_by!(Org, public_id: public_id)
 end

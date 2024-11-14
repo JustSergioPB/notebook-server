@@ -1,5 +1,5 @@
 defmodule NotebookServerWeb.UserLive.Index do
-  use NotebookServerWeb, :live_view
+  use NotebookServerWeb, :live_view_app
 
   alias NotebookServer.Accounts
   alias NotebookServer.Accounts.User

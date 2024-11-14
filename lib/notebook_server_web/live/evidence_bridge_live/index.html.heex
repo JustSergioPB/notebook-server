@@ -1,0 +1,79 @@
+<.page_header icon="arrow-right-left">
+  <%= gettext("evidence_bridges") %>
+  <:actions>
+    <.link patch={~p"/evidence-bridges/new"}>
+      <.button icon="plus_circle" disabled={!User.can_use_platform?(@current_user)}>
+        <%= gettext("evidence_bridge") %>
+      </.button>
+    </.link>
+  </:actions>
+</.page_header>
+
+<.page_content>
+  <.table id="evidence_bridges" class="flex-1" rows={@streams.evidence_bridges}>
+    <:col :let={{_id, evidence_bridge}} label={gettext("schema")}>
+      <p class="text-sm font-semibold"><%= evidence_bridge.schema.title %></p>
+    </:col>
+    <:col :let={{_id, evidence_bridge}} label={gettext("bridge")}>
+      <.badge label={evidence_bridge.bridge.tag} />
+    </:col>
+    <:col
+      :let={{_id, evidence_bridge}}
+      :if={@current_user.role == :admin}
+      label={gettext("org_name")}
+    >
+      <%= evidence_bridge.org.name %>
+    </:col>
+    <:col :let={{_id, evidence_bridge}} label={gettext("status")}>
+      <.status_badge variant={if evidence_bridge.active, do: :active, else: :inactive} />
+    </:col>
+    <:action :let={{_id, bridge}}>
+      <.tooltip text={if bridge.active, do: gettext("deactivate"), else: gettext("activate")}>
+        <.button
+          size="icon"
+          variant="outline"
+          icon={if bridge.active, do: "play", else: "pause"}
+          phx-value-id={bridge.id}
+          phx-click="toggle"
+          disabled={!User.can_use_platform?(@current_user)}
+        >
+          <%= if bridge.active, do: gettext("deactivate"), else: gettext("activate") %>
+        </.button>
+      </.tooltip>
+    </:action>
+    <:action :let={{id, evidence_bridge}}>
+      <.tooltip text={gettext("delete")}>
+        <.button
+          size="icon"
+          variant="outline"
+          icon="trash"
+          phx-click={JS.push("delete", value: %{id: evidence_bridge.id}) |> hide("##{id}")}
+          data-confirm={gettext("are_you_sure")}
+          disabled={!User.can_use_platform?(@current_user)}
+        >
+          <%= gettext("delete") %>
+        </.button>
+      </.tooltip>
+    </:action>
+  </.table>
+  <div class="p-6 border-t border-slate-200">
+    <.pagination page={1} total_pages={1} disabled={!User.can_use_platform?(@current_user)} />
+  </div>
+</.page_content>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="evidence-bridge-modal"
+  show
+  on_cancel={JS.patch(~p"/evidence-bridges")}
+>
+  <.live_component
+    module={NotebookServerWeb.EvidenceBridgeLive.FormComponent}
+    id={@evidence_bridge.id || :new}
+    title={@page_title}
+    action={@live_action}
+    evidence_bridge={@evidence_bridge}
+    current_user={@current_user}
+    patch={~p"/evidence-bridges"}
+  />
+</.modal>

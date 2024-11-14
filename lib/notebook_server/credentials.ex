@@ -4,9 +4,11 @@ defmodule NotebookServer.Credentials do
   """
 
   import Ecto.Query, warn: false
+  use Gettext, backend: NotebookServerWeb.Gettext
   alias NotebookServer.Repo
-
   alias NotebookServer.Credentials.Credential
+  alias NotebookServer.Credentials.UserCredential
+  alias NotebookServer.Credentials.OrgCredential
 
   @doc """
   Returns the list of credentials.
@@ -17,15 +19,28 @@ defmodule NotebookServer.Credentials do
       [%Credential{}, ...]
 
   """
-  def list_credentials(opts \\ []) do
+  def list_credentials(term, opts \\ [])
+
+  def list_credentials(:user, opts) do
     org_id = Keyword.get(opts, :org_id)
 
     query =
       if !is_nil(org_id),
-        do: from(c in Credential, where: c.org_id == ^org_id),
-        else: from(c in Credential)
+        do: from(u in UserCredential, where: u.org_id == ^org_id),
+        else: from(u in UserCredential)
 
-    Repo.all(query) |> Repo.preload([:org, :schema, :schema_version, :issuer])
+    Repo.all(query) |> Repo.preload([:user, :org, credential: [schema_version: [:schema]]])
+  end
+
+  def list_credentials(:org, opts) do
+    org_id = Keyword.get(opts, :org_id)
+
+    query =
+      if !is_nil(org_id),
+        do: from(o in OrgCredential, where: o.org_id == ^org_id),
+        else: from(o in OrgCredential)
+
+    Repo.all(query) |> Repo.preload([:org, credential: [schema_version: [:schema]]])
   end
 
   @doc """
@@ -42,7 +57,15 @@ defmodule NotebookServer.Credentials do
       ** (Ecto.NoResultsError)
 
   """
-  def get_credential!(id), do: Repo.get!(Credential, id)
+  def get_credential!(:user, id),
+    do:
+      Repo.get!(UserCredential, id)
+      |> Repo.preload([:user, :org, credential: [schema_version: [:schema]]])
+
+  def get_credential!(:org, id),
+    do:
+      Repo.get!(OrgCredential, id)
+      |> Repo.preload([:org, credential: [schema_version: [:schema]]])
 
   @doc """
   Creates a credential.
@@ -56,28 +79,54 @@ defmodule NotebookServer.Credentials do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_credential(attrs \\ %{}, schema) do
-    Ecto.Multi.new()
-    |> Ecto.Multi.insert(:credential, Credential.changeset(%Credential{}, attrs, schema))
-    |> Ecto.Multi.run(:qr, fn _repo, %{credential: credential} ->
-      # TODO improve QRCode storing
-      File.mkdir_p!("./priv/static/qrs")
+  def create_credential(term, attrs \\ %{})
 
-      credential.content
-      |> Jason.encode!()
-      |> QRCode.create(:high)
-      |> QRCode.render()
-      |> QRCode.save("./priv/static/qrs/#{credential.id}-credential-qr.svg")
-      |> case do
-        {:ok, _} -> {:ok, nil}
-        {:error, _} -> {:error, nil}
-      end
+  def create_credential(:user, attrs) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(
+      :create_user_credential,
+      UserCredential.changeset(%UserCredential{}, attrs)
+    )
+    # |> Ecto.Multi.run(:create_qr, fn _repo, %{create_user_credential: user_credential} ->
+    #  generate_qr(user_credential.credential)
+    # end)
+    |> Repo.transaction()
+    |> case do
+      {:ok,
+       %{
+         # create_qr: _,
+         create_user_credential: user_credential
+       }} ->
+        {:ok, user_credential, gettext("credential_creation_succeded")}
+
+      {:error, :create_user_credential, _, _} ->
+        {:error, gettext("credential_creation_failed")}
+
+      {:error, :create_qr, _, _} ->
+        {:error, gettext("QR_creation_failed")}
+    end
+  end
+
+  def create_credential(:org, attrs) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(:create_org_credential, OrgCredential.changeset(%OrgCredential{}, attrs))
+    |> Ecto.Multi.run(:create_qr, fn _repo, %{create_org_credential: org_credential} ->
+      generate_qr(org_credential.credential)
     end)
     |> Repo.transaction()
     |> case do
-      {:ok, %{credential: credential, qr: _}} -> {:ok, credential}
-      {:error, :credential, changeset, _} -> {:error, changeset}
-      {:error, :qr, _, _} -> {:error}
+      {:ok,
+       %{
+         create_org_credential: org_credential
+         # create_qr: _
+       }} ->
+        {:ok, org_credential.credential, gettext("credential_creation_succeded")}
+
+      {:error, :create_org_credential, _, _} ->
+        {:error, gettext("org_credential_creation_failed")}
+
+      {:error, :create_qr, _, _} ->
+        {:error, gettext("QR_creation_failed")}
     end
   end
 
@@ -93,9 +142,9 @@ defmodule NotebookServer.Credentials do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_credential(%Credential{} = credential, attrs, schema) do
+  def update_credential(%Credential{} = credential, attrs) do
     credential
-    |> Credential.changeset(attrs, schema)
+    |> Credential.changeset(attrs)
     |> Repo.update()
   end
 
@@ -111,8 +160,28 @@ defmodule NotebookServer.Credentials do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_credential(%Credential{} = credential) do
-    Repo.delete(credential)
+  def delete_credential(:user, %UserCredential{} = user_credential) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.delete(:delete_user_credential, user_credential)
+    |> Ecto.Multi.delete(:delete_credential, user_credential.credential)
+    |> Repo.transaction()
+    |> case do
+      {:ok, _} -> {:ok, gettext("user_credential_deletion_succeed")}
+      {:error, :delete_user_credential} -> {:error, gettext("user_credential_deletion_failed")}
+      {:error, :delete_credential} -> {:error, gettext("credential_deletion_succeed")}
+    end
+  end
+
+  def delete_credential(:org, %OrgCredential{} = org_credential) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.delete(:delete_org_credential, org_credential)
+    |> Ecto.Multi.delete(:delete_credential, org_credential.credential)
+    |> Repo.transaction()
+    |> case do
+      {:ok, _} -> {:ok, gettext("org_credential_deletion_succeed")}
+      {:error, :delete_user_credential} -> {:error, gettext("org_credential_deletion_failed")}
+      {:error, :delete_credential} -> {:error, gettext("credential_deletion_succeed")}
+    end
   end
 
   @doc """
@@ -124,7 +193,26 @@ defmodule NotebookServer.Credentials do
       %Ecto.Changeset{data: %Credential{}}
 
   """
-  def change_credential(%Credential{} = credential, attrs \\ %{}, schema_version) do
-    Credential.changeset(credential, attrs, schema_version)
+
+  def change_credential(term, credential, attrs \\ %{})
+
+  def change_credential(:user, user_credential, attrs) do
+    user_credential
+    |> UserCredential.changeset(attrs)
+  end
+
+  def change_credential(:org, org_credential, attrs) do
+    org_credential
+    |> OrgCredential.changeset(attrs)
+  end
+
+  defp generate_qr(credential) do
+    File.mkdir_p!("./priv/static/qrs")
+
+    credential.content
+    |> Jason.encode!()
+    |> QRCode.create(:high)
+    |> QRCode.render()
+    |> QRCode.save("./priv/static/qrs/#{credential.public_id}-qr.svg")
   end
 end
