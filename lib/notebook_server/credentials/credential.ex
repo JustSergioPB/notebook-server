@@ -4,8 +4,8 @@ defmodule NotebookServer.Credentials.Credential do
   use Gettext, backend: NotebookServerWeb.Gettext
 
   schema "credentials" do
+    field :public_id, :binary_id
     embeds_one :content, NotebookServer.Credentials.VerifiableCredential
-    field :public_id, :binary_id, default: Ecto.UUID.generate()
     belongs_to :schema_version, NotebookServer.Schemas.SchemaVersion
     has_one :user_credential, NotebookServer.Credentials.UserCredential
     has_one :org_credential, NotebookServer.Credentials.OrgCredential

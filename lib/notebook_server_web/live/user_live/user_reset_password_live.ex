@@ -6,7 +6,7 @@ defmodule NotebookServerWeb.UserResetPasswordLive do
 
   def render(assigns) do
     ~H"""
-    <div class="w-1/2">
+    <div class="p-6 space-y-12 lg:w-1/2 lg:p-0">
       <.header class="mb-12">
         <%= gettext("reset_password_title") %>
         <:subtitle>

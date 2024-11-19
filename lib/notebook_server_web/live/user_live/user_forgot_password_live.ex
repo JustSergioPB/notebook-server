@@ -6,7 +6,7 @@ defmodule NotebookServerWeb.UserForgotPasswordLive do
 
   def render(assigns) do
     ~H"""
-    <div class="w-1/2">
+    <div class="p-6 lg:w-1/2 lg:p-0">
       <.header class="mb-12">
         <%= gettext("forgot_password_title") %>
         <:subtitle><%= gettext("forgot_password_subtitle") %></:subtitle>

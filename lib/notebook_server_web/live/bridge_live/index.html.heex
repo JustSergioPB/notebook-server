@@ -17,7 +17,9 @@
     row_click={fn {_id, bridge} -> JS.navigate(~p"/bridges/#{bridge}") end}
   >
     <:col :let={{_id, bridge}} label={gettext("tag")}>
-      <.badge label={bridge.tag} />
+      <.badge>
+        <:label><%= bridge.tag %></:label>
+      </.badge>
     </:col>
     <:action :let={{id, bridge}}>
       <.tooltip text={gettext("delete")}>

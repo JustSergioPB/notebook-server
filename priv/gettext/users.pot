@@ -1,0 +1,78 @@
+## This file is a PO Template file.
+##
+## "msgid"s here are often extracted from source code.
+## Add new messages manually only if they're dynamic
+## messages that can't be statically extracted.
+##
+## Run "mix gettext.extract" to bring this file up to
+## date. Leave "msgstr"s empty as changing them here has no
+## effect: edit them in PO (.po) files instead.
+#
+msgid ""
+msgstr ""
+
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:87
+#, elixir-autogen, elixir-format
+msgid "already_have_account"
+msgstr ""
+
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:50
+#, elixir-autogen, elixir-format
+msgid "email"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:38
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:51
+#, elixir-autogen, elixir-format
+msgid "email_placeholder"
+msgstr ""
+
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:41
+#, elixir-autogen, elixir-format
+msgid "last_name"
+msgstr ""
+
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:42
+#, elixir-autogen, elixir-format
+msgid "last_name_placeholder"
+msgstr ""
+
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:89
+#, elixir-autogen, elixir-format
+msgid "login"
+msgstr ""
+
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:32
+#, elixir-autogen, elixir-format
+msgid "name"
+msgstr ""
+
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:33
+#, elixir-autogen, elixir-format
+msgid "name_placeholder"
+msgstr ""
+
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:58
+#, elixir-autogen, elixir-format
+msgid "password"
+msgstr ""
+
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:59
+#, elixir-autogen, elixir-format
+msgid "password_placeholder"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:36
+#, elixir-autogen, elixir-format
+msgid "search"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:20
+#, elixir-autogen, elixir-format
+msgid "user"
+msgstr ""
+
+#: lib/notebook_server/certificates.ex:45
+#, elixir-autogen, elixir-format
+msgid "user_search_failed"
+msgstr ""

@@ -48,6 +48,12 @@ defmodule NotebookServerWeb.Router do
   end
 
   ## Authentication routes
+  # TODO: create a screen to redirect the user when it's banned
+  # TODO: create a screen to redirect the user when it's inactive
+  # TODO: create a screen to redirect the user when it's not confirmed
+  # TODO: create a screen to redirect the user when the org it's not verified or in process of verifying
+  # TODO: create a stepper to fill the required org data
+  # TODO: create an onboarding screen
 
   scope "/", NotebookServerWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]

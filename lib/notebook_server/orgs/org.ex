@@ -1,29 +1,48 @@
 defmodule NotebookServer.Orgs.Org do
   use Ecto.Schema
-  import Ecto.Changeset
   use Gettext, backend: NotebookServerWeb.Gettext
+  import Ecto.Changeset
+
+  @status [:active, :inactive, :banned]
 
   schema "orgs" do
     field :name, :string
-    field :status, Ecto.Enum, values: [:active, :inactive, :banned], default: :active
-    field :level, Ecto.Enum, values: [:root, :intermediate], default: :intermediate
-    field :public_id, :binary_id, default: Ecto.UUID.generate()
+    field :email, :string
+    field :status, Ecto.Enum, values: @status, default: :active
+    field :public_id, :binary_id
     has_many :users, NotebookServer.Accounts.User
-    has_many :user_certificates, NotebookServer.PKIs.UserCertificate
-    has_many :schemas, NotebookServer.Schemas.Schema
-    has_many :credentials, NotebookServer.Credentials.OrgCredential
-    has_many :user_credentials, NotebookServer.Credentials.UserCredential
     has_many :evidence_bridges, NotebookServer.Bridges.EvidenceBridge
-    has_many :email_evidence_bridges, NotebookServer.Bridges.EmailEvidenceBridge
+    has_many :org_certificates, NotebookServer.Certificates.OrgCertificate
+    has_many :user_certificates, NotebookServer.Certificates.UserCertificate
+    has_many :user_credentials, NotebookServer.Credentials.UserCredential
+    has_many :org_credentials, NotebookServer.Credentials.OrgCredential
+    has_many :schemas, NotebookServer.Schemas.Schema
 
     timestamps(type: :utc_datetime)
   end
 
   @doc false
-  def changeset(org, attrs) do
+  def changeset(org, attrs, opts \\ []) do
+    include_user? = Keyword.get(opts, :user, false)
+
     org
-    |> cast(attrs, [:name, :level])
-    |> validate_name(:name, validate_unique: true)
+    |> cast(attrs, [:name, :email, :status])
+    |> validate_required([:name, :email])
+    |> validate_length(:name, min: 2, max: 50)
+    |> unsafe_validate_unique(:name, NotebookServer.Repo)
+    |> unique_constraint(:name)
+    |> validate_length(:email, min: 2)
+    |> unsafe_validate_unique(:email, NotebookServer.Repo)
+    |> unique_constraint(:email)
+    |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/)
+    |> validate_inclusion(:status, @status)
+    |> maybe_cast_user(include_user?)
+  end
+
+  def maybe_cast_user(changeset, include_user?) when include_user? == false, do: changeset
+
+  def maybe_cast_user(changeset, _) do
+    changeset |> cast_assoc(:users, required: true)
   end
 
   def deactivation_changeset(org) do
@@ -36,26 +55,5 @@ defmodule NotebookServer.Orgs.Org do
 
   def ban_changeset(org) do
     change(org, status: :banned)
-  end
-
-  def validate_name(changeset, field, opts \\ []) do
-    changeset
-    |> validate_required([field], message: gettext("org_name_required"))
-    |> validate_length(field,
-      min: 2,
-      max: 50,
-      message: gettext("org_name_length %{min} %{max}", min: 2, max: 50)
-    )
-    |> maybe_validate_unique(opts)
-  end
-
-  defp maybe_validate_unique(changeset, opts) do
-    if Keyword.get(opts, :validate_unique, true) do
-      changeset
-      |> unsafe_validate_unique(:name, NotebookServer.Repo)
-      |> unique_constraint(:name, message: gettext("org_name_must_be_unique"))
-    else
-      changeset
-    end
   end
 end

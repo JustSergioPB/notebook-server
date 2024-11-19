@@ -1,17 +1,17 @@
 defmodule NotebookServerWeb.UserRegisterLive do
+  alias NotebookServer.Orgs
+  alias NotebookServer.Orgs.Org
+  alias NotebookServer.Accounts.User
   use NotebookServerWeb, :live_view_auth
   use Gettext, backend: NotebookServerWeb.Gettext
 
-  alias NotebookServer.Accounts
-  alias NotebookServer.Accounts.User
-
   def render(assigns) do
     ~H"""
-    <div class="w-1/2 space-y-12">
+    <div class="p-6 space-y-12 lg:w-1/2 lg:p-0">
       <.header>
-        <%= gettext("register_title") %>
+        <%= dgettext("orgs", "register_title") %>
         <:subtitle>
-          <%= gettext("register_subtitle") %>
+          <%= dgettext("orgs", "register_subtitle") %>
         </:subtitle>
       </.header>
       <.simple_form
@@ -23,60 +23,82 @@ defmodule NotebookServerWeb.UserRegisterLive do
         action={~p"/login?_action=registered"}
         method="post"
       >
-        <div class="flex items-center gap-4">
-          <.input
-            class="w-1/3"
-            field={@form[:name]}
-            type="text"
-            label={gettext("name")}
-            placeholder={gettext("name_placeholder")}
-            phx-debounce="blur"
-            required
-          />
-          <.input
-            class="w-2/3"
-            field={@form[:last_name]}
-            type="text"
-            label={gettext("last_name")}
-            placeholder={gettext("last_name_placeholder")}
-            phx-debounce="blur"
-            required
-          />
-        </div>
-        <.input
-          field={@form[:org_name]}
-          type="text"
-          label={gettext("org_name")}
-          placeholder={gettext("org_name_placeholder")}
-          phx-debounce="blur"
-          required
-        />
-        <.input
-          field={@form[:email]}
-          type="email"
-          label={gettext("email")}
-          placeholder={gettext("email_placeholder")}
-          phx-debounce="blur"
-          required
-        />
-        <.input
-          field={@form[:password]}
-          type="password"
-          label={gettext("password")}
-          placeholder={gettext("password_placeholder")}
-          phx-debounce="blur"
-          required
-        />
+        <section class="divide-y divide-solid divide-slate-300">
+          <section class="mb-4">
+            <h3 class="font-semibold mb-2"><%= dgettext("orgs", "org") %></h3>
+            <div class="space-y-4">
+              <.input
+                field={@form[:name]}
+                type="text"
+                label={dgettext("orgs", "name")}
+                placeholder={dgettext("orgs", "name_placeholder")}
+                phx-debounce="blur"
+                required
+              />
+              <.input
+                field={@form[:email]}
+                type="email"
+                label={dgettext("orgs", "email")}
+                placeholder={dgettext("orgs", "email_placeholder")}
+                phx-debounce="blur"
+                required
+              />
+            </div>
+          </section>
+          <section>
+            <h3 class="font-semibold mt-4 mb-2"><%= dgettext("users", "user") %></h3>
+            <div class="space-y-4">
+              <.inputs_for :let={user_form} field={@form[:users]}>
+                <div class="flex items-center gap-4">
+                  <.input
+                    class="w-1/3"
+                    field={user_form[:name]}
+                    type="text"
+                    label={dgettext("users", "name")}
+                    placeholder={dgettext("users", "name_placeholder")}
+                    phx-debounce="blur"
+                    required
+                  />
+                  <.input
+                    class="w-2/3"
+                    field={user_form[:last_name]}
+                    type="text"
+                    label={dgettext("users", "last_name")}
+                    placeholder={dgettext("users", "last_name_placeholder")}
+                    phx-debounce="blur"
+                    required
+                  />
+                </div>
+                <.input
+                  field={user_form[:email]}
+                  type="email"
+                  label={dgettext("users", "email")}
+                  placeholder={dgettext("users", "email_placeholder")}
+                  phx-debounce="blur"
+                  required
+                />
+                <.input
+                  field={user_form[:password]}
+                  type="password"
+                  label={dgettext("users", "password")}
+                  placeholder={dgettext("users", "password_placeholder")}
+                  phx-debounce="blur"
+                  required
+                />
+              </.inputs_for>
+            </div>
+          </section>
+        </section>
         <:actions>
           <.button class="w-full" icon="rocket">
-            <%= gettext("register") %>
+            <%= dgettext("orgs", "register") %>
           </.button>
         </:actions>
       </.simple_form>
       <div class="text-sm gap-2 text-center">
-        <%= gettext("already_have_account") %>
+        <%= dgettext("users", "already_have_account") %>
         <.link class="font-bold hover:underline" patch={~p"/login"}>
-          <%= gettext("login") %>
+          <%= dgettext("users", "login") %>
         </.link>
       </div>
     </div>
@@ -84,37 +106,42 @@ defmodule NotebookServerWeb.UserRegisterLive do
   end
 
   def mount(_params, _session, socket) do
-    changeset = Accounts.change_user_register(%User{})
-
-    socket =
-      socket
-      |> assign(trigger_submit: false, form: to_form(changeset))
-
-    {:ok, socket, temporary_assigns: [form: nil]}
+    {:ok,
+     socket
+     |> assign(trigger_submit: false)
+     |> assign(form: to_form(Orgs.change_org(%Org{users: [%User{}]}, %{}, user: true)))}
   end
 
-  def handle_event("validate", %{"user" => user_params}, socket) do
-    changeset = Accounts.change_user_register(%User{}, user_params)
-    {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
+  def handle_event("validate", %{"org" => org_params}, socket) do
+    {:noreply,
+     socket
+     |> assign(
+       form:
+         to_form(Orgs.change_org(%Org{users: [%User{}]}, org_params, user: true),
+           action: :validate
+         )
+     )}
   end
 
-  def handle_event("register", %{"user" => user_params}, socket) do
-    case Accounts.register_user(user_params) do
-      {:ok, user, _org} ->
-        {:ok, _} =
-          Accounts.deliver_user_confirmation_instructions(
-            user,
-            &url(~p"/confirm/#{&1}")
-          )
-
-        changeset = Accounts.change_user_register(%User{}, user_params)
-        {:noreply, socket |> assign(trigger_submit: true) |> assign(form: to_form(changeset))}
-
-      {:error, changeset} ->
+  def handle_event("register", %{"org" => org_params}, socket) do
+    case Orgs.register_org(org_params, &url(~p"/confirm/#{&1}")) do
+      {:ok, _} ->
         {:noreply,
          socket
-         |> assign(form: to_form(changeset))
-         |> put_flash(:error, gettext("user_register_error"))}
+         |> put_flash(:info, dgettext("orgs", "org_registration_succeded"))
+         |> assign(trigger_submit: true)}
+
+      {:error, changeset, _} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, dgettext("orgs", "org_registration_failed"))
+         |> assign(form: to_form(changeset))}
+
+      # TODO: add a screen to allow the user to resend the confirmation email
+      {:error, _} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, dgettext("orgs", "registration_mail_delivery_failed"))}
     end
   end
 end

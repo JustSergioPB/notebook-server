@@ -1,7 +1,8 @@
 defmodule NotebookServer.Orgs do
   import Ecto.Query, warn: false
   alias NotebookServer.Repo
-  alias NotebookServer.Orgs.{Org}
+  alias NotebookServer.Orgs.Org
+  alias NotebookServer.Accounts
 
   @doc """
   Returns the list of orgs.
@@ -12,8 +13,15 @@ defmodule NotebookServer.Orgs do
       [%Org{}, ...]
 
   """
-  def list_orgs do
-    Repo.all(Org)
+  def list_orgs(opts \\ []) do
+    name = Keyword.get(opts, :name)
+
+    query =
+      if is_binary(name),
+        do: from(o in Org, where: ilike(o.name, ^"%#{name}%")),
+        else: from(o in Org)
+
+    Repo.all(query)
   end
 
   @doc """
@@ -32,14 +40,6 @@ defmodule NotebookServer.Orgs do
   """
   def get_org!(id), do: Repo.get!(Org, id)
 
-  def get_root_org! do
-    from(o in Org, where: o.level == :root) |> Repo.one()
-  end
-
-  def get_org_by_name(name) do
-    Repo.get_by(Org, name: name)
-  end
-
   @doc """
   Creates a org.
 
@@ -52,10 +52,42 @@ defmodule NotebookServer.Orgs do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_org(attrs \\ %{}) do
+  def create_org(attrs \\ %{}, opts \\ []) do
     %Org{}
-    |> Org.changeset(attrs)
+    |> Org.changeset(attrs, opts)
     |> Repo.insert()
+  end
+
+  def register_org(attrs \\ %{}, confirmation_url_fun)
+      when is_function(confirmation_url_fun, 1) do
+    zero = attrs |> get_in(["users", "0"]) |> Map.put("role", :org_admin)
+    attrs = attrs |> Map.put("users", %{"0" => zero})
+
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(:create_org, Org.changeset(%Org{}, attrs, user: true))
+    |> Ecto.Multi.run(:deliver_mail, fn _, %{create_org: org} ->
+      user = org |> Map.get(:users) |> Enum.at(0)
+
+      Accounts.deliver_user_confirmation_instructions(
+        user,
+        confirmation_url_fun
+      )
+      |> case do
+        {:ok, _} -> {:ok, nil}
+        {:error, _} -> {:error, nil}
+      end
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{create_org: org}} ->
+        {:ok, org}
+
+      {:error, :create_org, changeset, _} ->
+        {:error, changeset, :create_org}
+
+      {:error, :deliver_mail, _, _} ->
+        {:error, :deliver_mail}
+    end
   end
 
   @doc """
@@ -101,8 +133,8 @@ defmodule NotebookServer.Orgs do
       %Ecto.Changeset{data: %Org{}}
 
   """
-  def change_org(%Org{} = org, attrs \\ %{}) do
-    Org.changeset(org, attrs)
+  def change_org(%Org{} = org, attrs \\ %{}, opts \\ []) do
+    Org.changeset(org, attrs, opts)
   end
 
   def deactivate_org(%Org{} = org) do

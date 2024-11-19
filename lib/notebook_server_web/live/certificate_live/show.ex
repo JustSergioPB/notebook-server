@@ -1,7 +1,6 @@
 defmodule NotebookServerWeb.CertificateLive.Show do
+  alias NotebookServer.Certificates
   use NotebookServerWeb, :live_view_app
-
-  alias NotebookServer.PKIs
   use Gettext, backend: NotebookServerWeb.Gettext
 
   @impl true
@@ -10,13 +9,15 @@ defmodule NotebookServerWeb.CertificateLive.Show do
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
+  def handle_params(%{"id" => id, "tab" => tab}, _, socket) do
+    atom = tab |> String.to_atom()
+
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:certificate, PKIs.get_user_certificate!(id))}
+     |> assign(:certificate, Certificates.get_certificate!(atom, id))}
   end
 
-  defp page_title(:show), do: gettext("show_certificate")
-  defp page_title(:edit), do: gettext("edit_certificate")
+  defp page_title(:show), do: dgettext("certificates", "show")
+  defp page_title(:edit), do: dgettext("certificates", "edit")
 end

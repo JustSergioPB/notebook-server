@@ -89,6 +89,6 @@ config :notebook_server, NotebookServer.Mailer,
   from: "DEV Notebook",
   email: "no-reply@stachelabs.es"
 
-config :notebook_server, NotebookServer.PKIs,
+config :notebook_server, NotebookServer.Certificates,
   pki_secret_key: "bAfTsf3t7MpkUYdACHzABS3ZsqYEGknblgMJT3I8kOWW6+1xDlkHqng7gi9kuPOA
 l3j8lPWNvYRn4z/B7J3POw=="

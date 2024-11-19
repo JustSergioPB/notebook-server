@@ -1,8 +1,8 @@
 <.header>
-  <%= gettext("certificate") %> <%= @certificate.id %>
+  <%= dgettext("certificates", "certificate") %> <%= @certificate.id %>
   <:actions>
     <.link patch={~p"/certificates/#{@certificate}/show/edit"} phx-click={JS.push_focus()}>
-      <.button><%= gettext("edit_certificate") %></.button>
+      <.button><%= dgettext("certificates", "edit") %></.button>
     </.link>
   </:actions>
 </.header>
@@ -12,5 +12,5 @@
 </.list>
 
 <.back navigate={~p"/certificates"}>
-  <%= gettext("back_to_certificates") %>
+  <%= dgettext("certificates", "back") %>
 </.back>

@@ -1,27 +1,18 @@
 defmodule NotebookServerWeb.CertificateLive.Index do
-  use NotebookServerWeb, :live_view_app
-
-  alias NotebookServer.PKIs
-  alias NotebookServer.Accounts.User
+  alias NotebookServer.Certificates.OrgCertificate
+  alias NotebookServer.Certificates.UserCertificate
+  alias NotebookServer.Certificates
   alias NotebookServer.Accounts
   alias NotebookServer.Orgs
+  use NotebookServerWeb, :live_view_app
   use Gettext, backend: NotebookServerWeb.Gettext
 
   @impl true
   def mount(_params, _session, socket) do
-    opts = org_filter(socket)
-
     socket =
       socket
-      |> stream(:user_certificates, PKIs.list_user_certificates(opts))
-      |> stream(:org_certificates, PKIs.list_org_certificates(opts))
-
-    socket =
-      if socket.assigns.current_user.role == :admin do
-        socket |> stream(:root_certificates, PKIs.list_org_certificates(opts ++ [level: :root]))
-      else
-        socket
-      end
+      |> stream(:user_certificates, Certificates.list_certificates(:user))
+      |> stream(:org_certificates, Certificates.list_certificates(:org))
 
     {:ok, socket}
   end
@@ -31,151 +22,108 @@ defmodule NotebookServerWeb.CertificateLive.Index do
     {:noreply,
      socket
      |> apply_action(socket.assigns.live_action, params)
-     |> assign(:active_tab, params["tab"] || "user_certificates")}
+     |> assign(:active_tab, params["tab"] || "user")}
   end
 
-  defp apply_action(socket, :new, _params) do
+  defp apply_action(socket, :new, %{"tab" => tab}) do
+    certificate = if tab == "user", do: %UserCertificate{}, else: %OrgCertificate{}
+
     socket
-    |> assign(:page_title, gettext("new_certificate"))
-    |> assign(:certificate, %{})
+    |> assign(:page_title, dgettext("certificates", "new"))
+    |> assign(:certificate, certificate)
   end
 
   defp apply_action(socket, :revoke, %{"id" => id, "tab" => tab}) do
-    certificate =
-      if tab == "user_certificates",
-        do: PKIs.get_user_certificate!(id),
-        else: PKIs.get_org_certificate!(id)
+    atom = tab |> String.to_atom()
+    certificate = Certificates.get_certificate!(atom, id)
 
     socket
-    |> assign(:page_title, gettext("revoke_certificate"))
-    |> assign(:page_subtitle, gettext("revoke_certificate_subtitle"))
+    |> assign(:page_title, dgettext("certificates", "revoke"))
+    |> assign(:page_subtitle, dgettext("certificates", "revoke_subtitle"))
     |> assign(:certificate, certificate)
   end
 
   defp apply_action(socket, :delete, %{"id" => id, "tab" => tab}) do
-    certificate =
-      if tab == "user_certificates",
-        do: PKIs.get_user_certificate!(id),
-        else: PKIs.get_org_certificate!(id)
-
     socket
-    |> assign(:page_title, gettext("delete_certificate"))
-    |> assign(:page_subtitle, gettext("delete_certificate_subtitle"))
-    |> assign(:certificate, certificate)
+    |> assign(:page_title, dgettext("certificates", "delete"))
+    |> assign(:page_subtitle, dgettext("certificates", "delete_subtitle"))
+    |> assign(:certificate, %{id: id, term: tab})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, gettext("certificates"))
+    |> assign(:page_title, dgettext("certificates", "title"))
     |> assign(:certificate, nil)
   end
 
   @impl true
   def handle_info(
-        {NotebookServerWeb.CertificateLive.FormComponent, {:saved_root, certificate}},
+        {NotebookServerWeb.CertificateLive.FormComponent, {:saved, term, certificate}},
         socket
       ) do
-    org = Orgs.get_org!(certificate.org_id)
-    certificate = Map.put(certificate, :org, org)
-    {:noreply, stream_insert(socket, :root_certificates, certificate)}
+    {:noreply, socket |> update_row(term, certificate)}
   end
 
   def handle_info(
-        {NotebookServerWeb.CertificateLive.FormComponent, {:saved_intermediate, certificate}},
+        {NotebookServerWeb.CertificateLive.RevokeFormComponent, {:revoked, term, certificate}},
         socket
       ) do
-    org = Orgs.get_org!(certificate.org_id)
-    certificate = Map.put(certificate, :org, org)
-    {:noreply, stream_insert(socket, :org_certificates, certificate)}
+    {:noreply, socket |> update_row(term, certificate)}
   end
 
   def handle_info(
-        {NotebookServerWeb.CertificateLive.FormComponent, {:saved_user, certificate}},
+        {NotebookServerWeb.Components.ConfirmDialog, {:confirmed, id, term}},
         socket
       ) do
-    org = Orgs.get_org!(certificate.org_id)
-    user = Accounts.get_user!(certificate.user_id)
-    certificate = Map.put(certificate, :org, org)
-    certificate = Map.put(certificate, :user, user)
-    {:noreply, stream_insert(socket, :user_certificates, certificate)}
-  end
+    atom = term |> String.to_atom()
+    certificate = Certificates.get_certificate!(atom, id)
 
-  def handle_info(
-        {NotebookServerWeb.CertificateLive.RevokeFormComponent, {:revoked_root, _certificate}},
-        socket
-      ) do
-    opts = org_filter(socket)
+    case Certificates.delete_certificate(atom, certificate) do
+      {:ok, message} ->
+        {:noreply, socket |> put_flash(:info, message) |> delete_row(atom, certificate)}
 
-    {:noreply,
-     socket |> stream(:root_certificates, PKIs.list_org_certificates(opts ++ [level: :root]))}
-  end
-
-  def handle_info(
-        {NotebookServerWeb.CertificateLive.RevokeFormComponent,
-         {:revoked_intermediate, _certificate}},
-        socket
-      ) do
-    opts = org_filter(socket)
-
-    {:noreply,
-     socket |> stream(:org_certificates, PKIs.list_org_certificates(opts ++ [level: :root]))}
-  end
-
-  def handle_info(
-        {NotebookServerWeb.CertificateLive.RevokeFormComponent, {:revoked_user, _certificate}},
-        socket
-      ) do
-    opts = org_filter(socket)
-
-    {:noreply,
-     socket |> stream(:user_certificates, PKIs.list_org_certificates(opts ++ [level: :root]))}
+      {:error, message} ->
+        {:noreply, socket |> put_flash(:error, message)}
+    end
   end
 
   @impl true
-  def handle_event("rotate_root_certificate", %{"id" => id}, socket) do
-    if User.can_use_platform?(socket.assigns.current_user) do
-      opts = org_filter(socket)
-      certificate = PKIs.get_org_certificate!(id)
-      {:ok, _} = PKIs.rotate_org_certificate(certificate)
+  def handle_event("rotate", %{"id" => id, "term" => term}, socket) do
+    atom = term |> String.to_atom()
+    certificate = Certificates.get_certificate!(atom, id)
+    changeset = Certificates.change_certificate(atom, certificate)
 
-      {:noreply,
-       socket |> stream(:root_certificates, PKIs.list_org_certificates(opts ++ [level: :root]))}
-    else
-      {:noreply, socket}
+    case Certificates.rotate_certificate(atom, changeset) do
+      {:ok, certificate, replacement, message} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, message)
+         |> update_row(atom, certificate)
+         |> update_row(atom, replacement)}
+
+      {:error, message} ->
+        {:noreply, socket |> put_flash(:error, message)}
     end
   end
 
-  def handle_event("rotate_org_certificate", %{"id" => id}, socket) do
-    if User.can_use_platform?(socket.assigns.current_user) do
-      opts = org_filter(socket)
-      certificate = PKIs.get_org_certificate!(id)
-      {:ok, _} = PKIs.rotate_org_certificate(certificate)
-
-      {:noreply, socket |> stream(:org_certificates, PKIs.list_org_certificates(opts))}
-    else
-      {:noreply, socket}
-    end
+  defp delete_row(socket, :user, user_certificate) do
+    socket |> stream_delete(:user_certificates, user_certificate)
   end
 
-  def handle_event("rotate_user_certificate", %{"id" => id}, socket) do
-    if User.can_use_platform?(socket.assigns.current_user) do
-      opts = org_filter(socket)
-      certificate = PKIs.get_user_certificate!(id)
-      {:ok, _} = PKIs.rotate_user_certicate(certificate)
-
-      {:noreply, socket |> stream(:user_certificates, PKIs.list_user_certificates(opts))}
-    else
-      {:noreply, socket}
-    end
+  defp delete_row(socket, :org, org_certificate) do
+    socket |> stream_delete(:org_certificates, org_certificate)
   end
 
-  def handle_event("delete", %{"id" => _id}, socket) do
-    {:noreply, socket}
+  defp update_row(socket, :user, user_certificate) do
+    org = Orgs.get_org!(user_certificate.org_id)
+    user = Accounts.get_user!(user_certificate.user_id)
+    user_certificate = user_certificate |> Map.merge(%{user: user, org: org})
+    socket |> stream_insert(:user_certificates, user_certificate)
   end
 
-  defp org_filter(socket) do
-    if socket.assigns.current_user.role == :admin,
-      do: [],
-      else: [org_id: socket.assigns.current_user.org_id]
+  defp update_row(socket, :org, org_certificate) do
+    org = Orgs.get_org!(org_certificate.org_id)
+    org_certificate = org_certificate |> Map.put(:org, org)
+    socket |> stream_insert(:org_certificates, org_certificate)
   end
 end

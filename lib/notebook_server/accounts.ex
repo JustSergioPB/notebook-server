@@ -11,7 +11,6 @@ defmodule NotebookServer.Accounts do
   alias NotebookServer.Accounts.UserNotifier
   alias NotebookServer.Accounts.UserPassword
   alias NotebookServer.Accounts.UserEmail
-  alias NotebookServer.Orgs.Org
 
   ## Database getters
 
@@ -68,60 +67,6 @@ defmodule NotebookServer.Accounts do
 
   """
   def get_user!(id), do: Repo.get!(User, id)
-
-  ## User registration
-
-  @doc """
-  Registers a user.
-
-  ## Examples
-
-      iex> register_user(%{field: value})
-      {:ok, %User{}}
-
-      iex> register_user(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def register_user(attrs) do
-    {org_name, user_params} = Map.pop(attrs, "org_name")
-
-    Ecto.Multi.new()
-    |> Ecto.Multi.insert(:org, Org.changeset(%Org{}, %{name: org_name}))
-    |> Ecto.Multi.insert(
-      :user,
-      fn %{org: org} ->
-        User.changeset(%User{org_id: org.id, role: :org_admin}, user_params,
-          validate_email: true,
-          hash_password: true
-        )
-      end
-    )
-    |> Repo.transaction()
-    |> case do
-      {:ok, %{user: user, org: org}} ->
-        {:ok, user, org}
-
-      {:error, :org, _value, _} ->
-        {:error, User.resgister_changeset(%User{}, attrs)}
-
-      {:error, :user, _value, _} ->
-        {:error, User.resgister_changeset(%User{}, attrs)}
-    end
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking user changes.
-
-  ## Examples
-
-      iex> change_user_registration(user)
-      %Ecto.Changeset{data: %User{}}
-
-  """
-  def change_user_register(%User{} = user, attrs \\ %{}) do
-    User.resgister_changeset(user, attrs)
-  end
 
   ## Settings
 

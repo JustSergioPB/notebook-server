@@ -1,9 +1,9 @@
 <.page_header icon="building">
-  <%= gettext("orgs") %>
+  <%= dgettext("orgs", "title") %>
   <:actions>
     <.link patch={~p"/orgs/new"}>
-      <.button icon="plus_circle" disabled={!User.can_use_platform?(@current_user)}>
-        <%= gettext("org") %>
+      <.button icon="plus_circle">
+        <%= dgettext("orgs", "org") %>
       </.button>
     </.link>
   </:actions>
@@ -16,60 +16,57 @@
     rows={@streams.orgs}
     row_click={fn {_id, org} -> JS.navigate(~p"/orgs/#{org}") end}
   >
-    <:col :let={{_id, org}} label={gettext("name")}>
+    <:col :let={{_id, org}} label={dgettext("orgs", "name")}>
       <p class="text-sm font-semibold"><%= org.name %></p>
     </:col>
-    <:col :let={{_id, org}} label={gettext("status")}>
-      <.status_badge variant={org.status} />
+    <:col :let={{_id, org}} label={dgettext("orgs", "email")}>
+      <%= org.email %>
     </:col>
-    <:col :let={{_id, org}} label={gettext("level")}>
-      <.org_level_badge level={org.level} />
+    <:col :let={{_id, org}} label={dgettext("orgs", "status")}>
+      <.org_status_badge org={org} />
     </:col>
     <:action :let={{_id, org}}>
       <.link patch={~p"/orgs/#{org.id}/edit"}>
-        <.tooltip text={gettext("edit")}>
-          <.button
-            size="icon"
-            variant="outline"
-            icon="pencil"
-            disabled={!User.can_use_platform?(@current_user)}
-          >
-            <%= gettext("edit") %>
+        <.tooltip text={dgettext("orgs", "edit")}>
+          <.button size="icon" variant="outline" icon="pencil">
+            <%= dgettext("orgs", "edit") %>
           </.button>
         </.tooltip>
       </.link>
     </:action>
     <:action :let={{_id, org}}>
-      <.tooltip text={if org.status == :banned, do: gettext("activate"), else: gettext("ban")}>
+      <.tooltip text={
+        if org.status == :banned, do: dgettext("orgs", "activate"), else: dgettext("orgs", "ban")
+      }>
         <.button
           size="icon"
           variant="outline"
           icon={if org.status == :banned, do: "play", else: "ban"}
           phx-value-id={org.id}
           phx-click={if org.status == :banned, do: "activate", else: "ban"}
-          disabled={!User.can_use_platform?(@current_user)}
         >
-          <%= if org.status == :banned, do: gettext("activate"), else: gettext("ban") %>
+          <%= if org.status == :banned,
+            do: dgettext("orgs", "activate"),
+            else: dgettext("orgs", "ban") %>
         </.button>
       </.tooltip>
     </:action>
     <:action :let={{id, org}}>
-      <.tooltip text={gettext("delete")}>
+      <.tooltip text={dgettext("orgs", "delete")}>
         <.button
           size="icon"
           variant="outline"
           icon="trash"
           phx-click={JS.push("delete", value: %{id: org.id}) |> hide("##{id}")}
-          data-confirm={gettext("are_you_sure")}
-          disabled={!User.can_use_platform?(@current_user)}
+          data-confirm={dgettext("orgs", "are_you_sure")}
         >
-          <%= gettext("delete") %>
+          <%= dgettext("orgs", "delete") %>
         </.button>
       </.tooltip>
     </:action>
   </.table>
   <div class="p-6 border-t border-slate-200">
-    <.pagination page={1} total_pages={1} disabled={!User.can_use_platform?(@current_user)} />
+    <.pagination page={1} total_pages={1} />
   </div>
 </.page_content>
 

@@ -29,12 +29,10 @@
       <.version_badge version={schema.published_version_number} />
     </:col>
     <:col :let={{_id, schema}} label={gettext("platform")}>
-      <.platform_badge platform={schema.platform}>
-        <%= schema.platform %>
-      </.platform_badge>
+      <.platform_badge platform={schema.platform} />
     </:col>
     <:col :let={{_id, schema}} label={gettext("status")}>
-      <.schema_status_badge variant={schema.status} />
+      <.schema_status_badge schema={schema} />
     </:col>
     <:action :let={{_id, schema}}>
       <.tooltip text={gettext("publish")}>

@@ -1,0 +1,174 @@
+## "msgid"s in this file come from POT (.pot) files.
+###
+### Do not add, change, or remove "msgid"s manually here as
+### they're tied to the ones in the corresponding POT file
+### (with the same domain).
+###
+### Use "mix gettext.extract --merge" or "mix gettext.merge"
+### to merge POT files into PO files.
+msgid ""
+msgstr ""
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: lib/notebook_server_web/live/org_live/index.html.heex:39
+#: lib/notebook_server_web/live/org_live/index.html.heex:49
+#, elixir-autogen, elixir-format
+msgid "activate"
+msgstr "Activar"
+
+#: lib/notebook_server_web/live/org_live/index.html.heex:61
+#, elixir-autogen, elixir-format
+msgid "are_you_sure"
+msgstr "Esta acción es irreversible y se borrará toda la información relaccionada con esta organización, considera banear antes la organización. ¿Estás seguro?"
+
+#: lib/notebook_server_web/live/org_live/index.html.heex:39
+#: lib/notebook_server_web/live/org_live/index.html.heex:50
+#, elixir-autogen, elixir-format
+msgid "ban"
+msgstr "Banear"
+
+#: lib/notebook_server_web/live/org_live/index.html.heex:55
+#: lib/notebook_server_web/live/org_live/index.html.heex:63
+#, elixir-autogen, elixir-format
+msgid "delete"
+msgstr "Eliminar organización"
+
+#: lib/notebook_server_web/live/org_live/index.ex:19
+#: lib/notebook_server_web/live/org_live/index.html.heex:30
+#: lib/notebook_server_web/live/org_live/index.html.heex:32
+#, elixir-autogen, elixir-format
+msgid "edit"
+msgstr "Editar"
+
+#: lib/notebook_server_web/live/org_live/form_component.ex:30
+#: lib/notebook_server_web/live/org_live/index.html.heex:22
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:75
+#, elixir-autogen, elixir-format
+msgid "email"
+msgstr "Email"
+
+#: lib/notebook_server_web/live/org_live/form_component.ex:31
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:76
+#, elixir-autogen, elixir-format
+msgid "email_placeholder"
+msgstr "stachelabs@gmail.com"
+
+#: lib/notebook_server_web/live/org_live/form_component.ex:23
+#: lib/notebook_server_web/live/org_live/index.html.heex:19
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:67
+#, elixir-autogen, elixir-format
+msgid "name"
+msgstr "Nombre"
+
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:23
+#: lib/notebook_server_web/live/org_live/form_component.ex:24
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:68
+#, elixir-autogen, elixir-format
+msgid "name_placeholder"
+msgstr "Stachelabs Inc."
+
+#: lib/notebook_server_web/live/org_live/index.ex:25
+#, elixir-autogen, elixir-format
+msgid "new"
+msgstr "Nueva organización"
+
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:25
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:86
+#: lib/notebook_server_web/live/org_live/index.html.heex:6
+#, elixir-autogen, elixir-format
+msgid "org"
+msgstr "Organización"
+
+#: lib/notebook_server_web/live/org_live/index.ex:64
+#, elixir-autogen, elixir-format
+msgid "org_activation_failed"
+msgstr "No hemos podido activar la organización"
+
+#: lib/notebook_server_web/live/org_live/index.ex:60
+#, elixir-autogen, elixir-format
+msgid "org_activation_succeded"
+msgstr "La organización se ha activado correctamente"
+
+#: lib/notebook_server_web/live/org_live/index.ex:79
+#, elixir-autogen, elixir-format
+msgid "org_banning_failed"
+msgstr "No hemos podido banear la organización"
+
+#: lib/notebook_server_web/live/org_live/index.ex:75
+#, elixir-autogen, elixir-format
+msgid "org_banning_succeded"
+msgstr "La organización se ha banneado de manera correcta"
+
+#: lib/notebook_server_web/live/org_live/form_component.ex:84
+#, elixir-autogen, elixir-format
+msgid "org_creation_succeded"
+msgstr "La organización se ha creado de manera correcta"
+
+#: lib/notebook_server_web/live/org_live/index.ex:49
+#, elixir-autogen, elixir-format
+msgid "org_deletion_failed"
+msgstr "No hemos podido eliminar la organización"
+
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:125
+#, elixir-autogen, elixir-format
+msgid "org_registration_failed"
+msgstr "No hemos podido registrar la organización. Revisa los datos que nos has proporcionado"
+
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:119
+#, elixir-autogen, elixir-format
+msgid "org_registration_succeded"
+msgstr "Hemos registrado tu organización y usuario de manera correcta, en breves recibirás un correo con el que confirmar tu cuenta"
+
+#: lib/notebook_server/certificates.ex:48
+#: lib/notebook_server/certificates.ex:136
+#: lib/notebook_server/certificates.ex:175
+#, elixir-autogen, elixir-format
+msgid "org_search_failed"
+msgstr "No se ha encontrado ninguna organización"
+
+#: lib/notebook_server_web/live/org_live/form_component.ex:69
+#, elixir-autogen, elixir-format
+msgid "org_update_succeded"
+msgstr "La organización se ha actualizado de manera correcta"
+
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:82
+#, elixir-autogen, elixir-format
+msgid "register"
+msgstr "Registrar"
+
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:14
+#, elixir-autogen, elixir-format
+msgid "register_subtitle"
+msgstr "Registrate junto con tu organización y comienza a certificar y validar tu información en cuestión de minutos."
+
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:12
+#, elixir-autogen, elixir-format
+msgid "register_title"
+msgstr "¡Encantados de conocerte!"
+
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:131
+#, elixir-autogen, elixir-format
+msgid "registration_mail_delivery_failed"
+msgstr "No hemos podido enviarte el email de confirmación. Intentalo de nuevo en unos minutos."
+
+#: lib/notebook_server_web/live/org_live/form_component.ex:35
+#, elixir-autogen, elixir-format
+msgid "save"
+msgstr "Guardar"
+
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:21
+#, elixir-autogen, elixir-format
+msgid "search"
+msgstr "Buscar organizaciones"
+
+#: lib/notebook_server_web/live/org_live/index.html.heex:25
+#, elixir-autogen, elixir-format
+msgid "status"
+msgstr "Estado"
+
+#: lib/notebook_server_web/live/org_live/index.ex:31
+#: lib/notebook_server_web/live/org_live/index.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "title"
+msgstr "Organizaciones"

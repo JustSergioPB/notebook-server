@@ -1,9 +1,7 @@
 defmodule NotebookServerWeb.CertificateLive.RevokeFormComponent do
+  alias NotebookServer.Certificates
   use NotebookServerWeb, :live_component
   use Gettext, backend: NotebookServerWeb.Gettext
-
-  alias NotebookServer.Accounts.User
-  alias NotebookServer.PKIs
 
   @impl true
   def render(assigns) do
@@ -20,21 +18,19 @@ defmodule NotebookServerWeb.CertificateLive.RevokeFormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input
-          field={@form[:revocation_reason]}
-          type="textarea"
-          rows={2}
-          label={gettext("revocation_reason")}
-          placeholder={gettext("revocation_reason_placeholder")}
-          phx-debounce="blur"
-          required
-        />
+        <.inputs_for :let={certificate_form} field={@form[:certificate]}>
+          <.input
+            field={certificate_form[:revocation_reason]}
+            type="textarea"
+            rows={2}
+            label={dgettext("certificates", "revocation_reason")}
+            placeholder={dgettext("certificates", "revocation_reason_placeholder")}
+            phx-debounce="blur"
+            required
+          />
+        </.inputs_for>
         <:actions>
-          <.button
-            variant="danger"
-            icon="alert-triangle"
-            disabled={!User.can_use_platform?(@current_user)}
-          >
+          <.button variant="danger" icon="alert-triangle">
             <%= gettext("revoke") %>
           </.button>
         </:actions>
@@ -44,84 +40,44 @@ defmodule NotebookServerWeb.CertificateLive.RevokeFormComponent do
   end
 
   @impl true
-  def update(assigns, socket) do
+  def update(%{certificate: certificate, tab: tab} = assigns, socket) do
+    atom = tab |> String.to_atom()
+    changeset = Certificates.change_certificate(atom, certificate)
+
     {:ok,
      socket
      |> assign(assigns)
-     |> assign_new(:form, fn -> to_form(%{"revocation_reason" => ""}) end)}
+     |> assign_new(:form, fn -> to_form(changeset) end)}
   end
 
   @impl true
-  def handle_event("validate", %{"revocation_reason" => revocation_reason}, socket) do
-    errors =
-      if String.length(revocation_reason) < 2 || String.length(revocation_reason) > 255,
-        do: [revocation_reason: {"revocation_reason_length %{min} %{max}", [min: 2, max: 255]}],
-        else: []
+  def handle_event("validate", params, socket) do
+    atom = socket.assigns.tab |> String.to_atom()
 
-    {:noreply,
-     socket
-     |> assign(
-       form:
-         to_form(%{"revocation_reason" => revocation_reason}, errors: errors, action: :validate)
-     )}
+    changeset =
+      Certificates.change_certificate(
+        atom,
+        socket.assigns.certificate,
+        params["#{socket.assigns.tab}_certificate"]
+      )
+
+    {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
   end
 
-  def handle_event("save", %{"revocation_reason" => revocation_reason}, socket) do
-    case socket.assigns.tab do
-      "root_certificates" -> revoke_root_certificate(revocation_reason, socket)
-      "org_certificates" -> revoke_org_certificate(revocation_reason, socket)
-      "user_certificates" -> revoke_user_certificate(revocation_reason, socket)
-    end
-  end
+  def handle_event("save", params, socket) do
+    atom = socket.assigns.tab |> String.to_atom()
 
-  defp revoke_root_certificate(revocation_reason, socket) do
-    case PKIs.revoke_org_certificate(socket.assigns.certificate, %{
-           :revocation_reason => revocation_reason
-         }) do
-      {:ok, certificate} ->
-        notify_parent({:revoked_root, certificate})
+    case Certificates.revoke_certificate(
+           atom,
+           Certificates.change_certificate(atom, socket.assigns.certificate),
+           params["#{socket.assigns.tab}_certificate"]
+         ) do
+      {:ok, certificate, message} ->
+        notify_parent({:revoked, atom, certificate})
+        {:noreply, socket |> put_flash(:info, message) |> push_patch(to: socket.assigns.patch)}
 
-        {:noreply,
-         socket
-         |> put_flash(:info, gettext("root_certificate_revoke_success"))
-         |> push_patch(to: socket.assigns.patch)}
-
-      {:error, _} ->
-        {:noreply, assign(socket, form: to_form(%{"revocation_reason" => revocation_reason}))}
-    end
-  end
-
-  defp revoke_org_certificate(revocation_reason, socket) do
-    case PKIs.revoke_org_certificate(socket.assigns.certificate, %{
-           :revocation_reason => revocation_reason
-         }) do
-      {:ok, certificate} ->
-        notify_parent({:revoked_intermediate, certificate})
-
-        {:noreply,
-         socket
-         |> put_flash(:info, gettext("org_certificate_revoke_success"))
-         |> push_patch(to: socket.assigns.patch)}
-
-      {:error, _} ->
-        {:noreply, assign(socket, form: to_form(%{"revocation_reason" => revocation_reason}))}
-    end
-  end
-
-  defp revoke_user_certificate(revocation_reason, socket) do
-    case PKIs.revoke_user_certificate(socket.assigns.certificate, %{
-           :revocation_reason => revocation_reason
-         }) do
-      {:ok, certificate} ->
-        notify_parent({:revoked_user, certificate})
-
-        {:noreply,
-         socket
-         |> put_flash(:info, gettext("user_certificate_revoke_success"))
-         |> push_patch(to: socket.assigns.patch)}
-
-      {:error, _} ->
-        {:noreply, assign(socket, form: to_form(%{"revocation_reason" => revocation_reason}))}
+      {:error, changeset, message} ->
+        {:noreply, socket |> put_flash(:error, message) |> assign(:form, to_form(changeset))}
     end
   end
 

@@ -1,9 +1,7 @@
 defmodule NotebookServerWeb.OrgLive.Index do
-  use NotebookServerWeb, :live_view_app
-
   alias NotebookServer.Orgs
   alias NotebookServer.Orgs.Org
-  alias NotebookServer.Accounts.User
+  use NotebookServerWeb, :live_view_app
   use Gettext, backend: NotebookServerWeb.Gettext
 
   @impl true
@@ -18,19 +16,19 @@ defmodule NotebookServerWeb.OrgLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, gettext("edit_org"))
+    |> assign(:page_title, dgettext("orgs", "edit"))
     |> assign(:org, Orgs.get_org!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, gettext("new_org"))
+    |> assign(:page_title, dgettext("orgs", "new"))
     |> assign(:org, %Org{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, gettext("orgs"))
+    |> assign(:page_title, dgettext("orgs", "title"))
     |> assign(:org, nil)
   end
 
@@ -41,32 +39,44 @@ defmodule NotebookServerWeb.OrgLive.Index do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    if User.can_use_platform?(socket.assigns.current_user) do
-      org = Orgs.get_org!(id)
-      {:ok, _} = Orgs.delete_org(org)
-      {:noreply, stream_delete(socket, :orgs, org)}
-    else
-      {:noreply, socket}
+    org = Orgs.get_org!(id)
+
+    case Orgs.delete_org(org) do
+      {:ok, org} ->
+        {:noreply, stream_delete(socket, :orgs, org)}
+
+      {:error, _} ->
+        {:noreply, socket |> put_flash(:error, dgettext("orgs", "org_deletion_failed"))}
     end
   end
 
   def handle_event("activate", %{"id" => id}, socket) do
-    if User.can_use_platform?(socket.assigns.current_user) do
-      org = Orgs.get_org!(id)
-      {:ok, _} = Orgs.deactivate_org(org)
-      {:noreply, stream(socket, :orgs, Orgs.list_orgs())}
-    else
-      {:noreply, socket}
+    org = Orgs.get_org!(id)
+
+    case Orgs.activate_org(org) do
+      {:ok, org} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, dgettext("orgs", "org_activation_succeded"))
+         |> stream_insert(:orgs, org)}
+
+      {:error, _} ->
+        {:noreply, socket |> put_flash(:error, dgettext("orgs", "org_activation_failed"))}
     end
   end
 
   def handle_event("ban", %{"id" => id}, socket) do
-    if User.can_use_platform?(socket.assigns.current_user) do
-      org = Orgs.get_org!(id)
-      {:ok, _} = Orgs.ban_org(org)
-      {:noreply, stream(socket, :orgs, Orgs.list_orgs())}
-    else
-      {:noreply, socket}
+    org = Orgs.get_org!(id)
+
+    case Orgs.ban_org(org) do
+      {:ok, org} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, dgettext("orgs", "org_banning_succeded"))
+         |> stream_insert(:orgs, org)}
+
+      {:error, _} ->
+        {:noreply, socket |> put_flash(:error, dgettext("orgs", "org_banning_failed"))}
     end
   end
 end

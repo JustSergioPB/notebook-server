@@ -1,8 +1,6 @@
 defmodule NotebookServerWeb.OrgLive.FormComponent do
-  use NotebookServerWeb, :live_component
-
   alias NotebookServer.Orgs
-  alias NotebookServer.Accounts.User
+  use NotebookServerWeb, :live_component
   use Gettext, backend: NotebookServerWeb.Gettext
 
   @impl true
@@ -12,7 +10,6 @@ defmodule NotebookServerWeb.OrgLive.FormComponent do
       <.header>
         <%= @title %>
       </.header>
-
       <.simple_form
         for={@form}
         id="org-form"
@@ -20,9 +17,22 @@ defmodule NotebookServerWeb.OrgLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:name]} type="text" label={gettext("name")} />
+        <.input
+          field={@form[:name]}
+          type="text"
+          label={dgettext("orgs", "name")}
+          placeholder={dgettext("orgs", "name_placeholder")}
+          phx-debounce="blur"
+        />
+        <.input
+          field={@form[:email]}
+          type="email"
+          label={dgettext("orgs", "email")}
+          placeholder={dgettext("orgs", "email_placeholder")}
+          phx-debounce="blur"
+        />
         <:actions>
-          <.button disabled={!User.can_use_platform?(@current_user)}><%= gettext("save") %></.button>
+          <.button><%= dgettext("orgs", "save") %></.button>
         </:actions>
       </.simple_form>
     </div>
@@ -46,11 +56,7 @@ defmodule NotebookServerWeb.OrgLive.FormComponent do
   end
 
   def handle_event("save", %{"org" => org_params}, socket) do
-    if User.can_use_platform?(socket.assigns.current_user) do
-      save_org(socket, socket.assigns.action, org_params)
-    else
-      {:noreply, socket}
-    end
+    save_org(socket, socket.assigns.action, org_params)
   end
 
   defp save_org(socket, :edit, org_params) do
@@ -60,7 +66,7 @@ defmodule NotebookServerWeb.OrgLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, gettext("org_update_success"))
+         |> put_flash(:info, dgettext("orgs", "org_update_succeded"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -75,7 +81,7 @@ defmodule NotebookServerWeb.OrgLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, gettext("org_create_success"))
+         |> put_flash(:info, dgettext("orgs", "org_creation_succeded"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

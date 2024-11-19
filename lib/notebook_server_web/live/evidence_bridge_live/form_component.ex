@@ -134,9 +134,9 @@ defmodule NotebookServerWeb.EvidenceBridgeLive.FormComponent do
       |> Enum.map(fn schema_version ->
         schema_version
         |> Map.merge(%{
-          text: schema_version.title,
+          text: schema_version.schema.title,
           id: schema_version.schema_id,
-          name: schema_version.title
+          name: schema_version.schema.title
         })
       end)
 

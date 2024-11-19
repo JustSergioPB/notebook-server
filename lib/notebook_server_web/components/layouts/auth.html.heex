@@ -1,7 +1,7 @@
-<main class="h-screen overflow-hidden flex p-2">
+<main class="h-screen overflow-hidden flex">
   <.flash_group flash={@flash} />
-  <div class="w-1/2 bg-slate-900 rounded-lg"></div>
-  <div class="w-1/2 flex items-center justify-center">
+  <div class="hidden lg:block lg:w-1/2 bg-slate-900"></div>
+  <div class="lg:w-1/2 flex items-center justify-center">
     <%= @inner_content %>
   </div>
 </main>

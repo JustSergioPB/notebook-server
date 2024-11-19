@@ -14,7 +14,7 @@ defmodule NotebookServer.Schemas.SchemaVersion do
     field :status, Ecto.Enum, values: [:draft, :published, :archived], default: :draft
     field :content, :map
     field :version_number, :integer
-    field :public_id, :binary_id, default: Ecto.UUID.generate()
+    field :public_id, :binary_id
     belongs_to :user, NotebookServer.Accounts.User
     belongs_to :schema, NotebookServer.Schemas.Schema
 

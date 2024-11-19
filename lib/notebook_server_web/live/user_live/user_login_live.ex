@@ -4,7 +4,7 @@ defmodule NotebookServerWeb.UserLoginLive do
 
   def render(assigns) do
     ~H"""
-    <div class="w-1/2 space-y-12">
+    <div class="p-6 space-y-12 lg:w-1/2 lg:p-0">
       <.header>
         <%= gettext("login_title") %>
         <:subtitle>

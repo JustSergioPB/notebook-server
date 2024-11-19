@@ -47,7 +47,7 @@ defmodule NotebookServerWeb.CoreComponents do
       phx-mounted={@show && show_modal(@id)}
       phx-remove={hide_modal(@id)}
       data-cancel={JS.exec(@on_cancel, "phx-remove")}
-      class="relative z-50 hidden"
+      class="relative z-40 hidden"
     >
       <div
         id={"#{@id}-bg"}
@@ -360,8 +360,8 @@ defmodule NotebookServerWeb.CoreComponents do
 
   def input(%{type: "select"} = assigns) do
     ~H"""
-    <div>
-      <.label :if={@label} class="mb-2" for={@id}><%= @label %></.label>
+    <div class={["space-y-1", @class]}>
+      <.label :if={@label} for={@id}><%= @label %></.label>
       <select
         id={@id}
         name={@name}
@@ -379,7 +379,7 @@ defmodule NotebookServerWeb.CoreComponents do
 
   def input(%{type: "textarea"} = assigns) do
     ~H"""
-    <div>
+    <div class={["space-y-1", @class]}>
       <.label for={@id}><%= @label %></.label>
       <textarea
         id={@id}
@@ -399,7 +399,7 @@ defmodule NotebookServerWeb.CoreComponents do
   # All other inputs text, datetime-local, url, password, etc. are handled here...
   def input(assigns) do
     ~H"""
-    <div class={["space-y-2", @class]}>
+    <div class={["space-y-1", @class]}>
       <.label for={@id}><%= @label %></.label>
       <input
         type={@type}
@@ -467,7 +467,7 @@ defmodule NotebookServerWeb.CoreComponents do
     <header class={[@actions != [] && "flex items-center justify-between gap-4", @class]}>
       <div>
         <h1 class={[
-          "text-3xl font-semibold mb-1",
+          "font-semibold mb-1 text-2xl lg:text-3xl",
           @variant == :primary && "text-slate-800",
           @variant == :secondary && "text-slate-100"
         ]}>
@@ -825,125 +825,6 @@ defmodule NotebookServerWeb.CoreComponents do
     """
   end
 
-  attr :variant, :string, default: "inactive"
-  attr :class, :string, default: nil
-
-  def status_badge(assigns) do
-    ~H"""
-    <div class={[
-      "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs",
-      @variant == :inactive && "bg-slate-100 text-slate-700",
-      @variant == :active && "bg-green-100 text-green-600",
-      @variant == :banned && "bg-red-100 text-red-600",
-      @class
-    ]}>
-      <div class={[
-        "h-[6px] w-[6px] rounded-full",
-        @variant == :inactive && "bg-slate-600",
-        @variant == :active && "bg-green-600",
-        @variant == :banned && "bg-red-600"
-      ]}>
-      </div>
-      <span :if={@variant == :active}><%= gettext("active") %></span>
-      <span :if={@variant == :inactive}><%= gettext("inactive") %></span>
-      <span :if={@variant == :banned}><%= gettext("banned") %></span>
-    </div>
-    """
-  end
-
-  attr :role, :string, required: true
-  attr :class, :string, default: nil
-
-  def role_badge(assigns) do
-    ~H"""
-    <div class={[
-      "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs",
-      @role == :admin && "bg-orange-100 text-orange-700",
-      @role == :org_admin && "bg-purple-100 text-purple-700",
-      @role == :issuer && "bg-blue-100 text-blue-700",
-      @class
-    ]}>
-      <Lucide.shield_plus :if={@role == :admin} class="h-4 w-4 text-orange-500" />
-      <Lucide.shield :if={@role == :org_admin} class="h-4 w-4 text-purple-500" />
-      <Lucide.pen_tool :if={@role == :issuer} class="h-4 w-4 text-blue-500" />
-      <span :if={@role == :admin}><%= gettext("admin") %></span>
-      <span :if={@role == :org_admin}><%= gettext("org_admin") %></span>
-      <span :if={@role == :issuer}><%= gettext("issuer") %></span>
-    </div>
-    """
-  end
-
-  attr :platform, :string, required: true
-  attr :class, :string, default: nil
-  slot :inner_block, required: true
-
-  def platform_badge(assigns) do
-    ~H"""
-    <div class={[
-      "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs uppercase",
-      @platform == :web2 && "bg-blue-100 text-blue-700",
-      @platform == :web3 && "bg-green-100 text-green-700",
-      @class
-    ]}>
-      <Lucide.globe :if={@platform == :web2} class="h-3 w-3 text-blue-500" />
-      <Lucide.link :if={@platform == :web3} class="h-3 w-3 text-green-500" />
-      <span><%= render_slot(@inner_block) %></span>
-    </div>
-    """
-  end
-
-  attr :variant, :string, default: "draft"
-  attr :class, :string, default: nil
-
-  def schema_status_badge(assigns) do
-    ~H"""
-    <div class={[
-      "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs",
-      @variant == :draft && "bg-amber-100 text-amber-700",
-      @variant == :published && "bg-green-100 text-green-600",
-      @variant == :archived && "bg-slate-100 text-slate-600",
-      @class
-    ]}>
-      <div class={[
-        "h-[6px] w-[6px] rounded-full",
-        @variant == :draft && "bg-amber-600",
-        @variant == :published && "bg-green-600",
-        @variant == :archived && "bg-slate-600"
-      ]}>
-      </div>
-      <span :if={@variant == :published}><%= gettext("published") %></span>
-      <span :if={@variant == :draft}><%= gettext("draft") %></span>
-      <span :if={@variant == :archived}><%= gettext("archived") %></span>
-    </div>
-    """
-  end
-
-  attr :variant, :string, default: "inactive"
-  attr :class, :string, default: nil
-
-  def certificate_status_badge(assigns) do
-    ~H"""
-    <div class={[
-      "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs",
-      @variant == :rotated && "bg-slate-100 text-slate-700",
-      @variant == :active && "bg-green-100 text-green-600",
-      @variant == :revoked && "bg-red-100 text-red-600",
-      @class
-    ]}>
-      <div class={[
-        "h-[6px] w-[6px] rounded-full",
-        @variant == :rotated && "bg-slate-200",
-        @variant == :active && "bg-green-600",
-        @variant == :revoked && "bg-red-600"
-      ]}>
-      </div>
-      <span :if={@variant == :active}><%= gettext("active") %></span>
-      <span :if={@variant == :rotated}><%= gettext("rotated") %></span>
-      <span :if={@variant == :revoked}><%= gettext("revoked") %></span>
-    </div>
-    """
-  end
-
   slot :tab, required: true do
     attr :label, :string, required: true
     attr :id, :string, required: true
@@ -1027,29 +908,6 @@ defmodule NotebookServerWeb.CoreComponents do
     """
   end
 
-  attr :level, :string, required: true
-  attr :class, :string, default: nil
-
-  def org_level_badge(assigns) do
-    ~H"""
-    <div class={[
-      "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs",
-      @level == :root && "bg-orange-100 text-orange-700",
-      @level == :intermediate && "bg-purple-100 text-purple-700",
-      @class
-    ]}>
-      <div class={[
-        "h-[6px] w-[6px] rounded-full",
-        @level == :root && "bg-orange-600",
-        @level == :intermediate && "bg-purple-600"
-      ]}>
-      </div>
-      <span :if={@level == :root}><%= gettext("root") %></span>
-      <span :if={@level == :intermediate}><%= gettext("intermediate") %></span>
-    </div>
-    """
-  end
-
   attr :variant, :string, default: "info"
   attr :content, :string, required: true
 
@@ -1083,9 +941,11 @@ defmodule NotebookServerWeb.CoreComponents do
 
   def version_badge(assigns) do
     ~H"""
-    <div class="bg-white shadow-sm border border-slate-200 py-1 px-2 rounded-xl text-xs font-semibold inline-flex">
-      V<%= @version %>
-    </div>
+    <.badge>
+      <:label>
+        V<%= @version %>
+      </:label>
+    </.badge>
     """
   end
 
@@ -1101,6 +961,20 @@ defmodule NotebookServerWeb.CoreComponents do
     """
   end
 
+  attr :user, :any, required: true
+
+  def user_version_option(assigns) do
+    ~H"""
+    <p class="font-bold"><%= @user.name %> <%= @user.last_name %></p>
+    <p><%= @user.email %></p>
+    <.badge>
+      <:label>
+        <%= @user.org.name %>
+      </:label>
+    </.badge>
+    """
+  end
+
   attr :label, :string, required: true
   attr :version, :integer, required: true
 
@@ -1113,13 +987,158 @@ defmodule NotebookServerWeb.CoreComponents do
     """
   end
 
-  attr :label, :integer, required: true
+  attr :variant, :string,
+    values: ["primary", "outline", "danger"],
+    default: "outline"
+
+  slot :label, required: true
 
   def badge(assigns) do
     ~H"""
-    <div class="bg-white shadow-sm border border-slate-200 py-1 px-2 rounded-xl text-xs font-semibold inline-flex">
-      <%= @label %>
+    <div class={[
+      "py-1 px-2 rounded-xl text-xs font-semibold inline-flex items-center",
+      @variant == "primary" && "bg-slate-900 shadow-sm border",
+      @variant == "outline" && "bg-white shadow-sm border border-slate-200",
+      @variant == "danger" && "bg-red-500 shadow-sm text-white"
+    ]}>
+      <div class="inline-flex items-center gap-1">
+        <%= render_slot(@label) %>
+      </div>
     </div>
+    """
+  end
+
+  attr :certificate, :any, required: true
+
+  def certificate_status_badge(assigns) do
+    ~H"""
+    <.badge>
+      <:label>
+        <div class={[
+          "h-[6.5px] w-[6.5px] rounded-full",
+          @certificate.status == :revoked && "bg-red-500",
+          @certificate.status == :active && "bg-emerald-500",
+          @certificate.status == :rotated && "bg-slate-400"
+        ]}>
+        </div>
+        <%= @certificate.status %>
+      </:label>
+    </.badge>
+    """
+  end
+
+  attr :platform, :string, required: true
+
+  def platform_badge(assigns) do
+    ~H"""
+    <.badge>
+      <:label>
+        <%= if @platform == :web2 do %>
+          <Lucide.globe class="h-3 w-3" />
+        <% else %>
+          <Lucide.link class="h-3 w-3" />
+        <% end %>
+        <%= @platform %>
+      </:label>
+    </.badge>
+    """
+  end
+
+  attr :certificate, :any, required: true
+
+  def certificate_level_badge(assigns) do
+    ~H"""
+    <.badge variant={if @certificate.level == :root, do: "danger", else: "outline"}>
+      <:label><%= @certificate.level %></:label>
+    </.badge>
+    """
+  end
+
+  attr :org, :any, required: true
+
+  def org_status_badge(assigns) do
+    ~H"""
+    <.badge>
+      <:label>
+        <div class={[
+          "h-[6.5px] w-[6.5px] rounded-full",
+          @org.status == :banned && "bg-red-500",
+          @org.status == :active && "bg-emerald-500",
+          @org.status == :inactive && "bg-slate-400"
+        ]}>
+        </div>
+        <%= @org.status %>
+      </:label>
+    </.badge>
+    """
+  end
+
+  attr :user, :any, required: true
+
+  def user_status_badge(assigns) do
+    ~H"""
+    <.badge>
+      <:label>
+        <div class={[
+          "h-[6.5px] w-[6.5px] rounded-full",
+          @user.status == :banned && "bg-red-500",
+          @user.status == :active && "bg-emerald-500",
+          @user.status == :inactive && "bg-slate-400"
+        ]}>
+        </div>
+        <%= @user.status %>
+      </:label>
+    </.badge>
+    """
+  end
+
+  attr :user, :any, required: true
+
+  def user_role_badge(assigns) do
+    ~H"""
+    <.badge>
+      <:label>
+        <Lucide.laptop :if={@user.role == :admin} class="h-3 w-3" />
+        <Lucide.shield :if={@user.role == :org_admin} class="h-3 w-3" />
+        <Lucide.pen_tool :if={@user.role == :issuer} class="h-3 w-3" />
+        <%= @user.role %>
+      </:label>
+    </.badge>
+    """
+  end
+
+  attr :evidence_bridge, :any, required: true
+
+  def evidence_bridge_status_badge(assigns) do
+    ~H"""
+    <.badge>
+      <:label>
+        <div class={[
+          "h-[6.5px] w-[6.5px] rounded-full",
+          @evidence_bridge.active == true && "bg-emerald-500",
+          @evidence_bridge.active == false && "bg-slate-400"
+        ]}>
+        </div>
+        <%= @evidence_bridge.active %>
+      </:label>
+    </.badge>
+    """
+  end
+
+  def schema_status_badge(assigns) do
+    ~H"""
+    <.badge>
+      <:label>
+        <div class={[
+          "h-[6.5px] w-[6.5px] rounded-full",
+          @schema.status == :published && "bg-emerald-500",
+          @schema.status == :archived && "bg-slate-400",
+          @schema.status == :darft && "bg-amber-500"
+        ]}>
+        </div>
+        <%= @schema.status %>
+      </:label>
+    </.badge>
     """
   end
 
@@ -1171,8 +1190,18 @@ defmodule NotebookServerWeb.CoreComponents do
         "flex items-center gap-2"
       ]}>
         <div :for={{step, i} <- Enum.with_index(@step)} class="text-sm flex-1 space-y-2">
-          <p class={[@active_step == step[:step] && "font-semibold", @active_step != step[:step] && "text-slate-500"]}><%= "#{i + 1}. #{step[:label]}" %></p>
-          <div class={["rounded-md h-2", @active_step >= step[:step] && "bg-slate-900", @active_step < step[:step] && "bg-slate-200"]}></div>
+          <p class={[
+            @active_step == step[:step] && "font-semibold",
+            @active_step != step[:step] && "text-slate-500"
+          ]}>
+            <%= "#{i + 1}. #{step[:label]}" %>
+          </p>
+          <div class={[
+            "rounded-md h-2",
+            @active_step >= step[:step] && "bg-slate-900",
+            @active_step < step[:step] && "bg-slate-200"
+          ]}>
+          </div>
         </div>
       </div>
       <section

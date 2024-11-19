@@ -67,12 +67,9 @@
       <.table id="org-credentials-table" class="flex-1" rows={@streams.org_credentials}>
         <:col :let={{_id, org_credential}} label={gettext("schema")}>
           <.version_cell
-            label={org_credential.schema.title}
-            version={org_credential.schema_version.version_number}
+            label={org_credential.credential.schema_version.schema.title}
+            version={org_credential.credential.schema_version.version_number}
           />
-        </:col>
-        <:col :let={{_id, org_credential}} label={gettext("issuer")}>
-          <%= org_credential.issuer.name %> <%= org_credential.issuer.last_name %>
         </:col>
         <:col
           :let={{_id, org_credential}}
