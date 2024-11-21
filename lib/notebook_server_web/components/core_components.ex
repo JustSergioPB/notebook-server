@@ -225,7 +225,7 @@ defmodule NotebookServerWeb.CoreComponents do
       <.button phx-click="go" class="ml-2">Send!</.button>
   """
   attr :type, :string, default: nil
-  attr :variant, :string, default: "slate"
+  attr :variant, :string, values: ["primary", "outline", "ghost", "danger"], default: "primary"
   attr :size, :string, default: "md"
   attr :class, :string, default: nil
   attr :icon, :string, default: nil
@@ -245,8 +245,8 @@ defmodule NotebookServerWeb.CoreComponents do
         @size == "md" && "py-2 px-3 gap-2",
         @size == "sm" && "py-1 px-2 gap-2",
         @size == "icon" && "p-2",
-        @variant == "slate" &&
-          "bg-slate-900 hover:bg-slate-700 text-white active:text-white/80 disabled:hover:bg-slate-900",
+        @variant == "primary" &&
+          "bg-amber-500 hover:bg-amber-400 text-white active:text-white/80 disabled:hover:bg-amber-500",
         @variant == "outline" &&
           "bg-transparent shadow-sm border border-slate-200 hover:bg-slate-100 disabled:hover:bg-transparent",
         @variant == "ghost" && "bg-transparent  hover:bg-slate-100 disabled:hover:bg-transparent",
@@ -468,7 +468,7 @@ defmodule NotebookServerWeb.CoreComponents do
       <div>
         <h1 class={[
           "font-semibold mb-1 text-2xl lg:text-3xl",
-          @variant == :primary && "text-slate-800",
+          @variant == :primary && "text-slate-900",
           @variant == :secondary && "text-slate-100"
         ]}>
           <%= render_slot(@inner_block) %>
@@ -500,7 +500,7 @@ defmodule NotebookServerWeb.CoreComponents do
       <div>
         <span class="flex items-center">
           <Lucide.render :if={@icon} icon={@icon} class="h-6 w-6 mr-2" />
-          <h1 class="text-2xl font-bold text-slate-800">
+          <h1 class="text-2xl font-bold text-slate-900">
             <%= render_slot(@inner_block) %>
           </h1>
         </span>
@@ -566,7 +566,7 @@ defmodule NotebookServerWeb.CoreComponents do
     ]}>
       <%= if Enum.count(@rows) > 0 do %>
         <table class="w-full h-full">
-          <thead class="border-b border-slate-200 w-full uppercase">
+          <thead class="border-b border-slate-200 uppercase">
             <tr>
               <th
                 :for={col <- @col}
@@ -582,9 +582,9 @@ defmodule NotebookServerWeb.CoreComponents do
           <tbody
             id={@id}
             phx-update={match?(%Phoenix.LiveView.LiveStream{}, @rows) && "stream"}
-            class="divide-y divide-slate-200 w-full overflow-y-auto"
+            class="divide-y divide-slate-200 overflow-y-auto"
           >
-            <tr :for={row <- @rows} id={@row_id && @row_id.(row)} class="h-[10%]">
+            <tr :for={row <- @rows} id={@row_id && @row_id.(row)}>
               <td
                 :for={{col, _i} <- Enum.with_index(@col)}
                 class="p-3 text-sm text-slate-700 first:pl-6"
@@ -600,7 +600,7 @@ defmodule NotebookServerWeb.CoreComponents do
           </tbody>
         </table>
       <% else %>
-        <div class="flex items-center justify-center h-full border-t border-slate-200">
+        <div class="flex items-center justify-center h-full">
           <div class="flex flex-col items-center">
             <h3 class="text-lg font-semibold mb-1">
               <%= @empty_title %>
@@ -709,7 +709,7 @@ defmodule NotebookServerWeb.CoreComponents do
     ~H"""
     <.link
       navigate={@navigate}
-      class="text-sm font-semibold leading-6 text-slate-900 hover:text-slate-700"
+      class="text-sm font-semibold leading-6 text-amber-500 hover:text-amber-400"
     >
       <.button variant="ghost" icon="arrow-left">
         <%= render_slot(@inner_block) %>
@@ -829,14 +829,11 @@ defmodule NotebookServerWeb.CoreComponents do
     ~H"""
     <div class={["flex items-center gap-4", @class]}>
       <div class={[
-        "h-10 w-10 flex items-center justify-center rounded-md uppercase",
-        @role == :admin && "bg-orange-100",
-        @role == :org_admin && "bg-purple-100",
-        @role == :user && "bg-blue-100"
+        "h-10 w-10 flex items-center justify-center rounded-md uppercase border border-slate-200 rounded-lg shadow-sm"
       ]}>
-        <Lucide.shield_plus :if={@role == :admin} class="h-5 w-5 text-orange-500" />
-        <Lucide.shield :if={@role == :org_admin} class="h-5 w-5 text-purple-500" />
-        <Lucide.pen_tool :if={@role == :user} class="h-5 w-5 text-blue-500" />
+        <Lucide.shield_plus :if={@role == :admin} class="h-5 w-5" />
+        <Lucide.shield :if={@role == :org_admin} class="h-5 w-5" />
+        <Lucide.pen_tool :if={@role == :user} class="h-5 w-5" />
       </div>
       <div>
         <p class="text-sm text-slate-900"><%= @name %> <%= @last_name %></p>
@@ -872,7 +869,7 @@ defmodule NotebookServerWeb.CoreComponents do
           patch={tab[:patch]}
           class={[
             "px-3 py-2 text-sm",
-            @active_tab == tab[:id] && "font-semibold border-b-2 border-slate-900",
+            @active_tab == tab[:id] && "font-semibold border-b-2 border-amber-500 text-amber-500",
             @active_tab != tab[:id] && "text-slate-500"
           ]}
         >
@@ -1018,7 +1015,7 @@ defmodule NotebookServerWeb.CoreComponents do
     ~H"""
     <div class={[
       "py-1 px-2 rounded-xl text-xs font-semibold inline-flex items-center",
-      @variant == "primary" && "bg-slate-900 shadow-sm border",
+      @variant == "primary" && "bg-amber-500 shadow-sm border",
       @variant == "outline" && "bg-white shadow-sm border border-slate-200",
       @variant == "danger" && "bg-red-500 shadow-sm text-white"
     ]}>
@@ -1186,7 +1183,7 @@ defmodule NotebookServerWeb.CoreComponents do
           checked={@checked}
         />
         <label for="switch" class="hidden"></label>
-        <div class="peer h-6 w-11 rounded-full border bg-slate-200 after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-slate-800 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:ring-slate-300">
+        <div class="peer h-6 w-11 rounded-full border bg-amber-200 after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-amber-800 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:ring-amber-300">
         </div>
       </div>
     </label>
@@ -1219,7 +1216,7 @@ defmodule NotebookServerWeb.CoreComponents do
           </p>
           <div class={[
             "rounded-md h-2",
-            @active_step >= step[:step] && "bg-slate-900",
+            @active_step >= step[:step] && "bg-amber-500",
             @active_step < step[:step] && "bg-slate-200"
           ]}>
           </div>

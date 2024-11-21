@@ -235,7 +235,7 @@ msgstr "Usuarios"
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:98
 #, elixir-autogen, elixir-format, fuzzy
 msgid "empty_subtitle"
-msgstr "Crear certificados para que tanto organizaciones como usuarios puedan firmar"
+msgstr "Crea certificados para que tanto organizaciones como usuarios puedan firmar"
 
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:24
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:97
