@@ -22,7 +22,7 @@ defmodule NotebookServerWeb.WallLive.Public do
             <div class="grid grid-cols-4 gap-6">
               <div
                 :for={{_, evidence_bridge} <- @streams.evidence_bridges}
-                class="border border-slate-200 p-4 rounded-lg space-y-6 h-48 mx-h-48 flex flex-col"
+                class="border border-slate-300 p-4 rounded-lg space-y-6 h-48 mx-h-48 flex flex-col"
               >
                 <div class="space-y-2 flex-1">
                   <h3 class="font-semibold"><%= evidence_bridge.published_version.title %></h3>

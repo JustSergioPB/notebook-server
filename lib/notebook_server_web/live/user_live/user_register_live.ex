@@ -23,7 +23,7 @@ defmodule NotebookServerWeb.UserRegisterLive do
         action={~p"/login?_action=registered"}
         method="post"
       >
-        <section class="divide-y divide-solid divide-slate-300">
+        <section class="divide-y divide-solid divide-slate-200">
           <section class="mb-4">
             <h3 class="font-semibold mb-2"><%= dgettext("orgs", "org") %></h3>
             <div class="space-y-4">

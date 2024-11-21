@@ -248,7 +248,7 @@ defmodule NotebookServerWeb.CoreComponents do
         @variant == "primary" &&
           "bg-indigo-500 shadow-md hover:bg-indigo-400 text-white active:text-white/80 disabled:hover:bg-indigo-500",
         @variant == "outline" &&
-          "bg-transparent shadow-sm border border-slate-200 hover:bg-slate-100 disabled:hover:bg-transparent",
+          "bg-transparent shadow-sm border border-slate-300 hover:bg-slate-100 disabled:hover:bg-transparent",
         @variant == "ghost" && "bg-transparent  hover:bg-slate-100 disabled:hover:bg-transparent",
         @variant == "danger" && "bg-red-500 text-white  hover:bg-red-400 disabled:hover:bg-red-500",
         @variant == "link" &&
@@ -559,14 +559,16 @@ defmodule NotebookServerWeb.CoreComponents do
         assign(assigns, row_id: assigns.row_id || fn {id, _item} -> id end)
       end
 
+    assigns = assigns |> assign(:items_amount, Enum.count(assigns.rows))
+
     ~H"""
     <div class={[
       "overflow-y-auto px-4 sm:overflow-visible sm:px-0",
       @class
     ]}>
-      <%= if Enum.count(@rows) > 0 do %>
-        <table class="w-full h-full">
-          <thead class="border-b border-slate-200 uppercase">
+      <%= if @items_amount > 0 do %>
+        <table class="w-full table-auto">
+          <thead class="border-b border-slate-300 uppercase">
             <tr>
               <th
                 :for={col <- @col}
@@ -587,7 +589,7 @@ defmodule NotebookServerWeb.CoreComponents do
             <tr :for={row <- @rows} id={@row_id && @row_id.(row)}>
               <td
                 :for={{col, _i} <- Enum.with_index(@col)}
-                class="p-3 text-sm text-slate-700 first:pl-6"
+                class="p-3 text-sm text-slate-700 first:pl-6 first:font-semibold first:text-slate-900"
               >
                 <%= render_slot(col, @row_item.(row)) %>
               </td>
@@ -857,7 +859,7 @@ defmodule NotebookServerWeb.CoreComponents do
       @class
     ]}>
       <div class={[
-        "flex items-center gap-4 border-b border-slate-200",
+        "flex items-center gap-4 border-b border-slate-300",
         @variant == "public" && "px-64",
         @variant != "public" && "px-6"
       ]}>
@@ -1015,7 +1017,7 @@ defmodule NotebookServerWeb.CoreComponents do
     <div class={[
       "py-1 px-2 rounded-lg text-xs font-semibold inline-flex items-center",
       @variant == "primary" && "bg-indigo-500 shadow-md",
-      @variant == "outline" && "bg-white shadow-sm border border-slate-200",
+      @variant == "outline" && "bg-white shadow-sm border border-slate-300",
       @variant == "danger" && "bg-red-500 shadow-sm text-white"
     ]}>
       <div class="inline-flex items-center gap-1">

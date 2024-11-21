@@ -19,7 +19,7 @@
     empty_subtitle={dgettext("evidence_bridges", "empty_subtitle")}
   >
     <:col :let={{_id, evidence_bridge}} label={gettext("schema")}>
-      <p class="text-sm font-semibold"><%= evidence_bridge.schema.title %></p>
+      <%= evidence_bridge.schema.title %>
     </:col>
     <:col :let={{_id, evidence_bridge}} label={gettext("bridge")}>
       <.badge>
@@ -65,7 +65,7 @@
       </.tooltip>
     </:action>
   </.table>
-  <div class="p-6 border-t border-slate-200">
+  <div class="p-6 border-t border-slate-300">
     <.pagination page={1} total_pages={1} disabled={!User.can_use_platform?(@current_user)} />
   </div>
 </.page_content>

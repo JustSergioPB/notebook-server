@@ -25,9 +25,7 @@
         empty_subtitle={dgettext("certificates", "empty_subtitle")}
       >
         <:col :let={{_id, user_certificate}} label={dgettext("users", "user")}>
-          <p class="text-sm font-semibold">
-            <%= user_certificate.user.name %> <%= user_certificate.user.last_name %>
-          </p>
+          <%= user_certificate.user.name %> <%= user_certificate.user.last_name %>
         </:col>
         <:col :let={{_id, user_certificate}} label={dgettext("orgs", "org")}>
           <%= user_certificate.org.name %>
@@ -80,7 +78,7 @@
           </.link>
         </:action>
       </.table>
-      <div class="p-6 border-t border-slate-200">
+      <div class="p-6 border-t border-slate-300">
         <.pagination page={1} total_pages={1} />
       </div>
     </:tab>
@@ -98,9 +96,7 @@
         empty_subtitle={dgettext("certificates", "empty_subtitle")}
       >
         <:col :let={{_id, org_certificate}} label={dgettext("orgs", "org")}>
-          <p class="text-sm font-semibold">
-            <%= org_certificate.org.name %>
-          </p>
+          <%= org_certificate.org.name %>
         </:col>
         <:col :let={{_id, org_certificate}} label={dgettext("certificates", "level")}>
           <.certificate_level_badge certificate={org_certificate.certificate} />
@@ -153,7 +149,7 @@
           </.link>
         </:action>
       </.table>
-      <div class="p-6 border-t border-slate-200">
+      <div class="p-6 border-t border-slate-300">
         <.pagination page={1} total_pages={1} />
       </div>
     </:tab>

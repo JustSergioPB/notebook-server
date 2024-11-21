@@ -19,7 +19,7 @@
     empty_subtitle={dgettext("orgs", "empty_subtitle")}
   >
     <:col :let={{_id, org}} label={dgettext("orgs", "name")}>
-      <p class="text-sm font-semibold"><%= org.name %></p>
+      <%= org.name %>
     </:col>
     <:col :let={{_id, org}} label={dgettext("orgs", "email")}>
       <%= org.email %>
@@ -67,7 +67,7 @@
       </.tooltip>
     </:action>
   </.table>
-  <div class="p-6 border-t border-slate-200">
+  <div class="p-6 border-t border-slate-300">
     <.pagination page={1} total_pages={1} />
   </div>
 </.page_content>
