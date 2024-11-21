@@ -18,26 +18,39 @@ defmodule NotebookServerWeb.WallLive.Public do
         <:tab label={gettext("bridges")} id="bridges" patch={~p"/wall/show?tab=bridges"}>
           <h2 class="text-2xl font-semibold"><%= gettext("bridges") %></h2>
           <p class="text-slate-600 mb-6"><%= gettext("obtain_bridge_credentials") %></p>
-          <div class="grid grid-cols-4 gap-6">
-            <div
-              :for={{_, evidence_bridge} <- @streams.evidence_bridges}
-              class="border border-slate-200 p-4 rounded-lg space-y-6 h-48 mx-h-48 flex flex-col"
-            >
-              <div class="space-y-2 flex-1">
-                <h3 class="font-semibold"><%= evidence_bridge.published_version.title %></h3>
-                <p class="text-sm text-slate-600">
-                  <%= evidence_bridge.published_version.description %>
+          <%= if Enum.count(@streams.evidence_bridges) > 0 do %>
+            <div class="grid grid-cols-4 gap-6">
+              <div
+                :for={{_, evidence_bridge} <- @streams.evidence_bridges}
+                class="border border-slate-200 p-4 rounded-lg space-y-6 h-48 mx-h-48 flex flex-col"
+              >
+                <div class="space-y-2 flex-1">
+                  <h3 class="font-semibold"><%= evidence_bridge.published_version.title %></h3>
+                  <p class="text-sm text-slate-600">
+                    <%= evidence_bridge.published_version.description %>
+                  </p>
+                </div>
+                <.link navigate={
+                  ~p"/#{@org.public_id}/wall/evidence-bridges/email/#{evidence_bridge.public_id}"
+                }>
+                  <.button icon="arrow-right" icon_side="right" class="w-full">
+                    <%= gettext("get") %>
+                  </.button>
+                </.link>
+              </div>
+            </div>
+          <% else %>
+            <div class="flex items-center justify-center h-full">
+              <div class="flex flex-col items-center">
+                <h3 class="text-lg font-semibold mb-1">
+                  <%= dgettext("evidence_bridges", "empty_public_title") %>
+                </h3>
+                <p class="font-sm text-slate-600 mb-6">
+                  <%= dgettext("evidence_bridges", "empty_public_subtitle") %>
                 </p>
               </div>
-              <.link navigate={
-                ~p"/#{@org.public_id}/wall/evidence-bridges/email/#{evidence_bridge.public_id}"
-              }>
-                <.button icon="arrow-right" icon_side="right" class="w-full">
-                  <%= gettext("get") %>
-                </.button>
-              </.link>
             </div>
-          </div>
+          <% end %>
         </:tab>
       </.tabs>
     </main>
