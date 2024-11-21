@@ -48,7 +48,7 @@ defmodule NotebookServerWeb.WallLive.Public do
                 <p class="font-sm text-slate-600 mb-6">
                   <%= dgettext("evidence_bridges", "empty_public_subtitle") %>
                 </p>
-                <Lucide.unplug class="h-10 w-10 text-slate-600"/>
+                <Lucide.unplug class="h-10 w-10 text-slate-600" />
               </div>
             </div>
           <% end %>
@@ -72,7 +72,7 @@ defmodule NotebookServerWeb.WallLive.Public do
      |> assign(:org, org)
      |> stream(
        :evidence_bridges,
-       Bridges.list_evidence_bridges(org_id: org.id)
+       Bridges.list_evidence_bridges(org_id: org.id, active: true)
        |> Enum.map(fn evidence_bridge -> evidence_bridge |> EvidenceBridge.map_to_wall() end)
      )}
   end

@@ -69,7 +69,7 @@ defmodule NotebookServerWeb.CoreComponents do
               phx-window-keydown={JS.exec("data-cancel", to: "##{@id}")}
               phx-key="escape"
               phx-click-away={JS.exec("data-cancel", to: "##{@id}")}
-              class="shadow-slate-700/10 ring-slate-700/10 relative hidden rounded-lg bg-white p-6 shadow-lg ring-1 transition"
+              class="shadow-slate-700/10 ring-slate-700/10 relative hidden rounded-md bg-white p-6 shadow-lg ring-1 transition"
             >
               <div class="absolute top-6 right-5">
                 <button
@@ -118,7 +118,7 @@ defmodule NotebookServerWeb.CoreComponents do
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
       role="alert"
       class={[
-        "fixed top-2 right-2 mr-2 w-80 sm:w-96 z-50 rounded-lg p-3 ring-1 shadow-md",
+        "fixed top-2 right-2 mr-2 w-80 sm:w-96 z-50 rounded-md p-3 ring-1 shadow-md",
         @kind == :info && "bg-green-50 text-green-800 ring-green-200 fill-cyan-900",
         @kind == :error && "bg-rose-50 text-rose-900 shadow-md ring-rose-200 fill-rose-900"
       ]}
@@ -239,14 +239,14 @@ defmodule NotebookServerWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        "phx-submit-loading:opacity-75 disabled:opacity-50 rounded-lg flex items-center justify-center group",
+        "phx-submit-loading:opacity-75 disabled:opacity-50 rounded-md flex items-center justify-center group",
         "text-sm font-semibold leading-6",
         @size == "lg" && "py-3 px-4 gap-2",
         @size == "md" && "py-2 px-3 gap-2",
         @size == "sm" && "py-1 px-2 gap-2",
         @size == "icon" && "p-2",
         @variant == "primary" &&
-          "bg-amber-500 hover:bg-amber-400 text-white active:text-white/80 disabled:hover:bg-amber-500",
+          "bg-indigo-500 shadow-md hover:bg-indigo-400 text-white active:text-white/80 disabled:hover:bg-indigo-500",
         @variant == "outline" &&
           "bg-transparent shadow-sm border border-slate-200 hover:bg-slate-100 disabled:hover:bg-transparent",
         @variant == "ghost" && "bg-transparent  hover:bg-slate-100 disabled:hover:bg-transparent",
@@ -348,7 +348,7 @@ defmodule NotebookServerWeb.CoreComponents do
           name={@name}
           value="true"
           checked={@checked}
-          class="rounded border-slate-300 text-slate-900 focus:ring-0"
+          class="rounded border-slate-300 text-indigo-500 focus:ring-1 focus:ring-indigo-500"
           {@rest}
         />
         <%= @label %>
@@ -365,7 +365,7 @@ defmodule NotebookServerWeb.CoreComponents do
       <select
         id={@id}
         name={@name}
-        class="block w-full rounded-md border border-slate-300 bg-white shadow-sm focus:border-slate-400 focus:ring-0 sm:text-sm disabled:opacity-50"
+        class="block w-full rounded-md border border-slate-300 bg-white focus:border-slate-400 focus:ring-1 focus:ring-indigo-500 sm:text-sm disabled:opacity-50"
         multiple={@multiple}
         {@rest}
       >
@@ -385,7 +385,7 @@ defmodule NotebookServerWeb.CoreComponents do
         id={@id}
         name={@name}
         class={[
-          "mt-2 block w-full rounded-lg text-slate-900 focus:ring-0 sm:text-sm sm:leading-6 min-h-[6rem]",
+          "mt-2 block w-full rounded-md text-slate-900 focus:ring-1 focus:ring-indigo-500 sm:text-sm sm:leading-6 min-h-[6rem]",
           @errors == [] && "border-slate-300 focus:border-slate-400",
           @errors != [] && "border-rose-400 focus:border-rose-400"
         ]}
@@ -407,7 +407,7 @@ defmodule NotebookServerWeb.CoreComponents do
         id={@id}
         value={Phoenix.HTML.Form.normalize_value(@type, @value)}
         class={[
-          "block w-full rounded-lg text-slate-900 focus:ring-0 sm:text-sm sm:leading-6 disabled:opacity-50",
+          "block w-full rounded-md text-slate-900 focus:ring-1 focus:ring-indigo-500 sm:text-sm sm:leading-6 disabled:opacity-50",
           @errors == [] && "border-slate-300 focus:border-slate-400",
           @errors != [] && "border-rose-400 focus:border-rose-400"
         ]}
@@ -707,10 +707,7 @@ defmodule NotebookServerWeb.CoreComponents do
 
   def back(assigns) do
     ~H"""
-    <.link
-      navigate={@navigate}
-      class="text-sm font-semibold leading-6 text-amber-500 hover:text-amber-400"
-    >
+    <.link navigate={@navigate}>
       <.button variant="ghost" icon="arrow-left">
         <%= render_slot(@inner_block) %>
       </.button>
@@ -808,7 +805,7 @@ defmodule NotebookServerWeb.CoreComponents do
         href={@href}
         method={@method}
         class={[
-          "flex items-center gap-2 text-sm text-slate-900 hover:bg-slate-100 p-2 rounded-md focus:bg-slate-100 outline-none focus:ring-1 focus:ring-slate-900 group",
+          "flex items-center gap-2 text-sm text-slate-900 hover:bg-indigo-100 hover:text-indigo-500 p-2 rounded-md focus:bg-indigo-100 outline-none focus:ring-1 focus:ring-indigo-500 group",
           @active && "bg-slate-100"
         ]}
       >
@@ -829,7 +826,7 @@ defmodule NotebookServerWeb.CoreComponents do
     ~H"""
     <div class={["flex items-center gap-4", @class]}>
       <div class={[
-        "h-10 w-10 flex items-center justify-center rounded-md uppercase border border-slate-200 rounded-lg shadow-sm"
+        "h-12 w-12 flex items-center justify-center rounded-md uppercase shadow-md bg-indigo-500 text-white"
       ]}>
         <Lucide.shield_plus :if={@role == :admin} class="h-5 w-5" />
         <Lucide.shield :if={@role == :org_admin} class="h-5 w-5" />
@@ -868,9 +865,11 @@ defmodule NotebookServerWeb.CoreComponents do
           :for={{tab, _i} <- Enum.with_index(@tab)}
           patch={tab[:patch]}
           class={[
-            "px-3 py-2 text-sm",
-            @active_tab == tab[:id] && "font-semibold border-b-2 border-amber-500 text-amber-500",
-            @active_tab != tab[:id] && "text-slate-500"
+            "text-sm",
+            @active_tab == tab[:id] &&
+              "px-3 py-2 font-semibold border-b-2 border-indigo-500 text-indigo-500",
+            @active_tab != tab[:id] &&
+              "px-2 py-1 text-slate-500 hover:bg-indigo-100 hover:text-indigo-500 rounded-md"
           ]}
         >
           <%= tab[:label] %>
@@ -943,7 +942,7 @@ defmodule NotebookServerWeb.CoreComponents do
 
     ~H"""
     <div class={[
-      "flex items-start gap-2 rounded-lg p-4",
+      "flex items-start gap-2 rounded-md p-4",
       @variant == "danger" && "bg-red-100 text-red-500",
       @variant == "info" && "bg-blue-100 text-blue-500",
       @variant == "warn" && "bg-amber-100 text-amber-500",
@@ -1014,8 +1013,8 @@ defmodule NotebookServerWeb.CoreComponents do
   def badge(assigns) do
     ~H"""
     <div class={[
-      "py-1 px-2 rounded-xl text-xs font-semibold inline-flex items-center",
-      @variant == "primary" && "bg-amber-500 shadow-sm border",
+      "py-1 px-2 rounded-lg text-xs font-semibold inline-flex items-center",
+      @variant == "primary" && "bg-indigo-500 shadow-md",
       @variant == "outline" && "bg-white shadow-sm border border-slate-200",
       @variant == "danger" && "bg-red-500 shadow-sm text-white"
     ]}>
@@ -1151,7 +1150,7 @@ defmodule NotebookServerWeb.CoreComponents do
           "h-[6.5px] w-[6.5px] rounded-full",
           @schema.status == :published && "bg-emerald-500",
           @schema.status == :archived && "bg-slate-400",
-          @schema.status == :darft && "bg-amber-500"
+          @schema.status == :draft && "bg-amber-500"
         ]}>
         </div>
         <%= @schema.status %>
@@ -1183,7 +1182,7 @@ defmodule NotebookServerWeb.CoreComponents do
           checked={@checked}
         />
         <label for="switch" class="hidden"></label>
-        <div class="peer h-6 w-11 rounded-full border bg-amber-200 after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-amber-800 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:ring-amber-300">
+        <div class="peer h-6 w-11 rounded-full border bg-slate-200 after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-indigo-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:ring-indigo-300">
         </div>
       </div>
     </label>
@@ -1216,7 +1215,7 @@ defmodule NotebookServerWeb.CoreComponents do
           </p>
           <div class={[
             "rounded-md h-2",
-            @active_step >= step[:step] && "bg-amber-500",
+            @active_step >= step[:step] && "bg-indigo-500",
             @active_step < step[:step] && "bg-slate-200"
           ]}>
           </div>

@@ -134,11 +134,17 @@ defmodule NotebookServer.Bridges do
 
   def list_evidence_bridges(opts \\ []) do
     org_id = Keyword.get(opts, :org_id)
+    active = Keyword.get(opts, :active)
 
     query =
       if !is_nil(org_id),
         do: from(o in EvidenceBridge, where: o.org_id == ^org_id),
         else: from(o in EvidenceBridge)
+
+    query =
+      if is_boolean(active),
+        do: from(o in query, where: o.active == ^active),
+        else: from(o in query)
 
     Repo.all(query) |> Repo.preload([:org, :bridge, schema: [:schema_versions]])
   end
