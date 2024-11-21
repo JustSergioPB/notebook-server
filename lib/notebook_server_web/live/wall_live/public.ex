@@ -48,6 +48,7 @@ defmodule NotebookServerWeb.WallLive.Public do
                 <p class="font-sm text-slate-600 mb-6">
                   <%= dgettext("evidence_bridges", "empty_public_subtitle") %>
                 </p>
+                <Lucide.unplug class="h-10 w-10 text-slate-600"/>
               </div>
             </div>
           <% end %>

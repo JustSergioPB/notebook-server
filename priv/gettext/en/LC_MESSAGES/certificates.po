@@ -86,16 +86,16 @@ msgstr ""
 msgid "certificate_storage_failed"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/index.ex:48
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:68
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:70
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:134
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:136
+#: lib/notebook_server_web/live/certificate_live/index.ex:49
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:75
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:77
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:148
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:150
 #, elixir-autogen, elixir-format
 msgid "delete"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/index.ex:49
+#: lib/notebook_server_web/live/certificate_live/index.ex:50
 #, elixir-autogen, elixir-format
 msgid "delete_subtitle"
 msgstr ""
@@ -111,8 +111,8 @@ msgstr ""
 msgid "entity"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:34
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:100
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:41
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:114
 #, elixir-autogen, elixir-format
 msgid "expiration_date"
 msgstr ""
@@ -136,12 +136,12 @@ msgstr ""
 msgid "issuer_certificate_search_failed"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:91
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:105
 #, elixir-autogen, elixir-format
 msgid "level"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/index.ex:32
+#: lib/notebook_server_web/live/certificate_live/index.ex:33
 #, elixir-autogen, elixir-format
 msgid "new"
 msgstr ""
@@ -151,13 +151,13 @@ msgstr ""
 msgid "org_certificate_deletion_failed"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:81
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:88
 #, elixir-autogen, elixir-format
 msgid "org_certificates"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:28
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:94
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:35
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:108
 #, elixir-autogen, elixir-format
 msgid "platform"
 msgstr ""
@@ -177,16 +177,16 @@ msgstr ""
 msgid "revocation_reason_placeholder"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/index.ex:41
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:54
+#: lib/notebook_server_web/live/certificate_live/index.ex:42
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:61
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:120
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:127
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:68
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:134
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:141
 #, elixir-autogen, elixir-format
 msgid "revoke"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/index.ex:42
+#: lib/notebook_server_web/live/certificate_live/index.ex:43
 #, elixir-autogen, elixir-format
 msgid "revoke_subtitle"
 msgstr ""
@@ -196,10 +196,10 @@ msgstr ""
 msgid "root"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:38
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:48
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:104
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:114
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:45
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:55
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:118
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:128
 #, elixir-autogen, elixir-format
 msgid "rotate"
 msgstr ""
@@ -209,13 +209,13 @@ msgstr ""
 msgid "show"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:31
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:97
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:38
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:111
 #, elixir-autogen, elixir-format
 msgid "status"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/index.ex:55
+#: lib/notebook_server_web/live/certificate_live/index.ex:56
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:2
 #, elixir-autogen, elixir-format
 msgid "title"
@@ -229,4 +229,16 @@ msgstr ""
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:15
 #, elixir-autogen, elixir-format
 msgid "user_certificates"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:25
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:98
+#, elixir-autogen, elixir-format, fuzzy
+msgid "empty_subtitle"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:24
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:97
+#, elixir-autogen, elixir-format
+msgid "empty_title"
 msgstr ""

@@ -11,12 +11,24 @@
 msgid ""
 msgstr ""
 
-#: lib/notebook_server_web/live/wall_live/show.html.heex:44
+#: lib/notebook_server_web/live/evidence_bridge_live/index.html.heex:19
+#: lib/notebook_server_web/live/wall_live/show.html.heex:47
 #, elixir-autogen, elixir-format
 msgid "empty_subtitle"
 msgstr ""
 
-#: lib/notebook_server_web/live/wall_live/show.html.heex:43
+#: lib/notebook_server_web/live/evidence_bridge_live/index.html.heex:18
+#: lib/notebook_server_web/live/wall_live/show.html.heex:44
 #, elixir-autogen, elixir-format
 msgid "empty_title"
+msgstr ""
+
+#: lib/notebook_server_web/live/wall_live/public.ex:49
+#, elixir-autogen, elixir-format
+msgid "empty_public_subtitle"
+msgstr ""
+
+#: lib/notebook_server_web/live/wall_live/public.ex:46
+#, elixir-autogen, elixir-format
+msgid "empty_public_title"
 msgstr ""

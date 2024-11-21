@@ -11,38 +11,38 @@ msgstr ""
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lib/notebook_server_web/live/org_live/index.html.heex:39
-#: lib/notebook_server_web/live/org_live/index.html.heex:49
+#: lib/notebook_server_web/live/org_live/index.html.heex:41
+#: lib/notebook_server_web/live/org_live/index.html.heex:51
 #, elixir-autogen, elixir-format
 msgid "activate"
 msgstr "Activar"
 
-#: lib/notebook_server_web/live/org_live/index.html.heex:61
+#: lib/notebook_server_web/live/org_live/index.html.heex:63
 #, elixir-autogen, elixir-format
 msgid "are_you_sure"
 msgstr "Esta acción es irreversible y se borrará toda la información relaccionada con esta organización, considera banear antes la organización. ¿Estás seguro?"
 
-#: lib/notebook_server_web/live/org_live/index.html.heex:39
-#: lib/notebook_server_web/live/org_live/index.html.heex:50
+#: lib/notebook_server_web/live/org_live/index.html.heex:41
+#: lib/notebook_server_web/live/org_live/index.html.heex:52
 #, elixir-autogen, elixir-format
 msgid "ban"
 msgstr "Banear"
 
-#: lib/notebook_server_web/live/org_live/index.html.heex:55
-#: lib/notebook_server_web/live/org_live/index.html.heex:63
+#: lib/notebook_server_web/live/org_live/index.html.heex:57
+#: lib/notebook_server_web/live/org_live/index.html.heex:65
 #, elixir-autogen, elixir-format
 msgid "delete"
 msgstr "Eliminar organización"
 
 #: lib/notebook_server_web/live/org_live/index.ex:19
-#: lib/notebook_server_web/live/org_live/index.html.heex:30
 #: lib/notebook_server_web/live/org_live/index.html.heex:32
+#: lib/notebook_server_web/live/org_live/index.html.heex:34
 #, elixir-autogen, elixir-format
 msgid "edit"
 msgstr "Editar"
 
 #: lib/notebook_server_web/live/org_live/form_component.ex:30
-#: lib/notebook_server_web/live/org_live/index.html.heex:22
+#: lib/notebook_server_web/live/org_live/index.html.heex:24
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:41
 #, elixir-autogen, elixir-format
 msgid "email"
@@ -55,7 +55,7 @@ msgid "email_placeholder"
 msgstr "stachelabs@gmail.com"
 
 #: lib/notebook_server_web/live/org_live/form_component.ex:23
-#: lib/notebook_server_web/live/org_live/index.html.heex:19
+#: lib/notebook_server_web/live/org_live/index.html.heex:21
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:33
 #, elixir-autogen, elixir-format
 msgid "name"
@@ -73,8 +73,8 @@ msgstr "Stachelabs Inc."
 msgid "new"
 msgstr "Nueva organización"
 
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:25
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:86
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:32
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:100
 #: lib/notebook_server_web/live/org_live/index.html.heex:6
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:28
 #, elixir-autogen, elixir-format
@@ -163,7 +163,7 @@ msgstr "Guardar"
 msgid "search"
 msgstr "Buscar organizaciones"
 
-#: lib/notebook_server_web/live/org_live/index.html.heex:25
+#: lib/notebook_server_web/live/org_live/index.html.heex:27
 #, elixir-autogen, elixir-format
 msgid "status"
 msgstr "Estado"
@@ -173,3 +173,13 @@ msgstr "Estado"
 #, elixir-autogen, elixir-format
 msgid "title"
 msgstr "Organizaciones"
+
+#: lib/notebook_server_web/live/org_live/index.html.heex:19
+#, elixir-autogen, elixir-format
+msgid "empty_subtitle"
+msgstr "Si ves este mensage es que algo ha salido mal"
+
+#: lib/notebook_server_web/live/org_live/index.html.heex:18
+#, elixir-autogen, elixir-format
+msgid "empty_title"
+msgstr "Crea tu 1a organización"

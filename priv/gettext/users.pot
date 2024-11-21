@@ -67,7 +67,7 @@ msgstr ""
 msgid "search"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:20
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:27
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:49
 #, elixir-autogen, elixir-format
 msgid "user"
@@ -76,4 +76,14 @@ msgstr ""
 #: lib/notebook_server/certificates.ex:45
 #, elixir-autogen, elixir-format
 msgid "user_search_failed"
+msgstr ""
+
+#: lib/notebook_server_web/live/user_live/index.html.heex:19
+#, elixir-autogen, elixir-format
+msgid "empty_subtitle"
+msgstr ""
+
+#: lib/notebook_server_web/live/user_live/index.html.heex:18
+#, elixir-autogen, elixir-format
+msgid "empty_title"
 msgstr ""
