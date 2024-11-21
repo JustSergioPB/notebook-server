@@ -12,7 +12,7 @@ defmodule NotebookServerWeb.CredentialLive.Qr do
 
       <div class="flex items-center justify-center">
         <img
-          src={"/qrs/#{@credential.public_id}-qr.svg"}
+          src={"/qrs/#{@credential.credential.public_id}-qr.svg"}
           width="400"
           height="400"
           alt={gettext("qr_alt")}

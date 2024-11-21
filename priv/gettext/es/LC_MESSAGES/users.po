@@ -11,53 +11,53 @@ msgstr ""
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:87
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:99
 #, elixir-autogen, elixir-format
 msgid "already_have_account"
 msgstr "¿Tienes ya una cuenta?"
 
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:50
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:75
 #, elixir-autogen, elixir-format
 msgid "email"
 msgstr "Email"
 
 #: lib/notebook_server_web/live/certificate_live/form_component.ex:38
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:51
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:76
 #, elixir-autogen, elixir-format
 msgid "email_placeholder"
 msgstr "john.doe@gmail.com"
 
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:41
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:66
 #, elixir-autogen, elixir-format
 msgid "last_name"
 msgstr "Apellidos"
 
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:42
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:67
 #, elixir-autogen, elixir-format
 msgid "last_name_placeholder"
 msgstr "Doe"
 
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:89
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:101
 #, elixir-autogen, elixir-format
 msgid "login"
 msgstr "Login"
 
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:32
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:57
 #, elixir-autogen, elixir-format
 msgid "name"
 msgstr "Nombre"
 
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:33
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:58
 #, elixir-autogen, elixir-format
 msgid "name_placeholder"
 msgstr "John"
 
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:58
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:83
 #, elixir-autogen, elixir-format
 msgid "password"
 msgstr "Contraseña"
 
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:59
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:84
 #, elixir-autogen, elixir-format
 msgid "password_placeholder"
 msgstr "MI_CONTR4$EñA"
@@ -68,6 +68,7 @@ msgid "search"
 msgstr "Buscar usuarios"
 
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:20
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:49
 #, elixir-autogen, elixir-format
 msgid "user"
 msgstr "Usuario"

@@ -14,7 +14,9 @@
     id="users"
     class="flex-1"
     rows={@streams.users}
-    row_click={fn {_id, user} -> JS.navigate(~p"/users/#{user}") end}
+    empty_link={~p"/users/new"}
+    empty_title={dgettext("users", "empty_title")}
+    empty_subtitle={dgettext("users", "empty_subtitle")}
   >
     <:col :let={{_id, user}} label={gettext("full_name")}>
       <p class="text-sm font-semibold"><%= user.name %> <%= user.last_name %></p>

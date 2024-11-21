@@ -10,7 +10,14 @@
 </.page_header>
 
 <.page_content>
-  <.table id="evidence_bridges" class="flex-1" rows={@streams.evidence_bridges}>
+  <.table
+    id="evidence_bridges"
+    class="flex-1"
+    rows={@streams.evidence_bridges}
+    empty_link={~p"/evidence-bridges/new"}
+    empty_title={dgettext("evidence_bridges", "empty_title")}
+    empty_subtitle={dgettext("evidence_bridges", "empty_subtitle")}
+  >
     <:col :let={{_id, evidence_bridge}} label={gettext("schema")}>
       <p class="text-sm font-semibold"><%= evidence_bridge.schema.title %></p>
     </:col>

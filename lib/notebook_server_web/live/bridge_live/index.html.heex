@@ -14,7 +14,9 @@
     id="bridges"
     class="flex-1"
     rows={@streams.bridges}
-    row_click={fn {_id, bridge} -> JS.navigate(~p"/bridges/#{bridge}") end}
+    empty_link={~p"/bridges/new"}
+    empty_title={dgettext("bridges", "empty_title")}
+    empty_subtitle={dgettext("bridges", "empty_subtitle")}
   >
     <:col :let={{_id, bridge}} label={gettext("tag")}>
       <.badge>

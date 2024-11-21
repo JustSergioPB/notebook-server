@@ -14,7 +14,9 @@
     id="orgs"
     class="flex-1"
     rows={@streams.orgs}
-    row_click={fn {_id, org} -> JS.navigate(~p"/orgs/#{org}") end}
+    empty_link={~p"/orgs/new"}
+    empty_title={dgettext("orgs", "empty_title")}
+    empty_subtitle={dgettext("orgs", "empty_subtitle")}
   >
     <:col :let={{_id, org}} label={dgettext("orgs", "name")}>
       <p class="text-sm font-semibold"><%= org.name %></p>

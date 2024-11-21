@@ -15,6 +15,9 @@
     class="flex-1"
     rows={@streams.schemas}
     row_click={fn {_id, schema} -> JS.navigate(~p"/schemas/#{schema}") end}
+    empty_link={~p"/schemas/new"}
+    empty_title={dgettext("schemas", "empty_title")}
+    empty_subtitle={dgettext("schemas", "empty_subtitle")}
   >
     <:col :let={{_id, schema}} label={gettext("title")}>
       <.version_cell label={schema.title} version={schema.version_number} />

@@ -1,0 +1,22 @@
+## "msgid"s in this file come from POT (.pot) files.
+###
+### Do not add, change, or remove "msgid"s manually here as
+### they're tied to the ones in the corresponding POT file
+### (with the same domain).
+###
+### Use "mix gettext.extract --merge" or "mix gettext.merge"
+### to merge POT files into PO files.
+msgid ""
+msgstr ""
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: lib/notebook_server_web/live/wall_live/show.html.heex:44
+#, elixir-autogen, elixir-format
+msgid "empty_subtitle"
+msgstr "Crea el 1er puente para que tus usuarios puedan empezar a trabajar con tu organización"
+
+#: lib/notebook_server_web/live/wall_live/show.html.heex:43
+#, elixir-autogen, elixir-format
+msgid "empty_title"
+msgstr "Crea el primer puente"

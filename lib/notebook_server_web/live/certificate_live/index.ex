@@ -25,7 +25,8 @@ defmodule NotebookServerWeb.CertificateLive.Index do
      |> assign(:active_tab, params["tab"] || "user")}
   end
 
-  defp apply_action(socket, :new, %{"tab" => tab}) do
+  defp apply_action(socket, :new, params) do
+    tab = params["tab"] || "user"
     certificate = if tab == "user", do: %UserCertificate{}, else: %OrgCertificate{}
 
     socket

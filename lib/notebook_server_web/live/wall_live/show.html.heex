@@ -20,22 +20,40 @@
     >
       <h2 class="text-lg font-semibold"><%= gettext("evidence_bridges") %></h2>
       <p class="text-slate-600 mb-6"><%= gettext("configure_bridge_credentials") %></p>
-      <div class="grid grid-cols-4 gap-6">
-        <div
-          :for={{_, evidence_bridge} <- @streams.evidence_bridges}
-          class="border border-slate-200 p-4 rounded-lg space-y-6 h-32 mx-h-32"
-        >
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-base">
-              <%= evidence_bridge.published_version.title %>
-            </h3>
-            <.switch id={evidence_bridge.id} checked={evidence_bridge.active} on_click="toggle" />
+      <%= if Enum.count(@streams.evidence_bridges) > 0 do %>
+        <div class="grid grid-cols-4 gap-6">
+          <div
+            :for={{_, evidence_bridge} <- @streams.evidence_bridges}
+            class="border border-slate-200 p-4 rounded-lg space-y-6 h-32 mx-h-32"
+          >
+            <div class="flex items-center justify-between">
+              <h3 class="font-semibold text-base">
+                <%= evidence_bridge.published_version.title %>
+              </h3>
+              <.switch id={evidence_bridge.id} checked={evidence_bridge.active} on_click="toggle" />
+            </div>
+            <p class="text-sm text-slate-600">
+              <%= evidence_bridge.published_version.description %>
+            </p>
           </div>
-          <p class="text-sm text-slate-600">
-            <%= evidence_bridge.published_version.description %>
-          </p>
         </div>
-      </div>
+      <% else %>
+        <div class="flex items-center justify-center h-full border border-slate-200 rounded-lg">
+          <div class="flex flex-col items-center">
+            <h3 class="text-lg font-semibold mb-1">
+              <%= dgettext("evidence_bridges", "empty_title") %>
+            </h3>
+            <p class="font-sm text-slate-600 mb-6">
+              <%= dgettext("evidence_bridges", "empty_subtitle") %>
+            </p>
+            <.link patch={~p"/evidence-bridges/new"}>
+              <.button icon="plus_circle">
+                <%= gettext("evidence_bridge") %>
+              </.button>
+            </.link>
+          </div>
+        </div>
+      <% end %>
     </:tab>
   </.tabs>
 </.page_content>

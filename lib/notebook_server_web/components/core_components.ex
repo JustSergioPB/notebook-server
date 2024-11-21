@@ -539,6 +539,9 @@ defmodule NotebookServerWeb.CoreComponents do
   attr :row_id, :any, default: nil, doc: "the function for generating the row id"
   attr :row_click, :any, default: nil, doc: "the function for handling phx-click on each row"
   attr :class, :string, default: nil, doc: "the class for the table"
+  attr :empty_link, :string, required: true
+  attr :empty_title, :string, required: true
+  attr :empty_subtitle, :string, required: true
 
   attr :row_item, :any,
     default: &Function.identity/1,
@@ -561,40 +564,58 @@ defmodule NotebookServerWeb.CoreComponents do
       "overflow-y-auto px-4 sm:overflow-visible sm:px-0",
       @class
     ]}>
-      <table class="w-full h-fullflex flex-col">
-        <thead class="border-b border-slate-200 w-full uppercase">
-          <tr>
-            <th
-              :for={col <- @col}
-              class="text-xs text-left text-slate-700 p-3 font-semibold first:pl-6"
-            >
-              <%= col[:label] %>
-            </th>
-            <th :if={@action != []}>
-              <span class="sr-only"><%= gettext("Actions") %></span>
-            </th>
-          </tr>
-        </thead>
-        <tbody
-          id={@id}
-          phx-update={match?(%Phoenix.LiveView.LiveStream{}, @rows) && "stream"}
-          class="flex-1 divide-y divide-slate-200 w-full min-h-0 overflow-y-auto"
-        >
-          <tr :for={row <- @rows} id={@row_id && @row_id.(row)} class="h-[10%]">
-            <td
-              :for={{col, _i} <- Enum.with_index(@col)}
-              class="p-3 text-sm text-slate-700 first:pl-6"
-            >
-              <%= render_slot(col, @row_item.(row)) %>
-            </td>
-            <td :if={@action != []} class="flex items-center justify-end gap-2 p-3 pr-6">
-              <span :for={action <- @action}>
-                <%= render_slot(action, @row_item.(row)) %>
-              </span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <%= if Enum.count(@rows) > 0 do %>
+        <table class="w-full h-full">
+          <thead class="border-b border-slate-200 w-full uppercase">
+            <tr>
+              <th
+                :for={col <- @col}
+                class="text-xs text-left text-slate-700 p-3 font-semibold first:pl-6"
+              >
+                <%= col[:label] %>
+              </th>
+              <th :if={@action != []}>
+                <span class="sr-only"><%= gettext("Actions") %></span>
+              </th>
+            </tr>
+          </thead>
+          <tbody
+            id={@id}
+            phx-update={match?(%Phoenix.LiveView.LiveStream{}, @rows) && "stream"}
+            class="divide-y divide-slate-200 w-full overflow-y-auto"
+          >
+            <tr :for={row <- @rows} id={@row_id && @row_id.(row)} class="h-[10%]">
+              <td
+                :for={{col, _i} <- Enum.with_index(@col)}
+                class="p-3 text-sm text-slate-700 first:pl-6"
+              >
+                <%= render_slot(col, @row_item.(row)) %>
+              </td>
+              <td :if={@action != []} class="flex items-center justify-end gap-2 p-3 pr-6">
+                <span :for={action <- @action}>
+                  <%= render_slot(action, @row_item.(row)) %>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      <% else %>
+        <div class="flex items-center justify-center h-full border-t border-slate-200">
+          <div class="flex flex-col items-center">
+            <h3 class="text-lg font-semibold mb-1">
+              <%= @empty_title %>
+            </h3>
+            <p class="font-sm text-slate-600 mb-6">
+              <%= @empty_subtitle %>
+            </p>
+            <.link patch={@empty_link}>
+              <.button icon="plus_circle">
+                <%= gettext("evidence_bridge") %>
+              </.button>
+            </.link>
+          </div>
+        </div>
+      <% end %>
     </div>
     """
   end

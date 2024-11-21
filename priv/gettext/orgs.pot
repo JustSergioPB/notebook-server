@@ -43,27 +43,27 @@ msgstr ""
 
 #: lib/notebook_server_web/live/org_live/form_component.ex:30
 #: lib/notebook_server_web/live/org_live/index.html.heex:22
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:75
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:41
 #, elixir-autogen, elixir-format
 msgid "email"
 msgstr ""
 
 #: lib/notebook_server_web/live/org_live/form_component.ex:31
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:76
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:42
 #, elixir-autogen, elixir-format
 msgid "email_placeholder"
 msgstr ""
 
 #: lib/notebook_server_web/live/org_live/form_component.ex:23
 #: lib/notebook_server_web/live/org_live/index.html.heex:19
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:67
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:33
 #, elixir-autogen, elixir-format
 msgid "name"
 msgstr ""
 
 #: lib/notebook_server_web/live/certificate_live/form_component.ex:23
 #: lib/notebook_server_web/live/org_live/form_component.ex:24
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:68
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:34
 #, elixir-autogen, elixir-format
 msgid "name_placeholder"
 msgstr ""
@@ -76,6 +76,7 @@ msgstr ""
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:25
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:86
 #: lib/notebook_server_web/live/org_live/index.html.heex:6
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:28
 #, elixir-autogen, elixir-format
 msgid "org"
 msgstr ""
@@ -110,12 +111,12 @@ msgstr ""
 msgid "org_deletion_failed"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:125
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:137
 #, elixir-autogen, elixir-format
 msgid "org_registration_failed"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:119
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:131
 #, elixir-autogen, elixir-format
 msgid "org_registration_succeded"
 msgstr ""
@@ -132,7 +133,7 @@ msgstr ""
 msgid "org_update_succeded"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:82
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:94
 #, elixir-autogen, elixir-format
 msgid "register"
 msgstr ""
@@ -147,7 +148,7 @@ msgstr ""
 msgid "register_title"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/user_register_live.ex:131
+#: lib/notebook_server_web/live/user_live/user_register_live.ex:144
 #, elixir-autogen, elixir-format
 msgid "registration_mail_delivery_failed"
 msgstr ""

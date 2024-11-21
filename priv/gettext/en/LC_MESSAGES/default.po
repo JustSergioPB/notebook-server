@@ -482,8 +482,9 @@ msgstr "Dashboard"
 msgid "user_register_success"
 msgstr "User registered successfully, we've sent you an email to verify your account. Please verify it in order to use the platform."
 
-#: lib/notebook_server_web/controllers/user_session_controller.ex:34
-#: lib/notebook_server_web/controllers/user_session_controller.ex:50
+#: lib/notebook_server_web/controllers/user_session_controller.ex:35
+#: lib/notebook_server_web/controllers/user_session_controller.ex:51
+#: lib/notebook_server_web/controllers/user_session_controller.ex:67
 #, elixir-autogen, elixir-format
 msgid "user_login_error"
 msgstr "Invalid email or password"
@@ -493,7 +494,7 @@ msgstr "Invalid email or password"
 msgid "user_login_success"
 msgstr "Welcome back!"
 
-#: lib/notebook_server_web/controllers/user_session_controller.ex:58
+#: lib/notebook_server_web/controllers/user_session_controller.ex:75
 #, elixir-autogen, elixir-format
 msgid "user_logout_success"
 msgstr "Logged out successfully."
@@ -1130,6 +1131,7 @@ msgid "edit_evidence_bridge"
 msgstr ""
 
 #: lib/notebook_server_web/live/evidence_bridge_live/index.html.heex:6
+#: lib/notebook_server_web/live/wall_live/show.html.heex:47
 #, elixir-autogen, elixir-format
 msgid "evidence_bridge"
 msgstr ""

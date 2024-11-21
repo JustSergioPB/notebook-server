@@ -482,8 +482,9 @@ msgstr ""
 msgid "user_register_success"
 msgstr ""
 
-#: lib/notebook_server_web/controllers/user_session_controller.ex:34
-#: lib/notebook_server_web/controllers/user_session_controller.ex:50
+#: lib/notebook_server_web/controllers/user_session_controller.ex:35
+#: lib/notebook_server_web/controllers/user_session_controller.ex:51
+#: lib/notebook_server_web/controllers/user_session_controller.ex:67
 #, elixir-autogen, elixir-format
 msgid "user_login_error"
 msgstr ""
@@ -493,7 +494,7 @@ msgstr ""
 msgid "user_login_success"
 msgstr ""
 
-#: lib/notebook_server_web/controllers/user_session_controller.ex:58
+#: lib/notebook_server_web/controllers/user_session_controller.ex:75
 #, elixir-autogen, elixir-format
 msgid "user_logout_success"
 msgstr ""
@@ -1130,6 +1131,7 @@ msgid "edit_evidence_bridge"
 msgstr ""
 
 #: lib/notebook_server_web/live/evidence_bridge_live/index.html.heex:6
+#: lib/notebook_server_web/live/wall_live/show.html.heex:47
 #, elixir-autogen, elixir-format
 msgid "evidence_bridge"
 msgstr ""
