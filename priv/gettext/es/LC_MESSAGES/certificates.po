@@ -144,7 +144,7 @@ msgstr "Nivel"
 #: lib/notebook_server_web/live/certificate_live/index.ex:33
 #, elixir-autogen, elixir-format
 msgid "new"
-msgstr "Nuevo"
+msgstr "Nuevo certificado"
 
 #: lib/notebook_server/certificates.ex:619
 #, elixir-autogen, elixir-format

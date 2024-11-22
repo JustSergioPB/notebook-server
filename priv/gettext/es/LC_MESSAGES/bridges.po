@@ -62,7 +62,7 @@ msgstr "Editar puente"
 #: lib/notebook_server_web/live/bridge_live/form_component.ex:28
 #, elixir-autogen, elixir-format
 msgid "email_description"
-msgstr "El puente enviará un código de 6 digitos con el que el usuario verificará ser quien es"
+msgstr "El puente enviará un código de 6 digitos con el que el usuario verificará ser quien es."
 
 #: lib/notebook_server_web/live/bridge_live/form_component.ex:24
 #, elixir-autogen, elixir-format

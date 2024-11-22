@@ -18,9 +18,9 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
         phx-submit="save"
         class="flex-1"
       >
-        <div class="border border-slate-300 p-4 rounded-md shadow-sm space-y-6 h-32 mx-h-32">
+        <div class="border border-slate-300 p-4 rounded-md shadow-sm space-y-2">
           <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sm">
+            <h3 class="font-semibold text-base">
               <%= dgettext("bridges", "email_title") %>
             </h3>
           </div>
