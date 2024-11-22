@@ -189,17 +189,23 @@ defmodule NotebookServerWeb.EmailBridgeLive.FormComponent do
       socket |> gen_complete_email_bridge(email_bridge_params)
 
     case Bridges.create_email_bridge(email_bridge_params) do
-      {:ok, email_bridge, message} ->
+      {:ok, email_bridge} ->
         {:noreply,
          socket
-         |> put_flash(:info, message)
+         |> put_flash(:info, dgettext("email_bridges", "code_delivery_succeeded"))
          |> assign(:email_id, email_bridge |> Map.get(:id))
          |> assign(:step, socket.assigns.step + 1)}
 
-      {:error, message} ->
+      {:error, _, changeset} ->
         {:noreply,
          socket
-         |> put_flash(:error, message)}
+         |> put_flash(:error, dgettext("email_bridges", "creation_failed"))
+         |> assign(:email_bridge_form, to_form(changeset, action: :validate))}
+
+      {:error, _} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, dgettext("email_bridges", "code_delivery_failed"))}
     end
   end
 
@@ -208,24 +214,35 @@ defmodule NotebookServerWeb.EmailBridgeLive.FormComponent do
            id: socket.assigns.email_id,
            code: code
          }) do
-      {:ok, _, message} ->
-        #TODO public_id = email_bridge.org_credential.credential.public_id
-
-        public_id = 0
+      {:ok, email_bridge} ->
+        public_id = email_bridge.org_credential.credential.public_id
 
         {:noreply,
          socket
-         |> put_flash(:info, message)
+         |> put_flash(:info, dgettext("email_bridges", "credential_creation_succeeded"))
          |> assign(:credential_url, "/qrs/#{public_id}-qr.svg")
          |> assign(:step, socket.assigns.step + 1)}
 
-      {:error, message} ->
+      {:error, _, changeset} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, dgettext("email_bridges", "update_failed"))
+         |> assign(:email_bridge_form, to_form(changeset, action: :validate))}
+
+      {:error, atom} ->
+        message =
+          case atom do
+            :find_email_bridge -> dgettext("email_bridges", "search_failed")
+            :check_code -> dgettext("email_bridges", "check_failed")
+          end
+
         {:noreply,
          socket
          |> put_flash(:error, message)}
     end
   end
 
+  # TODO: move this so info is correctly generated
   defp gen_complete_email_bridge(socket, email_bridge_params) do
     org = socket.assigns.org
     schema_version = socket.assigns.schema_version

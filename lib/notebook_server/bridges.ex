@@ -71,14 +71,14 @@ defmodule NotebookServer.Bridges do
     end)
     |> Repo.transaction()
     |> case do
-      {:ok, %{create_email_bridge: email_bridge, deliver_mail: _}} ->
-        {:ok, email_bridge, dgettext("email_bridges", "code_delivery_succeeded")}
+      {:ok, %{create_email_bridge: email_bridge}} ->
+        {:ok, email_bridge}
 
-      {:error, :create_email_bridge, _, _} ->
-        {:error, dgettext("email_bridges", "creation_failed")}
+      {:error, :create_email_bridge, changeset, _} ->
+        {:error, :create_email_bridge, changeset}
 
       {:error, :deliver_mail, _, _} ->
-        {:error, dgettext("email_bridges", "code_delivery_failed")}
+        {:error, :deliver_mail}
     end
   end
 
@@ -110,17 +110,17 @@ defmodule NotebookServer.Bridges do
     )
     |> Repo.transaction()
     |> case do
-      {:ok, %{find_email_bridge: email_bridge, update_email_bridge: _}} ->
-        {:ok, email_bridge, dgettext("email_bridges", "credential_creation_succeeded")}
+      {:ok, %{update_email_bridge: email_bridge}} ->
+        {:ok, email_bridge}
 
       {:error, :find_email_bridge, _, _} ->
-        {:error, dgettext("email_bridges", "search_failed")}
+        {:error, :find_email_bridge}
 
       {:error, :check_code, _, _} ->
-        {:error, dgettext("email_bridges", "check_failed")}
+        {:error, :check_code}
 
-      {:error, :update_email_bridge, _, _} ->
-        {:error, dgettext("email_bridges", "update_failed")}
+      {:error, :update_email_bridge, changeset, _} ->
+        {:error, :update_email_bridge, changeset}
     end
   end
 
