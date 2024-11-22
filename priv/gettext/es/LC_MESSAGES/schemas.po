@@ -20,3 +20,8 @@ msgstr "Da de alta tu primer eschema y comienza a emitir credenciales"
 #, elixir-autogen, elixir-format
 msgid "empty_title"
 msgstr "Crea tu primer schema"
+
+#: lib/notebook_server_web/live/bridge_live/index.html.heex:21
+#, elixir-autogen, elixir-format
+msgid "schema"
+msgstr "Esquema"

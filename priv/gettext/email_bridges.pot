@@ -1,0 +1,118 @@
+## This file is a PO Template file.
+##
+## "msgid"s here are often extracted from source code.
+## Add new messages manually only if they're dynamic
+## messages that can't be statically extracted.
+##
+## Run "mix gettext.extract" to bring this file up to
+## date. Leave "msgstr"s empty as changing them here has no
+## effect: edit them in PO (.po) files instead.
+#
+msgid ""
+msgstr ""
+
+#: lib/notebook_server/bridges.ex:120
+#, elixir-autogen, elixir-format
+msgid "check_failed"
+msgstr ""
+
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:57
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:74
+#, elixir-autogen, elixir-format
+msgid "code"
+msgstr ""
+
+#: lib/notebook_server/bridges.ex:81
+#, elixir-autogen, elixir-format
+msgid "code_delivery_failed"
+msgstr ""
+
+#: lib/notebook_server/bridges.ex:75
+#, elixir-autogen, elixir-format
+msgid "code_delivery_succeeded"
+msgstr ""
+
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:75
+#, elixir-autogen, elixir-format
+msgid "code_placeholder"
+msgstr ""
+
+#: lib/notebook_server/bridges.ex:78
+#, elixir-autogen, elixir-format
+msgid "creation_failed"
+msgstr ""
+
+#: lib/notebook_server/bridges.ex:114
+#, elixir-autogen, elixir-format
+msgid "credential_creation_succeeded"
+msgstr ""
+
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:17
+#, elixir-autogen, elixir-format
+msgid "email"
+msgstr ""
+
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:68
+#, elixir-autogen, elixir-format
+msgid "introduce_code_description"
+msgstr ""
+
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:66
+#, elixir-autogen, elixir-format
+msgid "introduce_code_title"
+msgstr ""
+
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:28
+#, elixir-autogen, elixir-format
+msgid "introduce_email_description"
+msgstr ""
+
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:26
+#, elixir-autogen, elixir-format
+msgid "introduce_email_title"
+msgstr ""
+
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:176
+#, elixir-autogen, elixir-format
+msgid "invalid_code_format"
+msgstr ""
+
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:171
+#, elixir-autogen, elixir-format
+msgid "invalid_code_length"
+msgstr ""
+
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:113
+#, elixir-autogen, elixir-format
+msgid "public_title"
+msgstr ""
+
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:89
+#, elixir-autogen, elixir-format
+msgid "qr"
+msgstr ""
+
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:101
+#, elixir-autogen, elixir-format
+msgid "qr_alt"
+msgstr ""
+
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:93
+#, elixir-autogen, elixir-format
+msgid "scan_qr_description"
+msgstr ""
+
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:91
+#, elixir-autogen, elixir-format
+msgid "scan_qr_title"
+msgstr ""
+
+#: lib/notebook_server/bridges.ex:117
+#, elixir-autogen, elixir-format
+msgid "search_failed"
+msgstr ""
+
+#: lib/notebook_server/bridges.ex:123
+#, elixir-autogen, elixir-format
+msgid "update_failed"
+msgstr ""

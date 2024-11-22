@@ -20,3 +20,8 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "empty_title"
 msgstr ""
+
+#: lib/notebook_server_web/live/bridge_live/index.html.heex:21
+#, elixir-autogen, elixir-format
+msgid "schema"
+msgstr ""

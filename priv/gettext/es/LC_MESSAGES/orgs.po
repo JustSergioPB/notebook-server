@@ -54,6 +54,7 @@ msgstr "Email"
 msgid "email_placeholder"
 msgstr "stachelabs@gmail.com"
 
+#: lib/notebook_server_web/live/bridge_live/index.html.heex:29
 #: lib/notebook_server_web/live/org_live/form_component.ex:23
 #: lib/notebook_server_web/live/org_live/index.html.heex:21
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:33
@@ -73,8 +74,8 @@ msgstr "Stachelabs Inc."
 msgid "new"
 msgstr "Nueva organización"
 
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:32
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:100
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:30
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:98
 #: lib/notebook_server_web/live/org_live/index.html.heex:6
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:28
 #, elixir-autogen, elixir-format
@@ -183,3 +184,33 @@ msgstr "Si ves este mensage es que algo ha salido mal"
 #, elixir-autogen, elixir-format
 msgid "empty_title"
 msgstr "Crea tu 1a organización"
+
+#: lib/notebook_server_web/live/wall_live/public.ex:14
+#, elixir-autogen, elixir-format
+msgid "public_wall_subtitle"
+msgstr "Aquí encontrarás todo lo necesario para poder interactuar con esta organización."
+
+#: lib/notebook_server_web/live/wall_live/public.ex:68
+#, elixir-autogen, elixir-format
+msgid "public_wall_title"
+msgstr "Muro público"
+
+#: lib/notebook_server_web/live/wall_live/public.ex:12
+#, elixir-autogen, elixir-format
+msgid "public_wall_title %{org_name}"
+msgstr "Muro público de %{org_name}"
+
+#: lib/notebook_server_web/live/wall_live/show.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "wall"
+msgstr "Muro"
+
+#: lib/notebook_server_web/live/wall_live/show.ex:28
+#, elixir-autogen, elixir-format
+msgid "wall_title"
+msgstr "Muro"
+
+#: lib/notebook_server_web/live/wall_live/show.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "your_wall"
+msgstr "Configura el muro desde el cual tus usuarios podrán interactuar con tu organización"

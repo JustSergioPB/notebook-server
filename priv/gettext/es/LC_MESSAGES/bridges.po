@@ -11,24 +11,91 @@ msgstr ""
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lib/notebook_server_web/live/evidence_bridge_live/index.html.heex:19
-#: lib/notebook_server_web/live/wall_live/show.html.heex:47
+#: lib/notebook_server_web/live/bridge_live/index.html.heex:19
+#: lib/notebook_server_web/live/wall_live/show.html.heex:45
 #, elixir-autogen, elixir-format
 msgid "empty_subtitle"
 msgstr "Crea el 1er puente para que tus usuarios puedan empezar a trabajar con tu organización"
 
-#: lib/notebook_server_web/live/evidence_bridge_live/index.html.heex:18
-#: lib/notebook_server_web/live/wall_live/show.html.heex:44
+#: lib/notebook_server_web/live/bridge_live/index.html.heex:18
+#: lib/notebook_server_web/live/wall_live/show.html.heex:42
 #, elixir-autogen, elixir-format
 msgid "empty_title"
 msgstr "Crea el primer puente"
 
-#: lib/notebook_server_web/live/wall_live/public.ex:49
+#: lib/notebook_server_web/live/wall_live/public.ex:47
 #, elixir-autogen, elixir-format, fuzzy
 msgid "empty_public_subtitle"
 msgstr "Parece que esta organización todavía no ha habilitado ningún puente"
 
-#: lib/notebook_server_web/live/wall_live/public.ex:46
+#: lib/notebook_server_web/live/wall_live/public.ex:44
 #, elixir-autogen, elixir-format, fuzzy
 msgid "empty_public_title"
 msgstr "No hay puentes disponibles"
+
+#: lib/notebook_server_web/live/bridge_live/index.html.heex:6
+#: lib/notebook_server_web/live/wall_live/show.html.heex:49
+#, elixir-autogen, elixir-format
+msgid "bridge"
+msgstr "Puente"
+
+#: lib/notebook_server_web/live/wall_live/show.ex:41
+#, elixir-autogen, elixir-format
+msgid "bridge_update_failed"
+msgstr "No hemos podido actualizar el puente"
+
+#: lib/notebook_server_web/live/wall_live/show.ex:38
+#, elixir-autogen, elixir-format
+msgid "bridge_update_succeded"
+msgstr "El puente se ha actualizado de manera correcta"
+
+#: lib/notebook_server_web/live/wall_live/show.html.heex:19
+#, elixir-autogen, elixir-format
+msgid "configure"
+msgstr "Configura los puentes que se verán de manera pública en tu muro"
+
+#: lib/notebook_server_web/live/bridge_live/index.ex:22
+#, elixir-autogen, elixir-format
+msgid "edit"
+msgstr "Editar puente"
+
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:28
+#, elixir-autogen, elixir-format
+msgid "email_description"
+msgstr "El puente enviará un código de 6 digitos con el que el usuario verificará ser quien es"
+
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:24
+#, elixir-autogen, elixir-format
+msgid "email_title"
+msgstr "Email"
+
+#: lib/notebook_server_web/live/bridge_live/index.ex:28
+#, elixir-autogen, elixir-format
+msgid "new"
+msgstr "Nuevo puente"
+
+#: lib/notebook_server_web/live/wall_live/public.ex:20
+#, elixir-autogen, elixir-format
+msgid "obtain"
+msgstr "Obten credenciales a través de los puentes de esta organización"
+
+#: lib/notebook_server_web/live/bridge_live/index.html.heex:32
+#, elixir-autogen, elixir-format
+msgid "status"
+msgstr "Estado"
+
+#: lib/notebook_server_web/components/layouts/app.html.heex:27
+#: lib/notebook_server_web/live/bridge_live/index.ex:34
+#: lib/notebook_server_web/live/bridge_live/index.html.heex:2
+#: lib/notebook_server_web/live/wall_live/public.ex:18
+#: lib/notebook_server_web/live/wall_live/public.ex:19
+#: lib/notebook_server_web/live/wall_live/show.html.heex:16
+#: lib/notebook_server_web/live/wall_live/show.html.heex:17
+#, elixir-autogen, elixir-format
+msgid "title"
+msgstr "Puentes"
+
+#: lib/notebook_server_web/live/bridge_live/index.html.heex:24
+#, elixir-autogen, elixir-format
+msgid "type"
+msgstr "Tipo"
