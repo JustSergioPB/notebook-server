@@ -1,4 +1,4 @@
-defmodule NotebookServer.Bridges.EmailEvidenceBridgeNotifier do
+defmodule NotebookServer.Bridges.EmailBridgeNotifier do
   import Swoosh.Email
 
   alias NotebookServer.Mailer

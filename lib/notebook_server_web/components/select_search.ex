@@ -11,6 +11,7 @@ defmodule NotebookServerWeb.Components.SelectSearch do
       autocomplete={@autocomplete}
       id={@id}
       target={@target}
+      class="space-y-1"
     >
       <.label for={@id}><%= @label %></.label>
       <div class="relative">
@@ -29,7 +30,7 @@ defmodule NotebookServerWeb.Components.SelectSearch do
             value={if @selected, do: @selected.name, else: ""}
             placeholder={if is_binary(@placeholder), do: @placeholder, else: ""}
             class={[
-              "mt-2 block w-full rounded-lg text-slate-900 focus:ring-1 focus:ring-indigo-500 sm:text-sm sm:leading-6",
+              "block w-full rounded-lg text-slate-900 focus:ring-1 focus:ring-indigo-500 sm:text-sm sm:leading-6",
               "phx-no-feedback:border-slate-300 phx-no-feedback:focus:border-slate-400",
               @errors == [] && "border-slate-300 focus:border-slate-400",
               @errors != [] && "border-rose-400 focus:border-rose-400"

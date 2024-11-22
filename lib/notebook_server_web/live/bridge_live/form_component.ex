@@ -1,34 +1,37 @@
 defmodule NotebookServerWeb.BridgeLive.FormComponent do
+  alias NotebookServer.Bridges
   use NotebookServerWeb, :live_component
   use Gettext, backend: NotebookServerWeb.Gettext
-
-  alias NotebookServer.Bridges
-  alias NotebookServer.Accounts.User
 
   @impl true
   def render(assigns) do
     ~H"""
-    <div>
+    <div class="h-full flex flex-col">
       <.header class="space-y-6">
         <%= @title %>
       </.header>
-
       <.simple_form
         for={@form}
-        id="bridge-form"
+        id="evidence-bridge-form"
         phx-target={@myself}
         phx-change="validate"
         phx-submit="save"
+        class="flex-1"
       >
-        <.input
-          field={@form[:tag]}
-          type="text"
-          label={gettext("tag")}
-          placeholder={gettext("tag_placeholder")}
-          phx-debounce="blur"
-        />
+        <div class="border border-slate-300 p-4 rounded-md shadow-sm space-y-6 h-32 mx-h-32">
+          <div class="flex items-center justify-between">
+            <h3 class="font-semibold text-sm">
+              <%= dgettext("bridges", "email_title") %>
+            </h3>
+          </div>
+          <p class="text-sm text-slate-600">
+            <%= dgettext("bridges", "email_description") %>
+          </p>
+        </div>
         <:actions>
-          <.button disabled={!User.can_use_platform?(@current_user)}><%= gettext("save") %></.button>
+          <.button>
+            <%= gettext("save") %>
+          </.button>
         </:actions>
       </.simple_form>
     </div>
@@ -48,11 +51,19 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
   @impl true
 
   def handle_event("validate", %{"bridge" => bridge_params}, socket) do
-    changeset = Bridges.change_bridge(socket.assigns.bridge, bridge_params)
+    bridge_params =
+      bridge_params |> Map.put("org_id", socket.assigns.current_user.org_id)
+
+    changeset =
+      Bridges.change_bridge(socket.assigns.bridge, bridge_params)
+
     {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
   end
 
   def handle_event("save", %{"bridge" => bridge_params}, socket) do
+    bridge_params =
+      bridge_params |> Map.put("org_id", socket.assigns.current_user.org_id)
+
     save_bridge(socket, socket.assigns.action, bridge_params)
   end
 

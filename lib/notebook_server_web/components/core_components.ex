@@ -51,42 +51,38 @@ defmodule NotebookServerWeb.CoreComponents do
     >
       <div
         id={"#{@id}-bg"}
-        class="bg-slate-50/90 fixed inset-0 transition-opacity"
+        class="bg-slate-950/50 fixed inset-0 transition-opacity"
         aria-hidden="true"
       />
       <div
-        class="fixed inset-0 overflow-y-auto"
+        class="fixed inset-y-0 right-0 overflow-y-auto w-1/3 p-6"
         aria-labelledby={"#{@id}-title"}
         aria-describedby={"#{@id}-description"}
         role="dialog"
         aria-modal="true"
         tabindex="0"
       >
-        <div class="flex min-h-full items-center justify-center">
-          <div class="w-full max-w-3xl p-4 sm:p-6 lg:py-8">
-            <.focus_wrap
-              id={"#{@id}-container"}
-              phx-window-keydown={JS.exec("data-cancel", to: "##{@id}")}
-              phx-key="escape"
-              phx-click-away={JS.exec("data-cancel", to: "##{@id}")}
-              class="shadow-slate-700/10 ring-slate-700/10 relative hidden rounded-md bg-white p-6 shadow-lg ring-1 transition"
+        <.focus_wrap
+          id={"#{@id}-container"}
+          phx-window-keydown={JS.exec("data-cancel", to: "##{@id}")}
+          phx-key="escape"
+          phx-click-away={JS.exec("data-cancel", to: "##{@id}")}
+          class="shadow-slate-700/10 ring-slate-700/10 relative hidden rounded-md bg-white p-6 shadow-lg ring-1 transition h-full"
+        >
+          <div class="absolute h-full top-6 right-5">
+            <button
+              phx-click={JS.exec("data-cancel", to: "##{@id}")}
+              type="button"
+              class="-m-3 flex-none p-3 opacity-20 hover:opacity-40"
+              aria-label={gettext("close")}
             >
-              <div class="absolute top-6 right-5">
-                <button
-                  phx-click={JS.exec("data-cancel", to: "##{@id}")}
-                  type="button"
-                  class="-m-3 flex-none p-3 opacity-20 hover:opacity-40"
-                  aria-label={gettext("close")}
-                >
-                  <Lucide.x class="h-5 w-5" />
-                </button>
-              </div>
-              <div id={"#{@id}-content"}>
-                <%= render_slot(@inner_block) %>
-              </div>
-            </.focus_wrap>
+              <Lucide.x class="h-5 w-5" />
+            </button>
           </div>
-        </div>
+          <div id={"#{@id}-content"} class="h-full">
+            <%= render_slot(@inner_block) %>
+          </div>
+        </.focus_wrap>
       </div>
     </div>
     """
@@ -457,7 +453,7 @@ defmodule NotebookServerWeb.CoreComponents do
   Renders a header with title.
   """
   attr :class, :string, default: nil
-  attr :variant, :atom, default: :primary, values: [:primary, :secondary]
+  attr :variant, :string, default: "primary", values: ["primary", "secondary"]
   slot :inner_block, required: true
   slot :subtitle
   slot :actions
@@ -467,9 +463,9 @@ defmodule NotebookServerWeb.CoreComponents do
     <header class={[@actions != [] && "flex items-center justify-between gap-4", @class]}>
       <div>
         <h1 class={[
-          "font-semibold mb-1 text-2xl lg:text-3xl",
-          @variant == :primary && "text-slate-900",
-          @variant == :secondary && "text-slate-100"
+          "font-semibold mb-1 text-2xl",
+          @variant == "primary" && "text-slate-900",
+          @variant == "secondary" && "text-slate-100"
         ]}>
           <%= render_slot(@inner_block) %>
         </h1>
@@ -865,7 +861,7 @@ defmodule NotebookServerWeb.CoreComponents do
       ]}>
         <.link
           :for={{tab, _i} <- Enum.with_index(@tab)}
-          patch={tab[:patch]}
+          navigate={tab[:patch]}
           class={[
             "text-sm",
             @active_tab == tab[:id] &&
@@ -1126,19 +1122,19 @@ defmodule NotebookServerWeb.CoreComponents do
     """
   end
 
-  attr :evidence_bridge, :any, required: true
+  attr :bridge, :any, required: true
 
-  def evidence_bridge_status_badge(assigns) do
+  def bridge_status_badge(assigns) do
     ~H"""
     <.badge>
       <:label>
         <div class={[
           "h-[6.5px] w-[6.5px] rounded-full",
-          @evidence_bridge.active == true && "bg-emerald-500",
-          @evidence_bridge.active == false && "bg-slate-400"
+          @bridge.active == true && "bg-emerald-500",
+          @bridge.active == false && "bg-slate-400"
         ]}>
         </div>
-        <%= @evidence_bridge.active %>
+        <%= @bridge.active %>
       </:label>
     </.badge>
     """

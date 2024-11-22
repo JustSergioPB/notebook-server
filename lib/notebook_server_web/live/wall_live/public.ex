@@ -1,5 +1,5 @@
 defmodule NotebookServerWeb.WallLive.Public do
-  alias NotebookServer.Bridges.EvidenceBridge
+  alias NotebookServer.Bridges.Bridge
   alias NotebookServer.Bridges
   alias NotebookServer.Orgs
   use NotebookServerWeb, :live_view_blank
@@ -9,30 +9,28 @@ defmodule NotebookServerWeb.WallLive.Public do
     ~H"""
     <main class="h-screen py-12">
       <.header class="mb-12 px-64">
-        <%= gettext("wall_title %{org_name}", org_name: @org.name) %>
+        <%= dgettext("orgs", "public_wall_title %{org_name}", org_name: @org.name) %>
         <:subtitle>
-          <%= gettext("wall_subtitle") %>
+          <%= dgettext("orgs", "public_wall_subtitle") %>
         </:subtitle>
       </.header>
       <.tabs class="h-full" active_tab={@active_tab} variant="public">
-        <:tab label={gettext("bridges")} id="bridges" patch={~p"/wall/show?tab=bridges"}>
-          <h2 class="text-2xl font-semibold"><%= gettext("bridges") %></h2>
-          <p class="text-slate-600 mb-6"><%= gettext("obtain_bridge_credentials") %></p>
-          <%= if Enum.count(@streams.evidence_bridges) > 0 do %>
+        <:tab label={dgettext("bridges", "title")} id="bridges" patch={~p"/wall/show?tab=bridges"}>
+          <h2 class="text-2xl font-semibold"><%= dgettext("bridges", "title") %></h2>
+          <p class="text-slate-600 mb-6"><%= dgettext("bridges", "obtain") %></p>
+          <%= if Enum.count(@streams.bridges) > 0 do %>
             <div class="grid grid-cols-4 gap-6">
               <div
-                :for={{_, evidence_bridge} <- @streams.evidence_bridges}
+                :for={{_, bridge} <- @streams.bridges}
                 class="border border-slate-300 p-4 rounded-lg space-y-6 h-48 mx-h-48 flex flex-col"
               >
                 <div class="space-y-2 flex-1">
-                  <h3 class="font-semibold"><%= evidence_bridge.published_version.title %></h3>
+                  <h3 class="font-semibold"><%= bridge.published_version.title %></h3>
                   <p class="text-sm text-slate-600">
-                    <%= evidence_bridge.published_version.description %>
+                    <%= bridge.published_version.description %>
                   </p>
                 </div>
-                <.link navigate={
-                  ~p"/#{@org.public_id}/wall/evidence-bridges/email/#{evidence_bridge.public_id}"
-                }>
+                <.link navigate={~p"/#{@org.public_id}/wall/bridges/email/#{bridge.public_id}"}>
                   <.button icon="arrow-right" icon_side="right" class="w-full">
                     <%= gettext("get") %>
                   </.button>
@@ -43,10 +41,10 @@ defmodule NotebookServerWeb.WallLive.Public do
             <div class="flex items-center justify-center h-full">
               <div class="flex flex-col items-center">
                 <h3 class="text-lg font-semibold mb-1">
-                  <%= dgettext("evidence_bridges", "empty_public_title") %>
+                  <%= dgettext("bridges", "empty_public_title") %>
                 </h3>
                 <p class="font-sm text-slate-600 mb-6">
-                  <%= dgettext("evidence_bridges", "empty_public_subtitle") %>
+                  <%= dgettext("bridges", "empty_public_subtitle") %>
                 </p>
                 <Lucide.unplug class="h-10 w-10 text-slate-600" />
               </div>
@@ -67,13 +65,13 @@ defmodule NotebookServerWeb.WallLive.Public do
 
     {:noreply,
      socket
-     |> assign(:page_title, gettext("public_wall_bridges"))
+     |> assign(:page_title, dgettext("orgs", "public_wall_title"))
      |> assign(:active_tab, params["tab"] || "bridges")
      |> assign(:org, org)
      |> stream(
-       :evidence_bridges,
-       Bridges.list_evidence_bridges(org_id: org.id, active: true)
-       |> Enum.map(fn evidence_bridge -> evidence_bridge |> EvidenceBridge.map_to_wall() end)
+       :bridges,
+       Bridges.list_bridges(org_id: org.id, active: true)
+       |> Enum.map(fn bridge -> bridge |> Bridge.map_to_wall() end)
      )}
   end
 end

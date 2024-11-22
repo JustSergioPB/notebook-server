@@ -99,15 +99,6 @@ defmodule NotebookServerWeb.Router do
         live "/:id/show/edit", CertificateLive.Show, :edit
       end
 
-      scope "/bridges" do
-        pipe_through :require_admin_user
-        live "/", BridgeLive.Index, :index
-        live "/new", BridgeLive.Index, :new
-        live "/:id/edit", BridgeLive.Index, :edit
-        live "/:id", BridgeLive.Show, :show
-        live "/:id/show/edit", BridgeLive.Show, :edit
-      end
-
       scope "/users" do
         pipe_through :require_org_admin_user
         live "/", UserLive.Index, :index
@@ -126,11 +117,11 @@ defmodule NotebookServerWeb.Router do
         live "/:id/show/edit", SchemaLive.Show, :edit
       end
 
-      scope "/evidence-bridges" do
+      scope "/bridges" do
         pipe_through :require_org_admin_user
-        live "/", EvidenceBridgeLive.Index, :index
-        live "/new", EvidenceBridgeLive.Index, :new
-        live "/:id/edit", EvidenceBridgeLive.Index, :edit
+        live "/", BridgeLive.Index, :index
+        live "/new", BridgeLive.Index, :new
+        live "/:id/edit", BridgeLive.Index, :edit
       end
 
       scope "/wall" do
@@ -154,7 +145,7 @@ defmodule NotebookServerWeb.Router do
 
     scope "/:id/wall" do
       live "/", WallLive.Public, :show
-      live "/evidence-bridges/email/:public_id", EmailEvidenceBridgeLive.FormComponent, :show
+      live "/bridges/email/:public_id", EmailBridgeLive.FormComponent, :show
     end
 
     live_session :current_user,

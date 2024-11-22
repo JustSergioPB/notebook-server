@@ -1,7 +1,7 @@
 <.page_header icon="brick-wall">
-  <%= gettext("wall") %>
+  <%= dgettext("orgs", "wall") %>
   <:subtitle>
-    <%= gettext("your_wall") %>
+    <%= dgettext("orgs", "your_wall") %>
   </:subtitle>
 </.page_header>
 <.page_content>
@@ -13,27 +13,25 @@
     <%= @url %>
   </.link>
   <.tabs active_tab={@active_tab}>
-    <:tab
-      label={gettext("evidence_bridges")}
-      id="evidence_bridges"
-      patch={~p"/wall/show?tab=evidence_bridges"}
-    >
-      <h2 class="text-lg font-semibold"><%= gettext("evidence_bridges") %></h2>
-      <p class="text-slate-600 mb-6"><%= gettext("configure_bridge_credentials") %></p>
-      <%= if Enum.count(@streams.evidence_bridges) > 0 do %>
+    <:tab label={dgettext("bridges", "title")} id="bridges" patch={~p"/wall/show?tab=bridges"}>
+      <h2 class="text-lg font-semibold"><%= dgettext("bridges", "title") %></h2>
+      <p class="text-slate-600 mb-6">
+        <%= dgettext("bridges", "configure") %>
+      </p>
+      <%= if Enum.count(@streams.bridges) > 0 do %>
         <div class="grid grid-cols-4 gap-6">
           <div
-            :for={{_, evidence_bridge} <- @streams.evidence_bridges}
+            :for={{_, bridge} <- @streams.bridges}
             class="border border-slate-300 p-4 rounded-lg space-y-6 h-32 mx-h-32"
           >
             <div class="flex items-center justify-between">
               <h3 class="font-semibold text-base">
-                <%= evidence_bridge.published_version.title %>
+                <%= bridge.published_version.title %>
               </h3>
-              <.switch id={evidence_bridge.id} checked={evidence_bridge.active} on_click="toggle" />
+              <.switch id={bridge.id} checked={bridge.active} on_click="toggle" />
             </div>
             <p class="text-sm text-slate-600">
-              <%= evidence_bridge.published_version.description %>
+              <%= bridge.published_version.description %>
             </p>
           </div>
         </div>
@@ -41,14 +39,14 @@
         <div class="flex items-center justify-center h-full border border-slate-300 rounded-lg">
           <div class="flex flex-col items-center">
             <h3 class="text-lg font-semibold mb-1">
-              <%= dgettext("evidence_bridges", "empty_title") %>
+              <%= dgettext("bridges", "empty_title") %>
             </h3>
             <p class="font-sm text-slate-600 mb-6">
-              <%= dgettext("evidence_bridges", "empty_subtitle") %>
+              <%= dgettext("bridges", "empty_subtitle") %>
             </p>
-            <.link patch={~p"/evidence-bridges/new"}>
+            <.link patch={~p"/bridges/new"}>
               <.button icon="plus_circle">
-                <%= gettext("evidence_bridge") %>
+                <%= dgettext("bridges", "bridge") %>
               </.button>
             </.link>
           </div>

@@ -11,7 +11,7 @@ defmodule NotebookServer.Orgs.Org do
     field :status, Ecto.Enum, values: @status, default: :active
     field :public_id, :binary_id
     has_many :users, NotebookServer.Accounts.User
-    has_many :evidence_bridges, NotebookServer.Bridges.EvidenceBridge
+    has_many :bridges, NotebookServer.Bridges.Bridge
     has_many :org_certificates, NotebookServer.Certificates.OrgCertificate
     has_many :user_certificates, NotebookServer.Certificates.UserCertificate
     has_many :user_credentials, NotebookServer.Credentials.UserCredential

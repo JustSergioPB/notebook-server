@@ -1,8 +1,8 @@
-defmodule NotebookServerWeb.EmailEvidenceBridgeLive.FormComponent do
+defmodule NotebookServerWeb.EmailBridgeLive.FormComponent do
   alias NotebookServer.Credentials.OrgCredential
   alias NotebookServer.Bridges
   alias NotebookServer.Orgs
-  alias NotebookServer.Bridges.EmailEvidenceBridge
+  alias NotebookServer.Bridges.EmailBridge
   alias NotebookServer.Schemas.SchemaVersion
   alias NotebookServerWeb.JsonSchemaComponents
   use NotebookServerWeb, :live_view_blank
@@ -12,26 +12,26 @@ defmodule NotebookServerWeb.EmailEvidenceBridgeLive.FormComponent do
     ~H"""
     <main class="h-screen flex flex-col items-center justify-center">
       <div class="flex flex-col w-1/3 space-y-12">
-        <.back navigate={~p"/#{@org.public_id}/wall"}><%= gettext("back") %></.back>
+        <.back navigate={~p"/#{@org.public_id}/wall"}><%= gettext("go_back") %></.back>
         <.stepper active_step={@step}>
-          <:step label={gettext("email")} step={1}>
+          <:step label={dgettext("email_bridges", "email")} step={1}>
             <.simple_form
               id="credential-form"
-              for={@email_evidence_bridge_form}
+              for={@email_bridge_form}
               class={if @step == 1, do: "flex w-full", else: "hidden"}
-              phx-change="validate-email-evidence-bridge"
-              phx-submit="submit-email-evidence-bridge"
+              phx-change="validate-email-bridge"
+              phx-submit="submit-email-bridge"
             >
               <.header class="mb-12">
-                <%= gettext("introduce_email_title") %>
+                <%= dgettext("email_bridges", "introduce_email_title") %>
                 <:subtitle>
-                  <%= gettext("introduce_email_description") %>
+                  <%= dgettext("email_bridges", "introduce_email_description") %>
                 </:subtitle>
               </.header>
               <.inputs_for
                 :let={org_credential_form}
                 :if={@step == 1}
-                field={@email_evidence_bridge_form[:org_credential]}
+                field={@email_bridge_form[:org_credential]}
               >
                 <.inputs_for :let={credential_form} field={org_credential_form[:credential]}>
                   <.inputs_for :let={credential_content_form} field={credential_form[:content]}>
@@ -54,7 +54,7 @@ defmodule NotebookServerWeb.EmailEvidenceBridgeLive.FormComponent do
               </:actions>
             </.simple_form>
           </:step>
-          <:step label={gettext("code")} step={2}>
+          <:step label={dgettext("email_bridges", "code")} step={2}>
             <.simple_form
               id="code-form"
               class={if @step == 2, do: "flex", else: "hidden"}
@@ -63,16 +63,16 @@ defmodule NotebookServerWeb.EmailEvidenceBridgeLive.FormComponent do
               phx-submit="submit-code-validation"
             >
               <.header class="mb-12">
-                <%= gettext("introduce_code_title") %>
+                <%= dgettext("email_bridges", "introduce_code_title") %>
                 <:subtitle>
-                  <%= gettext("introduce_code_description") %>
+                  <%= dgettext("email_bridges", "introduce_code_description") %>
                 </:subtitle>
               </.header>
               <.input
                 field={@code_form[:code]}
                 type="text"
-                label={gettext("code")}
-                placeholder={gettext("code_placeholder")}
+                label={dgettext("email_bridges", "code")}
+                placeholder={dgettext("email_bridges", "code_placeholder")}
                 phx-debounce="blur"
                 required
               />
@@ -86,11 +86,11 @@ defmodule NotebookServerWeb.EmailEvidenceBridgeLive.FormComponent do
               </:actions>
             </.simple_form>
           </:step>
-          <:step label={gettext("qr")} step={3}>
+          <:step label={dgettext("email_bridges", "qr")} step={3}>
             <.header class="mb-12">
-              <%= gettext("scan_qr_title") %>
+              <%= dgettext("email_bridges", "scan_qr_title") %>
               <:subtitle>
-                <%= gettext("scan_qr_description") %>
+                <%= dgettext("email_bridges", "scan_qr_description") %>
               </:subtitle>
             </.header>
             <img
@@ -98,7 +98,7 @@ defmodule NotebookServerWeb.EmailEvidenceBridgeLive.FormComponent do
               src={@credential_url}
               width="400"
               height="400"
-              alt={gettext("qr_alt")}
+              alt={dgettext("email_bridges", "qr_alt")}
             />
           </:step>
         </.stepper>
@@ -110,21 +110,21 @@ defmodule NotebookServerWeb.EmailEvidenceBridgeLive.FormComponent do
   def mount(_params, _session, socket) do
     {:ok,
      socket
-     |> assign(:page_title, gettext("public_wall_bridges"))
+     |> assign(:page_title, dgettext("email_bridges", "public_title"))
      |> assign(:credential_url, nil)
      |> assign(
-       :email_evidence_bridge_form,
-       to_form(Bridges.change_email_evidence_bridge(%EmailEvidenceBridge{}))
+       :email_bridge_form,
+       to_form(Bridges.change_email_bridge(%EmailBridge{}))
      )
      |> assign(:code_form, to_form(%{"code" => nil}))}
   end
 
   def handle_params(params, _url, socket) do
     org = Orgs.get_org_by_public_id!(params["id"])
-    evidence_bridge = Bridges.get_evidence_bridge_by_public_id!(params["public_id"])
+    bridge = Bridges.get_bridge_by_public_id!(params["public_id"])
 
     schema =
-      evidence_bridge
+      bridge
       |> Map.get(:schema)
 
     schema_version =
@@ -138,7 +138,7 @@ defmodule NotebookServerWeb.EmailEvidenceBridgeLive.FormComponent do
      socket
      |> assign(:step, 1)
      |> assign(:org, org)
-     |> assign(:evidence_bridge, evidence_bridge)
+     |> assign(:bridge, bridge)
      |> assign(:schema_version, schema_version)}
   end
 
@@ -147,26 +147,33 @@ defmodule NotebookServerWeb.EmailEvidenceBridgeLive.FormComponent do
   end
 
   def handle_event(
-        "validate-email-evidence-bridge",
-        %{"email_evidence_bridge" => email_evidence_bridge_params},
+        "validate-email-bridge",
+        %{"email_bridge" => email_bridge_params},
         socket
       ) do
-    email_evidence_bridge_params =
-      socket |> gen_complete_email_evidence_bridge(email_evidence_bridge_params)
+    email_bridge_params =
+      socket |> gen_complete_email_bridge(email_bridge_params)
 
     changeset =
-      Bridges.change_email_evidence_bridge(%EmailEvidenceBridge{}, email_evidence_bridge_params)
+      Bridges.change_email_bridge(%EmailBridge{}, email_bridge_params)
 
-    {:noreply, assign(socket, email_evidence_bridge_form: to_form(changeset, action: :validate))}
+    {:noreply, assign(socket, email_bridge_form: to_form(changeset, action: :validate))}
   end
 
   def handle_event("validate-code", %{"code" => code}, socket) do
-    errors = if String.length(code) == 0, do: [code: gettext("field_required")], else: []
-    errors = if String.length(code) > 6, do: [code: gettext("invalid_code_length")], else: errors
+    errors =
+      if String.length(code) == 0,
+        do: [code: gettext("field_required")],
+        else: []
+
+    errors =
+      if String.length(code) > 6,
+        do: [code: dgettext("email_bridges", "invalid_code_length")],
+        else: errors
 
     errors =
       if !String.match?(code, ~r/^\d{6}$/),
-        do: [code: gettext("invalid_code_format")],
+        do: [code: dgettext("email_bridges", "invalid_code_format")],
         else: errors
 
     {:noreply,
@@ -174,19 +181,19 @@ defmodule NotebookServerWeb.EmailEvidenceBridgeLive.FormComponent do
   end
 
   def handle_event(
-        "submit-email-evidence-bridge",
-        %{"email_evidence_bridge" => email_evidence_bridge_params},
+        "submit-email-bridge",
+        %{"email_bridge" => email_bridge_params},
         socket
       ) do
-    email_evidence_bridge_params =
-      socket |> gen_complete_email_evidence_bridge(email_evidence_bridge_params)
+    email_bridge_params =
+      socket |> gen_complete_email_bridge(email_bridge_params)
 
-    case Bridges.create_email_evidence_bridge(email_evidence_bridge_params) do
+    case Bridges.create_email_bridge(email_bridge_params) do
       {:ok, email_bridge, message} ->
         {:noreply,
          socket
          |> put_flash(:info, message)
-         |> assign(:email_evidence_id, email_bridge |> Map.get(:id))
+         |> assign(:email_id, email_bridge |> Map.get(:id))
          |> assign(:step, socket.assigns.step + 1)}
 
       {:error, message} ->
@@ -197,12 +204,12 @@ defmodule NotebookServerWeb.EmailEvidenceBridgeLive.FormComponent do
   end
 
   def handle_event("submit-code-validation", %{"code" => code}, socket) do
-    case Bridges.validate_email_evidence_bridge(%EmailEvidenceBridge{
-           id: socket.assigns.email_evidence_id,
+    case Bridges.validate_email_bridge(%EmailBridge{
+           id: socket.assigns.email_id,
            code: code
          }) do
-      {:ok, _email_evidence_bridge, message} ->
-        # public_id = email_evidence_bridge.org_credential.credential.public_id
+      {:ok, _, message} ->
+        #TODO public_id = email_bridge.org_credential.credential.public_id
 
         public_id = 0
 
@@ -219,26 +226,26 @@ defmodule NotebookServerWeb.EmailEvidenceBridgeLive.FormComponent do
     end
   end
 
-  defp gen_complete_email_evidence_bridge(socket, email_evidence_bridge_params) do
+  defp gen_complete_email_bridge(socket, email_bridge_params) do
     org = socket.assigns.org
     schema_version = socket.assigns.schema_version
-    evidence_bridge = socket.assigns.evidence_bridge
+    bridge = socket.assigns.bridge
 
     email =
-      email_evidence_bridge_params
+      email_bridge_params
       |> get_in(["org_credential", "credential", "content", "credential_subject", "content"])
 
     org_credential =
-      email_evidence_bridge_params
+      email_bridge_params
       |> Map.get("org_credential")
       |> OrgCredential.gen_full(org, schema_version)
 
-    email_evidence_bridge_params
+    email_bridge_params
     |> Map.merge(%{
       "org_credential" => org_credential,
       "org_id" => org.id,
       "email" => email,
-      "evidence_bridge_id" => evidence_bridge.id
+      "bridge_id" => bridge.id
     })
   end
 end

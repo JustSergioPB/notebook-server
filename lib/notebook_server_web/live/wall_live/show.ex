@@ -1,5 +1,5 @@
 defmodule NotebookServerWeb.WallLive.Show do
-  alias NotebookServer.Bridges.EvidenceBridge
+  alias NotebookServer.Bridges.Bridge
   alias NotebookServer.Bridges
   alias NotebookServer.Orgs
   use NotebookServerWeb, :live_view_app
@@ -14,9 +14,9 @@ defmodule NotebookServerWeb.WallLive.Show do
     {:ok,
      socket
      |> stream(
-       :evidence_bridges,
-       Bridges.list_evidence_bridges(org_id: org_id)
-       |> Enum.map(fn evidence_bridge -> evidence_bridge |> EvidenceBridge.map_to_wall() end)
+       :bridges,
+       Bridges.list_bridges(org_id: org_id)
+       |> Enum.map(fn bridge -> bridge |> Bridge.map_to_wall() end)
      )
      |> assign(:url, "#{base_url}/#{org.public_id}/wall")}
   end
@@ -25,20 +25,20 @@ defmodule NotebookServerWeb.WallLive.Show do
   def handle_params(params, _url, socket) do
     {:noreply,
      socket
-     |> assign(:page_title, gettext("wall_bridges"))
-     |> assign(:active_tab, params["tab"] || "evidence_bridges")}
+     |> assign(:page_title, dgettext("orgs", "wall_title"))
+     |> assign(:active_tab, params["tab"] || "bridges")}
   end
 
   @impl true
   def handle_event("toggle", %{"id" => id}, socket) do
-    evidence_bridge = Bridges.get_evidence_bridge!(id)
+    bridge = Bridges.get_bridge!(id)
 
-    case Bridges.update_evidence_bridge(evidence_bridge, %{active: !evidence_bridge.active}) do
+    case Bridges.update_bridge(bridge, %{active: !bridge.active}) do
       {:ok, _} ->
-        {:noreply, socket |> put_flash(:info, gettext("bridge_update_success"))}
+        {:noreply, socket |> put_flash(:info, dgettext("bridges", "bridge_update_succeded"))}
 
       {:error, _} ->
-        {:noreply, socket |> put_flash(:error, gettext("bridge_update_failed"))}
+        {:noreply, socket |> put_flash(:error, dgettext("bridges", "bridge_update_failed"))}
     end
   end
 end
