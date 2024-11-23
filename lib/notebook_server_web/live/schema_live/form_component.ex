@@ -12,7 +12,7 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
       </.header>
       <.info_banner
         :if={!@latest_is_in_draft?}
-        content={dgettext("schemas", "latest_is_not_id_draft")}
+        content={dgettext("schemas", "latest_is_not_in_draft")}
         variant="warn"
       />
       <.simple_form

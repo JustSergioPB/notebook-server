@@ -22,6 +22,126 @@ msgid "empty_title"
 msgstr ""
 
 #: lib/notebook_server_web/live/bridge_live/index.html.heex:21
+#: lib/notebook_server_web/live/schema_live/index.html.heex:6
 #, elixir-autogen, elixir-format
 msgid "schema"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/index.html.heex:55
+#: lib/notebook_server_web/live/schema_live/index.html.heex:64
+#, elixir-autogen, elixir-format
+msgid "archive"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/index.html.heex:84
+#, elixir-autogen, elixir-format
+msgid "are_you_sure"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/form_component.ex:140
+#, elixir-autogen, elixir-format
+msgid "creation_failed"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/form_component.ex:131
+#, elixir-autogen, elixir-format
+msgid "creation_succeded"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/index.html.heex:78
+#: lib/notebook_server_web/live/schema_live/index.html.heex:86
+#, elixir-autogen, elixir-format
+msgid "delete"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/index.ex:71
+#, elixir-autogen, elixir-format
+msgid "delete_failed"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/index.ex:65
+#, elixir-autogen, elixir-format
+msgid "delete_succeded"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/form_component.ex:38
+#: lib/notebook_server_web/live/schema_live/index.html.heex:25
+#, elixir-autogen, elixir-format
+msgid "description"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/form_component.ex:39
+#, elixir-autogen, elixir-format
+msgid "description_placeholder"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/index.ex:31
+#: lib/notebook_server_web/live/schema_live/index.html.heex:70
+#: lib/notebook_server_web/live/schema_live/index.html.heex:72
+#, elixir-autogen, elixir-format
+msgid "edit"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/form_component.ex:15
+#, elixir-autogen, elixir-format
+msgid "latest_is_not_in_draft"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/index.ex:37
+#, elixir-autogen, elixir-format
+msgid "new"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/form_component.ex:45
+#: lib/notebook_server_web/live/schema_live/index.html.heex:34
+#, elixir-autogen, elixir-format
+msgid "platform"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/index.html.heex:41
+#: lib/notebook_server_web/live/schema_live/index.html.heex:50
+#, elixir-autogen, elixir-format
+msgid "publish"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/index.html.heex:31
+#, elixir-autogen, elixir-format
+msgid "published_version"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/form_component.ex:59
+#, elixir-autogen, elixir-format
+msgid "raw_content"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/form_component.ex:72
+#, elixir-autogen, elixir-format
+msgid "save"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/index.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "schemas"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/index.html.heex:37
+#, elixir-autogen, elixir-format
+msgid "status"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/form_component.ex:28
+#: lib/notebook_server_web/live/schema_live/index.ex:43
+#: lib/notebook_server_web/live/schema_live/index.html.heex:22
+#, elixir-autogen, elixir-format
+msgid "title"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/form_component.ex:29
+#, elixir-autogen, elixir-format
+msgid "title_placeholder"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/form_component.ex:116
+#, elixir-autogen, elixir-format
+msgid "update_succeded"
 msgstr ""

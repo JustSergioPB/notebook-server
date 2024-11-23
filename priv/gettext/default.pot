@@ -57,7 +57,6 @@ msgstr ""
 #: lib/notebook_server_web/live/bridge_live/index.html.heex:55
 #: lib/notebook_server_web/live/credential_live/index.html.heex:62
 #: lib/notebook_server_web/live/credential_live/index.html.heex:113
-#: lib/notebook_server_web/live/schema_live/index.html.heex:90
 #: lib/notebook_server_web/live/user_live/index.html.heex:72
 #, elixir-autogen, elixir-format
 msgid "are_you_sure"
@@ -96,16 +95,12 @@ msgstr ""
 #: lib/notebook_server_web/live/credential_live/index.html.heex:64
 #: lib/notebook_server_web/live/credential_live/index.html.heex:105
 #: lib/notebook_server_web/live/credential_live/index.html.heex:115
-#: lib/notebook_server_web/live/schema_live/index.html.heex:83
-#: lib/notebook_server_web/live/schema_live/index.html.heex:92
 #: lib/notebook_server_web/live/user_live/index.html.heex:65
 #: lib/notebook_server_web/live/user_live/index.html.heex:74
 #, elixir-autogen, elixir-format
 msgid "delete"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/index.html.heex:70
-#: lib/notebook_server_web/live/schema_live/index.html.heex:77
 #: lib/notebook_server_web/live/user_live/index.html.heex:38
 #: lib/notebook_server_web/live/user_live/index.html.heex:45
 #, elixir-autogen, elixir-format
@@ -294,7 +289,6 @@ msgstr ""
 
 #: lib/notebook_server_web/live/bridge_live/form_component.ex:33
 #: lib/notebook_server_web/live/certificate_live/form_component.ex:62
-#: lib/notebook_server_web/live/schema_live/form_component.ex:64
 #: lib/notebook_server_web/live/user_live/form_component.ex:57
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:62
 #, elixir-autogen, elixir-format
@@ -321,7 +315,6 @@ msgstr ""
 msgid "show_user"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/index.html.heex:37
 #: lib/notebook_server_web/live/user_live/index.html.heex:27
 #, elixir-autogen, elixir-format
 msgid "status"
@@ -451,7 +444,6 @@ msgstr ""
 msgid "dashboard_title"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/index.html.heex:28
 #: lib/notebook_server_web/live/user_live/index.html.heex:33
 #, elixir-autogen, elixir-format
 msgid "org_name"
@@ -506,9 +498,8 @@ msgstr ""
 #: lib/notebook_server/credentials/credential_schema.ex:15
 #: lib/notebook_server/credentials/credential_subject.ex:15
 #: lib/notebook_server/credentials/verifiable_credential.ex:20
-#: lib/notebook_server/schemas/schema.ex:27
-#: lib/notebook_server_web/live/credential_live/form_component.ex:138
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:166
+#: lib/notebook_server_web/live/credential_live/form_component.ex:137
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:164
 #, elixir-autogen, elixir-format
 msgid "field_required"
 msgstr ""
@@ -654,8 +645,6 @@ msgid "user_updated_successfully"
 msgstr ""
 
 #: lib/notebook_server_web/components/layouts/app.html.heex:26
-#: lib/notebook_server_web/live/schema_live/index.ex:51
-#: lib/notebook_server_web/live/schema_live/index.html.heex:2
 #, elixir-autogen, elixir-format
 msgid "schemas"
 msgstr ""
@@ -665,51 +654,22 @@ msgstr ""
 msgid "back_to_schemas"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/index.ex:39
 #: lib/notebook_server_web/live/schema_live/show.ex:21
 #: lib/notebook_server_web/live/schema_live/show.html.heex:5
 #, elixir-autogen, elixir-format
 msgid "edit_schema"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/index.ex:45
-#, elixir-autogen, elixir-format
-msgid "new_schema"
-msgstr ""
-
 #: lib/notebook_server_web/live/credential_live/index.html.heex:27
 #: lib/notebook_server_web/live/credential_live/index.html.heex:82
-#: lib/notebook_server_web/live/schema_live/index.html.heex:6
 #: lib/notebook_server_web/live/schema_live/show.html.heex:2
 #, elixir-autogen, elixir-format
 msgid "schema"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:123
-#, elixir-autogen, elixir-format
-msgid "schema_created_successfully"
-msgstr ""
-
-#: lib/notebook_server_web/live/schema_live/form_component.ex:108
-#, elixir-autogen, elixir-format
-msgid "schema_updated_successfully"
-msgstr ""
-
 #: lib/notebook_server_web/live/schema_live/show.ex:20
 #, elixir-autogen, elixir-format
 msgid "show_schema"
-msgstr ""
-
-#: lib/notebook_server_web/live/schema_live/form_component.ex:39
-#: lib/notebook_server_web/live/schema_live/index.html.heex:25
-#, elixir-autogen, elixir-format
-msgid "description"
-msgstr ""
-
-#: lib/notebook_server_web/live/schema_live/form_component.ex:30
-#: lib/notebook_server_web/live/schema_live/index.html.heex:22
-#, elixir-autogen, elixir-format
-msgid "title"
 msgstr ""
 
 #: lib/notebook_server_web/components/layouts/app.html.heex:34
@@ -753,39 +713,12 @@ msgstr ""
 msgid "show_credential"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:46
-#: lib/notebook_server_web/live/schema_live/index.html.heex:34
-#, elixir-autogen, elixir-format
-msgid "platform"
-msgstr ""
-
-#: lib/notebook_server/schemas/schema_version.ex:47
-#, elixir-autogen, elixir-format
-msgid "schema_description_length %{min} %{max}"
-msgstr ""
-
-#: lib/notebook_server/schemas/schema.ex:32
-#, elixir-autogen, elixir-format
-msgid "schema_title_length %{min} %{max}"
-msgstr ""
-
-#: lib/notebook_server_web/live/schema_live/form_component.ex:56
-#, elixir-autogen, elixir-format
-msgid "raw_content"
-msgstr ""
-
-#: lib/notebook_server_web/live/schema_live/form_component.ex:40
-#, elixir-autogen, elixir-format
-msgid "description_placeholder"
-msgstr ""
-
 #: lib/notebook_server_web/components/layouts/app.html.heex:16
 #, elixir-autogen, elixir-format
 msgid "certificates"
 msgstr ""
 
-#: lib/notebook_server_web/live/credential_live/form_component.ex:33
-#: lib/notebook_server_web/live/schema_live/form_component.ex:31
+#: lib/notebook_server_web/live/credential_live/form_component.ex:32
 #, elixir-autogen, elixir-format
 msgid "title_placeholder"
 msgstr ""
@@ -816,88 +749,28 @@ msgstr ""
 msgid "revoke"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/index.html.heex:55
-#: lib/notebook_server_web/live/schema_live/index.html.heex:64
-#, elixir-autogen, elixir-format
-msgid "archive"
-msgstr ""
-
-#: lib/notebook_server_web/live/schema_live/index.html.heex:41
-#: lib/notebook_server_web/live/schema_live/index.html.heex:50
-#, elixir-autogen, elixir-format
-msgid "publish"
-msgstr ""
-
-#: lib/notebook_server_web/live/credential_live/form_component.ex:31
+#: lib/notebook_server_web/live/credential_live/form_component.ex:30
 #, elixir-autogen, elixir-format
 msgid "search_schema"
 msgstr ""
 
-#: lib/notebook_server_web/live/credential_live/form_component.ex:76
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:81
+#: lib/notebook_server_web/live/credential_live/form_component.ex:75
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:80
 #, elixir-autogen, elixir-format
 msgid "back"
 msgstr ""
 
-#: lib/notebook_server_web/live/credential_live/form_component.ex:43
-#: lib/notebook_server_web/live/credential_live/form_component.ex:79
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:52
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:84
+#: lib/notebook_server_web/live/credential_live/form_component.ex:42
+#: lib/notebook_server_web/live/credential_live/form_component.ex:78
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:51
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:83
 #, elixir-autogen, elixir-format
 msgid "next"
-msgstr ""
-
-#: lib/notebook_server/schemas.ex:170
-#: lib/notebook_server/schemas.ex:196
-#, elixir-autogen, elixir-format
-msgid "error_while_archiving_old_version"
-msgstr ""
-
-#: lib/notebook_server/schemas.ex:102
-#, elixir-autogen, elixir-format
-msgid "error_while_creating_schema"
-msgstr ""
-
-#: lib/notebook_server/schemas.ex:105
-#: lib/notebook_server/schemas.ex:129
-#, elixir-autogen, elixir-format
-msgid "error_while_creating_schema_version"
-msgstr ""
-
-#: lib/notebook_server/schemas.ex:173
-#, elixir-autogen, elixir-format
-msgid "error_while_publishin_new_version"
-msgstr ""
-
-#: lib/notebook_server/schemas.ex:126
-#, elixir-autogen, elixir-format
-msgid "error_while_updating_schema"
-msgstr ""
-
-#: lib/notebook_server_web/live/schema_live/form_component.ex:17
-#, elixir-autogen, elixir-format
-msgid "schema_is_not_draft_edit_will_create_new_draft"
-msgstr ""
-
-#: lib/notebook_server_web/live/schema_live/index.html.heex:31
-#, elixir-autogen, elixir-format
-msgid "published_version"
 msgstr ""
 
 #: lib/notebook_server_web/components/json_schema_components.ex:42
 #, elixir-autogen, elixir-format
 msgid "add"
-msgstr ""
-
-#: lib/notebook_server/schemas.ex:167
-#: lib/notebook_server/schemas.ex:193
-#, elixir-autogen, elixir-format
-msgid "schema_version_not_found"
-msgstr ""
-
-#: lib/notebook_server/schemas/schema_version.ex:69
-#, elixir-autogen, elixir-format
-msgid "invalid_json"
 msgstr ""
 
 #: lib/notebook_server_web/live/credential_live/index.html.heex:45
@@ -1017,7 +890,7 @@ msgstr ""
 msgid "user_credential_deletion_succeed"
 msgstr ""
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:15
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:14
 #, elixir-autogen, elixir-format
 msgid "go_back"
 msgstr ""
