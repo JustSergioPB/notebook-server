@@ -90,19 +90,17 @@ defmodule NotebookServer.Schemas do
 
   def publish_schema_version(%SchemaVersion{} = schema_version) do
     Ecto.Multi.new()
-    |> Ecto.Multi.update(:publish_version, SchemaVersion.publish_changeset(schema_version))
     |> Ecto.Multi.update_all(
       :old_version,
-      fn %{publish_version: schema_version} ->
-        from(sv in SchemaVersion,
-          where: sv.schema_id == ^schema_version.schema_id and sv.status == :published,
-          update: [
-            set: [status: :archived]
-          ]
-        )
-      end,
+      from(sv in SchemaVersion,
+        where: sv.schema_id == ^schema_version.schema_id and sv.status == :published,
+        update: [
+          set: [status: :archived]
+        ]
+      ),
       []
     )
+    |> Ecto.Multi.update(:publish_version, SchemaVersion.publish_changeset(schema_version))
     |> Repo.transaction()
     |> case do
       {:ok, %{publish_version: schema_version}} ->
