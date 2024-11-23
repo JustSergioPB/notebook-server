@@ -3,7 +3,6 @@ defmodule NotebookServerWeb.EmailBridgeLive.FormComponent do
   alias NotebookServer.Bridges
   alias NotebookServer.Orgs
   alias NotebookServer.Bridges.EmailBridge
-  alias NotebookServer.Schemas.SchemaVersion
   alias NotebookServerWeb.JsonSchemaComponents
   use NotebookServerWeb, :live_view_blank
   use Gettext, backend: NotebookServerWeb.Gettext
@@ -132,7 +131,6 @@ defmodule NotebookServerWeb.EmailBridgeLive.FormComponent do
       |> Map.get(:schema_versions)
       |> Enum.find(fn version -> version.status == :published end)
       |> Map.put(:schema, schema)
-      |> SchemaVersion.get_credential_subject_content()
 
     {:noreply,
      socket

@@ -1,5 +1,4 @@
 defmodule NotebookServerWeb.CredentialLive.FormComponent do
-  alias NotebookServer.Schemas.SchemaVersion
   alias NotebookServer.Credentials.UserCredential
   alias NotebookServer.Schemas
   alias NotebookServer.Credentials
@@ -173,7 +172,6 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
       Schemas.list_schema_versions([title: query, status: :published] ++ org_filter(socket))
       |> Enum.map(fn schema_version ->
         schema_version
-        |> SchemaVersion.get_credential_subject_content()
         |> Map.put(:text, schema_version.schema.title)
       end)
 

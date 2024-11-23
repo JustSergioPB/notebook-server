@@ -939,15 +939,17 @@ defmodule NotebookServerWeb.CoreComponents do
     assigns = assign(assigns, :icon, icon)
 
     ~H"""
-    <div class={[
-      "flex items-start gap-2 rounded-md p-4",
-      @variant == "danger" && "bg-red-100 text-red-500",
-      @variant == "info" && "bg-blue-100 text-blue-500",
-      @variant == "warn" && "bg-amber-100 text-amber-500",
-      @variant == "success" && "bg-green-100 text-green-500"
-    ]}>
-      <Lucide.render icon={@icon} class="h-6 w-6" />
-      <p class="w-[95%]"><%= @content %></p>
+    <div class="flex items-center gap-2 rounded-md p-4 border border-slate-300 shadow-sm">
+      <div class={[
+        "flex items-center justify-center rounded-md p-2",
+        @variant == "danger" && "bg-red-100 text-red-500",
+        @variant == "info" && "bg-blue-100 text-blue-500",
+        @variant == "warn" && "bg-amber-100 text-amber-500",
+        @variant == "success" && "bg-green-100 text-green-500"
+      ]}>
+        <Lucide.render icon={@icon} class="h-5 w-5" />
+      </div>
+      <p class="w-[95%] text-sm font-semibold"><%= @content %></p>
     </div>
     """
   end
@@ -969,7 +971,7 @@ defmodule NotebookServerWeb.CoreComponents do
   def schema_version_option(assigns) do
     ~H"""
     <div class="flex items-center gap-1">
-      <.version_badge version={@schema.version_number} />
+      <.version_badge version={@schema.version} />
       <p class="font-bold"><%= @schema.text %></p>
     </div>
     <p><%= @schema.description %></p>

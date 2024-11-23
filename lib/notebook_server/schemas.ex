@@ -1,10 +1,8 @@
 defmodule NotebookServer.Schemas do
-  import Ecto.Query, warn: false
   alias NotebookServer.Repo
-
   alias NotebookServer.Schemas.Schema
   alias NotebookServer.Schemas.SchemaVersion
-  use Gettext, backend: NotebookServerWeb.Gettext
+  import Ecto.Query, warn: false
 
   @doc """
   Returns the list of schemas.
@@ -29,11 +27,7 @@ defmodule NotebookServer.Schemas do
         do: from(s in query, where: ilike(s.title, ^"%#{title}%")),
         else: query
 
-    Repo.all(query)
-    |> Repo.preload([
-      :org,
-      schema_versions: from(sv in SchemaVersion, order_by: sv.version_number)
-    ])
+    Repo.all(query) |> Repo.preload([:org, :schema_versions])
   end
 
   @doc """
@@ -50,13 +44,7 @@ defmodule NotebookServer.Schemas do
       ** (Ecto.NoResultsError)
 
   """
-  def get_schema!(id),
-    do:
-      Repo.get!(Schema, id)
-      |> Repo.preload([
-        :org,
-        schema_versions: from(sv in SchemaVersion, order_by: sv.version_number)
-      ])
+  def get_schema!(id), do: Repo.get!(Schema, id) |> Repo.preload([:org, :schema_versions])
 
   @doc """
   Deletes a schema.
@@ -75,59 +63,24 @@ defmodule NotebookServer.Schemas do
   end
 
   def create_schema(attrs \\ %{}) do
-    org_id = attrs |> Map.get("org_id")
-    title = attrs |> Map.get("title")
-
-    Ecto.Multi.new()
-    |> Ecto.Multi.insert(
-      :schema,
-      Schema.changeset(%Schema{}, %{org_id: org_id, title: title})
-    )
-    |> Ecto.Multi.insert(:schema_version, fn %{schema: schema} ->
-      attrs =
-        attrs
-        |> Map.merge(%{
-          "schema_id" => schema.id,
-          "version_number" => 0
-        })
-
-      SchemaVersion.changeset(%SchemaVersion{}, attrs)
-    end)
-    |> Repo.transaction()
-    |> case do
-      {:ok, %{schema: schema, schema_version: schema_version}} ->
-        {:ok, schema, schema_version}
-
-      {:error, :schema, changeset, _} ->
-        {:error, changeset, gettext("error_while_creating_schema")}
-
-      {:error, :schema_version, changeset, _} ->
-        {:error, changeset, gettext("error_while_creating_schema_version")}
-    end
+    %Schema{}
+    |> Schema.changeset(attrs)
+    |> Repo.insert()
   end
 
-  def update_schema(%SchemaVersion{} = schema_version, attrs) do
-    title = attrs |> Map.get("title")
-    org_id = schema_version |> Map.get(:org_id)
-    schema_id = schema_version |> Map.get(:schema_id)
+  def update_schema(%Schema{} = schema, attrs) do
+    latest_version =
+      schema |> Map.get("schema_versions") |> Enum.sort_by(& &1.version, :desc) |> Enum.at(0)
 
-    Ecto.Multi.new()
-    |> Ecto.Multi.update(
-      :schema,
-      Schema.changeset(%Schema{id: schema_id, org_id: org_id}, %{title: title})
-    )
-    |> insert_or_update_schema_version(schema_version, attrs)
-    |> Repo.transaction()
-    |> case do
-      {:ok, %{schema: schema, schema_version: schema_version}} ->
-        {:ok, schema, schema_version}
+    opts = if latest_version.status == :draft, do: [update: true], else: []
 
-      {:error, :schema, changeset, _} ->
-        {:error, changeset, gettext("error_while_updating_schema")}
+    %Schema{}
+    |> Schema.changeset(attrs, opts)
+    |> Repo.update()
+  end
 
-      {:error, :schema_version, changeset, _} ->
-        {:error, changeset, gettext("error_while_creating_schema_version")}
-    end
+  def change_schema(%Schema{} = schema, attrs \\ %{}) do
+    Schema.changeset(schema, attrs)
   end
 
   def get_schema_version!(id),
@@ -135,16 +88,12 @@ defmodule NotebookServer.Schemas do
       Repo.get!(SchemaVersion, id)
       |> Repo.preload(:schema)
 
-  def publish_schema_version(id) do
+  def publish_schema_version(%SchemaVersion{} = schema_version) do
     Ecto.Multi.new()
-    |> Ecto.Multi.one(:schema_version, fn %{} ->
-      from(sv in SchemaVersion,
-        where: sv.id == ^id
-      )
-    end)
+    |> Ecto.Multi.update(:publish_version, SchemaVersion.publish_changeset(schema_version))
     |> Ecto.Multi.update_all(
       :old_version,
-      fn %{schema_version: schema_version} ->
+      fn %{publish_version: schema_version} ->
         from(sv in SchemaVersion,
           where: sv.schema_id == ^schema_version.schema_id and sv.status == :published,
           update: [
@@ -154,51 +103,23 @@ defmodule NotebookServer.Schemas do
       end,
       []
     )
-    |> Ecto.Multi.update(:new_version, fn %{schema_version: schema_version} ->
-      SchemaVersion.publish_changeset(schema_version)
-    end)
     |> Repo.transaction()
     |> case do
-      {:ok,
-       %{schema_version: _schema_version, old_version: _old_version, new_version: new_version}} ->
-        {:ok, new_version}
+      {:ok, %{publish_version: schema_version}} ->
+        {:ok, schema_version}
 
-      {:error, :schema_version, _changeset, _} ->
-        {:error, gettext("schema_version_not_found")}
+      {:error, :publish_version, changeset, _} ->
+        {:error, :publish_version, changeset}
 
-      {:error, :old_version, _changeset, _} ->
-        {:error, gettext("error_while_archiving_old_version")}
-
-      {:error, :new_version, _changeset, _} ->
-        {:error, gettext("error_while_publishin_new_version")}
+      {:error, :old_version, _, _} ->
+        {:error, :old_version}
     end
   end
 
-  def archive_schema_version(id) do
-    Ecto.Multi.new()
-    |> Ecto.Multi.one(:schema_version, fn %{} ->
-      from(sv in SchemaVersion,
-        where: sv.id == ^id
-      )
-    end)
-    |> Ecto.Multi.update(:archived_version, fn %{schema_version: schema_version} ->
-      SchemaVersion.archive_changeset(schema_version)
-    end)
-    |> Repo.transaction()
-    |> case do
-      {:ok, %{schema_version: _schema_version, archived_version: archived_version}} ->
-        {:ok, archived_version}
-
-      {:error, :schema_version, _changeset, _} ->
-        {:error, gettext("schema_version_not_found")}
-
-      {:error, :archived_version, _changeset, _} ->
-        {:error, gettext("error_while_archiving_old_version")}
-    end
-  end
-
-  def change_schema_version(%SchemaVersion{} = schema_version, attrs \\ %{}) do
-    SchemaVersion.changeset(schema_version, attrs)
+  def archive_schema_version(%SchemaVersion{} = schema_version) do
+    schema_version
+    |> SchemaVersion.archive_changeset()
+    |> Repo.update()
   end
 
   def list_schema_versions(opts \\ []) do
@@ -232,30 +153,5 @@ defmodule NotebookServer.Schemas do
         else: query
 
     Repo.all(query) |> Repo.preload(:schema)
-  end
-
-  defp insert_or_update_schema_version(multi, schema_version, attrs) do
-    status = schema_version |> Map.get(:status)
-    version_number = schema_version |> Map.get(:version_number)
-
-    multi =
-      if status == :draft do
-        multi
-        |> Ecto.Multi.update(:schema_version, SchemaVersion.changeset(schema_version, attrs))
-      else
-        multi
-        |> Ecto.Multi.insert(:schema_version, fn %{schema: schema} ->
-          attrs =
-            attrs
-            |> Map.merge(%{
-              "schema_id" => schema.id,
-              "version_number" => version_number + 1
-            })
-
-          SchemaVersion.changeset(%SchemaVersion{}, attrs)
-        end)
-      end
-
-    multi
   end
 end
