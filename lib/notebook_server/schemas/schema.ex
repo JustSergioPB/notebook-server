@@ -6,7 +6,7 @@ defmodule NotebookServer.Schemas.Schema do
     field :title, :string
     field :public_id, :binary_id
     belongs_to :org, NotebookServer.Orgs.Org
-    has_many :schema_versions, NotebookServer.Schemas.SchemaVersion, on_replace: :delete
+    has_many :schema_versions, NotebookServer.Schemas.SchemaVersion
 
     timestamps(type: :utc_datetime)
   end

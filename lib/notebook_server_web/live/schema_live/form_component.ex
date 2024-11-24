@@ -55,7 +55,8 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
                 <.inputs_for :let={props_form} field={credential_subject_form[:properties]}>
                   <.input
                     type="textarea"
-                    field={props_form[:raw]}
+                    field={props_form[:content]}
+                    value={Jason.encode!(props_form[:content].value || %{}, pretty: true)}
                     label={dgettext("schemas", "raw_content")}
                     autocomplete="off"
                     rows="10"
@@ -108,8 +109,8 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
 
   defp save_schema(socket, :edit, schema_params) do
     case Schemas.update_schema(socket.assigns.schema, schema_params) do
-      {:ok, schema, schema} ->
-        notify_parent({:saved, schema, schema})
+      {:ok, schema} ->
+        notify_parent({:saved, schema})
 
         {:noreply,
          socket
@@ -117,7 +118,10 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, changeset, _} ->
-        {:noreply, assign(socket, form: to_form(changeset))}
+        {:noreply,
+         socket
+         |> assign(form: to_form(changeset, action: :validate))
+         |> put_flash(:error, dgettext("schemas", "update_failed"))}
     end
   end
 
@@ -132,11 +136,9 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, changeset} ->
-        IO.inspect(changeset)
-
         {:noreply,
          socket
-         |> assign(:form, to_form(changeset))
+         |> assign(:form, to_form(changeset, action: :validate))
          |> put_flash(:error, dgettext("schemas", "creation_failed"))}
     end
   end

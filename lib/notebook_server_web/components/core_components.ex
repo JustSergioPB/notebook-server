@@ -221,7 +221,7 @@ defmodule NotebookServerWeb.CoreComponents do
       <.button phx-click="go" class="ml-2">Send!</.button>
   """
   attr :type, :string, default: nil
-  attr :variant, :string, values: ["primary", "outline", "ghost", "danger"], default: "primary"
+  attr :variant, :string, values: ~w(primary secondary outline danger ghost), default: "primary"
   attr :size, :string, default: "md"
   attr :class, :string, default: nil
   attr :icon, :string, default: nil
@@ -453,7 +453,7 @@ defmodule NotebookServerWeb.CoreComponents do
   Renders a header with title.
   """
   attr :class, :string, default: nil
-  attr :variant, :string, default: "primary", values: ["primary", "secondary"]
+  attr :variant, :string, values: ~w(primary secondary outline danger ghost), default: "primary"
   slot :inner_block, required: true
   slot :subtitle
   slot :actions
@@ -1004,9 +1004,7 @@ defmodule NotebookServerWeb.CoreComponents do
     """
   end
 
-  attr :variant, :string,
-    values: ["primary", "outline", "danger"],
-    default: "outline"
+  attr :variant, :string, values: ~w(primary secondary outline danger ghost), default: "outline"
 
   slot :label, required: true
 

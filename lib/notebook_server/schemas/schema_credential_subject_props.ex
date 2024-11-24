@@ -11,24 +11,19 @@ defmodule NotebookServer.Schemas.SchemaCredentialSubjectProps do
       }
 
     field :content, :map
-    field :raw, :string, default: "{}"
   end
 
   def changeset(schema_credential_subject_props, attrs \\ %{}) do
-    schema_credential_subject_props
-    |> cast(attrs, [:raw])
-    |> validate_raw()
-  end
-
-  def validate_raw(changeset) do
-    raw = changeset |> get_field(:raw)
-
-    changeset =
-      case Jason.decode(raw) do
-        {:ok, content} -> changeset |> put_change(:content, content)
-        {:error, _} -> changeset |> add_error(:raw, "invalid_json")
+    attrs =
+      with true <- is_binary(attrs["content"]),
+           {:ok, decoded_value} <- Jason.decode(attrs["content"]) do
+        Map.put(attrs, "content", decoded_value)
+      else
+        _ -> attrs
       end
 
-    changeset
+    schema_credential_subject_props
+    |> cast(attrs, [:content])
+    |> validate_required([:content])
   end
 end
