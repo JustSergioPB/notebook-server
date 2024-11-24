@@ -23,6 +23,7 @@
         empty_link={~p"/certificates/new?tab=user"}
         empty_title={dgettext("certificates", "empty_title")}
         empty_subtitle={dgettext("certificates", "empty_subtitle")}
+        empty_label={dgettext("certificates", "certificate")}
       >
         <:col :let={{_id, user_certificate}} label={dgettext("users", "user")}>
           <%= user_certificate.user.name %> <%= user_certificate.user.last_name %>

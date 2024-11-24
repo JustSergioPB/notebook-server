@@ -536,8 +536,8 @@ defmodule NotebookServerWeb.CoreComponents do
   attr :row_click, :any, default: nil, doc: "the function for handling phx-click on each row"
   attr :class, :string, default: nil, doc: "the class for the table"
   attr :empty_link, :string, required: true
-  attr :empty_title, :string, required: true
-  attr :empty_subtitle, :string, required: true
+  attr :empty_title, :string, default: nil
+  attr :empty_subtitle, :string, default: nil
   attr :empty_label, :string, default: nil
 
   attr :row_item, :any,
