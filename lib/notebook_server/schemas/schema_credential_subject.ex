@@ -5,7 +5,7 @@ defmodule NotebookServer.Schemas.SchemaCredentialSubject do
   @primary_key false
   embedded_schema do
     field :type, :string, default: "object"
-    embeds_one :properties, NotebookServer.Schemas.SchemaCredentialSubjectProps
+    embeds_one :properties, NotebookServer.Schemas.SchemaCredentialSubjectProps, on_replace: :update
     field :required, {:array, :string}, default: ["id", "content"]
   end
 

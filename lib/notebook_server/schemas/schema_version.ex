@@ -6,7 +6,7 @@ defmodule NotebookServer.Schemas.SchemaVersion do
     field :description, :string
     field :platform, Ecto.Enum, values: [:web2, :web3], default: :web2
     field :status, Ecto.Enum, values: [:draft, :published, :archived], default: :draft
-    embeds_one :content, NotebookServer.Schemas.SchemaContent
+    embeds_one :content, NotebookServer.Schemas.SchemaContent, on_replace: :update
     field :version, :integer
     field :public_id, :binary_id
     belongs_to :user, NotebookServer.Accounts.User

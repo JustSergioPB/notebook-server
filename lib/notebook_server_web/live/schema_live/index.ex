@@ -25,7 +25,7 @@ defmodule NotebookServerWeb.SchemaLive.Index do
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
-    schema = Schemas.get_schema!(id)
+    schema = Schemas.get_schema!(id, latest: true)
 
     socket
     |> assign(:page_title, dgettext("schemas", "edit"))
@@ -78,7 +78,9 @@ defmodule NotebookServerWeb.SchemaLive.Index do
     case Schemas.publish_schema_version(schema_version) do
       {:ok, schema_version} ->
         org = Orgs.get_org!(schema_version.schema.org_id)
-        schema = schema_version.schema |> Map.merge(%{org: org, schema_versions: [schema_version]})
+
+        schema =
+          schema_version.schema |> Map.merge(%{org: org, schema_versions: [schema_version]})
 
         {:noreply,
          socket
@@ -103,7 +105,9 @@ defmodule NotebookServerWeb.SchemaLive.Index do
     case Schemas.archive_schema_version(schema_version) do
       {:ok, schema_version} ->
         org = Orgs.get_org!(schema_version.schema.org_id)
-        schema = schema_version.schema |> Map.merge(%{org: org, schema_versions: [schema_version]})
+
+        schema =
+          schema_version.schema |> Map.merge(%{org: org, schema_versions: [schema_version]})
 
         {:noreply,
          socket

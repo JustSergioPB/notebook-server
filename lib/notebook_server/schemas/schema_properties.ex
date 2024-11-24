@@ -10,8 +10,8 @@ defmodule NotebookServer.Schemas.SchemaProperties do
         const: ["https://www.w3.org/ns/credentials/v2"]
       }
 
-    embeds_one :title, NotebookServer.Schemas.SchemaTitle
-    embeds_one :description, NotebookServer.Schemas.SchemaDescription
+    embeds_one :title, NotebookServer.Schemas.SchemaTitle, on_replace: :update
+    embeds_one :description, NotebookServer.Schemas.SchemaDescription, on_replace: :update
 
     field :type, :map,
       default: %{
@@ -20,7 +20,7 @@ defmodule NotebookServer.Schemas.SchemaProperties do
 
     field :issuer, :map, default: %{type: "string", format: "uri"}
     # TODO: use camel
-    embeds_one :credential_subject, NotebookServer.Schemas.SchemaCredentialSubject
+    embeds_one :credential_subject, NotebookServer.Schemas.SchemaCredentialSubject, on_replace: :update
 
     # TODO: use camel
     field :credential_schema, :map,

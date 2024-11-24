@@ -122,6 +122,16 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
          socket
          |> assign(form: to_form(changeset, action: :validate))
          |> put_flash(:error, dgettext("schemas", "update_failed"))}
+
+      {:error, atom} ->
+        message =
+          if atom == :update_schema_version,
+            do: dgettext("schema_versions", "update_failed"),
+            else: dgettext("schema_versions", "create_failed")
+
+        {:noreply,
+         socket
+         |> put_flash(:error, message)}
     end
   end
 

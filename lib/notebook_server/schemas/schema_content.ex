@@ -8,7 +8,7 @@ defmodule NotebookServer.Schemas.SchemaContent do
     field :title, :string
     field :description, :string
     field :type, :string, default: "object"
-    embeds_one :properties, NotebookServer.Schemas.SchemaProperties
+    embeds_one :properties, NotebookServer.Schemas.SchemaProperties, on_replace: :update
 
     field :required, {:array, :string},
       default: [

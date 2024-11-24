@@ -44,7 +44,16 @@ defmodule NotebookServer.Schemas do
       ** (Ecto.NoResultsError)
 
   """
-  def get_schema!(id), do: Repo.get!(Schema, id) |> Repo.preload([:org, :schema_versions])
+  def get_schema!(id, opts \\ []) do
+    latest? = Keyword.get(opts, :latest, false)
+
+    query =
+      if latest?,
+        do: from(sv in SchemaVersion, order_by: [desc: sv.version], limit: 1),
+        else: from(sv in SchemaVersion, order_by: [desc: sv.version])
+
+    Repo.get!(Schema, id) |> Repo.preload([:org, schema_versions: query])
+  end
 
   @doc """
   Deletes a schema.
@@ -69,14 +78,43 @@ defmodule NotebookServer.Schemas do
   end
 
   def update_schema(%Schema{} = schema, attrs) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.update(:update_schema, Schema.changeset(schema, attrs, create: false))
+    |> insert_or_update(schema, attrs)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{update_schema: schema}} -> {:ok, schema}
+      {:error, :update_schema, changeset, _} -> {:error, :update_schema, changeset}
+      {:error, :update_schema_version, _, _} -> {:error, :update_schema_version}
+      {:error, :create_schema_version, _, _} -> {:error, :create_schema_version}
+    end
+  end
+
+  defp insert_or_update(multi, %Schema{} = schema, attrs) do
     latest_version =
-      schema |> Map.get("schema_versions") |> Enum.sort_by(& &1.version, :desc) |> Enum.at(0)
+      schema |> Map.get(:schema_versions) |> Enum.sort_by(& &1.version, :desc) |> Enum.at(0)
 
-    opts = if latest_version.status == :draft, do: [update: true], else: []
+    latest_version_attrs =
+      attrs |> get_in(["schema_versions", "0"]) |> Map.put("schema_id", schema.id)
 
-    %Schema{}
-    |> Schema.changeset(attrs, opts)
-    |> Repo.update()
+    latest_is_in_draft? = is_map(latest_version) && latest_version.status == :draft
+
+    multi =
+      if latest_is_in_draft?,
+        do:
+          multi
+          |> Ecto.Multi.update(
+            :update_schema_version,
+            SchemaVersion.changeset(latest_version, latest_version_attrs)
+          ),
+        else:
+          multi
+          |> Ecto.Multi.insert(
+            :create_schema_version,
+            SchemaVersion.changeset(latest_version, latest_version_attrs)
+          )
+
+    multi
   end
 
   def change_schema(%Schema{} = schema, attrs \\ %{}) do
