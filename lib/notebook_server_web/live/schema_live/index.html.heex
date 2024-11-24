@@ -18,6 +18,7 @@
     empty_link={~p"/schemas/new"}
     empty_title={dgettext("schemas", "empty_title")}
     empty_subtitle={dgettext("schemas", "empty_subtitle")}
+    empty_label={dgettext("schemas", "schema")}
   >
     <:col :let={{_id, schema}} label={dgettext("schemas", "title")}>
       <.version_cell label={schema.title} version={schema.version} />

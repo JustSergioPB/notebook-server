@@ -538,6 +538,7 @@ defmodule NotebookServerWeb.CoreComponents do
   attr :empty_link, :string, required: true
   attr :empty_title, :string, required: true
   attr :empty_subtitle, :string, required: true
+  attr :empty_label, :string, default: nil
 
   attr :row_item, :any,
     default: &Function.identity/1,
@@ -548,7 +549,7 @@ defmodule NotebookServerWeb.CoreComponents do
   end
 
   slot :action, doc: "the slot for showing user actions in the last table column"
-
+  # TODO: fix text fields
   def table(assigns) do
     assigns =
       with %{rows: %Phoenix.LiveView.LiveStream{}} <- assigns do
@@ -608,7 +609,7 @@ defmodule NotebookServerWeb.CoreComponents do
             </p>
             <.link patch={@empty_link}>
               <.button icon="plus_circle">
-                <%= gettext("evidence_bridge") %>
+                <%= @empty_label %>
               </.button>
             </.link>
           </div>

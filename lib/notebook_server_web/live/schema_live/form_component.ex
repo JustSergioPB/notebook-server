@@ -123,15 +123,10 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
          |> assign(form: to_form(changeset, action: :validate))
          |> put_flash(:error, dgettext("schemas", "update_failed"))}
 
-      {:error, atom} ->
-        message =
-          if atom == :update_schema_version,
-            do: dgettext("schema_versions", "update_failed"),
-            else: dgettext("schema_versions", "create_failed")
-
+      {:error, _} ->
         {:noreply,
          socket
-         |> put_flash(:error, message)}
+         |> put_flash(:error, dgettext("schema_versions", "create_failed"))}
     end
   end
 
@@ -184,7 +179,6 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
       |> Map.merge(%{
         "user_id" => socket.assigns.current_user.org_id,
         "public_id" => Ecto.UUID.generate(),
-        "version" => 0,
         "content" => content
       })
 

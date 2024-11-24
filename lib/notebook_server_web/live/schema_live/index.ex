@@ -14,7 +14,7 @@ defmodule NotebookServerWeb.SchemaLive.Index do
      stream(
        socket,
        :schemas,
-       Schemas.list_schemas(opts)
+       Schemas.list_schemas([latest: false] ++ opts)
        |> Enum.map(fn schema -> map_to_row(schema) end)
      )}
   end
@@ -119,10 +119,9 @@ defmodule NotebookServerWeb.SchemaLive.Index do
     end
   end
 
-  defp map_to_row(schema) do
+  defp map_to_row(%Schema{} = schema) do
     latest_version =
       schema.schema_versions
-      |> Enum.take(-1)
       |> Enum.at(0)
 
     published_version =
