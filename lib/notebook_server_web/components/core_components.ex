@@ -201,8 +201,8 @@ defmodule NotebookServerWeb.CoreComponents do
 
   def simple_form(assigns) do
     ~H"""
-    <.form :let={f} for={@for} as={@as} {@rest} class={["space-y-4 flex flex-col", @class]}>
-      <div class="flex-1 space-y-2">
+    <.form :let={f} for={@for} as={@as} class={["space-y-6 h-full flex flex-col flex-1 overflow-y-hidden", @class]} {@rest}>
+      <div class="flex-1 space-y-4 overflow-y-auto min-h-0 px-1">
         <%= render_slot(@inner_block, f) %>
       </div>
       <div :for={action <- @actions} class="flex items-center justify-between gap-6 last:pt-6">
@@ -296,13 +296,14 @@ defmodule NotebookServerWeb.CoreComponents do
   attr :id, :any, default: nil
   attr :name, :any
   attr :label, :string, default: nil
+  attr :hint, :string, default: nil
   attr :class, :string, default: nil
   attr :value, :any
 
   attr :type, :string,
     default: "text",
     values: ~w(checkbox color date datetime-local email file month number password
-               range search select tel text textarea time url week)
+               range search select tel text textarea time url week radio chip)
 
   attr :field, Phoenix.HTML.FormField,
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
@@ -349,6 +350,7 @@ defmodule NotebookServerWeb.CoreComponents do
         />
         <%= @label %>
       </label>
+      <.hint :if={@hint}><%= @hint %></.hint>
       <.error :for={msg <- @errors}><%= msg %></.error>
     </div>
     """
@@ -368,6 +370,7 @@ defmodule NotebookServerWeb.CoreComponents do
         <option :if={@prompt} value=""><%= @prompt %></option>
         <%= Phoenix.HTML.Form.options_for_select(@options, @value) %>
       </select>
+      <.hint :if={@hint}><%= @hint %></.hint>
       <.error :for={msg <- @errors}><%= msg %></.error>
     </div>
     """
@@ -381,12 +384,70 @@ defmodule NotebookServerWeb.CoreComponents do
         id={@id}
         name={@name}
         class={[
-          "mt-2 block w-full rounded-md text-slate-900 focus:ring-1 focus:ring-indigo-500 sm:text-sm sm:leading-6 min-h-[6rem]",
+          "block w-full rounded-md text-slate-900 focus:ring-1 focus:ring-indigo-500 sm:text-sm sm:leading-6 min-h-[6rem]",
           @errors == [] && "border-slate-300 focus:border-slate-400",
           @errors != [] && "border-rose-400 focus:border-rose-400"
         ]}
         {@rest}
       ><%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
+      <.hint :if={@hint}><%= @hint %></.hint>
+      <.error :for={msg <- @errors}><%= msg %></.error>
+    </div>
+    """
+  end
+
+  def input(%{type: "radio"} = assigns) do
+    ~H"""
+    <fieldset class="space-y-2">
+      <legend :if={@label} class="block text-sm font-semibold leading-6 text-slate-800">
+        <%= @label %>
+      </legend>
+      <div class={["grid grid-cols-2 gap-4", length(@options) == 1 && "grid-cols-1"]}>
+        <div
+          :for={option <- @options}
+          class="border border-slate-300 p-3 rounded-md shadow-sm space-y-2 has-[:checked]:bg-indigo-50 has-[:checked]:text-indigo-900 has-[:checked]:border-indigo-500 has-[:disabled]:border-slate-300 has-[:disabled]:bg-slate-50"
+        >
+          <div class="flex items-center gap-2">
+            <input
+              type="radio"
+              id={option.id}
+              value={option.id}
+              checked={@value == option.id}
+              class="rounded-full border-slate-300 text-indigo-500 focus:ring-1 focus:ring-indigo-500"
+              name={@name}
+              {@rest}
+            />
+            <Lucide.render :if={option.icon} icon={option.icon} class="h-4 w-4" />
+            <.label for={option.id}>
+              <%= option.label %>
+            </.label>
+          </div>
+          <p class="text-sm text-slate-600">
+            <%= option.description %>
+          </p>
+        </div>
+      </div>
+      <.hint :if={@hint}><%= @hint %></.hint>
+      <.error :for={msg <- @errors}><%= msg %></.error>
+    </fieldset>
+    """
+  end
+
+  def input(%{type: "chip"} = assigns) do
+    ~H"""
+    <div class={["space-y-1", @class]}>
+      <.label for={@id}><%= @label %></.label>
+      <textarea
+        id={@id}
+        name={@name}
+        class={[
+          "block w-full rounded-md text-slate-900 focus:ring-1 focus:ring-indigo-500 sm:text-sm sm:leading-6 min-h-[6rem]",
+          @errors == [] && "border-slate-300 focus:border-slate-400",
+          @errors != [] && "border-rose-400 focus:border-rose-400"
+        ]}
+        {@rest}
+      ><%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
+      <.hint :if={@hint}><%= @hint %></.hint>
       <.error :for={msg <- @errors}><%= msg %></.error>
     </div>
     """
@@ -409,6 +470,7 @@ defmodule NotebookServerWeb.CoreComponents do
         ]}
         {@rest}
       />
+      <.hint :if={@hint}><%= @hint %></.hint>
       <.error :for={msg <- @errors}><%= msg %></.error>
     </div>
     """
@@ -432,6 +494,23 @@ defmodule NotebookServerWeb.CoreComponents do
     >
       <%= render_slot(@inner_block) %>
     </label>
+    """
+  end
+
+  @doc """
+  Renders a hint.
+  """
+  attr :class, :string, default: nil
+  slot :inner_block, required: true
+
+  def hint(assigns) do
+    ~H"""
+    <p class={[
+      "block text-xs text-slate-600",
+      @class
+    ]}>
+      <%= render_slot(@inner_block) %>
+    </p>
     """
   end
 

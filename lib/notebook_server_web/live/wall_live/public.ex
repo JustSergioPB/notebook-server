@@ -15,8 +15,8 @@ defmodule NotebookServerWeb.WallLive.Public do
         </:subtitle>
       </.header>
       <.tabs class="h-full" active_tab={@active_tab} variant="public">
-        <:tab label={dgettext("bridges", "title")} id="bridges" patch={~p"/wall/show?tab=bridges"}>
-          <h2 class="text-2xl font-semibold"><%= dgettext("bridges", "title") %></h2>
+        <:tab label={dgettext("bridges", "bridges")} id="bridges" patch={~p"/wall/show?tab=bridges"}>
+          <h2 class="text-2xl font-semibold"><%= dgettext("bridges", "bridges") %></h2>
           <p class="text-slate-600 mb-6"><%= dgettext("bridges", "obtain") %></p>
           <%= if Enum.count(@streams.bridges) > 0 do %>
             <div class="grid grid-cols-4 gap-6">

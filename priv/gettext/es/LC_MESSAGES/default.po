@@ -11,7 +11,7 @@ msgstr ""
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lib/notebook_server_web/components/core_components.ex:578
+#: lib/notebook_server_web/components/core_components.ex:657
 #, elixir-autogen, elixir-format
 msgid "Actions"
 msgstr "Acciones"
@@ -287,7 +287,7 @@ msgstr "Restablecer contraseña"
 msgid "role"
 msgstr "Rol"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:33
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:101
 #: lib/notebook_server_web/live/certificate_live/form_component.ex:62
 #: lib/notebook_server_web/live/user_live/form_component.ex:57
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:62
@@ -333,37 +333,37 @@ msgstr "Usuario"
 msgid "users"
 msgstr "Usuarios"
 
-#: lib/notebook_server_web/components/core_components.ex:664
+#: lib/notebook_server_web/components/core_components.ex:743
 #, elixir-autogen, elixir-format
 msgid "first_page"
 msgstr "Primera página"
 
-#: lib/notebook_server_web/components/core_components.ex:645
+#: lib/notebook_server_web/components/core_components.ex:724
 #, elixir-autogen, elixir-format, fuzzy
 msgid "last_page"
 msgstr "Última página"
 
-#: lib/notebook_server_web/components/core_components.ex:656
+#: lib/notebook_server_web/components/core_components.ex:735
 #, elixir-autogen, elixir-format
 msgid "next_page"
 msgstr "Siguiente página"
 
-#: lib/notebook_server_web/components/core_components.ex:641
+#: lib/notebook_server_web/components/core_components.ex:720
 #, elixir-autogen, elixir-format
 msgid "of"
 msgstr "de"
 
-#: lib/notebook_server_web/components/core_components.ex:641
+#: lib/notebook_server_web/components/core_components.ex:720
 #, elixir-autogen, elixir-format
 msgid "page"
 msgstr "Página"
 
-#: lib/notebook_server_web/components/core_components.ex:648
+#: lib/notebook_server_web/components/core_components.ex:727
 #, elixir-autogen, elixir-format
 msgid "previous_page"
 msgstr "Página anterior"
 
-#: lib/notebook_server_web/components/core_components.ex:631
+#: lib/notebook_server_web/components/core_components.ex:710
 #, elixir-autogen, elixir-format
 msgid "rows_per_page"
 msgstr "Filas por página"
@@ -793,12 +793,12 @@ msgstr "Código QR"
 msgid "qr_alt"
 msgstr "Código QR de la credencial"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:92
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:160
 #, elixir-autogen, elixir-format, fuzzy
 msgid "bridge_create_success"
 msgstr "Organización creada correctamente"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:77
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:145
 #, elixir-autogen, elixir-format, fuzzy
 msgid "bridge_update_success"
 msgstr "Usuario actualizado correctamente"
@@ -891,3 +891,9 @@ msgstr "Manuales"
 #, elixir-autogen, elixir-format
 msgid "go_back"
 msgstr ""
+
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:27
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:38
+#, elixir-autogen, elixir-format, fuzzy
+msgid "max_chars %{max}"
+msgstr "Máx. %{max} caracteres"

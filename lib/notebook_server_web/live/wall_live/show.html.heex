@@ -13,8 +13,8 @@
     <%= @url %>
   </.link>
   <.tabs active_tab={@active_tab}>
-    <:tab label={dgettext("bridges", "title")} id="bridges" patch={~p"/wall/show?tab=bridges"}>
-      <h2 class="text-lg font-semibold"><%= dgettext("bridges", "title") %></h2>
+    <:tab label={dgettext("bridges", "bridges")} id="bridges" patch={~p"/wall/show?tab=bridges"}>
+      <h2 class="text-lg font-semibold"><%= dgettext("bridges", "bridges") %></h2>
       <p class="text-slate-600 mb-6">
         <%= dgettext("bridges", "configure") %>
       </p>

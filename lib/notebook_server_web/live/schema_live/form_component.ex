@@ -6,7 +6,7 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="space-y-6">
+    <div class="h-full flex flex-col">
       <.header>
         <%= @title %>
       </.header>
@@ -27,6 +27,7 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
           field={@form[:title]}
           label={dgettext("schemas", "title")}
           placeholder={dgettext("schemas", "title_placeholder")}
+          hint={gettext("max_chars %{max}", max: 50)}
           phx-debounce="blur"
           required
         />
@@ -37,16 +38,27 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
             field={schema_version_form[:description]}
             label={dgettext("schemas", "description")}
             placeholder={dgettext("schemas", "description_placeholder")}
+            hint={gettext("max_chars %{max}", max: 255)}
             phx-debounce="blur"
           />
           <.input
-            type="select"
-            field={schema_version_form[:platform]}
+            type="radio"
             label={dgettext("schemas", "platform")}
-            phx-debounce="blur"
+            field={schema_version_form[:platform]}
+            disabled={true}
             options={[
-              {"web2", "web2"},
-              {"web3", "web3"}
+              %{
+                id: :web2,
+                icon: "globe",
+                label: dgettext("bridges", "web_2_title"),
+                description: dgettext("bridges", "web_2_description")
+              },
+              %{
+                id: :web3,
+                icon: "link",
+                label: dgettext("bridges", "web_3_title"),
+                description: dgettext("bridges", "web_3_description")
+              }
             ]}
           />
           <.inputs_for :let={schema_content_form} field={schema_version_form[:content]}>

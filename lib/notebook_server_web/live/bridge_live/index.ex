@@ -3,6 +3,8 @@ defmodule NotebookServerWeb.BridgeLive.Index do
   alias NotebookServer.Bridges.Bridge
   alias NotebookServer.Orgs
   alias NotebookServer.Schemas
+  alias NotebookServer.Schemas.Schema
+  alias NotebookServer.Schemas.SchemaVersion
   use NotebookServerWeb, :live_view_app
   use Gettext, backend: NotebookServerWeb.Gettext
 
@@ -26,12 +28,15 @@ defmodule NotebookServerWeb.BridgeLive.Index do
   defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, dgettext("bridges", "new"))
-    |> assign(:bridge, %Bridge{})
+    |> assign(:bridge, %Bridge{
+      type: :email,
+      schema: %Schema{schema_versions: [%SchemaVersion{platform: :web2}]}
+    })
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, dgettext("bridges", "title"))
+    |> assign(:page_title, dgettext("bridges", "bridges"))
     |> assign(:bridge, nil)
   end
 

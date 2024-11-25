@@ -15,8 +15,9 @@ defmodule NotebookServer.Bridges.Bridge do
   @doc false
   def changeset(bridge, attrs) do
     bridge
-    |> cast(attrs, [:active, :type, :org_id, :schema_id])
-    |> validate_required([:active, :type, :org_id, :schema_id])
+    |> cast(attrs, [:active, :type, :org_id])
+    |> validate_required([:active, :type, :org_id])
+    |> cast_assoc(:schema, required: true)
   end
 
   def map_to_wall(bridge) do

@@ -7,7 +7,7 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
   def render(assigns) do
     ~H"""
     <div class="h-full flex flex-col">
-      <.header class="space-y-6">
+      <.header>
         <%= @title %>
       </.header>
       <.simple_form
@@ -16,18 +16,85 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
         phx-target={@myself}
         phx-change="validate"
         phx-submit="save"
-        class="flex-1"
       >
-        <div class="border border-slate-300 p-4 rounded-md shadow-sm space-y-2">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-base">
-              <%= dgettext("bridges", "email_title") %>
-            </h3>
-          </div>
-          <p class="text-sm text-slate-600">
-            <%= dgettext("bridges", "email_description") %>
-          </p>
-        </div>
+        <.inputs_for :let={schema_form} field={@form[:schema]}>
+          <.input
+            type="text"
+            field={schema_form[:title]}
+            label={dgettext("bridges", "title")}
+            placeholder={dgettext("bridges", "title_placeholder")}
+            hint={gettext("max_chars %{max}", max: 50)}
+            phx-debounce="blur"
+            required
+          />
+          <.inputs_for :let={schema_version_form} field={schema_form[:schema_versions]}>
+            <.input
+              type="textarea"
+              rows="2"
+              field={schema_version_form[:description]}
+              label={dgettext("bridges", "description")}
+              placeholder={dgettext("bridges", "description_placeholder")}
+              hint={gettext("max_chars %{max}", max: 255)}
+              phx-debounce="blur"
+            />
+            <.input
+              type="radio"
+              label={dgettext("schemas", "platform")}
+              field={schema_version_form[:platform]}
+              disabled={true}
+              options={[
+                %{
+                  id: :web2,
+                  icon: "globe",
+                  label: dgettext("bridges", "web_2_title"),
+                  description: dgettext("bridges", "web_2_description")
+                },
+                %{
+                  id: :web3,
+                  icon: "link",
+                  label: dgettext("bridges", "web_3_title"),
+                  description: dgettext("bridges", "web_3_description")
+                }
+              ]}
+            />
+            <.input
+              type="radio"
+              label={dgettext("bridges", "type")}
+              disabled={true}
+              field={@form[:type]}
+              options={[
+                %{
+                  id: :email,
+                  icon: "mail",
+                  label: dgettext("bridges", "email_title"),
+                  description: dgettext("bridges", "email_description")
+                }
+              ]}
+            />
+            <.inputs_for :let={schema_content_form} field={schema_version_form[:content]}>
+              <.inputs_for :let={properties_form} field={schema_content_form[:properties]}>
+                <.inputs_for
+                  :let={credential_subject_form}
+                  field={properties_form[:credential_subject]}
+                >
+                  <.inputs_for :let={props_form} field={credential_subject_form[:properties]}>
+                    <.input
+                      type="chip"
+                      field={props_form[:content]}
+                      label={dgettext("bridges", "domains")}
+                      placeholder={dgettext("bridges", "domains_placeholder")}
+                      hint={dgettext("bridges", "domains_hint")}
+                      autocomplete="off"
+                      rows="3"
+                      phx-debounce="blur"
+                      required
+                    />
+                  </.inputs_for>
+                </.inputs_for>
+              </.inputs_for>
+            </.inputs_for>
+          </.inputs_for>
+        </.inputs_for>
         <:actions>
           <.button>
             <%= gettext("save") %>

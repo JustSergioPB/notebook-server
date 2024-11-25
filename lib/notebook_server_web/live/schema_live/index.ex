@@ -35,7 +35,7 @@ defmodule NotebookServerWeb.SchemaLive.Index do
   defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, dgettext("schemas", "new"))
-    |> assign(:schema, %Schema{schema_versions: [%SchemaVersion{}]})
+    |> assign(:schema, %Schema{schema_versions: [%SchemaVersion{platform: :web2}]})
   end
 
   defp apply_action(socket, :index, _params) do

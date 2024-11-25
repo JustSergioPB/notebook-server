@@ -55,22 +55,22 @@ msgstr ""
 msgid "configure"
 msgstr ""
 
-#: lib/notebook_server_web/live/bridge_live/index.ex:22
+#: lib/notebook_server_web/live/bridge_live/index.ex:24
 #, elixir-autogen, elixir-format
 msgid "edit"
 msgstr ""
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:28
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:71
 #, elixir-autogen, elixir-format
 msgid "email_description"
 msgstr ""
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:24
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:70
 #, elixir-autogen, elixir-format
 msgid "email_title"
 msgstr ""
 
-#: lib/notebook_server_web/live/bridge_live/index.ex:28
+#: lib/notebook_server_web/live/bridge_live/index.ex:30
 #, elixir-autogen, elixir-format
 msgid "new"
 msgstr ""
@@ -85,18 +85,78 @@ msgstr ""
 msgid "status"
 msgstr ""
 
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:25
+#, elixir-autogen, elixir-format
+msgid "title"
+msgstr ""
+
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:63
+#: lib/notebook_server_web/live/bridge_live/index.html.heex:25
+#, elixir-autogen, elixir-format
+msgid "type"
+msgstr ""
+
 #: lib/notebook_server_web/components/layouts/app.html.heex:27
-#: lib/notebook_server_web/live/bridge_live/index.ex:34
+#: lib/notebook_server_web/live/bridge_live/index.ex:39
 #: lib/notebook_server_web/live/bridge_live/index.html.heex:2
 #: lib/notebook_server_web/live/wall_live/public.ex:18
 #: lib/notebook_server_web/live/wall_live/public.ex:19
 #: lib/notebook_server_web/live/wall_live/show.html.heex:16
 #: lib/notebook_server_web/live/wall_live/show.html.heex:17
 #, elixir-autogen, elixir-format
-msgid "title"
+msgid "bridges"
 msgstr ""
 
-#: lib/notebook_server_web/live/bridge_live/index.html.heex:25
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:36
 #, elixir-autogen, elixir-format
-msgid "type"
+msgid "description"
+msgstr ""
+
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:37
+#, elixir-autogen, elixir-format
+msgid "description_placeholder"
+msgstr ""
+
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:26
+#, elixir-autogen, elixir-format
+msgid "title_placeholder"
+msgstr ""
+
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:51
+#: lib/notebook_server_web/live/schema_live/form_component.ex:53
+#, elixir-autogen, elixir-format
+msgid "web_2_description"
+msgstr ""
+
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:50
+#: lib/notebook_server_web/live/schema_live/form_component.ex:52
+#, elixir-autogen, elixir-format
+msgid "web_2_title"
+msgstr ""
+
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:57
+#: lib/notebook_server_web/live/schema_live/form_component.ex:59
+#, elixir-autogen, elixir-format
+msgid "web_3_description"
+msgstr ""
+
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:56
+#: lib/notebook_server_web/live/schema_live/form_component.ex:58
+#, elixir-autogen, elixir-format
+msgid "web_3_title"
+msgstr ""
+
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:85
+#, elixir-autogen, elixir-format
+msgid "domains"
+msgstr ""
+
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:86
+#, elixir-autogen, elixir-format
+msgid "domains_placeholder"
+msgstr ""
+
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:87
+#, elixir-autogen, elixir-format
+msgid "domains_hint"
 msgstr ""

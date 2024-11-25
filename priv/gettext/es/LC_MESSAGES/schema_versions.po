@@ -36,7 +36,7 @@ msgstr "No hemos podido publicar la versión del esquema. Intentalo de nuevo má
 msgid "publication_succeded"
 msgstr "La versión del esquema se ha publicado de manera correcta."
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:129
+#: lib/notebook_server_web/live/schema_live/form_component.ex:140
 #, elixir-autogen, elixir-format
 msgid "create_failed"
 msgstr ""

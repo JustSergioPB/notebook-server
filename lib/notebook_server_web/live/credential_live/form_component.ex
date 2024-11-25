@@ -12,7 +12,7 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="space-y-6">
+    <div class="h-full flex flex-col">
       <.header>
         <%= @title %>
       </.header>

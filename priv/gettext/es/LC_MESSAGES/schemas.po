@@ -39,12 +39,12 @@ msgstr "Archivar"
 msgid "are_you_sure"
 msgstr "Esta acción es irreversible, se eliminará todo lo relaccionado a este esquema. Considere archivarlo. ¿Estás seguro?"
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:147
+#: lib/notebook_server_web/live/schema_live/form_component.ex:158
 #, elixir-autogen, elixir-format
 msgid "creation_failed"
 msgstr "No hemos podido crear el esquema. Intentalo de nuevo más tarde."
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:140
+#: lib/notebook_server_web/live/schema_live/form_component.ex:151
 #, elixir-autogen, elixir-format
 msgid "creation_succeded"
 msgstr "El esquema se ha creado correctamente"
@@ -65,13 +65,13 @@ msgstr "No hemos podido eliminar el esquema"
 msgid "delete_succeded"
 msgstr "El esquema se ha eliminado de manera correcta"
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:38
+#: lib/notebook_server_web/live/schema_live/form_component.ex:39
 #: lib/notebook_server_web/live/schema_live/index.html.heex:26
 #, elixir-autogen, elixir-format
 msgid "description"
 msgstr "Descripción"
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:39
+#: lib/notebook_server_web/live/schema_live/form_component.ex:40
 #, elixir-autogen, elixir-format
 msgid "description_placeholder"
 msgstr "Credencial que acredita a una persona a conducir un vehículo..."
@@ -93,6 +93,7 @@ msgstr "La versión actual no es un borrador, por lo que editarla creará una nu
 msgid "new"
 msgstr "Nuevo esquema"
 
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:43
 #: lib/notebook_server_web/live/schema_live/form_component.ex:45
 #: lib/notebook_server_web/live/schema_live/index.html.heex:35
 #, elixir-autogen, elixir-format
@@ -110,12 +111,12 @@ msgstr "Publicar"
 msgid "published_version"
 msgstr "V. Pública"
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:60
+#: lib/notebook_server_web/live/schema_live/form_component.ex:71
 #, elixir-autogen, elixir-format
 msgid "raw_content"
 msgstr "Contenido"
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:73
+#: lib/notebook_server_web/live/schema_live/form_component.ex:84
 #, elixir-autogen, elixir-format
 msgid "save"
 msgstr "Guardar"
@@ -130,24 +131,24 @@ msgstr "Esquema"
 msgid "status"
 msgstr "Estado"
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:28
+#: lib/notebook_server_web/live/schema_live/form_component.ex:29
 #: lib/notebook_server_web/live/schema_live/index.ex:43
 #: lib/notebook_server_web/live/schema_live/index.html.heex:23
 #, elixir-autogen, elixir-format
 msgid "title"
 msgstr "Título"
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:29
+#: lib/notebook_server_web/live/schema_live/form_component.ex:30
 #, elixir-autogen, elixir-format
 msgid "title_placeholder"
 msgstr "Carnet de conducir"
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:117
+#: lib/notebook_server_web/live/schema_live/form_component.ex:128
 #, elixir-autogen, elixir-format
 msgid "update_succeded"
 msgstr "El esquema se ha actualizado de manera correcta"
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:124
+#: lib/notebook_server_web/live/schema_live/form_component.ex:135
 #, elixir-autogen, elixir-format
 msgid "update_failed"
 msgstr ""
