@@ -89,12 +89,7 @@ defmodule NotebookServer.Schemas do
 
     latest_is_in_draft? = is_map(latest_version) && latest_version.status == :draft
 
-    IO.inspect(latest_version)
-
-    schema_version_attrs =
-      attrs
-      |> get_in(["schema_versions", "0"])
-      |> Map.merge(%{"schema_id" => schema.id, "version" => latest_version.version + 1})
+    schema_version_attrs = attrs |> get_in(["schema_versions", "0"])
 
     Ecto.Multi.new()
     |> Ecto.Multi.update(

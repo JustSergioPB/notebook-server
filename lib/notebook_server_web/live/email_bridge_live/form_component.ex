@@ -1,5 +1,4 @@
 defmodule NotebookServerWeb.EmailBridgeLive.FormComponent do
-  alias NotebookServer.Credentials.OrgCredential
   alias NotebookServer.Bridges
   alias NotebookServer.Orgs
   alias NotebookServer.Bridges.EmailBridge
@@ -40,7 +39,9 @@ defmodule NotebookServerWeb.EmailBridgeLive.FormComponent do
                     >
                       <JsonSchemaComponents.json_schema_node
                         field={credential_subject_form[:content]}
-                        schema={@schema_version.credential_subject_content}
+                        schema={
+                          @schema_version.content.properties.credential_subject.properties.content
+                        }
                       />
                     </.inputs_for>
                   </.inputs_for>
@@ -245,15 +246,43 @@ defmodule NotebookServerWeb.EmailBridgeLive.FormComponent do
     org = socket.assigns.org
     schema_version = socket.assigns.schema_version
     bridge = socket.assigns.bridge
+    domain_url = NotebookServerWeb.Endpoint.url()
 
     email =
       email_bridge_params
       |> get_in(["org_credential", "credential", "content", "credential_subject", "content"])
 
+    credential_subject =
+      email_bridge_params
+      |> get_in(["org_credential", "credential", "content", "credential_subject"])
+      |> Map.put("id", "TODO")
+
+    content =
+      email_bridge_params
+      |> get_in(["org_credential", "credential", "content"])
+      |> Map.merge(%{
+        "title" => schema_version.schema.title,
+        "description" => schema_version.description,
+        "issuer" => "#{domain_url}/#{org.public_id}",
+        "credential_schema" => %{
+          "id" =>
+            "#{domain_url}/#{schema_version.schema.public_id}/version/#{schema_version.public_id}"
+        },
+        "credential_subject" => credential_subject
+      })
+
+    credential =
+      email_bridge_params
+      |> get_in(["org_credential", "credential"])
+      |> Map.merge(%{"schema_version_id" => schema_version.id, "content" => content})
+
     org_credential =
       email_bridge_params
       |> Map.get("org_credential")
-      |> OrgCredential.gen_full(org, schema_version)
+      |> Map.merge(%{
+        "org_id" => org.id,
+        "credential" => credential
+      })
 
     email_bridge_params
     |> Map.merge(%{

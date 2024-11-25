@@ -150,7 +150,17 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
 
-  def complete_schema(socket, schema) do
+  defp complete_schema(socket, schema) do
+    latest_version =
+      socket.assigns.schema
+      |> Map.get(:schema_versions)
+      |> Enum.at(0)
+
+    version =
+      if latest_version.status == :draft,
+        do: latest_version.version,
+        else: latest_version.version + 1
+
     title = schema |> Map.get("title")
     description = schema |> Map.get("description")
 
@@ -179,6 +189,8 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
       |> Map.merge(%{
         "user_id" => socket.assigns.current_user.org_id,
         "public_id" => Ecto.UUID.generate(),
+        "schema_id" => socket.assigns.schema.id,
+        "version" => version,
         "content" => content
       })
 
