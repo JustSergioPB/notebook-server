@@ -34,6 +34,7 @@ msgid "empty_public_title"
 msgstr "No hay puentes disponibles"
 
 #: lib/notebook_server_web/live/bridge_live/index.html.heex:6
+#: lib/notebook_server_web/live/bridge_live/index.html.heex:20
 #: lib/notebook_server_web/live/wall_live/show.html.heex:49
 #, elixir-autogen, elixir-format
 msgid "bridge"
@@ -79,7 +80,7 @@ msgstr "Nuevo puente"
 msgid "obtain"
 msgstr "Obten credenciales a través de los puentes de esta organización"
 
-#: lib/notebook_server_web/live/bridge_live/index.html.heex:32
+#: lib/notebook_server_web/live/bridge_live/index.html.heex:33
 #, elixir-autogen, elixir-format
 msgid "status"
 msgstr "Estado"
@@ -95,7 +96,7 @@ msgstr "Estado"
 msgid "title"
 msgstr "Puentes"
 
-#: lib/notebook_server_web/live/bridge_live/index.html.heex:24
+#: lib/notebook_server_web/live/bridge_live/index.html.heex:25
 #, elixir-autogen, elixir-format
 msgid "type"
 msgstr "Tipo"

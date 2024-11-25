@@ -77,8 +77,10 @@
         class="flex-1"
         rows={@streams.org_credentials}
         empty_link={~p"/credentials/new"}
-        empty_title={dgettext("credentials", "empty_title")}
-        empty_subtitle={dgettext("credentials", "empty_subtitle")}
+        empty_title={dgettext("credentials", "org_crendetial_empty_title")}
+        empty_subtitle={dgettext("credentials", "org_crendetial_empty_subtitle")}
+        empty_label={gettext("credential")}
+        should_action_empty?={false}
       >
         <:col :let={{_id, org_credential}} label={gettext("schema")}>
           <.version_cell

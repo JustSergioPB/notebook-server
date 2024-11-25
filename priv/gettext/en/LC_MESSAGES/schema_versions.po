@@ -11,27 +11,32 @@ msgstr ""
 "Language: en\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lib/notebook_server_web/live/schema_live/index.ex:108
+#: lib/notebook_server_web/live/schema_live/index.ex:118
 #, elixir-autogen, elixir-format
 msgid "archivation_failed"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/index.ex:104
+#: lib/notebook_server_web/live/schema_live/index.ex:114
 #, elixir-autogen, elixir-format
 msgid "archivation_succeded"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/index.ex:93
+#: lib/notebook_server_web/live/schema_live/index.ex:98
 #, elixir-autogen, elixir-format
 msgid "old_version_archivation_failed"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/index.ex:88
+#: lib/notebook_server_web/live/schema_live/index.ex:93
 #, elixir-autogen, elixir-format
 msgid "publication_failed"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/index.ex:82
+#: lib/notebook_server_web/live/schema_live/index.ex:87
 #, elixir-autogen, elixir-format
 msgid "publication_succeded"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/form_component.ex:129
+#, elixir-autogen, elixir-format
+msgid "create_failed"
 msgstr ""

@@ -21,35 +21,36 @@ msgstr ""
 msgid "empty_title"
 msgstr ""
 
-#: lib/notebook_server_web/live/bridge_live/index.html.heex:21
+#: lib/notebook_server_web/live/bridge_live/index.html.heex:22
 #: lib/notebook_server_web/live/schema_live/index.html.heex:6
+#: lib/notebook_server_web/live/schema_live/index.html.heex:21
 #, elixir-autogen, elixir-format
 msgid "schema"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/index.html.heex:55
-#: lib/notebook_server_web/live/schema_live/index.html.heex:64
+#: lib/notebook_server_web/live/schema_live/index.html.heex:56
+#: lib/notebook_server_web/live/schema_live/index.html.heex:65
 #, elixir-autogen, elixir-format
 msgid "archive"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/index.html.heex:84
+#: lib/notebook_server_web/live/schema_live/index.html.heex:85
 #, elixir-autogen, elixir-format
 msgid "are_you_sure"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:140
+#: lib/notebook_server_web/live/schema_live/form_component.ex:147
 #, elixir-autogen, elixir-format
 msgid "creation_failed"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:131
+#: lib/notebook_server_web/live/schema_live/form_component.ex:140
 #, elixir-autogen, elixir-format
 msgid "creation_succeded"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/index.html.heex:78
-#: lib/notebook_server_web/live/schema_live/index.html.heex:86
+#: lib/notebook_server_web/live/schema_live/index.html.heex:79
+#: lib/notebook_server_web/live/schema_live/index.html.heex:87
 #, elixir-autogen, elixir-format
 msgid "delete"
 msgstr ""
@@ -65,7 +66,7 @@ msgid "delete_succeded"
 msgstr ""
 
 #: lib/notebook_server_web/live/schema_live/form_component.ex:38
-#: lib/notebook_server_web/live/schema_live/index.html.heex:25
+#: lib/notebook_server_web/live/schema_live/index.html.heex:26
 #, elixir-autogen, elixir-format
 msgid "description"
 msgstr ""
@@ -76,8 +77,8 @@ msgid "description_placeholder"
 msgstr ""
 
 #: lib/notebook_server_web/live/schema_live/index.ex:31
-#: lib/notebook_server_web/live/schema_live/index.html.heex:70
-#: lib/notebook_server_web/live/schema_live/index.html.heex:72
+#: lib/notebook_server_web/live/schema_live/index.html.heex:71
+#: lib/notebook_server_web/live/schema_live/index.html.heex:73
 #, elixir-autogen, elixir-format
 msgid "edit"
 msgstr ""
@@ -93,28 +94,28 @@ msgid "new"
 msgstr ""
 
 #: lib/notebook_server_web/live/schema_live/form_component.ex:45
-#: lib/notebook_server_web/live/schema_live/index.html.heex:34
+#: lib/notebook_server_web/live/schema_live/index.html.heex:35
 #, elixir-autogen, elixir-format
 msgid "platform"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/index.html.heex:41
-#: lib/notebook_server_web/live/schema_live/index.html.heex:50
+#: lib/notebook_server_web/live/schema_live/index.html.heex:42
+#: lib/notebook_server_web/live/schema_live/index.html.heex:51
 #, elixir-autogen, elixir-format
 msgid "publish"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/index.html.heex:31
+#: lib/notebook_server_web/live/schema_live/index.html.heex:32
 #, elixir-autogen, elixir-format
 msgid "published_version"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:59
+#: lib/notebook_server_web/live/schema_live/form_component.ex:60
 #, elixir-autogen, elixir-format
 msgid "raw_content"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:72
+#: lib/notebook_server_web/live/schema_live/form_component.ex:73
 #, elixir-autogen, elixir-format
 msgid "save"
 msgstr ""
@@ -124,14 +125,14 @@ msgstr ""
 msgid "schemas"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/index.html.heex:37
+#: lib/notebook_server_web/live/schema_live/index.html.heex:38
 #, elixir-autogen, elixir-format
 msgid "status"
 msgstr ""
 
 #: lib/notebook_server_web/live/schema_live/form_component.ex:28
 #: lib/notebook_server_web/live/schema_live/index.ex:43
-#: lib/notebook_server_web/live/schema_live/index.html.heex:22
+#: lib/notebook_server_web/live/schema_live/index.html.heex:23
 #, elixir-autogen, elixir-format
 msgid "title"
 msgstr ""
@@ -141,7 +142,12 @@ msgstr ""
 msgid "title_placeholder"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:116
+#: lib/notebook_server_web/live/schema_live/form_component.ex:117
 #, elixir-autogen, elixir-format
 msgid "update_succeded"
+msgstr ""
+
+#: lib/notebook_server_web/live/schema_live/form_component.ex:124
+#, elixir-autogen, elixir-format
+msgid "update_failed"
 msgstr ""

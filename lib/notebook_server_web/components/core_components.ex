@@ -539,6 +539,7 @@ defmodule NotebookServerWeb.CoreComponents do
   attr :empty_title, :string, default: nil
   attr :empty_subtitle, :string, default: nil
   attr :empty_label, :string, default: nil
+  attr :should_action_empty?, :boolean, default: true
 
   attr :row_item, :any,
     default: &Function.identity/1,
@@ -607,7 +608,7 @@ defmodule NotebookServerWeb.CoreComponents do
             <p class="font-sm text-slate-600 mb-6">
               <%= @empty_subtitle %>
             </p>
-            <.link patch={@empty_link}>
+            <.link :if={@should_action_empty?} patch={@empty_link}>
               <.button icon="plus_circle">
                 <%= @empty_label %>
               </.button>
