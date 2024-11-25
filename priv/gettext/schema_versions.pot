@@ -36,7 +36,7 @@ msgstr ""
 msgid "publication_succeded"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:140
+#: lib/notebook_server_web/live/schema_live/form_component.ex:141
 #, elixir-autogen, elixir-format
 msgid "create_failed"
 msgstr ""

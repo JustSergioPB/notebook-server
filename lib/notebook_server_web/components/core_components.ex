@@ -201,7 +201,13 @@ defmodule NotebookServerWeb.CoreComponents do
 
   def simple_form(assigns) do
     ~H"""
-    <.form :let={f} for={@for} as={@as} class={["space-y-6 h-full flex flex-col flex-1 overflow-y-hidden", @class]} {@rest}>
+    <.form
+      :let={f}
+      for={@for}
+      as={@as}
+      class={["space-y-6 h-full flex flex-col flex-1 overflow-y-hidden", @class]}
+      {@rest}
+    >
       <div class="flex-1 space-y-4 overflow-y-auto min-h-0 px-1">
         <%= render_slot(@inner_block, f) %>
       </div>
@@ -1191,13 +1197,27 @@ defmodule NotebookServerWeb.CoreComponents do
   attr :user, :any, required: true
 
   def user_role_badge(assigns) do
+    icon =
+      case assigns.user.role do
+        :admin -> "laptop"
+        :org_admin -> "shield"
+        :issuer -> "pen-tool"
+      end
+
+    label =
+      case assigns.user.role do
+        :admin -> dgettext("users", "admin")
+        :org_admin -> dgettext("users", "org_admin")
+        :issuer -> dgettext("users", "issuer")
+      end
+
+    assigns = assigns |> assign(:icon, icon) |> assign(:label, label)
+
     ~H"""
     <.badge>
       <:label>
-        <Lucide.laptop :if={@user.role == :admin} class="h-3 w-3" />
-        <Lucide.shield :if={@user.role == :org_admin} class="h-3 w-3" />
-        <Lucide.pen_tool :if={@user.role == :issuer} class="h-3 w-3" />
-        <%= @user.role %>
+        <Lucide.render icon={@icon} class="h-3 w-3" />
+        <%= @label %>
       </:label>
     </.badge>
     """

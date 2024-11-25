@@ -60,12 +60,12 @@ msgstr "Configura los puentes que se verán de manera pública en tu muro"
 msgid "edit"
 msgstr "Editar puente"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:71
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:70
 #, elixir-autogen, elixir-format
 msgid "email_description"
 msgstr "El puente enviará un código de 6 digitos con el que el usuario verificará ser quien es."
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:70
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:69
 #, elixir-autogen, elixir-format
 msgid "email_title"
 msgstr "Email"
@@ -85,12 +85,12 @@ msgstr "Obten credenciales a través de los puentes de esta organización"
 msgid "status"
 msgstr "Estado"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:25
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:24
 #, elixir-autogen, elixir-format
 msgid "title"
 msgstr "Titulo"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:63
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:62
 #: lib/notebook_server_web/live/bridge_live/index.html.heex:25
 #, elixir-autogen, elixir-format
 msgid "type"
@@ -107,56 +107,56 @@ msgstr "Tipo"
 msgid "bridges"
 msgstr "Puentes"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:36
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:35
 #, elixir-autogen, elixir-format
 msgid "description"
 msgstr "Descripción"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:37
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:36
 #, elixir-autogen, elixir-format
 msgid "description_placeholder"
 msgstr "Email que acredita que el poseedor pertenece a la organización..."
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:26
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:25
 #, elixir-autogen, elixir-format
 msgid "title_placeholder"
 msgstr "Email de acreditación"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:51
-#: lib/notebook_server_web/live/schema_live/form_component.ex:53
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:50
+#: lib/notebook_server_web/live/schema_live/form_component.ex:54
 #, elixir-autogen, elixir-format, fuzzy
 msgid "web_2_description"
 msgstr "El esquema del puente se almacenará en la base de datos"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:50
-#: lib/notebook_server_web/live/schema_live/form_component.ex:52
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:49
+#: lib/notebook_server_web/live/schema_live/form_component.ex:53
 #, elixir-autogen, elixir-format
 msgid "web_2_title"
 msgstr "Web 2"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:57
-#: lib/notebook_server_web/live/schema_live/form_component.ex:59
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:56
+#: lib/notebook_server_web/live/schema_live/form_component.ex:60
 #, elixir-autogen, elixir-format, fuzzy
 msgid "web_3_description"
 msgstr "El esquema del puente se almacenará en la base de datos y se publicará en la blockchain"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:56
-#: lib/notebook_server_web/live/schema_live/form_component.ex:58
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:55
+#: lib/notebook_server_web/live/schema_live/form_component.ex:59
 #, elixir-autogen, elixir-format
 msgid "web_3_title"
 msgstr "Web 3"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:85
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:84
 #, elixir-autogen, elixir-format
 msgid "domains"
 msgstr "Dominios"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:86
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:85
 #, elixir-autogen, elixir-format
 msgid "domains_placeholder"
 msgstr "stachelabs.es"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:87
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:86
 #, elixir-autogen, elixir-format, fuzzy
 msgid "domains_hint"
 msgstr "El dominio del email lo encontrarás después del @, ej stachelabs.es en user@stachelabs.es"

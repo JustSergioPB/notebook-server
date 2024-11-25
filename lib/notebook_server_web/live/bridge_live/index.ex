@@ -30,7 +30,7 @@ defmodule NotebookServerWeb.BridgeLive.Index do
     |> assign(:page_title, dgettext("bridges", "new"))
     |> assign(:bridge, %Bridge{
       type: :email,
-      schema: %Schema{schema_versions: [%SchemaVersion{platform: :web2}]}
+      schema: %Schema{schema_versions: [%SchemaVersion{}]}
     })
   end
 
