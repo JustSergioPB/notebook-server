@@ -1,5 +1,4 @@
 defmodule NotebookServerWeb.WallLive.Show do
-  alias NotebookServer.Bridges.Bridge
   alias NotebookServer.Bridges
   alias NotebookServer.Orgs
   use NotebookServerWeb, :live_view_app
@@ -13,11 +12,7 @@ defmodule NotebookServerWeb.WallLive.Show do
 
     {:ok,
      socket
-     |> stream(
-       :bridges,
-       Bridges.list_bridges(org_id: org_id)
-       |> Enum.map(fn bridge -> bridge |> Bridge.map_to_wall() end)
-     )
+     |> stream(:bridges, Bridges.list_bridges(org_id: org_id))
      |> assign(:url, "#{base_url}/#{org.public_id}/wall")}
   end
 

@@ -24,7 +24,7 @@
     </:col>
     <:col :let={{_id, bridge}} label={dgettext("bridges", "type")}>
       <.badge>
-        <:label><%= bridge.bridge.tag %></:label>
+        <:label><%= bridge.type %></:label>
       </.badge>
     </:col>
     <:col :let={{_id, bridge}} :if={@current_user.role == :admin} label={dgettext("orgs", "name")}>

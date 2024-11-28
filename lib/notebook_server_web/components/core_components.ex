@@ -55,7 +55,7 @@ defmodule NotebookServerWeb.CoreComponents do
         aria-hidden="true"
       />
       <div
-        class="fixed inset-y-0 right-0 overflow-y-auto w-1/3 p-6"
+        class="fixed inset-y-0 right-0 overflow-y-auto md:p-6 md:w-2/3 lg:w-1/2 xl:w-2/5"
         aria-labelledby={"#{@id}-title"}
         aria-describedby={"#{@id}-description"}
         role="dialog"
@@ -67,7 +67,7 @@ defmodule NotebookServerWeb.CoreComponents do
           phx-window-keydown={JS.exec("data-cancel", to: "##{@id}")}
           phx-key="escape"
           phx-click-away={JS.exec("data-cancel", to: "##{@id}")}
-          class="shadow-slate-700/10 ring-slate-700/10 relative hidden rounded-md bg-white p-6 shadow-lg ring-1 transition h-full"
+          class="shadow-slate-700/10 ring-slate-700/10 relative hidden bg-white p-6 shadow-lg ring-1 transition h-full md:rounded-md"
         >
           <div class="absolute h-full top-6 right-5">
             <button
@@ -208,7 +208,7 @@ defmodule NotebookServerWeb.CoreComponents do
       class={["space-y-6 h-full flex flex-col flex-1 overflow-y-hidden", @class]}
       {@rest}
     >
-      <div class="flex-1 space-y-4 overflow-y-auto min-h-0 px-1">
+      <div class="flex-1 space-y-4 overflow-y-auto overflow-x-hidden min-h-0 px-1">
         <%= render_slot(@inner_block, f) %>
       </div>
       <div :for={action <- @actions} class="flex items-center justify-between gap-6 last:pt-6">
@@ -309,7 +309,7 @@ defmodule NotebookServerWeb.CoreComponents do
   attr :type, :string,
     default: "text",
     values: ~w(checkbox color date datetime-local email file month number password
-               range search select tel text textarea time url week radio chip)
+               range search select tel text textarea time url week radio)
 
   attr :field, Phoenix.HTML.FormField,
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
@@ -411,7 +411,7 @@ defmodule NotebookServerWeb.CoreComponents do
       <div class={["grid grid-cols-2 gap-4", length(@options) == 1 && "grid-cols-1"]}>
         <div
           :for={option <- @options}
-          class="border border-slate-300 p-3 rounded-md shadow-sm space-y-2 has-[:checked]:bg-indigo-50 has-[:checked]:text-indigo-900 has-[:checked]:border-indigo-500 has-[:disabled]:border-slate-300 has-[:disabled]:bg-slate-50"
+          class="border border-slate-300 p-3 rounded-md shadow-sm space-y-2 has-[:checked]:bg-indigo-50 has-[:checked]:text-indigo-900 has-[:checked]:border-indigo-500 has-[:disabled]:opacity-65"
         >
           <div class="flex items-center gap-2">
             <input
@@ -436,26 +436,6 @@ defmodule NotebookServerWeb.CoreComponents do
       <.hint :if={@hint}><%= @hint %></.hint>
       <.error :for={msg <- @errors}><%= msg %></.error>
     </fieldset>
-    """
-  end
-
-  def input(%{type: "chip"} = assigns) do
-    ~H"""
-    <div class={["space-y-1", @class]}>
-      <.label for={@id}><%= @label %></.label>
-      <textarea
-        id={@id}
-        name={@name}
-        class={[
-          "block w-full rounded-md text-slate-900 focus:ring-1 focus:ring-indigo-500 sm:text-sm sm:leading-6 min-h-[6rem]",
-          @errors == [] && "border-slate-300 focus:border-slate-400",
-          @errors != [] && "border-rose-400 focus:border-rose-400"
-        ]}
-        {@rest}
-      ><%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
-      <.hint :if={@hint}><%= @hint %></.hint>
-      <.error :for={msg <- @errors}><%= msg %></.error>
-    </div>
     """
   end
 
@@ -999,7 +979,7 @@ defmodule NotebookServerWeb.CoreComponents do
         <%= render_slot(@inner_block) %>
       </div>
       <div class={[
-        "absolute z-10 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition",
+        "absolute z-50 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition",
         "bg-gray-800 text-white text-xs rounded py-1 px-2 whitespace-nowrap",
         "left-1/2 -translate-x-1/2",
         @position_class
@@ -1092,17 +1072,21 @@ defmodule NotebookServerWeb.CoreComponents do
   end
 
   attr :variant, :string, values: ~w(primary secondary outline danger ghost), default: "outline"
+  attr :rest, :global, doc: "the arbitrary HTML attributes to add to the badge container"
 
   slot :label, required: true
 
   def badge(assigns) do
     ~H"""
-    <div class={[
-      "py-1 px-2 rounded-lg text-xs font-semibold inline-flex items-center",
-      @variant == "primary" && "bg-indigo-500 shadow-md",
-      @variant == "outline" && "bg-white shadow-sm border border-slate-300",
-      @variant == "danger" && "bg-red-500 shadow-sm text-white"
-    ]}>
+    <div
+      class={[
+        "py-1 px-2 rounded-lg text-xs font-semibold inline-flex items-center",
+        @variant == "primary" && "bg-indigo-500 shadow-md text-white",
+        @variant == "outline" && "bg-white shadow-sm border border-slate-300",
+        @variant == "danger" && "bg-red-500 shadow-sm text-white"
+      ]}
+      {@rest}
+    >
       <div class="inline-flex items-center gap-1">
         <%= render_slot(@label) %>
       </div>

@@ -28,6 +28,21 @@ let csrfToken = document
 
 let Hooks = {};
 
+Hooks.Chip = {
+  mounted() {
+    this.el.addEventListener("keydown", (e) => {
+      e.stopPropagation();
+
+      if (e.key === "Enter") {
+        this.pushEventTo(this.el, "add", {
+          value: this.el.value,
+        });
+        this.el.value = "";
+      }
+    });
+  },
+};
+
 Hooks.Select = {
   // https://aurmartin.fr/posts/phoenix-liveview-select/
   mounted() {

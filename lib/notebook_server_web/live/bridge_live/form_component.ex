@@ -17,84 +17,67 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.inputs_for :let={schema_form} field={@form[:schema]}>
-          <.input
-            type="text"
-            field={schema_form[:title]}
-            label={dgettext("bridges", "title")}
-            placeholder={dgettext("bridges", "title_placeholder")}
-            hint={gettext("max_chars %{max}", max: 50)}
-            phx-debounce="blur"
-            required
-          />
-          <.inputs_for :let={schema_version_form} field={schema_form[:schema_versions]}>
-            <.input
-              type="textarea"
-              rows="2"
-              field={schema_version_form[:description]}
-              label={dgettext("bridges", "description")}
-              placeholder={dgettext("bridges", "description_placeholder")}
-              hint={gettext("max_chars %{max}", max: 255)}
-              phx-debounce="blur"
-            />
-            <.input
-              type="radio"
-              label={dgettext("schemas", "platform")}
-              field={schema_version_form[:platform]}
-              disabled={true}
-              options={[
-                %{
-                  id: :web2,
-                  icon: "globe",
-                  label: dgettext("bridges", "web_2_title"),
-                  description: dgettext("bridges", "web_2_description")
-                },
-                %{
-                  id: :web3,
-                  icon: "link",
-                  label: dgettext("bridges", "web_3_title"),
-                  description: dgettext("bridges", "web_3_description")
-                }
-              ]}
-            />
-            <.input
-              type="radio"
-              label={dgettext("bridges", "type")}
-              disabled={true}
-              field={@form[:type]}
-              options={[
-                %{
-                  id: :email,
-                  icon: "mail",
-                  label: dgettext("bridges", "email_title"),
-                  description: dgettext("bridges", "email_description")
-                }
-              ]}
-            />
-            <.inputs_for :let={schema_content_form} field={schema_version_form[:content]}>
-              <.inputs_for :let={properties_form} field={schema_content_form[:properties]}>
-                <.inputs_for
-                  :let={credential_subject_form}
-                  field={properties_form[:credential_subject]}
-                >
-                  <.inputs_for :let={props_form} field={credential_subject_form[:properties]}>
-                    <.input
-                      type="chip"
-                      field={props_form[:content]}
-                      label={dgettext("bridges", "domains")}
-                      placeholder={dgettext("bridges", "domains_placeholder")}
-                      hint={dgettext("bridges", "domains_hint")}
-                      autocomplete="off"
-                      rows="3"
-                      phx-debounce="blur"
-                      required
-                    />
-                  </.inputs_for>
-                </.inputs_for>
-              </.inputs_for>
-            </.inputs_for>
-          </.inputs_for>
-        </.inputs_for>
+        <.input
+          type="text"
+          field={@form[:title]}
+          label={dgettext("bridges", "title")}
+          placeholder={dgettext("bridges", "title_placeholder")}
+          hint={gettext("max_chars %{max}", max: 50)}
+          phx-debounce="blur"
+          required
+        />
+        <.input
+          type="textarea"
+          rows="2"
+          field={@form[:description]}
+          label={dgettext("bridges", "description")}
+          placeholder={dgettext("bridges", "description_placeholder")}
+          hint={gettext("max_chars %{max}", max: 255)}
+          phx-debounce="blur"
+        />
+        <.input
+          type="radio"
+          label={dgettext("schemas", "platform")}
+          field={@form[:platform]}
+          disabled={true}
+          options={[
+            %{
+              id: :web2,
+              icon: "globe",
+              label: dgettext("bridges", "web_2_title"),
+              description: dgettext("bridges", "web_2_description")
+            },
+            %{
+              id: :web3,
+              icon: "link",
+              label: dgettext("bridges", "web_3_title"),
+              description: dgettext("bridges", "web_3_description")
+            }
+          ]}
+        />
+        <.input
+          type="radio"
+          label={dgettext("bridges", "type")}
+          disabled={true}
+          field={@form[:type]}
+          options={[
+            %{
+              id: :email,
+              icon: "mail",
+              label: dgettext("bridges", "email_title"),
+              description: dgettext("bridges", "email_description")
+            }
+          ]}
+        />
+        <.live_component
+          module={NotebookServerWeb.Components.ChipInput}
+          id="pattern-chip-input"
+          field={@form[:pattern]}
+          label={dgettext("bridges", "domains")}
+          placeholder={dgettext("bridges", "domains_placeholder")}
+          hint={dgettext("bridges", "domains_hint")}
+          required
+        />
         <:actions>
           <.button>
             <%= gettext("save") %>
@@ -107,29 +90,27 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
 
   @impl true
   def update(%{bridge: bridge} = assigns, socket) do
+    changeset = bridge |> flatten_bridge() |> change_bridge()
+
     {:ok,
      socket
      |> assign(assigns)
      |> assign_new(:form, fn ->
-       to_form(Bridges.change_bridge(bridge))
+       to_form(changeset, as: "bridge")
      end)}
   end
 
   @impl true
 
   def handle_event("validate", %{"bridge" => bridge_params}, socket) do
-    bridge_params =
-      bridge_params |> Map.put("org_id", socket.assigns.current_user.org_id)
+    changeset = socket.assigns.bridge |> flatten_bridge() |> change_bridge(bridge_params)
 
-    changeset =
-      Bridges.change_bridge(socket.assigns.bridge, bridge_params)
-
-    {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
+    {:noreply, assign(socket, form: to_form(changeset, action: :validate, as: "bridge"))}
   end
 
   def handle_event("save", %{"bridge" => bridge_params}, socket) do
     bridge_params =
-      bridge_params |> Map.put("org_id", socket.assigns.current_user.org_id)
+      bridge_params |> complete_bridge(socket.assigns.bridge, socket.assigns.current_user)
 
     save_bridge(socket, socket.assigns.action, bridge_params)
   end
@@ -141,7 +122,7 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, gettext("bridge_update_success"))
+         |> put_flash(:info, dgettext("bridges", "update_succeded"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -156,13 +137,133 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, gettext("bridge_create_success"))
+         |> put_flash(:info, dgettext("bridges", "creation_succeded"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
+        IO.inspect(changeset)
         {:noreply, assign(socket, form: to_form(changeset))}
     end
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
+
+  defp extract_domains(pattern) do
+    pattern
+    |> extract_domain_pattern()
+    |> String.replace("\\.", ".")
+  end
+
+  defp extract_domain_pattern(regex_string) do
+    case Regex.run(~r/@\(\?:(.+?)\)\$/i, regex_string) do
+      [_, domains] -> domains
+      nil -> ""
+    end
+  end
+
+  defp flatten_bridge(bridge) do
+    latest_version =
+      bridge.schema.schema_versions
+      |> Enum.at(0)
+
+    pattern =
+      if is_nil(latest_version.content),
+        do: nil,
+        else:
+          extract_domains(
+            latest_version.content.properties.credential_subject.properties.content.pattern
+          )
+
+    %{
+      title: bridge.schema.title,
+      description: latest_version.description,
+      platform: latest_version.platform || :web2,
+      type: bridge.type || :email,
+      pattern: pattern
+    }
+  end
+
+  defp change_bridge(bridge, attrs \\ %{}) do
+    types = %{
+      title: :string,
+      description: :string,
+      pattern: :string,
+      type: :atom,
+      platform: :atom
+    }
+
+    {bridge, types}
+    |> Ecto.Changeset.cast(attrs, [:title, :description, :pattern])
+    |> Ecto.Changeset.validate_required([:title, :pattern], message: gettext("field_required"))
+    |> Ecto.Changeset.validate_length(:title,
+      min: 2,
+      max: 50,
+      message: dgettext("bridges", "title_length %{max} %{min}", min: 2, max: 50)
+    )
+    |> Ecto.Changeset.validate_length(:description,
+      min: 2,
+      max: 255,
+      message: dgettext("bridges", "title_length %{max} %{min}", min: 2, max: 255)
+    )
+    |> Ecto.Changeset.validate_length(:pattern, min: 2, message: gettext("field_required"))
+  end
+
+  defp complete_bridge(bridge_params, bridge, user) do
+    latest_version =
+      bridge.schema.schema_versions
+      |> Enum.at(0)
+
+    version =
+      if latest_version.status == :draft,
+        do: latest_version.version,
+        else: latest_version.version + 1
+
+    title = bridge_params |> Map.get("title")
+    description = bridge_params |> Map.get("description")
+    pattern = bridge_params |> Map.get("pattern")
+
+    bridge_params
+    |> Map.merge(%{
+      "public_id" => bridge.public_id || Ecto.UUID.generate(),
+      "org_id" => user.org_id,
+      "schema" => %{
+        "title" => title,
+        "public_id" => bridge.schema.id || Ecto.UUID.generate(),
+        "org_id" => user.org_id,
+        "schema_versions" => %{
+          "0" => %{
+            "user_id" => user.id,
+            "version" => version,
+            "public_id" => latest_version.public_id || Ecto.UUID.generate(),
+            "content" => %{
+              "title" => title,
+              "properties" => %{
+                "title" => %{"const" => title},
+                "credential_subject" => %{
+                  "properties" => %{
+                    "content" => %{
+                      "pattern" => pattern,
+                      "type" => "string",
+                      "format" => "email"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    })
+    |> maybe_put_description(description)
+  end
+
+  defp maybe_put_description(bridge_params, description) when is_binary(description) do
+    bridge_params
+    |> put_in(["schema", "schema_versions", "0", "description"], description)
+    |> put_in(["schema", "schema_versions", "0", "content", "properties", "description"], %{
+      "const" => description
+    })
+  end
+
+  defp maybe_put_description(bridge_params, _), do: bridge_params
 end

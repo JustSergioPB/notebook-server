@@ -26,12 +26,14 @@
           >
             <div class="flex items-center justify-between">
               <h3 class="font-semibold text-base">
-                <%= bridge.published_version.title %>
+                <%= bridge.schema.title %>
               </h3>
               <.switch id={bridge.id} checked={bridge.active} on_click="toggle" />
             </div>
             <p class="text-sm text-slate-600">
-              <%= bridge.published_version.description %>
+              <%= bridge.schema.schema_versions
+              |> Enum.at(0)
+              |> Map.get(:description) %>
             </p>
           </div>
         </div>

@@ -1,5 +1,4 @@
 defmodule NotebookServerWeb.WallLive.Public do
-  alias NotebookServer.Bridges.Bridge
   alias NotebookServer.Bridges
   alias NotebookServer.Orgs
   use NotebookServerWeb, :live_view_blank
@@ -25,9 +24,11 @@ defmodule NotebookServerWeb.WallLive.Public do
                 class="border border-slate-300 p-4 rounded-lg space-y-6 h-48 mx-h-48 flex flex-col"
               >
                 <div class="space-y-2 flex-1">
-                  <h3 class="font-semibold"><%= bridge.published_version.title %></h3>
+                  <h3 class="font-semibold"><%= bridge.schema.title %></h3>
                   <p class="text-sm text-slate-600">
-                    <%= bridge.published_version.description %>
+                    <%= bridge.schema.schema_versions
+                    |> Enum.at(0)
+                    |> Map.get(:description) %>
                   </p>
                 </div>
                 <.link navigate={~p"/#{@org.public_id}/wall/bridges/email/#{bridge.public_id}"}>
@@ -68,10 +69,6 @@ defmodule NotebookServerWeb.WallLive.Public do
      |> assign(:page_title, dgettext("orgs", "public_wall_title"))
      |> assign(:active_tab, params["tab"] || "bridges")
      |> assign(:org, org)
-     |> stream(
-       :bridges,
-       Bridges.list_bridges(org_id: org.id, active: true)
-       |> Enum.map(fn bridge -> bridge |> Bridge.map_to_wall() end)
-     )}
+     |> stream(:bridges, Bridges.list_bridges(org_id: org.id, active: true))}
   end
 end

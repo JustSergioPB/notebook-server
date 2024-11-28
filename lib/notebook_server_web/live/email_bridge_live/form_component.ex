@@ -123,15 +123,10 @@ defmodule NotebookServerWeb.EmailBridgeLive.FormComponent do
     org = Orgs.get_org_by_public_id!(params["id"])
     bridge = Bridges.get_bridge_by_public_id!(params["public_id"])
 
-    schema =
-      bridge
-      |> Map.get(:schema)
-
     schema_version =
-      schema
-      |> Map.get(:schema_versions)
-      |> Enum.find(fn version -> version.status == :published end)
-      |> Map.put(:schema, schema)
+      bridge.schema.schema_versions
+      |> Enum.at(0)
+      |> Map.put(:schema, bridge.schema)
 
     {:noreply,
      socket

@@ -8,6 +8,7 @@ defmodule NotebookServer.Bridges do
   alias NotebookServer.Bridges.EmailBridgeNotifier
   alias NotebookServer.Bridges.EmailBridge
   alias NotebookServer.Bridges.Bridge
+  alias NotebookServer.Schemas.SchemaVersion
   alias NotebookServer.Repo
 
   def create_bridge(attrs \\ %{}) do
@@ -23,12 +24,24 @@ defmodule NotebookServer.Bridges do
   end
 
   def get_bridge!(id),
-    do: Repo.get!(Bridge, id) |> Repo.preload([:org, schema: [:schema_versions]])
+    do:
+      Repo.get!(Bridge, id)
+      |> Repo.preload([
+        :org,
+        schema: [
+          schema_versions: from(sv in SchemaVersion, order_by: [desc: sv.version], limit: 1)
+        ]
+      ])
 
   def get_bridge_by_public_id!(public_id),
     do:
       Repo.get_by!(Bridge, public_id: public_id)
-      |> Repo.preload([:org, schema: [:schema_versions]])
+      |> Repo.preload([
+        :org,
+        schema: [
+          schema_versions: from(sv in SchemaVersion, order_by: [desc: sv.version], limit: 1)
+        ]
+      ])
 
   def list_bridges(opts \\ []) do
     org_id = Keyword.get(opts, :org_id)
@@ -44,7 +57,11 @@ defmodule NotebookServer.Bridges do
         do: from(o in query, where: o.active == ^active),
         else: from(o in query)
 
-    Repo.all(query) |> Repo.preload([:org, schema: [:schema_versions]])
+    Repo.all(query)
+    |> Repo.preload([
+      :org,
+      schema: [schema_versions: from(sv in SchemaVersion, order_by: [desc: sv.version], limit: 1)]
+    ])
   end
 
   def delete_bridge(%Bridge{} = bridge) do

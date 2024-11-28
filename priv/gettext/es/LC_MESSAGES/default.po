@@ -871,7 +871,7 @@ msgstr "Manuales"
 #: lib/notebook_server_web/live/email_bridge_live/form_component.ex:13
 #, elixir-autogen, elixir-format
 msgid "go_back"
-msgstr ""
+msgstr "Volver"
 
 #: lib/notebook_server_web/live/bridge_live/form_component.ex:26
 #: lib/notebook_server_web/live/bridge_live/form_component.ex:37
