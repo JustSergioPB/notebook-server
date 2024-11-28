@@ -16,11 +16,19 @@
       id="user-credentials"
       patch={~p"/credentials?tab=user"}
     >
-      <.table id="user-credentials-table" class="flex-1" rows={@streams.user_credentials}>
+      <.table
+        id="user-credentials-table"
+        class="flex-1"
+        rows={@streams.user_credentials}
+        empty_link={~p"/credentials/new"}
+        empty_title={dgettext("credentials", "empty_title")}
+        empty_subtitle={dgettext("credentials", "empty_subtitle")}
+        empty_label={gettext("credential")}
+      >
         <:col :let={{_id, user_credential}} label={gettext("schema")}>
           <.version_cell
             label={user_credential.credential.schema_version.schema.title}
-            version={user_credential.credential.schema_version.version_number}
+            version={user_credential.credential.schema_version.version}
           />
         </:col>
         <:col :let={{_id, user_credential}} label={gettext("issuer")}>
@@ -59,16 +67,25 @@
           </.tooltip>
         </:action>
       </.table>
-      <div class="p-6 border-t border-slate-200">
+      <div class="p-6 border-t border-slate-300">
         <.pagination page={1} total_pages={1} />
       </div>
     </:tab>
     <:tab label={gettext("org_credentials")} id="org-credentials" patch={~p"/credentials?tab=org"}>
-      <.table id="org-credentials-table" class="flex-1" rows={@streams.org_credentials}>
+      <.table
+        id="org-credentials-table"
+        class="flex-1"
+        rows={@streams.org_credentials}
+        empty_link={~p"/credentials/new"}
+        empty_title={dgettext("credentials", "org_crendetial_empty_title")}
+        empty_subtitle={dgettext("credentials", "org_crendetial_empty_subtitle")}
+        empty_label={gettext("credential")}
+        should_action_empty?={false}
+      >
         <:col :let={{_id, org_credential}} label={gettext("schema")}>
           <.version_cell
             label={org_credential.credential.schema_version.schema.title}
-            version={org_credential.credential.schema_version.version_number}
+            version={org_credential.credential.schema_version.version}
           />
         </:col>
         <:col
@@ -103,7 +120,7 @@
           </.tooltip>
         </:action>
       </.table>
-      <div class="p-6 border-t border-slate-200">
+      <div class="p-6 border-t border-slate-300">
         <.pagination page={1} total_pages={1} />
       </div>
     </:tab>

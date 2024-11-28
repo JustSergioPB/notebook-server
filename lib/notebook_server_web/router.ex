@@ -54,6 +54,7 @@ defmodule NotebookServerWeb.Router do
   # TODO: create a screen to redirect the user when the org it's not verified or in process of verifying
   # TODO: create a stepper to fill the required org data
   # TODO: create an onboarding screen
+  # TODO: add links to tables
 
   scope "/", NotebookServerWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
@@ -99,15 +100,6 @@ defmodule NotebookServerWeb.Router do
         live "/:id/show/edit", CertificateLive.Show, :edit
       end
 
-      scope "/bridges" do
-        pipe_through :require_admin_user
-        live "/", BridgeLive.Index, :index
-        live "/new", BridgeLive.Index, :new
-        live "/:id/edit", BridgeLive.Index, :edit
-        live "/:id", BridgeLive.Show, :show
-        live "/:id/show/edit", BridgeLive.Show, :edit
-      end
-
       scope "/users" do
         pipe_through :require_org_admin_user
         live "/", UserLive.Index, :index
@@ -126,11 +118,11 @@ defmodule NotebookServerWeb.Router do
         live "/:id/show/edit", SchemaLive.Show, :edit
       end
 
-      scope "/evidence-bridges" do
+      scope "/bridges" do
         pipe_through :require_org_admin_user
-        live "/", EvidenceBridgeLive.Index, :index
-        live "/new", EvidenceBridgeLive.Index, :new
-        live "/:id/edit", EvidenceBridgeLive.Index, :edit
+        live "/", BridgeLive.Index, :index
+        live "/new", BridgeLive.Index, :new
+        live "/:id/edit", BridgeLive.Index, :edit
       end
 
       scope "/wall" do
@@ -154,7 +146,7 @@ defmodule NotebookServerWeb.Router do
 
     scope "/:id/wall" do
       live "/", WallLive.Public, :show
-      live "/evidence-bridges/email/:public_id", EmailEvidenceBridgeLive.FormComponent, :show
+      live "/bridges/email/:public_id", EmailBridgeLive.FormComponent, :show
     end
 
     live_session :current_user,

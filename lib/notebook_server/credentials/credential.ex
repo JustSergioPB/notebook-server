@@ -20,31 +20,4 @@ defmodule NotebookServer.Credentials.Credential do
     |> validate_required([:schema_version_id], message: gettext("field_required"))
     |> cast_embed(:content, required: true)
   end
-
-  def gen_full(credential, issuer, schema_version) do
-    domain_url = Application.get_env(:notebook_server, :url)
-
-    content =
-      credential
-      |> Map.get("content")
-
-    credential_subject =
-      content
-      |> Map.get("credential_subject")
-      |> Map.put("id", "TODO")
-
-    content =
-      content
-      |> Map.merge(%{
-        "title" => schema_version.schema.title,
-        "description" => schema_version.description,
-        "issuer" => issuer,
-        "credential_schema" => %{
-          "id" => "#{domain_url}/#{schema_version.schema.public_id}/version/#{schema_version.public_id}"
-        },
-        "credential_subject" => credential_subject
-      })
-
-    credential |> Map.merge(%{"schema_version_id" => schema_version.id, "content" => content})
-  end
 end

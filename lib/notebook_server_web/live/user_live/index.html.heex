@@ -14,13 +14,16 @@
     id="users"
     class="flex-1"
     rows={@streams.users}
-    row_click={fn {_id, user} -> JS.navigate(~p"/users/#{user}") end}
+    empty_link={~p"/users/new"}
+    empty_title={dgettext("users", "empty_title")}
+    empty_subtitle={dgettext("users", "empty_subtitle")}
+    empty_label={dgettext("users", "user")}
   >
     <:col :let={{_id, user}} label={gettext("full_name")}>
-      <p class="text-sm font-semibold"><%= user.name %> <%= user.last_name %></p>
+      <%= user.name %> <%= user.last_name %>
     </:col>
     <:col :let={{_id, user}} label={gettext("email")}>
-      <p class="text-sm font-light"><%= user.email %></p>
+      <%= user.email %>
     </:col>
     <:col :let={{_id, user}} label={gettext("status")}>
       <.user_status_badge user={user} />
@@ -29,7 +32,7 @@
       <.user_role_badge user={user} />
     </:col>
     <:col :let={{_id, user}} :if={@current_user.role == :admin} label={gettext("org_name")}>
-      <p class="text-sm font-light"><%= user.org.name %></p>
+      <%= user.org.name %>
     </:col>
     <:action :let={{_id, user}}>
       <.link patch={~p"/users/#{user.id}/edit"}>
@@ -74,7 +77,7 @@
       </.tooltip>
     </:action>
   </.table>
-  <div class="p-6 border-t border-slate-200">
+  <div class="p-6 border-t border-slate-300">
     <.pagination page={1} total_pages={1} disabled={!User.can_use_platform?(@current_user)} />
   </div>
 </.page_content>

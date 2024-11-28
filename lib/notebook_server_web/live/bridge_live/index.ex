@@ -1,14 +1,17 @@
 defmodule NotebookServerWeb.BridgeLive.Index do
+  alias NotebookServer.Bridges
+  alias NotebookServer.Bridges.Bridge
+  alias NotebookServer.Orgs
+  alias NotebookServer.Schemas
+  alias NotebookServer.Schemas.Schema
+  alias NotebookServer.Schemas.SchemaVersion
   use NotebookServerWeb, :live_view_app
   use Gettext, backend: NotebookServerWeb.Gettext
 
-  alias NotebookServer.Bridges
-  alias NotebookServer.Bridges.Bridge
-  alias NotebookServer.Accounts.User
-
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, stream(socket, :bridges, Bridges.list_bridges())}
+    opts = org_filter(socket)
+    {:ok, stream(socket, :bridges, Bridges.list_bridges(opts))}
   end
 
   @impl true
@@ -18,25 +21,31 @@ defmodule NotebookServerWeb.BridgeLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, gettext("edit_bridge"))
+    |> assign(:page_title, dgettext("bridges", "edit"))
     |> assign(:bridge, Bridges.get_bridge!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, gettext("new_bridge"))
-    |> assign(:bridge, %Bridge{})
+    |> assign(:page_title, dgettext("bridges", "new"))
+    |> assign(:bridge, %Bridge{
+      type: :email,
+      schema: %Schema{schema_versions: [%SchemaVersion{}]}
+    })
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, gettext("bridges"))
+    |> assign(:page_title, dgettext("bridges", "bridges"))
     |> assign(:bridge, nil)
   end
 
   @impl true
-  def handle_info({NotebookServerWeb.BridgeLive.FormComponent, {:saved, bridge}}, socket) do
-    {:noreply, stream_insert(socket, :bridges, bridge)}
+  def handle_info(
+        {NotebookServerWeb.BridgeLive.FormComponent, {:saved, bridge}},
+        socket
+      ) do
+    refresh_row(bridge, socket)
   end
 
   @impl true
@@ -45,5 +54,30 @@ defmodule NotebookServerWeb.BridgeLive.Index do
     {:ok, _} = Bridges.delete_bridge(bridge)
 
     {:noreply, stream_delete(socket, :bridges, bridge)}
+  end
+
+  def handle_event("toggle", %{"id" => id}, socket) do
+    bridge = Bridges.get_bridge!(id)
+
+    case Bridges.update_bridge(bridge, %{active: !bridge.active}) do
+      {:ok, bridge} ->
+        refresh_row(bridge, socket)
+
+      {:error, _} ->
+        {:noreply, socket}
+    end
+  end
+
+  defp org_filter(socket) do
+    if socket.assigns.current_user.role == :admin,
+      do: [],
+      else: [org_id: socket.assigns.current_user.org_id]
+  end
+
+  defp refresh_row(bridge, socket) do
+    org = Orgs.get_org!(bridge.org_id)
+    schema = Schemas.get_schema!(bridge.schema_id)
+    bridge = bridge |> Map.merge(%{org: org, schema: schema})
+    {:noreply, stream_insert(socket, :bridges, bridge)}
   end
 end

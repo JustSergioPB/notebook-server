@@ -1,9 +1,9 @@
 <.page_header icon="file-json">
-  <%= gettext("schemas") %>
+  <%= dgettext("schemas", "schemas") %>
   <:actions>
     <.link patch={~p"/schemas/new"}>
-      <.button icon="plus_circle" disabled={!User.can_use_platform?(@current_user)}>
-        <%= gettext("schema") %>
+      <.button icon="plus_circle">
+        <%= dgettext("schemas", "schema") %>
       </.button>
     </.link>
   </:actions>
@@ -15,84 +15,82 @@
     class="flex-1"
     rows={@streams.schemas}
     row_click={fn {_id, schema} -> JS.navigate(~p"/schemas/#{schema}") end}
+    empty_link={~p"/schemas/new"}
+    empty_title={dgettext("schemas", "empty_title")}
+    empty_subtitle={dgettext("schemas", "empty_subtitle")}
+    empty_label={dgettext("schemas", "schema")}
   >
-    <:col :let={{_id, schema}} label={gettext("title")}>
-      <.version_cell label={schema.title} version={schema.version_number} />
+    <:col :let={{_id, schema}} label={dgettext("schemas", "title")}>
+      <.version_cell label={schema.title} version={schema.version} />
     </:col>
-    <:col :let={{_id, schema}} label={gettext("description")}>
+    <:col :let={{_id, schema}} label={dgettext("schemas", "description")}>
       <%= schema.description %>
     </:col>
-    <:col :let={{_id, schema}} :if={@current_user.role == :admin} label={gettext("org_name")}>
+    <:col :let={{_id, schema}} :if={@current_user.role == :admin} label={dgettext("orgs", "org")}>
       <%= schema.org_name %>
     </:col>
-    <:col :let={{_id, schema}} label={gettext("published_version")}>
-      <.version_badge version={schema.published_version_number} />
+    <:col :let={{_id, schema}} label={dgettext("schemas", "published_version")}>
+      <.version_badge :if={schema.published_version} version={schema.published_version} />
     </:col>
-    <:col :let={{_id, schema}} label={gettext("platform")}>
+    <:col :let={{_id, schema}} label={dgettext("schemas", "platform")}>
       <.platform_badge platform={schema.platform} />
     </:col>
-    <:col :let={{_id, schema}} label={gettext("status")}>
+    <:col :let={{_id, schema}} label={dgettext("schemas", "status")}>
       <.schema_status_badge schema={schema} />
     </:col>
     <:action :let={{_id, schema}}>
-      <.tooltip text={gettext("publish")}>
+      <.tooltip text={dgettext("schemas", "publish")}>
         <.button
           size="icon"
           variant="outline"
           icon="radio-tower"
           phx-value-id={schema.latest_version_id}
           phx-click="publish"
-          disabled={!User.can_use_platform?(@current_user) || schema.status != :draft}
+          disabled={schema.status != :draft}
         >
-          <%= gettext("publish") %>
+          <%= dgettext("schemas", "publish") %>
         </.button>
       </.tooltip>
     </:action>
     <:action :let={{_id, schema}}>
-      <.tooltip text={gettext("archive")}>
+      <.tooltip text={dgettext("schemas", "archive")}>
         <.button
           size="icon"
           variant="outline"
           icon="archive"
           phx-value-id={schema.latest_version_id}
           phx-click="archive"
-          disabled={!User.can_use_platform?(@current_user) || schema.status != :published}
+          disabled={schema.status != :published}
         >
-          <%= gettext("archive") %>
+          <%= dgettext("schemas", "archive") %>
         </.button>
       </.tooltip>
     </:action>
     <:action :let={{_id, schema}}>
       <.link patch={~p"/schemas/#{schema.id}/edit"}>
-        <.tooltip text={gettext("edit")}>
-          <.button
-            size="icon"
-            variant="outline"
-            icon="pencil"
-            disabled={!User.can_use_platform?(@current_user)}
-          >
-            <%= gettext("edit") %>
+        <.tooltip text={dgettext("schemas", "edit")}>
+          <.button size="icon" variant="outline" icon="pencil">
+            <%= dgettext("schemas", "edit") %>
           </.button>
         </.tooltip>
       </.link>
     </:action>
     <:action :let={{id, schema}}>
-      <.tooltip text={gettext("delete")}>
+      <.tooltip text={dgettext("schemas", "delete")}>
         <.button
           size="icon"
           variant="outline"
           icon="trash"
-          disabled={!User.can_use_platform?(@current_user)}
           phx-click={JS.push("delete", value: %{id: schema.id}) |> hide("##{id}")}
-          data-confirm={gettext("are_you_sure")}
+          data-confirm={dgettext("schemas", "are_you_sure")}
         >
-          <%= gettext("delete") %>
+          <%= dgettext("schemas", "delete") %>
         </.button>
       </.tooltip>
     </:action>
   </.table>
-  <div class="p-6 border-t border-slate-200">
-    <.pagination page={1} total_pages={1} disabled={!User.can_use_platform?(@current_user)} />
+  <div class="p-6 border-t border-slate-300">
+    <.pagination page={1} total_pages={1} />
   </div>
 </.page_content>
 
@@ -104,10 +102,10 @@
 >
   <.live_component
     module={NotebookServerWeb.SchemaLive.FormComponent}
-    id={@schema_version.id || :new}
+    id={@schema.id || :new}
     title={@page_title}
     action={@live_action}
-    schema_version={@schema_version}
+    schema={@schema}
     current_user={@current_user}
     patch={~p"/schemas"}
   />

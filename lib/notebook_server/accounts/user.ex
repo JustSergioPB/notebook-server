@@ -74,7 +74,7 @@ defmodule NotebookServer.Accounts.User do
   def validate_role(changeset) do
     changeset
     |> validate_required([:role], message: gettext("field_required"))
-    |> validate_inclusion(:role, [:admin, :org_admin, :user],
+    |> validate_inclusion(:role, [:admin, :org_admin, :issuer],
       message: gettext("invalid_user_role")
     )
   end

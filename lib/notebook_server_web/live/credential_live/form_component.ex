@@ -1,5 +1,4 @@
 defmodule NotebookServerWeb.CredentialLive.FormComponent do
-  alias NotebookServer.Schemas.SchemaVersion
   alias NotebookServer.Credentials.UserCredential
   alias NotebookServer.Schemas
   alias NotebookServer.Credentials
@@ -13,7 +12,7 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="space-y-6">
+    <div class="h-full flex flex-col">
       <.header>
         <%= @title %>
       </.header>
@@ -60,7 +59,7 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
             >
               <JsonSchemaComponents.json_schema_node
                 field={credential_subject_form[:content]}
-                schema={@schema_version.credential_subject_content}
+                schema={@schema_version.content.properties.credential_subject.properties.content}
               />
             </.inputs_for>
           </.inputs_for>
@@ -173,7 +172,6 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
       Schemas.list_schema_versions([title: query, status: :published] ++ org_filter(socket))
       |> Enum.map(fn schema_version ->
         schema_version
-        |> SchemaVersion.get_credential_subject_content()
         |> Map.put(:text, schema_version.schema.title)
       end)
 
@@ -184,7 +182,37 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
     user = socket.assigns.current_user
     org = socket.assigns.current_user.org
     schema_version = socket.assigns.schema_version
+    domain_url = NotebookServerWeb.Endpoint.url()
 
-    credential_params |> UserCredential.gen_full(org, user, schema_version)
+    credential_subject =
+      credential_params
+      |> get_in(["credential", "content", "credential_subject"])
+      |> Map.put("id", "TODO")
+
+    content =
+      credential_params
+      |> get_in(["credential", "content"])
+      |> Map.merge(%{
+        "title" => schema_version.schema.title,
+        "description" => schema_version.description,
+        "issuer" => "#{domain_url}/#{org.public_id}/issuers/#{user.public_id}",
+        "credential_schema" => %{
+          "id" =>
+            "#{domain_url}/#{schema_version.schema.public_id}/version/#{schema_version.public_id}"
+        },
+        "credential_subject" => credential_subject
+      })
+
+    credential =
+      credential_params
+      |> Map.get("credential")
+      |> Map.merge(%{"schema_version_id" => schema_version.id, "content" => content})
+
+    credential_params
+    |> Map.merge(%{
+      "org_id" => org.id,
+      "user_id" => user.id,
+      "credential" => credential
+    })
   end
 end

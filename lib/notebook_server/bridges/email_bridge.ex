@@ -1,25 +1,21 @@
-defmodule NotebookServer.Bridges.EmailEvidenceBridge do
+defmodule NotebookServer.Bridges.EmailBridge do
   use Ecto.Schema
   import Ecto.Changeset
-  use Gettext, backend: NotebookServerWeb.Gettext
 
-  schema "email_evidence_bridges" do
+  schema "email_bridges" do
     field :email, :string
     field :code, :integer
     field :validated, :boolean, default: false
     belongs_to :org_credential, NotebookServer.Credentials.OrgCredential
-    belongs_to :org, Notebook.Orgs.Org
-    belongs_to :evidence_bridge, NotebookServer.Bridges.EvidenceBridge
+    belongs_to :bridge, NotebookServer.Bridges.EvidenceBridge
 
     timestamps(type: :utc_datetime)
   end
 
   def changeset(email_bridge, attrs) do
     email_bridge
-    |> cast(attrs, [:email, :org_id, :code, :evidence_bridge_id])
-    |> validate_required([:email, :org_id, :code, :evidence_bridge_id],
-      message: gettext("field_required")
-    )
+    |> cast(attrs, [:email, :code, :bridge_id])
+    |> validate_required([:email, :code, :bridge_id])
     |> cast_assoc(:org_credential, required: true)
   end
 

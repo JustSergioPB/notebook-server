@@ -1,10 +1,9 @@
 defmodule NotebookServerWeb.SchemaLive.Index do
+  alias NotebookServer.Orgs
   alias NotebookServer.Schemas.SchemaVersion
-  use NotebookServerWeb, :live_view_app
-
   alias NotebookServer.Schemas
   alias NotebookServer.Schemas.Schema
-  alias NotebookServer.Accounts.User
+  use NotebookServerWeb, :live_view_app
   use Gettext, backend: NotebookServerWeb.Gettext
 
   @impl true
@@ -15,8 +14,8 @@ defmodule NotebookServerWeb.SchemaLive.Index do
      stream(
        socket,
        :schemas,
-       Schemas.list_schemas(opts)
-       |> Enum.map(fn schema -> schema |> Schema.map_to_row() end)
+       Schemas.list_schemas([latest: false] ++ opts)
+       |> Enum.map(fn schema -> map_to_row(schema) end)
      )}
   end
 
@@ -26,104 +25,120 @@ defmodule NotebookServerWeb.SchemaLive.Index do
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
-    schema = Schemas.get_schema!(id)
-
-    schema_version =
-      schema.schema_versions
-      |> Enum.take(-1)
-      |> Enum.at(0)
-      |> Map.merge(%{title: schema.title, org_id: schema.org_id})
-      |> SchemaVersion.get_raw_content()
+    schema = Schemas.get_schema!(id, latest: true)
 
     socket
-    |> assign(:page_title, gettext("edit_schema"))
-    |> assign(:schema_version, schema_version)
+    |> assign(:page_title, dgettext("schemas", "edit"))
+    |> assign(:schema, schema)
   end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, gettext("new_schema"))
-    |> assign(:schema_version, %SchemaVersion{})
+    |> assign(:page_title, dgettext("schemas", "new"))
+    |> assign(:schema, %Schema{schema_versions: [%SchemaVersion{}]})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, gettext("schemas"))
-    |> assign(:schema_version, nil)
+    |> assign(:page_title, dgettext("schemas", "title"))
+    |> assign(:schema, nil)
   end
 
   @impl true
   def handle_info(
-        {NotebookServerWeb.SchemaLive.FormComponent, {:saved, schema, _schema_version}},
+        {NotebookServerWeb.SchemaLive.FormComponent, {:saved, schema}},
         socket
       ) do
-    schema = Schemas.get_schema!(schema.id)
-
-    {:noreply,
-     stream_insert(
-       socket,
-       :schemas,
-       schema
-       |> Schema.map_to_row()
-     )}
+    org = Orgs.get_org!(schema.org_id)
+    schema = schema |> Map.put(:org, org)
+    {:noreply, stream_insert(socket, :schemas, map_to_row(schema))}
   end
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
     schema = Schemas.get_schema!(id)
-    {:ok, _} = Schemas.delete_schema(schema)
 
-    {:noreply, stream_delete(socket, :schemas, schema)}
+    case Schemas.delete_schema(schema) do
+      {:ok, _} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, dgettext("schemas", "delete_succeded"))
+         |> stream_delete(:schemas, schema)}
+
+      {:error, _} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, dgettext("schemas", "delete_failed"))}
+    end
   end
 
   def handle_event("publish", %{"id" => schema_version_id}, socket) do
-    if User.can_use_platform?(socket.assigns.current_user) do
-      Schemas.publish_schema_version(schema_version_id)
-      |> case do
-        {:ok, schema_version} ->
-          {:noreply,
-           stream_insert(
-             socket,
-             :schemas,
-             Schemas.get_schema!(schema_version.schema_id) |> Schema.map_to_row()
-           )}
+    schema_version = Schemas.get_schema_version!(schema_version_id)
 
-        {:error, message} ->
-          {:noreply,
-           put_flash(
-             socket,
-             :error,
-             message
-           )}
-      end
-    else
-      {:noreply, socket}
+    case Schemas.publish_schema_version(schema_version) do
+      {:ok, schema_version} ->
+        org = Orgs.get_org!(schema_version.schema.org_id)
+
+        schema =
+          schema_version.schema |> Map.merge(%{org: org, schema_versions: [schema_version]})
+
+        {:noreply,
+         socket
+         |> put_flash(:info, dgettext("schema_versions", "publication_succeded"))
+         |> stream_insert(:schemas, map_to_row(schema))}
+
+      {:error, _, _} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, dgettext("schema_versions", "publication_failed"))}
+
+      {:error, _} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, dgettext("schema_versions", "old_version_archivation_failed"))}
     end
   end
 
   def handle_event("archive", %{"id" => schema_version_id}, socket) do
-    if User.can_use_platform?(socket.assigns.current_user) do
-      Schemas.archive_schema_version(schema_version_id)
-      |> case do
-        {:ok, schema_version} ->
-          {:noreply,
-           stream_insert(
-             socket,
-             :schemas,
-             Schemas.get_schema!(schema_version.schema_id) |> Schema.map_to_row()
-           )}
+    schema_version = Schemas.get_schema_version!(schema_version_id)
 
-        {:error, message} ->
-          {:noreply,
-           put_flash(
-             socket,
-             :error,
-             message
-           )}
-      end
-    else
-      {:noreply, socket}
+    case Schemas.archive_schema_version(schema_version) do
+      {:ok, schema_version} ->
+        org = Orgs.get_org!(schema_version.schema.org_id)
+
+        schema =
+          schema_version.schema |> Map.merge(%{org: org, schema_versions: [schema_version]})
+
+        {:noreply,
+         socket
+         |> put_flash(:info, dgettext("schema_versions", "archivation_succeded"))
+         |> stream_insert(:schemas, map_to_row(schema))}
+
+      {:error, _} ->
+        {:noreply, socket |> put_flash(:error, dgettext("schema_versions", "archivation_failed"))}
     end
+  end
+
+  defp map_to_row(%Schema{} = schema) do
+    latest_version =
+      schema.schema_versions
+      |> Enum.at(0)
+
+    published_version =
+      schema.schema_versions |> Enum.find(fn version -> version.status == :published end)
+
+    published_version =
+      if !is_nil(published_version), do: published_version.version, else: nil
+
+    Map.merge(schema, %{
+      description: latest_version.description,
+      org_name: schema.org.name,
+      version: latest_version.version,
+      published_version: published_version,
+      platform: latest_version.platform,
+      status: latest_version.status,
+      latest_version_id: latest_version.id
+    })
   end
 
   defp org_filter(socket) do

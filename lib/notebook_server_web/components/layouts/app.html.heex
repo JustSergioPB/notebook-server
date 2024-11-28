@@ -1,6 +1,6 @@
 <main class="h-screen overflow-hidden flex">
   <.flash_group flash={@flash} />
-  <nav class="w-64 flex flex-col space-y-8 p-6 border-r border-slate-200">
+  <nav class="w-64 flex flex-col space-y-8 p-6 border-r border-slate-300">
     <.user_badge
       name={@current_user.name}
       last_name={@current_user.last_name}
@@ -14,7 +14,6 @@
         <div class="space-y-1">
           <.nav_link label={gettext("orgs")} icon="building" href={~p"/orgs"} />
           <.nav_link label={gettext("certificates")} icon="file-key" href={~p"/certificates"} />
-          <.nav_link label={gettext("bridges")} icon="cable" href={~p"/bridges"} />
         </div>
       </section>
       <section
@@ -25,11 +24,7 @@
         <div class="space-y-1">
           <.nav_link label={gettext("users")} icon="users" href={~p"/users"} />
           <.nav_link label={gettext("schemas")} icon="file-json" href={~p"/schemas"} />
-          <.nav_link
-            label={gettext("evidence_bridges")}
-            icon="arrow-right-left"
-            href={~p"/evidence-bridges"}
-          />
+          <.nav_link label={dgettext("bridges", "bridges")} icon="cable" href={~p"/bridges"} />
           <.nav_link label={gettext("wall")} icon="brick-wall" href={~p"/wall/show"} />
         </div>
       </section>
