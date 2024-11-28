@@ -13,10 +13,21 @@ defmodule NotebookServer.Bridges.Bridge do
   end
 
   @doc false
-  def changeset(bridge, attrs) do
+  def changeset(bridge, attrs \\ %{}, opts \\ []) do
     bridge
-    |> cast(attrs, [:active, :type, :org_id, :public_id])
-    |> validate_required([:active, :type, :org_id, :public_id])
-    |> cast_assoc(:schema, required: true)
+    |> cast(attrs, [:active, :type, :org_id])
+    |> validate_required([:active, :type, :org_id])
+    |> maybe_cast_schema(opts)
+  end
+
+  def maybe_cast_schema(changeset, opts \\ []) do
+    create = Keyword.get(opts, :create, true)
+
+    changeset =
+      if create,
+        do: changeset |> cast_assoc(:schema, required: true),
+        else: changeset
+
+    changeset
   end
 end

@@ -110,7 +110,11 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
 
   def handle_event("save", %{"bridge" => bridge_params}, socket) do
     bridge_params =
-      bridge_params |> complete_bridge(socket.assigns.bridge, socket.assigns.current_user)
+      bridge_params
+      |> complete_bridge(
+        socket.assigns.bridge,
+        socket.assigns.current_user
+      )
 
     save_bridge(socket, socket.assigns.action, bridge_params)
   end
@@ -125,8 +129,16 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
          |> put_flash(:info, dgettext("bridges", "update_succeded"))
          |> push_patch(to: socket.assigns.patch)}
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign(socket, form: to_form(changeset))}
+      {:error, _, changeset} ->
+        {:noreply,
+         socket
+         |> assign(form: to_form(changeset))
+         |> put_flash(:error, dgettext("bridges", "update_failed"))}
+
+      {:error, _} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, dgettext("bridges", "schema_update_failed"))}
     end
   end
 
@@ -170,9 +182,9 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
       if is_nil(latest_version.content),
         do: nil,
         else:
-          extract_domains(
-            latest_version.content.properties.credential_subject.properties.content.pattern
-          )
+          latest_version.content.properties.credential_subject.properties.content
+          |> Map.get("pattern")
+          |> extract_domains()
 
     %{
       title: bridge.schema.title,
@@ -220,21 +232,19 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
 
     title = bridge_params |> Map.get("title")
     description = bridge_params |> Map.get("description")
-    pattern = bridge_params |> Map.get("pattern")
+    pattern = bridge_params |> Map.get("pattern") |> String.replace(".", "\\.")
 
     bridge_params
     |> Map.merge(%{
-      "public_id" => bridge.public_id || Ecto.UUID.generate(),
       "org_id" => user.org_id,
       "schema" => %{
         "title" => title,
-        "public_id" => bridge.schema.id || Ecto.UUID.generate(),
         "org_id" => user.org_id,
         "schema_versions" => %{
           "0" => %{
             "user_id" => user.id,
             "version" => version,
-            "public_id" => latest_version.public_id || Ecto.UUID.generate(),
+            "schema_id" => bridge.schema.id,
             "content" => %{
               "title" => title,
               "properties" => %{
@@ -242,7 +252,7 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
                 "credential_subject" => %{
                   "properties" => %{
                     "content" => %{
-                      "pattern" => pattern,
+                      "pattern" => ~r/^[a-zA-Z0-9._%+-]+@(?:#{pattern})$/i |> Regex.source(),
                       "type" => "string",
                       "format" => "email"
                     }

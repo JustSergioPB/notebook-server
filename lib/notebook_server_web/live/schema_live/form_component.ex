@@ -200,7 +200,6 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
       |> get_in(["schema_versions", "0"])
       |> Map.merge(%{
         "user_id" => socket.assigns.current_user.org_id,
-        "public_id" => latest_version.public_id || Ecto.UUID.generate(),
         "schema_id" => socket.assigns.schema.id,
         "version" => version,
         "content" => content
@@ -209,7 +208,6 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
     schema
     |> Map.merge(%{
       "org_id" => socket.assigns.current_user.org_id,
-      "public_id" => socket.assigns.schema.public_id || Ecto.UUID.generate(),
       "schema_versions" => %{"0" => zero}
     })
   end

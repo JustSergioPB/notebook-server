@@ -2,7 +2,7 @@ defmodule NotebookServer.Schemas.SchemaVersion do
   use Ecto.Schema
   import Ecto.Changeset
 
-  #TODO create index with version and schema_id, to avoid having two versions with the same version number
+  # TODO create index with version and schema_id, to avoid having two versions with the same version number
 
   schema "schema_versions" do
     field :description, :string
@@ -24,11 +24,10 @@ defmodule NotebookServer.Schemas.SchemaVersion do
       :platform,
       :status,
       :version,
-      :public_id,
       :user_id,
       :schema_id
     ])
-    |> validate_required([:version, :public_id, :user_id])
+    |> validate_required([:version, :user_id])
     |> validate_length(:description, min: 2, max: 255)
     |> cast_embed(:content, required: true)
   end

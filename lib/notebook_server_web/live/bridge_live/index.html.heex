@@ -20,7 +20,10 @@
     empty_label={dgettext("bridges", "bridge")}
   >
     <:col :let={{_id, bridge}} label={dgettext("schemas", "schema")}>
-      <%= bridge.schema.title %>
+      <.version_cell
+        label={bridge.schema.title}
+        version={bridge.schema.schema_versions |> Enum.at(0) |> Map.get(:version)}
+      />
     </:col>
     <:col :let={{_id, bridge}} label={dgettext("bridges", "type")}>
       <.badge>
@@ -33,6 +36,19 @@
     <:col :let={{_id, bridge}} label={dgettext("bridges", "status")}>
       <.bridge_status_badge bridge={bridge} />
     </:col>
+    <:action :let={{_id, bridge}}>
+      <.link patch={~p"/bridges/#{bridge.id}/edit"}>
+        <.tooltip text={gettext("edit")}>
+          <.button
+            size="icon"
+            variant="outline"
+            icon="pencil"
+          >
+            <%= gettext("edit") %>
+          </.button>
+        </.tooltip>
+      </.link>
+    </:action>
     <:action :let={{_id, bridge}}>
       <.tooltip text={if bridge.active, do: gettext("deactivate"), else: gettext("activate")}>
         <.button

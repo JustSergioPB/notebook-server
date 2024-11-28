@@ -13,8 +13,8 @@ defmodule NotebookServer.Schemas.Schema do
 
   def changeset(schema, attrs \\ %{}, opts \\ []) do
     schema
-    |> cast(attrs, [:title, :org_id, :public_id])
-    |> validate_required([:title, :org_id, :public_id])
+    |> cast(attrs, [:title, :org_id])
+    |> validate_required([:title, :org_id])
     |> validate_length(:title, min: 2, max: 50)
     |> maybe_cast_schema_version(opts)
   end

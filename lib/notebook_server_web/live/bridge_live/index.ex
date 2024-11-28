@@ -77,8 +77,7 @@ defmodule NotebookServerWeb.BridgeLive.Index do
   defp refresh_row(bridge, socket) do
     org = Orgs.get_org!(bridge.org_id)
     schema = Schemas.get_schema!(bridge.schema_id)
-    bridge = Bridges.get_bridge!(bridge.bridge_id)
-    bridge = bridge |> Map.merge(%{org: org, schema: schema, bridge: bridge})
+    bridge = bridge |> Map.merge(%{org: org, schema: schema})
     {:noreply, stream_insert(socket, :bridges, bridge)}
   end
 end

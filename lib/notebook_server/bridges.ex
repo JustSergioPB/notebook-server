@@ -5,6 +5,7 @@ defmodule NotebookServer.Bridges do
 
   import Ecto.Query, warn: false
   use Gettext, backend: NotebookServerWeb.Gettext
+  alias NotebookServer.Schemas
   alias NotebookServer.Bridges.EmailBridgeNotifier
   alias NotebookServer.Bridges.EmailBridge
   alias NotebookServer.Bridges.Bridge
@@ -17,10 +18,25 @@ defmodule NotebookServer.Bridges do
     |> Repo.insert()
   end
 
+  #TODO Fix this
   def update_bridge(%Bridge{} = bridge, attrs) do
-    bridge
-    |> Bridge.changeset(attrs)
-    |> Repo.update()
+    Ecto.Multi.new()
+    |> Ecto.Multi.update(:update_bridge, Bridge.changeset(bridge, attrs, create: false))
+    |> Ecto.Multi.run(:update_schema, fn _, _ ->
+      schema_attrs = attrs |> Map.get("schema")
+
+      case Schemas.update_schema(bridge.schema, schema_attrs) do
+        {:ok, _} -> {:ok, nil}
+        {:error, _, _} -> {:error, nil}
+        {:error, _} -> {:error, nil}
+      end
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{update_bridge: bridge}} -> {:ok, bridge}
+      {:error, :update_bridge, changeset, _} -> {:error, :update_bridge, changeset}
+      {:error, :update_schema, _, _} -> {:error, :update_schema}
+    end
   end
 
   def get_bridge!(id),
