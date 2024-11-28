@@ -69,6 +69,7 @@ defmodule NotebookServerWeb.WallLive.Public do
      |> assign(:page_title, dgettext("orgs", "public_wall_title"))
      |> assign(:active_tab, params["tab"] || "bridges")
      |> assign(:org, org)
+     #TODO add filter to only allow published schemas
      |> stream(:bridges, Bridges.list_bridges(org_id: org.id, active: true))}
   end
 end

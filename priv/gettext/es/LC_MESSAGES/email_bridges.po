@@ -11,7 +11,7 @@ msgstr ""
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:235
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:230
 #, elixir-autogen, elixir-format
 msgid "check_failed"
 msgstr "No hemos encontrado un puente email con los datos proporcionados."
@@ -22,12 +22,12 @@ msgstr "No hemos encontrado un puente email con los datos proporcionados."
 msgid "code"
 msgstr "Código"
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:207
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:202
 #, elixir-autogen, elixir-format
 msgid "code_delivery_failed"
 msgstr "No hemos podido enviarte el email con el código. Intentalo de nuevo en unos minutos."
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:194
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:189
 #, elixir-autogen, elixir-format
 msgid "code_delivery_succeeded"
 msgstr "Hemos enviado un código al email que nos has proporcionado."
@@ -37,12 +37,12 @@ msgstr "Hemos enviado un código al email que nos has proporcionado."
 msgid "code_placeholder"
 msgstr "000000"
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:201
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:196
 #, elixir-autogen, elixir-format
 msgid "creation_failed"
 msgstr "No hemos podido crear el puente email"
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:221
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:216
 #, elixir-autogen, elixir-format
 msgid "credential_creation_succeeded"
 msgstr "La credencial se ha generado de manera correcta."
@@ -72,12 +72,12 @@ msgstr "Introduce el email en el que deseas recibir el código con el que genera
 msgid "introduce_email_title"
 msgstr "Introduce un email"
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:175
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:170
 #, elixir-autogen, elixir-format
 msgid "invalid_code_format"
 msgstr "El formato del código es invalido"
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:170
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:165
 #, elixir-autogen, elixir-format
 msgid "invalid_code_length"
 msgstr "La longitud del código es invalido. Max 6"
@@ -107,12 +107,12 @@ msgstr "Escanea el código QR generado con tu wallet para almacenarlo"
 msgid "scan_qr_title"
 msgstr "Escanea el QR"
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:234
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:229
 #, elixir-autogen, elixir-format
 msgid "search_failed"
 msgstr "No se ha encontrado ningún puente email"
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:228
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:223
 #, elixir-autogen, elixir-format
 msgid "update_failed"
 msgstr "No hemos podido actualizar el email puente"

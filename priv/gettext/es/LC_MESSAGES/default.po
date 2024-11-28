@@ -11,7 +11,7 @@ msgstr ""
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lib/notebook_server_web/components/core_components.ex:663
+#: lib/notebook_server_web/components/core_components.ex:643
 #, elixir-autogen, elixir-format
 msgid "Actions"
 msgstr "Acciones"
@@ -46,15 +46,15 @@ msgstr "¡Éxito!"
 msgid "We can't find the internet"
 msgstr "No podemos conectarnos a internet"
 
-#: lib/notebook_server_web/live/bridge_live/index.html.heex:37
-#: lib/notebook_server_web/live/bridge_live/index.html.heex:45
+#: lib/notebook_server_web/live/bridge_live/index.html.heex:53
+#: lib/notebook_server_web/live/bridge_live/index.html.heex:61
 #: lib/notebook_server_web/live/user_live/index.html.heex:52
 #: lib/notebook_server_web/live/user_live/index.html.heex:61
 #, elixir-autogen, elixir-format
 msgid "activate"
 msgstr "Activar"
 
-#: lib/notebook_server_web/live/bridge_live/index.html.heex:56
+#: lib/notebook_server_web/live/bridge_live/index.html.heex:72
 #: lib/notebook_server_web/live/credential_live/index.html.heex:63
 #: lib/notebook_server_web/live/credential_live/index.html.heex:116
 #: lib/notebook_server_web/live/user_live/index.html.heex:73
@@ -89,8 +89,8 @@ msgid "confirm_new_password_placeholder"
 msgstr "myNuev4Contraseña"
 
 #: lib/notebook_server_web/components/json_schema_components.ex:56
-#: lib/notebook_server_web/live/bridge_live/index.html.heex:50
-#: lib/notebook_server_web/live/bridge_live/index.html.heex:58
+#: lib/notebook_server_web/live/bridge_live/index.html.heex:66
+#: lib/notebook_server_web/live/bridge_live/index.html.heex:74
 #: lib/notebook_server_web/live/credential_live/index.html.heex:54
 #: lib/notebook_server_web/live/credential_live/index.html.heex:65
 #: lib/notebook_server_web/live/credential_live/index.html.heex:108
@@ -101,6 +101,8 @@ msgstr "myNuev4Contraseña"
 msgid "delete"
 msgstr "Eliminar"
 
+#: lib/notebook_server_web/live/bridge_live/index.html.heex:41
+#: lib/notebook_server_web/live/bridge_live/index.html.heex:47
 #: lib/notebook_server_web/live/user_live/index.html.heex:39
 #: lib/notebook_server_web/live/user_live/index.html.heex:46
 #, elixir-autogen, elixir-format
@@ -282,7 +284,7 @@ msgstr "Restablecer contraseña"
 msgid "role"
 msgstr "Rol"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:100
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:83
 #: lib/notebook_server_web/live/certificate_live/form_component.ex:62
 #: lib/notebook_server_web/live/user_live/form_component.ex:66
 #: lib/notebook_server_web/live/user_live/user_settings_live.ex:62
@@ -328,37 +330,37 @@ msgstr "Usuario"
 msgid "users"
 msgstr "Usuarios"
 
-#: lib/notebook_server_web/components/core_components.ex:749
+#: lib/notebook_server_web/components/core_components.ex:729
 #, elixir-autogen, elixir-format
 msgid "first_page"
 msgstr "Primera página"
 
-#: lib/notebook_server_web/components/core_components.ex:730
+#: lib/notebook_server_web/components/core_components.ex:710
 #, elixir-autogen, elixir-format, fuzzy
 msgid "last_page"
 msgstr "Última página"
 
-#: lib/notebook_server_web/components/core_components.ex:741
+#: lib/notebook_server_web/components/core_components.ex:721
 #, elixir-autogen, elixir-format
 msgid "next_page"
 msgstr "Siguiente página"
 
-#: lib/notebook_server_web/components/core_components.ex:726
+#: lib/notebook_server_web/components/core_components.ex:706
 #, elixir-autogen, elixir-format
 msgid "of"
 msgstr "de"
 
-#: lib/notebook_server_web/components/core_components.ex:726
+#: lib/notebook_server_web/components/core_components.ex:706
 #, elixir-autogen, elixir-format
 msgid "page"
 msgstr "Página"
 
-#: lib/notebook_server_web/components/core_components.ex:733
+#: lib/notebook_server_web/components/core_components.ex:713
 #, elixir-autogen, elixir-format
 msgid "previous_page"
 msgstr "Página anterior"
 
-#: lib/notebook_server_web/components/core_components.ex:716
+#: lib/notebook_server_web/components/core_components.ex:696
 #, elixir-autogen, elixir-format
 msgid "rows_per_page"
 msgstr "Filas por página"
@@ -490,8 +492,10 @@ msgstr "Contraseña actualizada correctamente"
 #: lib/notebook_server/credentials/credential_schema.ex:15
 #: lib/notebook_server/credentials/credential_subject.ex:15
 #: lib/notebook_server/credentials/verifiable_credential.ex:20
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:209
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:220
 #: lib/notebook_server_web/live/credential_live/form_component.ex:137
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:165
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:160
 #, elixir-autogen, elixir-format, fuzzy
 msgid "field_required"
 msgstr "Este campo es obligatorio"
@@ -774,18 +778,8 @@ msgstr "Código QR"
 msgid "qr_alt"
 msgstr "Código QR de la credencial"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:159
-#, elixir-autogen, elixir-format, fuzzy
-msgid "bridge_create_success"
-msgstr "Organización creada correctamente"
-
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:144
-#, elixir-autogen, elixir-format, fuzzy
-msgid "bridge_update_success"
-msgstr "Usuario actualizado correctamente"
-
-#: lib/notebook_server_web/live/bridge_live/index.html.heex:37
-#: lib/notebook_server_web/live/bridge_live/index.html.heex:45
+#: lib/notebook_server_web/live/bridge_live/index.html.heex:53
+#: lib/notebook_server_web/live/bridge_live/index.html.heex:61
 #, elixir-autogen, elixir-format, fuzzy
 msgid "deactivate"
 msgstr "Desactivar"
@@ -805,7 +799,7 @@ msgstr "Emisión"
 msgid "wall"
 msgstr "Muro"
 
-#: lib/notebook_server_web/live/wall_live/public.ex:35
+#: lib/notebook_server_web/live/wall_live/public.ex:36
 #, elixir-autogen, elixir-format
 msgid "get"
 msgstr "Obtener"
@@ -873,10 +867,16 @@ msgstr "Manuales"
 msgid "go_back"
 msgstr "Volver"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:26
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:37
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:25
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:35
 #: lib/notebook_server_web/live/schema_live/form_component.ex:30
 #: lib/notebook_server_web/live/schema_live/form_component.ex:41
 #, elixir-autogen, elixir-format, fuzzy
 msgid "max_chars %{max}"
 msgstr "Máx. %{max} caracteres"
+
+#: lib/notebook_server_web/components/chip_input.ex:26
+#: lib/notebook_server_web/components/chip_input.ex:35
+#, elixir-autogen, elixir-format
+msgid "remove_chip"
+msgstr ""

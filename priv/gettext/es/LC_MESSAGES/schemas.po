@@ -93,7 +93,7 @@ msgstr "La versión actual no es un borrador, por lo que editarla creará una nu
 msgid "new"
 msgstr "Nuevo esquema"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:42
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:40
 #: lib/notebook_server_web/live/schema_live/form_component.ex:46
 #: lib/notebook_server_web/live/schema_live/index.html.heex:35
 #, elixir-autogen, elixir-format

@@ -100,7 +100,7 @@ msgstr "Da de alta el 1er usuario"
 msgid "creation_succeded"
 msgstr "El usuario se ha creado de manera correcta"
 
-#: lib/notebook_server_web/components/core_components.ex:1211
+#: lib/notebook_server_web/components/core_components.ex:1195
 #: lib/notebook_server_web/live/user_live/form_component.ex:53
 #, elixir-autogen, elixir-format
 msgid "issuer"
@@ -111,7 +111,7 @@ msgstr "Emisor"
 msgid "issuer_description"
 msgstr "El usuario solo podrá emitir credenciales"
 
-#: lib/notebook_server_web/components/core_components.ex:1210
+#: lib/notebook_server_web/components/core_components.ex:1194
 #: lib/notebook_server_web/live/user_live/form_component.ex:59
 #, elixir-autogen, elixir-format
 msgid "org_admin"
@@ -132,7 +132,7 @@ msgstr "Rol"
 msgid "update_succeded"
 msgstr "El usuario se ha actualizado de manera correcta"
 
-#: lib/notebook_server_web/components/core_components.ex:1209
+#: lib/notebook_server_web/components/core_components.ex:1193
 #, elixir-autogen, elixir-format
 msgid "admin"
 msgstr "Admin"

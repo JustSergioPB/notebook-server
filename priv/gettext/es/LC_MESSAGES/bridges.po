@@ -12,40 +12,40 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: lib/notebook_server_web/live/bridge_live/index.html.heex:19
-#: lib/notebook_server_web/live/wall_live/show.html.heex:45
+#: lib/notebook_server_web/live/wall_live/show.html.heex:47
 #, elixir-autogen, elixir-format
 msgid "empty_subtitle"
 msgstr "Crea el 1er puente para que tus usuarios puedan empezar a trabajar con tu organización"
 
 #: lib/notebook_server_web/live/bridge_live/index.html.heex:18
-#: lib/notebook_server_web/live/wall_live/show.html.heex:42
+#: lib/notebook_server_web/live/wall_live/show.html.heex:44
 #, elixir-autogen, elixir-format
 msgid "empty_title"
 msgstr "Crea el primer puente"
 
-#: lib/notebook_server_web/live/wall_live/public.ex:47
+#: lib/notebook_server_web/live/wall_live/public.ex:48
 #, elixir-autogen, elixir-format, fuzzy
 msgid "empty_public_subtitle"
 msgstr "Parece que esta organización todavía no ha habilitado ningún puente"
 
-#: lib/notebook_server_web/live/wall_live/public.ex:44
+#: lib/notebook_server_web/live/wall_live/public.ex:45
 #, elixir-autogen, elixir-format, fuzzy
 msgid "empty_public_title"
 msgstr "No hay puentes disponibles"
 
 #: lib/notebook_server_web/live/bridge_live/index.html.heex:6
 #: lib/notebook_server_web/live/bridge_live/index.html.heex:20
-#: lib/notebook_server_web/live/wall_live/show.html.heex:49
+#: lib/notebook_server_web/live/wall_live/show.html.heex:51
 #, elixir-autogen, elixir-format
 msgid "bridge"
 msgstr "Puente"
 
-#: lib/notebook_server_web/live/wall_live/show.ex:41
+#: lib/notebook_server_web/live/wall_live/show.ex:36
 #, elixir-autogen, elixir-format
 msgid "bridge_update_failed"
 msgstr "No hemos podido actualizar el puente"
 
-#: lib/notebook_server_web/live/wall_live/show.ex:38
+#: lib/notebook_server_web/live/wall_live/show.ex:33
 #, elixir-autogen, elixir-format
 msgid "bridge_update_succeded"
 msgstr "El puente se ha actualizado de manera correcta"
@@ -60,12 +60,12 @@ msgstr "Configura los puentes que se verán de manera pública en tu muro"
 msgid "edit"
 msgstr "Editar puente"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:70
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:68
 #, elixir-autogen, elixir-format
 msgid "email_description"
 msgstr "El puente enviará un código de 6 digitos con el que el usuario verificará ser quien es."
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:69
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:67
 #, elixir-autogen, elixir-format
 msgid "email_title"
 msgstr "Email"
@@ -75,23 +75,23 @@ msgstr "Email"
 msgid "new"
 msgstr "Nuevo puente"
 
-#: lib/notebook_server_web/live/wall_live/public.ex:20
+#: lib/notebook_server_web/live/wall_live/public.ex:19
 #, elixir-autogen, elixir-format
 msgid "obtain"
 msgstr "Obten credenciales a través de los puentes de esta organización"
 
-#: lib/notebook_server_web/live/bridge_live/index.html.heex:33
+#: lib/notebook_server_web/live/bridge_live/index.html.heex:36
 #, elixir-autogen, elixir-format
 msgid "status"
 msgstr "Estado"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:24
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:23
 #, elixir-autogen, elixir-format
 msgid "title"
 msgstr "Titulo"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:62
-#: lib/notebook_server_web/live/bridge_live/index.html.heex:25
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:60
+#: lib/notebook_server_web/live/bridge_live/index.html.heex:28
 #, elixir-autogen, elixir-format
 msgid "type"
 msgstr "Tipo"
@@ -99,64 +99,90 @@ msgstr "Tipo"
 #: lib/notebook_server_web/components/layouts/app.html.heex:27
 #: lib/notebook_server_web/live/bridge_live/index.ex:39
 #: lib/notebook_server_web/live/bridge_live/index.html.heex:2
+#: lib/notebook_server_web/live/wall_live/public.ex:17
 #: lib/notebook_server_web/live/wall_live/public.ex:18
-#: lib/notebook_server_web/live/wall_live/public.ex:19
 #: lib/notebook_server_web/live/wall_live/show.html.heex:16
 #: lib/notebook_server_web/live/wall_live/show.html.heex:17
 #, elixir-autogen, elixir-format, fuzzy
 msgid "bridges"
 msgstr "Puentes"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:35
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:33
 #, elixir-autogen, elixir-format
 msgid "description"
 msgstr "Descripción"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:36
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:34
 #, elixir-autogen, elixir-format
 msgid "description_placeholder"
 msgstr "Email que acredita que el poseedor pertenece a la organización..."
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:25
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:24
 #, elixir-autogen, elixir-format
 msgid "title_placeholder"
 msgstr "Email de acreditación"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:50
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:48
 #: lib/notebook_server_web/live/schema_live/form_component.ex:54
 #, elixir-autogen, elixir-format, fuzzy
 msgid "web_2_description"
 msgstr "El esquema del puente se almacenará en la base de datos"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:49
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:47
 #: lib/notebook_server_web/live/schema_live/form_component.ex:53
 #, elixir-autogen, elixir-format
 msgid "web_2_title"
 msgstr "Web 2"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:56
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:54
 #: lib/notebook_server_web/live/schema_live/form_component.ex:60
 #, elixir-autogen, elixir-format, fuzzy
 msgid "web_3_description"
 msgstr "El esquema del puente se almacenará en la base de datos y se publicará en la blockchain"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:55
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:53
 #: lib/notebook_server_web/live/schema_live/form_component.ex:59
 #, elixir-autogen, elixir-format
 msgid "web_3_title"
 msgstr "Web 3"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:84
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:76
 #, elixir-autogen, elixir-format
 msgid "domains"
 msgstr "Dominios"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:85
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:77
 #, elixir-autogen, elixir-format
 msgid "domains_placeholder"
 msgstr "stachelabs.es"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:86
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:78
 #, elixir-autogen, elixir-format, fuzzy
 msgid "domains_hint"
 msgstr "El dominio del email lo encontrarás después del @, ej stachelabs.es en user@stachelabs.es"
+
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:152
+#, elixir-autogen, elixir-format
+msgid "creation_succeded"
+msgstr "El puente se ha creado de manera correcta"
+
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:141
+#, elixir-autogen, elixir-format
+msgid "schema_update_failed"
+msgstr "No hemos podido actualizar el esquema del puente"
+
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:213
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:218
+#, elixir-autogen, elixir-format
+msgid "title_length %{max} %{min}"
+msgstr "El título debe tener entre %{min} y %{max} caracteres"
+
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:136
+#, elixir-autogen, elixir-format
+msgid "update_failed"
+msgstr "No hemos podido actualizar el puente"
+
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:129
+#, elixir-autogen, elixir-format
+msgid "update_succeded"
+msgstr "El puente se ha actualizado de manera correcta"

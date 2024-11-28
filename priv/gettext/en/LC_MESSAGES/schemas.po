@@ -93,7 +93,7 @@ msgstr ""
 msgid "new"
 msgstr ""
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:42
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:40
 #: lib/notebook_server_web/live/schema_live/form_component.ex:46
 #: lib/notebook_server_web/live/schema_live/index.html.heex:35
 #, elixir-autogen, elixir-format

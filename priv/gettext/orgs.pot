@@ -54,7 +54,7 @@ msgstr ""
 msgid "email_placeholder"
 msgstr ""
 
-#: lib/notebook_server_web/live/bridge_live/index.html.heex:30
+#: lib/notebook_server_web/live/bridge_live/index.html.heex:33
 #: lib/notebook_server_web/live/org_live/form_component.ex:23
 #: lib/notebook_server_web/live/org_live/index.html.heex:22
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:33
@@ -187,17 +187,17 @@ msgstr ""
 msgid "empty_title"
 msgstr ""
 
-#: lib/notebook_server_web/live/wall_live/public.ex:14
+#: lib/notebook_server_web/live/wall_live/public.ex:13
 #, elixir-autogen, elixir-format
 msgid "public_wall_subtitle"
 msgstr ""
 
-#: lib/notebook_server_web/live/wall_live/public.ex:68
+#: lib/notebook_server_web/live/wall_live/public.ex:69
 #, elixir-autogen, elixir-format
 msgid "public_wall_title"
 msgstr ""
 
-#: lib/notebook_server_web/live/wall_live/public.ex:12
+#: lib/notebook_server_web/live/wall_live/public.ex:11
 #, elixir-autogen, elixir-format
 msgid "public_wall_title %{org_name}"
 msgstr ""
@@ -207,7 +207,7 @@ msgstr ""
 msgid "wall"
 msgstr ""
 
-#: lib/notebook_server_web/live/wall_live/show.ex:28
+#: lib/notebook_server_web/live/wall_live/show.ex:23
 #, elixir-autogen, elixir-format
 msgid "wall_title"
 msgstr ""
