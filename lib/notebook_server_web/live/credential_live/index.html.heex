@@ -1,9 +1,9 @@
 <.page_header icon="file-text">
-  <%= gettext("credentials") %>
+  <%= dgettext("credentials", "credentials") %>
   <:actions>
     <.link patch={~p"/credentials/new"}>
       <.button icon="plus_circle">
-        <%= gettext("credential") %>
+        <%= dgettext("credentials", "credential") %>
       </.button>
     </.link>
   </:actions>
@@ -12,7 +12,7 @@
 <.page_content>
   <.tabs active_tab={@active_tab} variant="compact">
     <:tab
-      label={gettext("user_credentials")}
+      label={dgettext("credentials", "user_credentials")}
       id="user-credentials"
       patch={~p"/credentials?tab=user"}
     >
@@ -23,29 +23,22 @@
         empty_link={~p"/credentials/new"}
         empty_title={dgettext("credentials", "empty_title")}
         empty_subtitle={dgettext("credentials", "empty_subtitle")}
-        empty_label={gettext("credential")}
+        empty_label={dgettext("credentials", "credential")}
       >
-        <:col :let={{_id, user_credential}} label={gettext("schema")}>
+        <:col :let={{_id, user_credential}} label={dgettext("schemas", "schema")}>
           <.version_cell
             label={user_credential.credential.schema_version.schema.title}
             version={user_credential.credential.schema_version.version}
           />
         </:col>
-        <:col :let={{_id, user_credential}} label={gettext("issuer")}>
+        <:col :let={{_id, user_credential}} label={dgettext("credentials", "issuer")}>
           <%= user_credential.user.name %> <%= user_credential.user.last_name %>
-        </:col>
-        <:col
-          :let={{_id, user_credential}}
-          :if={@current_user.role == :admin}
-          label={gettext("org")}
-        >
-          <%= user_credential.org.name %>
         </:col>
         <:action :let={{_id, user_credential}}>
           <.link patch={~p"/credentials/#{user_credential.id}/qr?tab=user"}>
-            <.tooltip text={gettext("open_qr")}>
+            <.tooltip text={dgettext("credentials", "open_qr")}>
               <.button size="icon" variant="outline" icon="qr-code">
-                <%= gettext("open_qr") %>
+                <%= dgettext("credentials", "open_qr") %>
               </.button>
             </.tooltip>
           </.link>
@@ -60,7 +53,7 @@
                 JS.push("delete", value: %{id: user_credential.id, term: "user"})
                 |> hide("##{id}")
               }
-              data-confirm={gettext("are_you_sure")}
+              data-confirm={dgettext("credentials", "are_you_sure")}
             >
               <%= gettext("delete") %>
             </.button>
@@ -71,7 +64,11 @@
         <.pagination page={1} total_pages={1} />
       </div>
     </:tab>
-    <:tab label={gettext("org_credentials")} id="org-credentials" patch={~p"/credentials?tab=org"}>
+    <:tab
+      label={dgettext("credentials", "org_credentials")}
+      id="org-credentials"
+      patch={~p"/credentials?tab=org"}
+    >
       <.table
         id="org-credentials-table"
         class="flex-1"
@@ -79,27 +76,20 @@
         empty_link={~p"/credentials/new"}
         empty_title={dgettext("credentials", "org_crendetial_empty_title")}
         empty_subtitle={dgettext("credentials", "org_crendetial_empty_subtitle")}
-        empty_label={gettext("credential")}
+        empty_label={dgettext("credentials", "credential")}
         should_action_empty?={false}
       >
-        <:col :let={{_id, org_credential}} label={gettext("schema")}>
+        <:col :let={{_id, org_credential}} label={dgettext("schemas", "schema")}>
           <.version_cell
             label={org_credential.credential.schema_version.schema.title}
             version={org_credential.credential.schema_version.version}
           />
         </:col>
-        <:col
-          :let={{_id, org_credential}}
-          :if={@current_user.role == :admin}
-          label={gettext("org")}
-        >
-          <%= org_credential.org.name %>
-        </:col>
         <:action :let={{_id, org_credential}}>
           <.link patch={~p"/credentials/#{org_credential.id}/qr?tab=org"}>
-            <.tooltip text={gettext("open_qr")}>
+            <.tooltip text={dgettext("credentials", "open_qr")}>
               <.button size="icon" variant="outline" icon="qr-code">
-                <%= gettext("open_qr") %>
+                <%= dgettext("credentials", "open_qr") %>
               </.button>
             </.tooltip>
           </.link>
@@ -113,7 +103,7 @@
               phx-click={
                 JS.push("delete", value: %{id: org_credential.id, term: "org"}) |> hide("##{id}")
               }
-              data-confirm={gettext("are_you_sure")}
+              data-confirm={dgettext("credentials", "are_you_sure")}
             >
               <%= gettext("delete") %>
             </.button>

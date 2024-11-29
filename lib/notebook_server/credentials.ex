@@ -2,13 +2,11 @@ defmodule NotebookServer.Credentials do
   @moduledoc """
   The Credentials context.
   """
-
-  import Ecto.Query, warn: false
-  use Gettext, backend: NotebookServerWeb.Gettext
   alias NotebookServer.Repo
   alias NotebookServer.Credentials.Credential
   alias NotebookServer.Credentials.UserCredential
   alias NotebookServer.Credentials.OrgCredential
+  import Ecto.Query, warn: false
 
   @doc """
   Returns the list of credentials.
@@ -82,52 +80,15 @@ defmodule NotebookServer.Credentials do
   def create_credential(term, attrs \\ %{})
 
   def create_credential(:user, attrs) do
-    Ecto.Multi.new()
-    |> Ecto.Multi.insert(
-      :create_user_credential,
-      UserCredential.changeset(%UserCredential{}, attrs)
-    )
-    # |> Ecto.Multi.run(:create_qr, fn _repo, %{create_user_credential: user_credential} ->
-    #  generate_qr(user_credential.credential)
-    # end)
-    |> Repo.transaction()
-    |> case do
-      {:ok,
-       %{
-         # create_qr: _,
-         create_user_credential: user_credential
-       }} ->
-        {:ok, user_credential, gettext("credential_creation_succeded")}
-
-      {:error, :create_user_credential, _, _} ->
-        {:error, gettext("credential_creation_failed")}
-
-      {:error, :create_qr, _, _} ->
-        {:error, gettext("QR_creation_failed")}
-    end
+    %UserCredential{}
+    |> UserCredential.changeset(attrs)
+    |> Repo.insert()
   end
 
   def create_credential(:org, attrs) do
-    Ecto.Multi.new()
-    |> Ecto.Multi.insert(:create_org_credential, OrgCredential.changeset(%OrgCredential{}, attrs))
-    |> Ecto.Multi.run(:create_qr, fn _repo, %{create_org_credential: org_credential} ->
-      generate_qr(org_credential.credential)
-    end)
-    |> Repo.transaction()
-    |> case do
-      {:ok,
-       %{
-         create_org_credential: org_credential
-         # create_qr: _
-       }} ->
-        {:ok, org_credential.credential, gettext("credential_creation_succeded")}
-
-      {:error, :create_org_credential, _, _} ->
-        {:error, gettext("org_credential_creation_failed")}
-
-      {:error, :create_qr, _, _} ->
-        {:error, gettext("QR_creation_failed")}
-    end
+    %OrgCredential{}
+    |> OrgCredential.changeset(attrs)
+    |> Repo.insert()
   end
 
   @doc """
@@ -160,28 +121,8 @@ defmodule NotebookServer.Credentials do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_credential(:user, %UserCredential{} = user_credential) do
-    Ecto.Multi.new()
-    |> Ecto.Multi.delete(:delete_user_credential, user_credential)
-    |> Ecto.Multi.delete(:delete_credential, user_credential.credential)
-    |> Repo.transaction()
-    |> case do
-      {:ok, _} -> {:ok, gettext("user_credential_deletion_succeed")}
-      {:error, :delete_user_credential} -> {:error, gettext("user_credential_deletion_failed")}
-      {:error, :delete_credential} -> {:error, gettext("credential_deletion_succeed")}
-    end
-  end
-
-  def delete_credential(:org, %OrgCredential{} = org_credential) do
-    Ecto.Multi.new()
-    |> Ecto.Multi.delete(:delete_org_credential, org_credential)
-    |> Ecto.Multi.delete(:delete_credential, org_credential.credential)
-    |> Repo.transaction()
-    |> case do
-      {:ok, _} -> {:ok, gettext("org_credential_deletion_succeed")}
-      {:error, :delete_user_credential} -> {:error, gettext("org_credential_deletion_failed")}
-      {:error, :delete_credential} -> {:error, gettext("credential_deletion_succeed")}
-    end
+  def delete_credential(%Credential{} = credential) do
+    Repo.delete(credential)
   end
 
   @doc """
@@ -204,15 +145,5 @@ defmodule NotebookServer.Credentials do
   def change_credential(:org, org_credential, attrs) do
     org_credential
     |> OrgCredential.changeset(attrs)
-  end
-
-  defp generate_qr(credential) do
-    File.mkdir_p!("./priv/static/qrs")
-
-    credential.content
-    |> Jason.encode!()
-    |> QRCode.create(:high)
-    |> QRCode.render()
-    |> QRCode.save("./priv/static/qrs/#{credential.public_id}-qr.svg")
   end
 end

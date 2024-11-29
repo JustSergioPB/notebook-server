@@ -31,7 +31,11 @@
       <section class="space-y-2">
         <p class="text-xs font-semibold uppercase"><%= gettext("issue") %></p>
         <div class="space-y-1">
-          <.nav_link label={gettext("credentials")} icon="file-text" href={~p"/credentials"} />
+          <.nav_link
+            label={dgettext("credentials", "credentials")}
+            icon="file-text"
+            href={~p"/credentials"}
+          />
         </div>
       </section>
     </ul>

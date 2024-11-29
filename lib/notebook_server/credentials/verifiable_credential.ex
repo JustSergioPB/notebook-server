@@ -1,7 +1,6 @@
 defmodule NotebookServer.Credentials.VerifiableCredential do
   import Ecto.Changeset
   use Ecto.Schema
-  use Gettext, backend: NotebookServerWeb.Gettext
 
   @primary_key false
   embedded_schema do
@@ -12,15 +11,17 @@ defmodule NotebookServer.Credentials.VerifiableCredential do
     field :issuer, :string
     embeds_one :credential_subject, NotebookServer.Credentials.CredentialSubject
     embeds_one :credential_schema, NotebookServer.Credentials.CredentialSchema
+    embeds_one :proof, NotebookServer.Credentials.CredentialProof
   end
 
   def changeset(credential_content, attrs \\ %{}) do
     credential_content
     |> cast(attrs, [:context, :title, :description, :type, :issuer])
-    |> validate_required([:issuer], message: gettext("field_required"))
+    |> validate_required([:issuer])
     # TODO add validations to check that when provided type always have VerifiableCredential as one of the values
     # TODO add validations to check that when context is not empty
     |> cast_embed(:credential_schema, required: true)
     |> cast_embed(:credential_subject, required: true)
+    |> cast_embed(:proof, required: true)
   end
 end

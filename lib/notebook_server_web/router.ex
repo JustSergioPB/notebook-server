@@ -54,7 +54,9 @@ defmodule NotebookServerWeb.Router do
   # TODO: create a screen to redirect the user when the org it's not verified or in process of verifying
   # TODO: create a stepper to fill the required org data
   # TODO: create an onboarding screen
-  # TODO: add links to tables
+  # TODO: add links to tables so user can navigate
+  # TODO: generate certificates tree
+  # TODO: simplify redundacy and versioning in schemas and schema_versions, version is not needed to be calculated
 
   scope "/", NotebookServerWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
