@@ -59,7 +59,7 @@ defmodule NotebookServerWeb.BridgeLive.Index do
   def handle_event("toggle", %{"id" => id}, socket) do
     bridge = Bridges.get_bridge!(id)
 
-    case Bridges.update_bridge(bridge, %{active: !bridge.active}) do
+    case Bridges.toggle_bridge(bridge) do
       {:ok, bridge} ->
         refresh_row(bridge, socket)
 
