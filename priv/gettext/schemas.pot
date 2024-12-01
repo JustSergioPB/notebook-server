@@ -22,6 +22,8 @@ msgid "empty_title"
 msgstr ""
 
 #: lib/notebook_server_web/live/bridge_live/index.html.heex:22
+#: lib/notebook_server_web/live/credential_live/index.html.heex:28
+#: lib/notebook_server_web/live/credential_live/index.html.heex:82
 #: lib/notebook_server_web/live/schema_live/index.html.heex:6
 #: lib/notebook_server_web/live/schema_live/index.html.heex:21
 #, elixir-autogen, elixir-format
