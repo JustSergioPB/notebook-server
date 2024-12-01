@@ -1,5 +1,7 @@
 defmodule NotebookServerWeb.BridgeLive.FormComponent do
   alias NotebookServer.Bridges
+  alias NotebookServer.Bridges.Bridge
+  alias NotebookServer.Accounts.User
   use NotebookServerWeb, :live_component
   use Gettext, backend: NotebookServerWeb.Gettext
 
@@ -121,7 +123,7 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
 
   defp save_bridge(socket, :edit, bridge_params) do
     case Bridges.update_bridge(socket.assigns.bridge, bridge_params) do
-      {:ok, bridge} ->
+      {:ok, %{update_bridge: bridge}} ->
         notify_parent({:saved, bridge})
 
         {:noreply,
@@ -129,16 +131,20 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
          |> put_flash(:info, dgettext("bridges", "update_succeded"))
          |> push_patch(to: socket.assigns.patch)}
 
-      {:error, _, changeset} ->
+      {:error, :update_bridge, _} ->
         {:noreply,
          socket
-         |> assign(form: to_form(changeset))
          |> put_flash(:error, dgettext("bridges", "update_failed"))}
 
-      {:error, _} ->
+      {:error, :update_schema, _, _} ->
         {:noreply,
          socket
-         |> put_flash(:error, dgettext("bridges", "schema_update_failed"))}
+         |> put_flash(:error, dgettext("schemas", "update_failed"))}
+
+      {:error, :create_schema_version, _, _} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, dgettext("schema_versions", "create_failed"))}
     end
   end
 
@@ -220,7 +226,7 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
     |> Ecto.Changeset.validate_length(:pattern, min: 2, message: gettext("field_required"))
   end
 
-  defp complete_bridge(bridge_params, bridge, user) do
+  defp complete_bridge(bridge_params, %Bridge{} = bridge, %User{} = user) do
     latest_version =
       bridge.schema.schema_versions
       |> Enum.at(0)

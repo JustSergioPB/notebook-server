@@ -84,6 +84,7 @@ defmodule NotebookServer.Schemas do
   end
 
   def update_schema(%Schema{} = schema, attrs) do
+    IO.inspect(attrs)
     latest_version =
       schema |> Map.get(:schema_versions) |> Enum.sort_by(& &1.version, :desc) |> Enum.at(0)
 
@@ -98,11 +99,6 @@ defmodule NotebookServer.Schemas do
     )
     |> maybe_insert_schema_version(schema_version_attrs, latest_is_in_draft?)
     |> Repo.transaction()
-    |> case do
-      {:ok, %{update_schema: schema}} -> {:ok, schema}
-      {:error, :update_schema, changeset, _} -> {:error, :update_schema, changeset}
-      {:error, :create_schema_version, _, _} -> {:error, :create_schema_version}
-    end
   end
 
   def maybe_insert_schema_version(multi, attrs, latest_is_in_draft?)
@@ -144,16 +140,6 @@ defmodule NotebookServer.Schemas do
     )
     |> Ecto.Multi.update(:publish_version, SchemaVersion.publish_changeset(schema_version))
     |> Repo.transaction()
-    |> case do
-      {:ok, %{publish_version: schema_version}} ->
-        {:ok, schema_version}
-
-      {:error, :publish_version, changeset, _} ->
-        {:error, :publish_version, changeset}
-
-      {:error, :old_version, _, _} ->
-        {:error, :old_version}
-    end
   end
 
   def archive_schema_version(%SchemaVersion{} = schema_version) do

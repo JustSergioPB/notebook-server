@@ -220,6 +220,11 @@ defmodule NotebookServerWeb.EmailBridgeLive.FormComponent do
       "proof" => proof
     }
 
+    credential =
+      if is_binary(schema_version.description),
+        do: credential |> Map.put("description", schema_version.description),
+        else: credential
+
     canonical_form = Jason.encode!(credential, pretty: false)
 
     signed_proof = Map.put(proof, "jws", canonical_form)

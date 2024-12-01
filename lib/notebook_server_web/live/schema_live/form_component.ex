@@ -121,7 +121,7 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
 
   defp save_schema(socket, :edit, schema_params) do
     case Schemas.update_schema(socket.assigns.schema, schema_params) do
-      {:ok, schema} ->
+      {:ok, %{update_schema: schema}} ->
         notify_parent({:saved, schema})
 
         {:noreply,
@@ -129,13 +129,13 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
          |> put_flash(:info, dgettext("schemas", "update_succeded"))
          |> push_patch(to: socket.assigns.patch)}
 
-      {:error, changeset, _} ->
+      {:error, :update_schema, changeset, _} ->
         {:noreply,
          socket
          |> assign(form: to_form(changeset, action: :validate))
          |> put_flash(:error, dgettext("schemas", "update_failed"))}
 
-      {:error, _} ->
+      {:error, :create_schema_version, _, _} ->
         {:noreply,
          socket
          |> put_flash(:error, dgettext("schema_versions", "create_failed"))}

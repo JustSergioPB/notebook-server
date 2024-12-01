@@ -76,7 +76,7 @@ defmodule NotebookServerWeb.SchemaLive.Index do
     schema_version = Schemas.get_schema_version!(schema_version_id)
 
     case Schemas.publish_schema_version(schema_version) do
-      {:ok, schema_version} ->
+      {:ok, %{publish_version: schema_version}} ->
         org = Orgs.get_org!(schema_version.schema.org_id)
 
         schema =
@@ -87,12 +87,12 @@ defmodule NotebookServerWeb.SchemaLive.Index do
          |> put_flash(:info, dgettext("schema_versions", "publication_succeded"))
          |> stream_insert(:schemas, map_to_row(schema))}
 
-      {:error, _, _} ->
+      {:error, :publish_version, _, _} ->
         {:noreply,
          socket
          |> put_flash(:error, dgettext("schema_versions", "publication_failed"))}
 
-      {:error, _} ->
+      {:error, :old_version, _, _} ->
         {:noreply,
          socket
          |> put_flash(:error, dgettext("schema_versions", "old_version_archivation_failed"))}

@@ -166,6 +166,11 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
       "proof" => proof
     }
 
+    credential =
+      if is_binary(schema_version.description),
+        do: credential |> Map.put("description", schema_version.description),
+        else: credential
+
     canonical_form = Jason.encode!(credential, pretty: false)
 
     # jws =

@@ -23,19 +23,9 @@ defmodule NotebookServer.Bridges do
     |> Ecto.Multi.update(:update_bridge, Bridge.changeset(bridge, attrs, create: false))
     |> Ecto.Multi.run(:update_schema, fn _, _ ->
       schema_attrs = attrs |> Map.get("schema")
-
-      case Schemas.update_schema(bridge.schema, schema_attrs) do
-        {:ok, _} -> {:ok, nil}
-        {:error, _, _} -> {:error, nil}
-        {:error, _} -> {:error, nil}
-      end
+      Schemas.update_schema(bridge.schema, schema_attrs)
     end)
     |> Repo.transaction()
-    |> case do
-      {:ok, %{update_bridge: bridge}} -> {:ok, bridge}
-      {:error, :update_bridge, changeset, _} -> {:error, :update_bridge, changeset}
-      {:error, :update_schema, _, _} -> {:error, :update_schema}
-    end
   end
 
   def toggle_bridge(%Bridge{} = bridge) do
