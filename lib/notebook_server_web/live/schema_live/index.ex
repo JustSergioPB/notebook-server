@@ -8,13 +8,11 @@ defmodule NotebookServerWeb.SchemaLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    opts = org_filter(socket)
-
     {:ok,
      stream(
        socket,
        :schemas,
-       Schemas.list_schemas([latest: false] ++ opts)
+       Schemas.list_schemas(amount: :semi, org_id: socket.assigns.current_user.org_id)
        |> Enum.map(fn schema -> map_to_row(schema) end)
      )}
   end
@@ -25,7 +23,7 @@ defmodule NotebookServerWeb.SchemaLive.Index do
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
-    schema = Schemas.get_schema!(id, latest: true)
+    schema = Schemas.get_schema!(id, amount: :latest)
 
     socket
     |> assign(:page_title, dgettext("schemas", "edit"))
@@ -125,25 +123,19 @@ defmodule NotebookServerWeb.SchemaLive.Index do
       |> Enum.at(0)
 
     published_version =
-      schema.schema_versions |> Enum.find(fn version -> version.status == :published end)
+      schema.schema_versions
+      |> Enum.find_index(fn version -> version.status == :published end)
 
-    published_version =
-      if !is_nil(published_version), do: published_version.version, else: nil
+    published_version = if is_integer(published_version), do: published_version + 1, else: nil
 
     Map.merge(schema, %{
-      description: latest_version.description,
+      description: latest_version.content.description,
       org_name: schema.org.name,
-      version: latest_version.version,
+      version: Enum.count(schema.schema_versions),
       published_version: published_version,
       platform: latest_version.platform,
       status: latest_version.status,
       latest_version_id: latest_version.id
     })
-  end
-
-  defp org_filter(socket) do
-    if socket.assigns.current_user.role == :admin,
-      do: [],
-      else: [org_id: socket.assigns.current_user.org_id]
   end
 end

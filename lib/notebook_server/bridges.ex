@@ -17,7 +17,6 @@ defmodule NotebookServer.Bridges do
     |> Repo.insert()
   end
 
-  # TODO Fix this
   def update_bridge(%Bridge{} = bridge, attrs) do
     Ecto.Multi.new()
     |> Ecto.Multi.update(:update_bridge, Bridge.changeset(bridge, attrs, create: false))
@@ -38,7 +37,7 @@ defmodule NotebookServer.Bridges do
       |> Repo.preload([
         :org,
         schema: [
-          schema_versions: from(sv in SchemaVersion, order_by: [desc: sv.version], limit: 1)
+          schema_versions: from(sv in SchemaVersion, order_by: [desc: sv.inserted_at])
         ]
       ])
 
@@ -48,7 +47,7 @@ defmodule NotebookServer.Bridges do
       |> Repo.preload([
         :org,
         schema: [
-          schema_versions: from(sv in SchemaVersion, order_by: [desc: sv.version], limit: 1)
+          schema_versions: from(sv in SchemaVersion, order_by: [desc: sv.inserted_at])
         ]
       ])
 
@@ -69,7 +68,7 @@ defmodule NotebookServer.Bridges do
     Repo.all(query)
     |> Repo.preload([
       :org,
-      schema: [schema_versions: from(sv in SchemaVersion, order_by: [desc: sv.version], limit: 1)]
+      schema: [schema_versions: from(sv in SchemaVersion, order_by: [desc: sv.inserted_at])]
     ])
   end
 

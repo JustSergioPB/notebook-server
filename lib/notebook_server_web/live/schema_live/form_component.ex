@@ -1,12 +1,14 @@
 defmodule NotebookServerWeb.SchemaLive.FormComponent do
   alias NotebookServer.Schemas
+  alias NotebookServer.Schemas.Schema
+  alias NotebookServer.Accounts.User
   use NotebookServerWeb, :live_component
   use Gettext, backend: NotebookServerWeb.Gettext
 
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="h-full flex flex-col">
+    <div class="h-full flex flex-col space-y-6">
       <.header>
         <%= @title %>
       </.header>
@@ -31,55 +33,45 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
           phx-debounce="blur"
           required
         />
-        <.inputs_for :let={schema_version_form} field={@form[:schema_versions]}>
-          <.input
-            type="textarea"
-            rows="2"
-            field={schema_version_form[:description]}
-            label={dgettext("schemas", "description")}
-            placeholder={dgettext("schemas", "description_placeholder")}
-            hint={gettext("max_chars %{max}", max: 255)}
-            phx-debounce="blur"
-          />
-          <.input
-            type="radio"
-            label={dgettext("schemas", "platform")}
-            field={schema_version_form[:platform]}
-            disabled={true}
-            options={[
-              %{
-                id: :web2,
-                icon: "globe",
-                label: dgettext("bridges", "web_2_title"),
-                description: dgettext("bridges", "web_2_description")
-              },
-              %{
-                id: :web3,
-                icon: "link",
-                label: dgettext("bridges", "web_3_title"),
-                description: dgettext("bridges", "web_3_description")
-              }
-            ]}
-          />
-          <.inputs_for :let={schema_content_form} field={schema_version_form[:content]}>
-            <.inputs_for :let={properties_form} field={schema_content_form[:properties]}>
-              <.inputs_for :let={credential_subject_form} field={properties_form[:credential_subject]}>
-                <.inputs_for :let={props_form} field={credential_subject_form[:properties]}>
-                  <.input
-                    type="textarea"
-                    field={props_form[:content]}
-                    value={Jason.encode!(props_form[:content].value || %{}, pretty: true)}
-                    label={dgettext("schemas", "raw_content")}
-                    autocomplete="off"
-                    rows="10"
-                    phx-debounce="blur"
-                    required
-                  />
-                </.inputs_for>
-              </.inputs_for>
-            </.inputs_for>
-          </.inputs_for>
-        </.inputs_for>
+        <.input
+          type="textarea"
+          rows="2"
+          field={@form[:description]}
+          label={dgettext("schemas", "description")}
+          placeholder={dgettext("schemas", "description_placeholder")}
+          hint={gettext("max_chars %{max}", max: 255)}
+          phx-debounce="blur"
+        />
+        <.input
+          type="radio"
+          label={dgettext("schemas", "platform")}
+          field={@form[:platform]}
+          disabled={true}
+          options={[
+            %{
+              id: :web2,
+              icon: "globe",
+              label: dgettext("schemas", "web_2_title"),
+              description: dgettext("schemas", "web_2_description")
+            },
+            %{
+              id: :web3,
+              icon: "link",
+              label: dgettext("schemas", "web_3_title"),
+              description: dgettext("schemas", "web_3_description")
+            }
+          ]}
+        />
+        <.input
+          type="textarea"
+          field={@form[:content]}
+          value={Jason.encode!(@form[:content].value || %{}, pretty: true)}
+          label={dgettext("schemas", "raw_content")}
+          autocomplete="off"
+          rows="10"
+          phx-debounce="blur"
+          required
+        />
         <:actions>
           <.button>
             <%= dgettext("schemas", "save") %>
@@ -93,28 +85,27 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
   @impl true
   def update(%{schema: schema} = assigns, socket) do
     latest_version = schema |> Map.get(:schema_versions) |> Enum.at(0)
+    changeset = schema |> flatten_schema() |> change_schema()
 
     {:ok,
      socket
      |> assign(assigns)
      |> assign(:latest_is_in_draft?, latest_version.status == :draft)
      |> assign_new(:form, fn ->
-       to_form(Schemas.change_schema(schema))
+       to_form(changeset, as: "schema")
      end)}
   end
 
   @impl true
   def handle_event("validate", %{"schema" => schema_params}, socket) do
-    schema_params = socket |> complete_schema(schema_params)
+    changeset = socket.assigns.schema |> flatten_schema() |> change_schema(schema_params)
 
-    changeset =
-      Schemas.change_schema(socket.assigns.schema, schema_params)
-
-    {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
+    {:noreply, assign(socket, form: to_form(changeset, action: :validate, as: "schema"))}
   end
 
   def handle_event("save", %{"schema" => schema_params}, socket) do
-    schema_params = socket |> complete_schema(schema_params)
+    schema_params =
+      complete_schema(schema_params, socket.assigns.schema, socket.assigns.current_user)
 
     save_schema(socket, socket.assigns.action, schema_params)
   end
@@ -139,6 +130,11 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
         {:noreply,
          socket
          |> put_flash(:error, dgettext("schema_versions", "create_failed"))}
+
+      {:error, :update_schema_version, _, _} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, dgettext("schema_versions", "update_failed"))}
     end
   end
 
@@ -153,62 +149,113 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, changeset} ->
+        IO.inspect(changeset)
+
         {:noreply,
          socket
-         |> assign(:form, to_form(changeset, action: :validate))
          |> put_flash(:error, dgettext("schemas", "creation_failed"))}
     end
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
 
-  defp complete_schema(socket, schema) do
+  defp flatten_schema(%Schema{} = schema) do
     latest_version =
-      socket.assigns.schema
-      |> Map.get(:schema_versions)
+      schema.schema_versions
       |> Enum.at(0)
 
-    version =
-      if latest_version.status == :draft,
-        do: latest_version.version,
-        else: latest_version.version + 1
-
-    title = schema |> Map.get("title")
-    description = schema |> Map.get("description")
-
-    properties_partial =
-      if description != "",
-        do: %{"title" => %{"const" => title}, "description" => %{"const" => description}},
-        else: %{"title" => %{"const" => title}}
-
-    properties =
-      schema
-      |> get_in(["schema_versions", "0", "content", "properties"])
-      |> Map.merge(properties_partial)
-
     content =
-      schema
-      |> get_in(["schema_versions", "0", "content"])
-      |> Map.merge(%{
-        "title" => title,
-        "description" => description,
-        "properties" => properties
-      })
+      if is_nil(latest_version.content),
+        do: %{},
+        else: latest_version.content.properties.credential_subject.properties.content
 
-    zero =
-      schema
-      |> get_in(["schema_versions", "0"])
-      |> Map.merge(%{
-        "user_id" => socket.assigns.current_user.org_id,
-        "schema_id" => socket.assigns.schema.id,
-        "version" => version,
-        "content" => content
-      })
+    description =
+      if is_nil(latest_version.content), do: nil, else: latest_version.content.description
 
-    schema
-    |> Map.merge(%{
-      "org_id" => socket.assigns.current_user.org_id,
-      "schema_versions" => %{"0" => zero}
+    %{
+      title: schema.title,
+      description: description,
+      platform: latest_version.platform || :web2,
+      content: content
+    }
+  end
+
+  defp change_schema(schema, attrs \\ %{}) do
+    types = %{
+      title: :string,
+      description: :string,
+      content: :map,
+      platform: :atom
+    }
+
+    attrs =
+      with true <- is_binary(attrs["content"]),
+           {:ok, decoded_value} <- Jason.decode(attrs["content"]) do
+        Map.put(attrs, "content", decoded_value)
+      else
+        _ -> attrs
+      end
+
+    {schema, types}
+    |> Ecto.Changeset.cast(attrs, [:title, :description, :content, :platform])
+    |> Ecto.Changeset.validate_required([:title, :content], message: gettext("field_required"))
+    |> Ecto.Changeset.validate_length(:title,
+      min: 2,
+      max: 50,
+      message: dgettext("schemas", "title_length %{max} %{min}", min: 2, max: 50)
+    )
+    |> Ecto.Changeset.validate_length(:description,
+      min: 2,
+      max: 255,
+      message: dgettext("schemas", "title_length %{max} %{min}", min: 2, max: 255)
+    )
+  end
+
+  defp complete_schema(schema_params, %Schema{} = schema, %User{} = user) do
+    title = schema_params |> Map.get("title")
+    description = schema_params |> Map.get("description")
+
+    schema_params =
+      with true <- is_binary(schema_params["content"]),
+           {:ok, decoded_value} <- Jason.decode(schema_params["content"]) do
+        Map.put(schema_params, "content", decoded_value)
+      else
+        _ -> schema_params
+      end
+
+    content = schema_params |> Map.get("content")
+
+    %{
+      "org_id" => user.org_id,
+      "title" => title,
+      "schema_versions" => %{
+        "0" => %{
+          "user_id" => user.id,
+          "schema_id" => schema.id,
+          "content" => %{
+            "title" => title,
+            "properties" => %{
+              "title" => %{"const" => title},
+              "credential_subject" => %{
+                "properties" => %{
+                  "content" => content
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    |> maybe_put_description(description)
+  end
+
+  defp maybe_put_description(schema_params, description) when is_binary(description) do
+    schema_params
+    |> put_in(["schema_versions", "0", "content", "description"], description)
+    |> put_in(["schema_versions", "0", "content", "properties", "description"], %{
+      "const" => description
     })
   end
+
+  defp maybe_put_description(schema_params, _), do: schema_params
 end

@@ -145,6 +145,11 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
         {:noreply,
          socket
          |> put_flash(:error, dgettext("schema_versions", "create_failed"))}
+
+      {:error, :update_schema_version, _, _} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, dgettext("schema_versions", "update_failed"))}
     end
   end
 
@@ -192,9 +197,12 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
           |> Map.get("pattern")
           |> extract_domains()
 
+    description =
+      if is_nil(latest_version.content), do: nil, else: latest_version.content.description
+
     %{
       title: bridge.schema.title,
-      description: latest_version.description,
+      description: description,
       platform: latest_version.platform || :web2,
       type: bridge.type || :email,
       pattern: pattern
@@ -227,21 +235,11 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
   end
 
   defp complete_bridge(bridge_params, %Bridge{} = bridge, %User{} = user) do
-    latest_version =
-      bridge.schema.schema_versions
-      |> Enum.at(0)
-
-    version =
-      if latest_version.status == :draft,
-        do: latest_version.version,
-        else: latest_version.version + 1
-
     title = bridge_params |> Map.get("title")
     description = bridge_params |> Map.get("description")
     pattern = bridge_params |> Map.get("pattern") |> String.replace(".", "\\.")
 
-    bridge_params
-    |> Map.merge(%{
+    %{
       "org_id" => user.org_id,
       "schema" => %{
         "title" => title,
@@ -249,7 +247,6 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
         "schema_versions" => %{
           "0" => %{
             "user_id" => user.id,
-            "version" => version,
             "schema_id" => bridge.schema.id,
             "content" => %{
               "title" => title,
@@ -260,7 +257,13 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
                     "content" => %{
                       "pattern" => ~r/^[a-zA-Z0-9._%+-]+@(?:#{pattern})$/i |> Regex.source(),
                       "type" => "string",
-                      "format" => "email"
+                      "format" => "email",
+                      "title" => "Email",
+                      "examples" =>
+                        pattern
+                        |> String.replace("\\.", ".")
+                        |> String.split("|")
+                        |> Enum.map(fn domain -> "john.doe@#{domain}" end)
                     }
                   }
                 }
@@ -269,13 +272,13 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
           }
         }
       }
-    })
+    }
     |> maybe_put_description(description)
   end
 
   defp maybe_put_description(bridge_params, description) when is_binary(description) do
     bridge_params
-    |> put_in(["schema", "schema_versions", "0", "description"], description)
+    |> put_in(["schema", "schema_versions", "0", "content", "description"], description)
     |> put_in(["schema", "schema_versions", "0", "content", "properties", "description"], %{
       "const" => description
     })

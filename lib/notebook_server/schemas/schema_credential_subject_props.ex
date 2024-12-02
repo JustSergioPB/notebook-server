@@ -14,14 +14,6 @@ defmodule NotebookServer.Schemas.SchemaCredentialSubjectProps do
   end
 
   def changeset(schema_credential_subject_props, attrs \\ %{}) do
-    attrs =
-      with true <- is_binary(attrs["content"]),
-           {:ok, decoded_value} <- Jason.decode(attrs["content"]) do
-        Map.put(attrs, "content", decoded_value)
-      else
-        _ -> attrs
-      end
-
     schema_credential_subject_props
     |> cast(attrs, [:content])
     |> validate_required([:content])

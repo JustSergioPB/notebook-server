@@ -16,7 +16,6 @@ defmodule NotebookServer.Schemas do
   def list_schemas(opts \\ []) do
     org_id = Keyword.get(opts, :org_id)
     title = Keyword.get(opts, :title)
-    latest? = Keyword.get(opts, :latest, false)
 
     query =
       if !is_nil(org_id),
@@ -28,12 +27,7 @@ defmodule NotebookServer.Schemas do
         do: from(s in query, where: ilike(s.title, ^"%#{title}%")),
         else: query
 
-    sub_query =
-      if latest?,
-        do: from(sv in SchemaVersion, order_by: [desc: sv.version], limit: 1),
-        else: from(sv in SchemaVersion, order_by: [desc: sv.version])
-
-    Repo.all(query) |> Repo.preload([:org, schema_versions: sub_query])
+    Repo.all(query) |> Repo.preload([:org, schema_versions: schema_versions_query(opts)])
   end
 
   @doc """
@@ -51,14 +45,7 @@ defmodule NotebookServer.Schemas do
 
   """
   def get_schema!(id, opts \\ []) do
-    latest? = Keyword.get(opts, :latest, false)
-
-    query =
-      if latest?,
-        do: from(sv in SchemaVersion, order_by: [desc: sv.version], limit: 1),
-        else: from(sv in SchemaVersion, order_by: [desc: sv.version])
-
-    Repo.get!(Schema, id) |> Repo.preload([:org, schema_versions: query])
+    Repo.get!(Schema, id) |> Repo.preload([:org, schema_versions: schema_versions_query(opts)])
   end
 
   @doc """
@@ -84,32 +71,33 @@ defmodule NotebookServer.Schemas do
   end
 
   def update_schema(%Schema{} = schema, attrs) do
-    IO.inspect(attrs)
-    latest_version =
-      schema |> Map.get(:schema_versions) |> Enum.sort_by(& &1.version, :desc) |> Enum.at(0)
-
-    latest_is_in_draft? = is_map(latest_version) && latest_version.status == :draft
-
+    latest_version = schema |> Map.get(:schema_versions) |> Enum.at(0)
     schema_version_attrs = attrs |> get_in(["schema_versions", "0"])
 
     Ecto.Multi.new()
     |> Ecto.Multi.update(
       :update_schema,
-      Schema.changeset(schema, attrs, create: latest_is_in_draft?)
+      Schema.changeset(schema, attrs, create: false)
     )
-    |> maybe_insert_schema_version(schema_version_attrs, latest_is_in_draft?)
+    |> insert_or_update_schema_version(latest_version, schema_version_attrs)
     |> Repo.transaction()
   end
 
-  def maybe_insert_schema_version(multi, attrs, latest_is_in_draft?)
-      when latest_is_in_draft? != true do
-    multi
-    |> Ecto.Multi.run(:create_schema_version, fn _, _ ->
-      create_schema_version(attrs)
-    end)
+  defp insert_or_update_schema_version(multi, %SchemaVersion{} = schema_version, attrs) do
+    if schema_version.status == :draft,
+      do:
+        Ecto.Multi.update(
+          multi,
+          :update_schema_version,
+          SchemaVersion.changeset(schema_version, attrs)
+        ),
+      else:
+        Ecto.Multi.insert(
+          multi,
+          :create_schema_version,
+          SchemaVersion.changeset(%SchemaVersion{}, attrs)
+        )
   end
-
-  def maybe_insert_schema_version(multi, _, _), do: multi
 
   def change_schema(%Schema{} = schema, attrs \\ %{}) do
     Schema.changeset(schema, attrs)
@@ -179,5 +167,19 @@ defmodule NotebookServer.Schemas do
         else: query
 
     Repo.all(query) |> Repo.preload(:schema)
+  end
+
+  def schema_versions_query(opts \\ []) do
+    amount = Keyword.get(opts, :amount, :latest)
+
+    case amount do
+      :latest -> from(sv in SchemaVersion, order_by: [desc: sv.inserted_at], limit: 1)
+      # TODO: this doesn't work for archived schemas
+      :semi -> from(sv in SchemaVersion, order_by: [desc: sv.inserted_at], limit: 2)
+      :all -> from(sv in SchemaVersion, order_by: [desc: sv.inserted_at])
+    end
+
+    # TODO: fix this
+    from(sv in SchemaVersion, order_by: [desc: sv.inserted_at])
   end
 end
