@@ -148,9 +148,7 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
          |> put_flash(:info, dgettext("schemas", "creation_succeded"))
          |> push_patch(to: socket.assigns.patch)}
 
-      {:error, changeset} ->
-        IO.inspect(changeset)
-
+      {:error, _} ->
         {:noreply,
          socket
          |> put_flash(:error, dgettext("schemas", "creation_failed"))}
