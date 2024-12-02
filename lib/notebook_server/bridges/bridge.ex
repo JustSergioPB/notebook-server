@@ -23,11 +23,8 @@ defmodule NotebookServer.Bridges.Bridge do
   def maybe_cast_schema(changeset, opts \\ []) do
     create = Keyword.get(opts, :create, true)
 
-    changeset =
-      if create,
-        do: changeset |> cast_assoc(:schema, required: true),
-        else: changeset
-
-    changeset
+    if create,
+      do: changeset |> cast_assoc(:schema, required: true),
+      else: changeset
   end
 end

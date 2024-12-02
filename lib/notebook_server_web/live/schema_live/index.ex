@@ -8,13 +8,11 @@ defmodule NotebookServerWeb.SchemaLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    opts = org_filter(socket)
-
     {:ok,
      stream(
        socket,
        :schemas,
-       Schemas.list_schemas([latest: false] ++ opts)
+       Schemas.list_schemas(amount: :semi, org_id: socket.assigns.current_user.org_id)
        |> Enum.map(fn schema -> map_to_row(schema) end)
      )}
   end
@@ -25,11 +23,9 @@ defmodule NotebookServerWeb.SchemaLive.Index do
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
-    schema = Schemas.get_schema!(id, latest: true)
-
     socket
     |> assign(:page_title, dgettext("schemas", "edit"))
-    |> assign(:schema, schema)
+    |> assign(:schema, Schemas.get_schema!(id))
   end
 
   defp apply_action(socket, :new, _params) do
@@ -76,7 +72,7 @@ defmodule NotebookServerWeb.SchemaLive.Index do
     schema_version = Schemas.get_schema_version!(schema_version_id)
 
     case Schemas.publish_schema_version(schema_version) do
-      {:ok, schema_version} ->
+      {:ok, %{publish_version: schema_version}} ->
         org = Orgs.get_org!(schema_version.schema.org_id)
 
         schema =
@@ -87,12 +83,12 @@ defmodule NotebookServerWeb.SchemaLive.Index do
          |> put_flash(:info, dgettext("schema_versions", "publication_succeded"))
          |> stream_insert(:schemas, map_to_row(schema))}
 
-      {:error, _, _} ->
+      {:error, :publish_version, _, _} ->
         {:noreply,
          socket
          |> put_flash(:error, dgettext("schema_versions", "publication_failed"))}
 
-      {:error, _} ->
+      {:error, :old_version, _, _} ->
         {:noreply,
          socket
          |> put_flash(:error, dgettext("schema_versions", "old_version_archivation_failed"))}
@@ -125,25 +121,17 @@ defmodule NotebookServerWeb.SchemaLive.Index do
       |> Enum.at(0)
 
     published_version =
-      schema.schema_versions |> Enum.find(fn version -> version.status == :published end)
-
-    published_version =
-      if !is_nil(published_version), do: published_version.version, else: nil
+      schema.schema_versions
+      |> Enum.find(fn version -> version.status == :published end)
 
     Map.merge(schema, %{
-      description: latest_version.description,
+      description: latest_version.content.description,
       org_name: schema.org.name,
       version: latest_version.version,
-      published_version: published_version,
+      published_version: published_version.version,
       platform: latest_version.platform,
       status: latest_version.status,
       latest_version_id: latest_version.id
     })
-  end
-
-  defp org_filter(socket) do
-    if socket.assigns.current_user.role == :admin,
-      do: [],
-      else: [org_id: socket.assigns.current_user.org_id]
   end
 end

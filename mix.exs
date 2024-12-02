@@ -57,7 +57,8 @@ defmodule NotebookServer.MixProject do
       {:hackney, "~> 1.20"},
       {:x509, "~> 0.8"},
       {:idna, "~> 6.1"},
-      {:qr_code, "~> 3.1.0"}
+      {:qr_code, "~> 3.1.0"},
+      {:jose, "~> 1.11"}
     ]
   end
 

@@ -408,7 +408,7 @@ defmodule NotebookServerWeb.CoreComponents do
       <legend :if={@label} class="block text-sm font-semibold leading-6 text-slate-800">
         <%= @label %>
       </legend>
-      <div class={["grid grid-cols-2 gap-4", length(@options) == 1 && "grid-cols-1"]}>
+      <div class={["grid md:grid-cols-2 gap-4", length(@options) == 1 && "grid-cols-1"]}>
         <div
           :for={option <- @options}
           class="border border-slate-300 p-3 rounded-md shadow-sm space-y-2 has-[:checked]:bg-indigo-50 has-[:checked]:text-indigo-900 has-[:checked]:border-indigo-500 has-[:disabled]:opacity-65"
@@ -1041,7 +1041,7 @@ defmodule NotebookServerWeb.CoreComponents do
       <.version_badge version={@schema.version} />
       <p class="font-bold"><%= @schema.text %></p>
     </div>
-    <p><%= @schema.description %></p>
+    <p><%= @schema.content.description %></p>
     """
   end
 
@@ -1072,6 +1072,7 @@ defmodule NotebookServerWeb.CoreComponents do
   end
 
   attr :variant, :string, values: ~w(primary secondary outline danger ghost), default: "outline"
+  attr :class, :string, default: nil
   attr :rest, :global, doc: "the arbitrary HTML attributes to add to the badge container"
 
   slot :label, required: true
@@ -1083,13 +1084,12 @@ defmodule NotebookServerWeb.CoreComponents do
         "py-1 px-2 rounded-lg text-xs font-semibold inline-flex items-center",
         @variant == "primary" && "bg-indigo-500 shadow-md text-white",
         @variant == "outline" && "bg-white shadow-sm border border-slate-300",
-        @variant == "danger" && "bg-red-500 shadow-sm text-white"
+        @variant == "danger" && "bg-red-500 shadow-sm text-white",
+        @class
       ]}
       {@rest}
     >
-      <div class="inline-flex items-center gap-1">
-        <%= render_slot(@label) %>
-      </div>
+      <%= render_slot(@label) %>
     </div>
     """
   end
@@ -1098,7 +1098,7 @@ defmodule NotebookServerWeb.CoreComponents do
 
   def certificate_status_badge(assigns) do
     ~H"""
-    <.badge>
+    <.badge class="gap-1">
       <:label>
         <div class={[
           "h-[6.5px] w-[6.5px] rounded-full",
@@ -1117,7 +1117,7 @@ defmodule NotebookServerWeb.CoreComponents do
 
   def platform_badge(assigns) do
     ~H"""
-    <.badge>
+    <.badge class="gap-1">
       <:label>
         <%= if @platform == :web2 do %>
           <Lucide.globe class="h-3 w-3" />
@@ -1144,7 +1144,7 @@ defmodule NotebookServerWeb.CoreComponents do
 
   def org_status_badge(assigns) do
     ~H"""
-    <.badge>
+    <.badge class="gap-1">
       <:label>
         <div class={[
           "h-[6.5px] w-[6.5px] rounded-full",
@@ -1163,7 +1163,7 @@ defmodule NotebookServerWeb.CoreComponents do
 
   def user_status_badge(assigns) do
     ~H"""
-    <.badge>
+    <.badge class="gap-1">
       <:label>
         <div class={[
           "h-[6.5px] w-[6.5px] rounded-full",
@@ -1198,7 +1198,7 @@ defmodule NotebookServerWeb.CoreComponents do
     assigns = assigns |> assign(:icon, icon) |> assign(:label, label)
 
     ~H"""
-    <.badge>
+    <.badge class="gap-1">
       <:label>
         <Lucide.render icon={@icon} class="h-3 w-3" />
         <%= @label %>
@@ -1211,7 +1211,7 @@ defmodule NotebookServerWeb.CoreComponents do
 
   def bridge_status_badge(assigns) do
     ~H"""
-    <.badge>
+    <.badge class="gap-1">
       <:label>
         <div class={[
           "h-[6.5px] w-[6.5px] rounded-full",
@@ -1227,7 +1227,7 @@ defmodule NotebookServerWeb.CoreComponents do
 
   def schema_status_badge(assigns) do
     ~H"""
-    <.badge>
+    <.badge class="gap-1">
       <:label>
         <div class={[
           "h-[6.5px] w-[6.5px] rounded-full",

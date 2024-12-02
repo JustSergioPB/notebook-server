@@ -5,11 +5,10 @@ defmodule NotebookServer.Schemas.SchemaVersion do
   # TODO create index with version and schema_id, to avoid having two versions with the same version number
 
   schema "schema_versions" do
-    field :description, :string
     field :platform, Ecto.Enum, values: [:web2, :web3], default: :web2
     field :status, Ecto.Enum, values: [:draft, :published, :archived], default: :draft
-    embeds_one :content, NotebookServer.Schemas.SchemaContent, on_replace: :update
     field :version, :integer, default: 0
+    embeds_one :content, NotebookServer.Schemas.SchemaContent, on_replace: :update
     field :public_id, :binary_id
     belongs_to :user, NotebookServer.Accounts.User
     belongs_to :schema, NotebookServer.Schemas.Schema
@@ -20,15 +19,13 @@ defmodule NotebookServer.Schemas.SchemaVersion do
   def changeset(schema_version, attrs \\ %{}) do
     schema_version
     |> cast(attrs, [
-      :description,
       :platform,
       :status,
-      :version,
       :user_id,
-      :schema_id
+      :schema_id,
+      :version
     ])
-    |> validate_required([:version, :user_id])
-    |> validate_length(:description, min: 2, max: 255)
+    |> validate_required([:user_id, :version])
     |> cast_embed(:content, required: true)
   end
 

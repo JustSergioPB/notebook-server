@@ -9,6 +9,7 @@ defmodule NotebookServer.Certificates.Certificate do
     field :level, Ecto.Enum, values: [:entity, :intermediate, :root], default: :entity
     field :public_key_pem, :string
     field :cert_pem, :string
+    field :private_key_pem, :string, virtual: true, redact: true
     field :revocation_reason, :string
     field :revocation_date, :utc_datetime
     field :expiration_date, :utc_datetime

@@ -6,12 +6,12 @@ defmodule NotebookServerWeb.CredentialLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    opts = org_filter(socket)
+    org_id = socket.assigns.current_user.org_id
 
     {:ok,
      socket
-     |> stream(:user_credentials, Credentials.list_credentials(:user, opts))
-     |> stream(:org_credentials, Credentials.list_credentials(:org, opts))}
+     |> stream(:user_credentials, Credentials.list_credentials(:user, org_id: org_id))
+     |> stream(:org_credentials, Credentials.list_credentials(:org, org_id: org_id))}
   end
 
   @impl true
@@ -28,19 +28,19 @@ defmodule NotebookServerWeb.CredentialLive.Index do
     atom = term |> String.to_atom()
 
     socket
-    |> assign(:page_title, gettext("edit_credential"))
+    |> assign(:page_title, dgettext("credentials", "edit"))
     |> assign(:credential, Credentials.get_credential!(atom, id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, gettext("new_credential"))
+    |> assign(:page_title, dgettext("credentials", "new"))
     |> assign(:credential, %UserCredential{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, gettext("credentials"))
+    |> assign(:page_title, dgettext("credentials", "credentials"))
     |> assign(:credential, nil)
   end
 
@@ -48,7 +48,7 @@ defmodule NotebookServerWeb.CredentialLive.Index do
     atom = term |> String.to_atom()
 
     socket
-    |> assign(:page_title, gettext("credential_qr"))
+    |> assign(:page_title, dgettext("credentials", "qr"))
     |> assign(:credential, Credentials.get_credential!(atom, id))
   end
 
@@ -62,14 +62,22 @@ defmodule NotebookServerWeb.CredentialLive.Index do
   def handle_event("delete", %{"id" => id, "term" => term}, socket) do
     atom = term |> String.to_atom()
     credential = Credentials.get_credential!(atom, id)
-    {:ok, _} = Credentials.delete_credential(atom, credential)
 
-    {:noreply, stream_delete(socket, :user_credentials, credential)}
+    case Credentials.delete_credential(credential.credential) do
+      {:ok, _} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, dgettext("credentials", "deletion_succeded"))
+         |> delete_credential(atom, credential)}
+
+      {:error, _} ->
+        {:noreply, put_flash(socket, :error, dgettext("credentials", "deletion_failed"))}
+    end
   end
 
-  defp org_filter(socket) do
-    if socket.assigns.current_user.role == :admin,
-      do: [],
-      else: [org_id: socket.assigns.current_user.org_id]
-  end
+  defp delete_credential(socket, :user, credential),
+    do: socket |> stream_delete(:user_credentials, credential)
+
+  defp delete_credential(socket, :org, credential),
+    do: socket |> stream_delete(:org_credentials, credential)
 end

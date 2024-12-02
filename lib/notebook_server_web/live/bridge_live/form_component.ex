@@ -1,5 +1,8 @@
 defmodule NotebookServerWeb.BridgeLive.FormComponent do
   alias NotebookServer.Bridges
+  alias NotebookServer.Bridges.Bridge
+  alias NotebookServer.Accounts.User
+  alias NotebookServer.Schemas
   use NotebookServerWeb, :live_component
   use Gettext, backend: NotebookServerWeb.Gettext
 
@@ -121,7 +124,7 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
 
   defp save_bridge(socket, :edit, bridge_params) do
     case Bridges.update_bridge(socket.assigns.bridge, bridge_params) do
-      {:ok, bridge} ->
+      {:ok, %{update_bridge: bridge}} ->
         notify_parent({:saved, bridge})
 
         {:noreply,
@@ -129,16 +132,25 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
          |> put_flash(:info, dgettext("bridges", "update_succeded"))
          |> push_patch(to: socket.assigns.patch)}
 
-      {:error, _, changeset} ->
+      {:error, :update_bridge, _} ->
         {:noreply,
          socket
-         |> assign(form: to_form(changeset))
          |> put_flash(:error, dgettext("bridges", "update_failed"))}
 
-      {:error, _} ->
+      {:error, :update_schema, _, _} ->
         {:noreply,
          socket
-         |> put_flash(:error, dgettext("bridges", "schema_update_failed"))}
+         |> put_flash(:error, dgettext("schemas", "update_failed"))}
+
+      {:error, :create_schema_version, _, _} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, dgettext("schema_versions", "create_failed"))}
+
+      {:error, :update_schema_version, _, _} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, dgettext("schema_versions", "update_failed"))}
     end
   end
 
@@ -153,7 +165,6 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        IO.inspect(changeset)
         {:noreply, assign(socket, form: to_form(changeset))}
     end
   end
@@ -186,9 +197,12 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
           |> Map.get("pattern")
           |> extract_domains()
 
+    description =
+      if is_nil(latest_version.content), do: nil, else: latest_version.content.description
+
     %{
       title: bridge.schema.title,
-      description: latest_version.description,
+      description: description,
       platform: latest_version.platform || :web2,
       type: bridge.type || :email,
       pattern: pattern
@@ -220,60 +234,26 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
     |> Ecto.Changeset.validate_length(:pattern, min: 2, message: gettext("field_required"))
   end
 
-  defp complete_bridge(bridge_params, bridge, user) do
-    latest_version =
-      bridge.schema.schema_versions
-      |> Enum.at(0)
+  defp complete_bridge(bridge_params, %Bridge{} = bridge, %User{} = user) do
+    pattern = Map.pop(bridge_params, "pattern") |> elem(0) |> String.replace(".", "\\.")
 
-    version =
-      if latest_version.status == :draft,
-        do: latest_version.version,
-        else: latest_version.version + 1
+    bridge_params =
+      bridge_params
+      |> Map.put("content", %{
+        "pattern" => ~r/^[a-zA-Z0-9._%+-]+@(?:#{pattern})$/i |> Regex.source(),
+        "type" => "string",
+        "format" => "email",
+        "title" => "Email",
+        "examples" =>
+          pattern
+          |> String.replace("\\.", ".")
+          |> String.split("|")
+          |> Enum.map(fn domain -> "john.doe@#{domain}" end)
+      })
 
-    title = bridge_params |> Map.get("title")
-    description = bridge_params |> Map.get("description")
-    pattern = bridge_params |> Map.get("pattern") |> String.replace(".", "\\.")
-
-    bridge_params
-    |> Map.merge(%{
+    %{
       "org_id" => user.org_id,
-      "schema" => %{
-        "title" => title,
-        "org_id" => user.org_id,
-        "schema_versions" => %{
-          "0" => %{
-            "user_id" => user.id,
-            "version" => version,
-            "schema_id" => bridge.schema.id,
-            "content" => %{
-              "title" => title,
-              "properties" => %{
-                "title" => %{"const" => title},
-                "credential_subject" => %{
-                  "properties" => %{
-                    "content" => %{
-                      "pattern" => ~r/^[a-zA-Z0-9._%+-]+@(?:#{pattern})$/i |> Regex.source(),
-                      "type" => "string",
-                      "format" => "email"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    })
-    |> maybe_put_description(description)
+      "schema" => Schemas.complete_schema(bridge_params, bridge.schema, user)
+    }
   end
-
-  defp maybe_put_description(bridge_params, description) when is_binary(description) do
-    bridge_params
-    |> put_in(["schema", "schema_versions", "0", "description"], description)
-    |> put_in(["schema", "schema_versions", "0", "content", "properties", "description"], %{
-      "const" => description
-    })
-  end
-
-  defp maybe_put_description(bridge_params, _), do: bridge_params
 end

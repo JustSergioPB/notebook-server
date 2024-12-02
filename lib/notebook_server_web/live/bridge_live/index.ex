@@ -10,8 +10,8 @@ defmodule NotebookServerWeb.BridgeLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    opts = org_filter(socket)
-    {:ok, stream(socket, :bridges, Bridges.list_bridges(opts))}
+    {:ok,
+     stream(socket, :bridges, Bridges.list_bridges(org_id: socket.assigns.current_user.org_id))}
   end
 
   @impl true
@@ -59,19 +59,13 @@ defmodule NotebookServerWeb.BridgeLive.Index do
   def handle_event("toggle", %{"id" => id}, socket) do
     bridge = Bridges.get_bridge!(id)
 
-    case Bridges.update_bridge(bridge, %{active: !bridge.active}) do
+    case Bridges.toggle_bridge(bridge) do
       {:ok, bridge} ->
         refresh_row(bridge, socket)
 
       {:error, _} ->
         {:noreply, socket}
     end
-  end
-
-  defp org_filter(socket) do
-    if socket.assigns.current_user.role == :admin,
-      do: [],
-      else: [org_id: socket.assigns.current_user.org_id]
   end
 
   defp refresh_row(bridge, socket) do

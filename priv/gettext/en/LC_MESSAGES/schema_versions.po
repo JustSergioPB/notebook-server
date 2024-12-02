@@ -11,32 +11,39 @@ msgstr ""
 "Language: en\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lib/notebook_server_web/live/schema_live/index.ex:118
+#: lib/notebook_server_web/live/schema_live/index.ex:116
 #, elixir-autogen, elixir-format
 msgid "archivation_failed"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/index.ex:114
+#: lib/notebook_server_web/live/schema_live/index.ex:112
 #, elixir-autogen, elixir-format
 msgid "archivation_succeded"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/index.ex:98
+#: lib/notebook_server_web/live/schema_live/index.ex:96
 #, elixir-autogen, elixir-format
 msgid "old_version_archivation_failed"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/index.ex:93
+#: lib/notebook_server_web/live/schema_live/index.ex:91
 #, elixir-autogen, elixir-format
 msgid "publication_failed"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/index.ex:87
+#: lib/notebook_server_web/live/schema_live/index.ex:85
 #, elixir-autogen, elixir-format
 msgid "publication_succeded"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:141
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:147
+#: lib/notebook_server_web/live/schema_live/form_component.ex:132
 #, elixir-autogen, elixir-format
 msgid "create_failed"
+msgstr ""
+
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:152
+#: lib/notebook_server_web/live/schema_live/form_component.ex:137
+#, elixir-autogen, elixir-format
+msgid "update_failed"
 msgstr ""

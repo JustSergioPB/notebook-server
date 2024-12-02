@@ -22,6 +22,8 @@ msgid "empty_title"
 msgstr "Crea tu primer schema"
 
 #: lib/notebook_server_web/live/bridge_live/index.html.heex:22
+#: lib/notebook_server_web/live/credential_live/index.html.heex:28
+#: lib/notebook_server_web/live/credential_live/index.html.heex:82
 #: lib/notebook_server_web/live/schema_live/index.html.heex:6
 #: lib/notebook_server_web/live/schema_live/index.html.heex:21
 #, elixir-autogen, elixir-format
@@ -39,12 +41,12 @@ msgstr "Archivar"
 msgid "are_you_sure"
 msgstr "Esta acción es irreversible, se eliminará todo lo relaccionado a este esquema. Considere archivarlo. ¿Estás seguro?"
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:159
+#: lib/notebook_server_web/live/schema_live/form_component.ex:156
 #, elixir-autogen, elixir-format
 msgid "creation_failed"
 msgstr "No hemos podido crear el esquema. Intentalo de nuevo más tarde."
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:152
+#: lib/notebook_server_web/live/schema_live/form_component.ex:148
 #, elixir-autogen, elixir-format
 msgid "creation_succeded"
 msgstr "El esquema se ha creado correctamente"
@@ -55,46 +57,46 @@ msgstr "El esquema se ha creado correctamente"
 msgid "delete"
 msgstr "Eliminar"
 
-#: lib/notebook_server_web/live/schema_live/index.ex:71
+#: lib/notebook_server_web/live/schema_live/index.ex:69
 #, elixir-autogen, elixir-format
 msgid "delete_failed"
 msgstr "No hemos podido eliminar el esquema"
 
-#: lib/notebook_server_web/live/schema_live/index.ex:65
+#: lib/notebook_server_web/live/schema_live/index.ex:63
 #, elixir-autogen, elixir-format
 msgid "delete_succeded"
 msgstr "El esquema se ha eliminado de manera correcta"
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:39
+#: lib/notebook_server_web/live/schema_live/form_component.ex:40
 #: lib/notebook_server_web/live/schema_live/index.html.heex:26
 #, elixir-autogen, elixir-format
 msgid "description"
 msgstr "Descripción"
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:40
+#: lib/notebook_server_web/live/schema_live/form_component.ex:41
 #, elixir-autogen, elixir-format
 msgid "description_placeholder"
 msgstr "Credencial que acredita a una persona a conducir un vehículo..."
 
-#: lib/notebook_server_web/live/schema_live/index.ex:31
+#: lib/notebook_server_web/live/schema_live/index.ex:29
 #: lib/notebook_server_web/live/schema_live/index.html.heex:71
 #: lib/notebook_server_web/live/schema_live/index.html.heex:73
 #, elixir-autogen, elixir-format
 msgid "edit"
 msgstr "Editar esquema"
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:15
+#: lib/notebook_server_web/live/schema_live/form_component.ex:17
 #, elixir-autogen, elixir-format
 msgid "latest_is_not_in_draft"
 msgstr "La versión actual no es un borrador, por lo que editarla creará una nueva versión en borrador"
 
-#: lib/notebook_server_web/live/schema_live/index.ex:37
+#: lib/notebook_server_web/live/schema_live/index.ex:35
 #, elixir-autogen, elixir-format
 msgid "new"
 msgstr "Nuevo esquema"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:40
-#: lib/notebook_server_web/live/schema_live/form_component.ex:46
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:42
+#: lib/notebook_server_web/live/schema_live/form_component.ex:47
 #: lib/notebook_server_web/live/schema_live/index.html.heex:35
 #, elixir-autogen, elixir-format
 msgid "platform"
@@ -111,12 +113,12 @@ msgstr "Publicar"
 msgid "published_version"
 msgstr "V. Pública"
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:72
+#: lib/notebook_server_web/live/schema_live/form_component.ex:69
 #, elixir-autogen, elixir-format
 msgid "raw_content"
 msgstr "Contenido"
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:85
+#: lib/notebook_server_web/live/schema_live/form_component.ex:77
 #, elixir-autogen, elixir-format
 msgid "save"
 msgstr "Guardar"
@@ -131,24 +133,51 @@ msgstr "Esquema"
 msgid "status"
 msgstr "Estado"
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:28
-#: lib/notebook_server_web/live/schema_live/index.ex:43
+#: lib/notebook_server_web/live/schema_live/form_component.ex:30
+#: lib/notebook_server_web/live/schema_live/index.ex:41
 #: lib/notebook_server_web/live/schema_live/index.html.heex:23
 #, elixir-autogen, elixir-format
 msgid "title"
 msgstr "Título"
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:29
+#: lib/notebook_server_web/live/schema_live/form_component.ex:31
 #, elixir-autogen, elixir-format
 msgid "title_placeholder"
 msgstr "Carnet de conducir"
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:129
+#: lib/notebook_server_web/live/schema_live/form_component.ex:120
 #, elixir-autogen, elixir-format
 msgid "update_succeded"
 msgstr "El esquema se ha actualizado de manera correcta"
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:136
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:142
+#: lib/notebook_server_web/live/schema_live/form_component.ex:127
 #, elixir-autogen, elixir-format
 msgid "update_failed"
-msgstr ""
+msgstr "No hemos podido actualizar el esquema"
+
+#: lib/notebook_server_web/live/schema_live/form_component.ex:205
+#: lib/notebook_server_web/live/schema_live/form_component.ex:210
+#, elixir-autogen, elixir-format
+msgid "title_length %{max} %{min}"
+msgstr "El título debe tener entre %{min} y %{max} caracteres"
+
+#: lib/notebook_server_web/live/schema_live/form_component.ex:55
+#, elixir-autogen, elixir-format, fuzzy
+msgid "web_2_description"
+msgstr "El esquema solo se almacenará tanto en la base de datos"
+
+#: lib/notebook_server_web/live/schema_live/form_component.ex:54
+#, elixir-autogen, elixir-format
+msgid "web_2_title"
+msgstr "Web 2"
+
+#: lib/notebook_server_web/live/schema_live/form_component.ex:61
+#, elixir-autogen, elixir-format, fuzzy
+msgid "web_3_description"
+msgstr "El esquema se almacenará tanto en la base de datos como en la blockchain"
+
+#: lib/notebook_server_web/live/schema_live/form_component.ex:60
+#, elixir-autogen, elixir-format
+msgid "web_3_title"
+msgstr "Web 3"

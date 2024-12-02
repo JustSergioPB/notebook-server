@@ -1,7 +1,6 @@
 defmodule NotebookServer.Credentials.CredentialSubject do
   import Ecto.Changeset
   use Ecto.Schema
-  use Gettext, backend: NotebookServerWeb.Gettext
 
   @primary_key false
   embedded_schema do
@@ -12,7 +11,7 @@ defmodule NotebookServer.Credentials.CredentialSubject do
   def changeset(credential_subject, attrs \\ %{}) do
     credential_subject
     |> cast(attrs, [:id, :content])
-    |> validate_required([:id, :content], message: gettext("field_required"))
+    |> validate_required([:id, :content])
   end
 end
 

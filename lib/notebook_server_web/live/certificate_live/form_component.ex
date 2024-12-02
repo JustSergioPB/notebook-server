@@ -9,7 +9,7 @@ defmodule NotebookServerWeb.CertificateLive.FormComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="space-y-6">
+    <div class="h-full flex flex-col">
       <.header>
         <%= @title %>
       </.header>
@@ -77,36 +77,42 @@ defmodule NotebookServerWeb.CertificateLive.FormComponent do
      |> assign(assigns)
      |> update_user_options()
      |> update_org_options()
-     |> assign_new(:form, fn -> to_form(changeset) end)}
+     |> assign_new(:form, fn -> to_form(changeset, as: "certificate") end)}
   end
 
   @impl true
-  def handle_event("validate", params, socket) do
+  def handle_event("validate", %{"certificate" => certificate_params}, socket) do
     atom = socket.assigns.tab |> String.to_atom()
 
     changeset =
       Certificates.change_certificate(
         atom,
         socket.assigns.certificate,
-        params["#{socket.assigns.tab}_certificate"]
+        certificate_params
       )
 
-    {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
+    {:noreply, assign(socket, form: to_form(changeset, action: :validate, as: "certificate"))}
   end
 
-  def handle_event("save", params, socket) do
+  def handle_event("save", %{"certificate" => certificate_params}, socket) do
     atom = socket.assigns.tab |> String.to_atom()
+    certificate_params = complete_credential(atom, certificate_params, socket)
 
-    case Certificates.create_certificate(atom, params["#{socket.assigns.tab}_certificate"]) do
-      {:ok, certificate, message} ->
+    case Certificates.create_certificate(atom, certificate_params) do
+      {:ok, %{create_certificate: certificate}} ->
         notify_parent({:saved, atom, certificate})
-        {:noreply, socket |> put_flash(:info, message) |> push_patch(to: socket.assigns.patch)}
 
-      {:error, changeset, message} ->
-        {:noreply, socket |> put_flash(:error, message) |> assign(:form, to_form(changeset))}
+        {:noreply,
+         socket
+         |> put_flash(:info, dgettext("certificates", "creation_succeded"))
+         |> push_patch(to: socket.assigns.patch)}
 
-      {:error, message} ->
-        {:noreply, socket |> put_flash(:error, message)}
+      {:error, :create_certificate, _, _} ->
+        {:noreply, put_flash(socket, :error, dgettext("certificates", "creation_failed"))}
+
+      {:error, :store_private_key, _, _} ->
+        {:noreply,
+         put_flash(socket, :error, dgettext("certificates", "private_key_storation_failed"))}
     end
   end
 
@@ -119,11 +125,13 @@ defmodule NotebookServerWeb.CertificateLive.FormComponent do
     {:noreply, update_user_options(socket, query)}
   end
 
+  defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
+
   defp update_org_options(socket, query \\ "") do
     options =
       Orgs.list_orgs(name: query)
       |> Enum.map(fn org ->
-        org |> Map.put(:text, org.name)
+        org |> Map.merge(%{text: org.name, id: Integer.to_string(org.id)})
       end)
 
     assign(socket, org_options: options)
@@ -134,11 +142,31 @@ defmodule NotebookServerWeb.CertificateLive.FormComponent do
       Accounts.list_users(email: query)
       |> Enum.map(fn user ->
         user
-        |> Map.put(:text, user.email)
+        |> Map.merge(%{text: user.email, id: Integer.to_string(user.id)})
       end)
 
     assign(socket, user_options: options)
   end
 
-  defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
+  defp complete_credential(:org, certificate_params, socket) do
+    org =
+      socket.assigns.org_options
+      |> Enum.find(fn option -> option.id == Map.get(certificate_params, "org_id") end)
+
+    level = get_in(certificate_params, ["certificate", "level"]) |> String.to_atom()
+
+    Certificates.complete_certificate(:org, org, level)
+  end
+
+  defp complete_credential(:user, certificate_params, socket) do
+    org =
+      socket.assigns.org_options
+      |> Enum.find(fn option -> option.id == Map.get(certificate_params, "org_id") end)
+
+    user =
+      socket.assigns.user_options
+      |> Enum.find(fn option -> option.id == Map.get(certificate_params, "user_id") end)
+
+    Certificates.complete_certificate(:user, org, user)
+  end
 end

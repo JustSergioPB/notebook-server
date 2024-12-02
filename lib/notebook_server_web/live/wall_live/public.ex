@@ -28,6 +28,7 @@ defmodule NotebookServerWeb.WallLive.Public do
                   <p class="text-sm text-slate-600">
                     <%= bridge.schema.schema_versions
                     |> Enum.at(0)
+                    |> Map.get(:content)
                     |> Map.get(:description) %>
                   </p>
                 </div>

@@ -36,7 +36,7 @@ defmodule NotebookServerWeb.Components.ChipInput do
           </.button>
         </.tooltip>
       </div>
-      <div className="flex flex-wrap items-center gap-1">
+      <div class="flex flex-wrap items-center gap-1 py-1">
         <.badge
           :for={chip <- @chips}
           variant="primary"

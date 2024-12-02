@@ -92,18 +92,22 @@ defmodule NotebookServerWeb.CertificateLive.Index do
   def handle_event("rotate", %{"id" => id, "term" => term}, socket) do
     atom = term |> String.to_atom()
     certificate = Certificates.get_certificate!(atom, id)
-    changeset = Certificates.change_certificate(atom, certificate)
+    replacement = complete_credential(atom, certificate)
 
-    case Certificates.rotate_certificate(atom, changeset) do
-      {:ok, certificate, replacement, message} ->
+    case Certificates.rotate_certificate(atom, certificate, replacement) do
+      {:ok, %{rotate_certificate: rotated, create_replacement: replacement}} ->
         {:noreply,
          socket
-         |> put_flash(:info, message)
-         |> update_row(atom, certificate)
+         |> put_flash(:info, dgettext("certificates", "rotation_succeded"))
+         |> update_row(atom, rotated)
          |> update_row(atom, replacement)}
 
-      {:error, message} ->
-        {:noreply, socket |> put_flash(:error, message)}
+      {:error, :rotate_certificate, _, _} ->
+        {:noreply, socket |> put_flash(:error, dgettext("certificates", "rotation_failed"))}
+
+      {:error, :create_replacement, _, _} ->
+        {:noreply,
+         socket |> put_flash(:error, dgettext("certificates", "replacement_creation_failed"))}
     end
   end
 
@@ -126,5 +130,19 @@ defmodule NotebookServerWeb.CertificateLive.Index do
     org = Orgs.get_org!(org_certificate.org_id)
     org_certificate = org_certificate |> Map.put(:org, org)
     socket |> stream_insert(:org_certificates, org_certificate)
+  end
+
+  defp complete_credential(:org, %OrgCertificate{} = certificate) do
+    org = Orgs.get_org!(certificate.org_id)
+    level = certificate.certificate.level
+
+    Certificates.complete_certificate(:org, org, level)
+  end
+
+  defp complete_credential(:user, %UserCertificate{} = certificate) do
+    org = Orgs.get_org!(certificate.org_id)
+    user = Accounts.get_user!(certificate.user_id)
+
+    Certificates.complete_certificate(:user, org, user)
   end
 end

@@ -18,14 +18,4 @@ defmodule NotebookServer.Certificates.UserCertificate do
     |> validate_required([:org_id, :user_id])
     |> cast_assoc(:certificate, required: true)
   end
-
-  def rotate_changeset(user_certificate) do
-    user_certificate
-    |> cast_assoc(:certificate, with: &Certificate.rotate_changeset/1, required: true)
-  end
-
-  def revoke_changeset(user_certificate, attrs) do
-    user_certificate
-    |> cast_assoc(:certificate, with: &Certificate.revoke_changeset(&1, attrs), required: true)
-  end
 end

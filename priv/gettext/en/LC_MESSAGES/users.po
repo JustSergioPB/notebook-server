@@ -16,6 +16,7 @@ msgstr ""
 msgid "already_have_account"
 msgstr "Already have an account?"
 
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:31
 #: lib/notebook_server_web/live/user_live/form_component.ex:41
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:75
 #, elixir-autogen, elixir-format
@@ -23,6 +24,7 @@ msgid "email"
 msgstr "Email"
 
 #: lib/notebook_server_web/live/certificate_live/form_component.ex:38
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:32
 #: lib/notebook_server_web/live/user_live/form_component.ex:42
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:76
 #, elixir-autogen, elixir-format

@@ -37,7 +37,7 @@ defmodule NotebookServerWeb.UserLive.FormComponent do
         </div>
         <.input
           field={@form[:email]}
-          type="text"
+          type="email"
           label={dgettext("users", "email")}
           placeholder={dgettext("users", "email_placeholder")}
           phx-debounce="blur"
@@ -102,7 +102,6 @@ defmodule NotebookServerWeb.UserLive.FormComponent do
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        IO.inspect(changeset)
         {:noreply, assign(socket, form: to_form(changeset))}
     end
   end

@@ -54,7 +54,6 @@ msgstr "Email"
 msgid "email_placeholder"
 msgstr "stachelabs@gmail.com"
 
-#: lib/notebook_server_web/live/bridge_live/index.html.heex:33
 #: lib/notebook_server_web/live/org_live/form_component.ex:23
 #: lib/notebook_server_web/live/org_live/index.html.heex:22
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:33
