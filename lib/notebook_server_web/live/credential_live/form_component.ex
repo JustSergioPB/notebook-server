@@ -80,7 +80,11 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
   end
 
   def handle_event("save", %{"credential" => credential_params}, socket) do
-    credential_params = complete_credential(credential_params, socket)
+    user = socket.assigns.current_user
+    schema_version = socket.assigns.schema_version
+    content = Map.get(credential_params, "content")
+
+    credential_params = Credentials.complete_credential(:user, content, user, schema_version)
 
     case Credentials.create_credential(:user, credential_params) do
       {:ok, credential} ->
@@ -91,9 +95,7 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
          |> push_patch(to: socket.assigns.patch)
          |> put_flash(:info, dgettext("credentials", "creation_succeded"))}
 
-      {:error, changeset} ->
-        IO.inspect(changeset)
-
+      {:error, _} ->
         {:noreply,
          socket
          |> put_flash(:error, dgettext("credentials", "creation_failed"))}
@@ -125,7 +127,8 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
         |> Map.merge(%{
           text: schema_version.schema.title,
           name: schema_version.schema.title,
-          id: Integer.to_string(schema_version.id)
+          id: Integer.to_string(schema_version.id),
+          version: 0
         })
       end)
 
@@ -138,58 +141,4 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
-
-  defp complete_credential(credential_params, socket) do
-    user = socket.assigns.current_user
-    schema_version = socket.assigns.schema_version
-    content = Map.get(credential_params, "content")
-
-    domain_url = NotebookServerWeb.Endpoint.url()
-
-    proof = %{
-      "type" => "JsonWebSignature2020",
-      "created" => DateTime.utc_now() |> DateTime.to_iso8601(),
-      "verification_method" => "#{domain_url}/#{user.org.public_id}/public-key",
-      "proof_purpose" => "assertionMethod"
-    }
-
-    credential = %{
-      "title" => schema_version.schema.title,
-      "issuer" => "#{domain_url}/#{user.org.public_id}",
-      "credential_subject" => %{
-        "id" => "#TODO",
-        "content" => content
-      },
-      "credential_schema" => %{
-        "id" => "#{domain_url}/schema-versions/#{schema_version.id}"
-      },
-      "proof" => proof
-    }
-
-    credential =
-      if is_binary(schema_version.description),
-        do: credential |> Map.put("description", schema_version.description),
-        else: credential
-
-    canonical_form = Jason.encode!(credential, pretty: false)
-
-    # jws =
-    #  private_key
-    #  |> JOSE.JWK.from_pem()
-    #  |> JOSE.JWS.sign(canonical_form, %{"alg" => "RS256"})
-    #  |> JOSE.JWS.compact()
-    #  |> elem(1)
-
-    signed_proof = Map.put(proof, "jws", canonical_form)
-    credential = Map.put(credential, "proof", signed_proof)
-
-    %{
-      "user_id" => user.id,
-      "org_id" => user.org_id,
-      "credential" => %{
-        "schema_version_id" => String.to_integer(schema_version.id),
-        "content" => credential
-      }
-    }
-  end
 end

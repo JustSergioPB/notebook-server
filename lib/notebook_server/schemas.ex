@@ -172,12 +172,12 @@ defmodule NotebookServer.Schemas do
   def schema_versions_query(opts \\ []) do
     amount = Keyword.get(opts, :amount, :latest)
 
-    case amount do
-      :latest -> from(sv in SchemaVersion, order_by: [desc: sv.inserted_at], limit: 1)
-      # TODO: this doesn't work for archived schemas
-      :semi -> from(sv in SchemaVersion, order_by: [desc: sv.inserted_at], limit: 2)
-      :all -> from(sv in SchemaVersion, order_by: [desc: sv.inserted_at])
-    end
+    # case amount do
+    # TODO: this doesn't work for archived schemas
+    #  :latest -> from(sv in SchemaVersion, order_by: [desc: sv.inserted_at], limit: 1)
+    #  :all -> from(sv in SchemaVersion, order_by: [desc: sv.inserted_at])
+    #   :semi -> from(sv in SchemaVersion, order_by: [desc: sv.inserted_at], limit: 2)
+    # end
 
     # TODO: fix this
     from(sv in SchemaVersion, order_by: [desc: sv.inserted_at])

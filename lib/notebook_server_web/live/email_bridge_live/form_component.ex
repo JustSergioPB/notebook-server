@@ -1,5 +1,6 @@
 defmodule NotebookServerWeb.EmailBridgeLive.FormComponent do
   alias NotebookServer.Bridges
+  alias NotebookServer.Credentials
   alias NotebookServer.Orgs
 
   use NotebookServerWeb, :live_view_blank
@@ -144,7 +145,18 @@ defmodule NotebookServerWeb.EmailBridgeLive.FormComponent do
 
   def handle_event("save", %{"code" => code}, socket) do
     email_bridge = Bridges.get_email_bridge!(socket.assigns.email_bridge_id)
-    email_bridge_params = complete_credential(email_bridge.email, socket)
+    org = Orgs.get_org_by_public_id!(socket.assigns.org_public_id)
+
+    email_bridge_params = %{
+      "org_credential" =>
+        Credentials.complete_credential(
+          :org,
+          email_bridge.email,
+          org,
+          socket.assigns.schema_version
+        )
+    }
+
     code = Map.get(code, "code")
 
     # TODO add a validation of 2 mins
@@ -192,52 +204,6 @@ defmodule NotebookServerWeb.EmailBridgeLive.FormComponent do
       "email" => email,
       "code" => Enum.random(100_000..999_999),
       "bridge_id" => bridge.id
-    }
-  end
-
-  defp complete_credential(email, socket) do
-    org = Orgs.get_org_by_public_id!(socket.assigns.org_public_id)
-    schema_version = socket.assigns.schema_version
-    domain_url = NotebookServerWeb.Endpoint.url()
-
-    proof = %{
-      "type" => "JsonWebSignature2020",
-      "created" => DateTime.utc_now() |> DateTime.to_iso8601(),
-      "verification_method" => "#{domain_url}/#{org.public_id}/public-key",
-      "proof_purpose" => "assertionMethod"
-    }
-
-    credential = %{
-      "title" => schema_version.schema.title,
-      "issuer" => "#{domain_url}/#{org.public_id}",
-      "credential_subject" => %{
-        "id" => "#TODO",
-        "content" => email
-      },
-      "credential_schema" => %{
-        "id" => "#{domain_url}/schema-versions/#{schema_version.id}"
-      },
-      "proof" => proof
-    }
-
-    credential =
-      if is_binary(schema_version.description),
-        do: credential |> Map.put("description", schema_version.description),
-        else: credential
-
-    canonical_form = Jason.encode!(credential, pretty: false)
-
-    signed_proof = Map.put(proof, "jws", canonical_form)
-    credential = Map.put(credential, "proof", signed_proof)
-
-    %{
-      "org_credential" => %{
-        "org_id" => org.id,
-        "credential" => %{
-          "schema_version_id" => schema_version.id,
-          "content" => credential
-        }
-      }
     }
   end
 end

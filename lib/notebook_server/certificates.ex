@@ -49,13 +49,29 @@ defmodule NotebookServer.Certificates do
     |> Repo.transaction()
   end
 
-  def get_issuer_certificate!(org_id, level) do
+  def get_issuer_certificate!(:org, org_id, level) do
     certificate =
       Repo.one!(
         from(c in Certificate,
           left_join: oc in OrgCertificate,
           on: c.id == oc.certificate_id,
           where: oc.org_id == ^org_id and c.status == :active and c.level == ^level
+        )
+      )
+
+    private_key = File.read!(private_key_path(certificate.public_id))
+
+    certificate
+    |> Map.put(:private_key_pem, private_key |> X509.PrivateKey.from_pem!(password: pki_secret()))
+  end
+
+  def get_issuer_certificate!(:user, user_id) do
+    certificate =
+      Repo.one!(
+        from(c in Certificate,
+          left_join: uc in UserCertificate,
+          on: c.id == uc.certificate_id,
+          where: uc.user_id == ^user_id and c.status == :active
         )
       )
 

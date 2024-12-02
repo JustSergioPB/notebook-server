@@ -1041,7 +1041,7 @@ defmodule NotebookServerWeb.CoreComponents do
       <.version_badge version={@schema.version} />
       <p class="font-bold"><%= @schema.text %></p>
     </div>
-    <p><%= @schema.description %></p>
+    <p><%= @schema.content.description %></p>
     """
   end
 

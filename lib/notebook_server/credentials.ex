@@ -2,10 +2,15 @@ defmodule NotebookServer.Credentials do
   @moduledoc """
   The Credentials context.
   """
+  alias NotebookServer.Certificates
   alias NotebookServer.Repo
   alias NotebookServer.Credentials.Credential
   alias NotebookServer.Credentials.UserCredential
   alias NotebookServer.Credentials.OrgCredential
+  alias NotebookServer.Orgs.Org
+  alias NotebookServer.Schemas.SchemaVersion
+  alias NotebookServer.Accounts.User
+  alias NotebookServer.Certificates.Certificate
   import Ecto.Query, warn: false
 
   @doc """
@@ -145,5 +150,83 @@ defmodule NotebookServer.Credentials do
   def change_credential(:org, org_credential, attrs) do
     org_credential
     |> OrgCredential.changeset(attrs)
+  end
+
+  def complete_credential(:org, content, %Org{} = org, %SchemaVersion{} = schema_version) do
+    certificate = Certificates.get_issuer_certificate!(:org, org.id, :entity)
+
+    %{
+      "org_id" => org.id,
+      "credential" => complete_credential(org.public_id, content, schema_version, certificate)
+    }
+  end
+
+  def complete_credential(
+        :user,
+        content,
+        %User{} = user,
+        %SchemaVersion{} = schema_version
+      ) do
+    certificate = Certificates.get_issuer_certificate!(:user, user.id)
+
+    %{
+      "user_id" => user.id,
+      "org_id" => user.org_id,
+      "credential" => complete_credential(user.public_id, content, schema_version, certificate)
+    }
+  end
+
+  def complete_credential(
+        issuer_public_id,
+        content,
+        %SchemaVersion{} = schema_version,
+        %Certificate{} = certificate
+      ) do
+    IO.inspect(schema_version)
+    domain_url = NotebookServerWeb.Endpoint.url()
+
+    proof = %{
+      "type" => "JsonWebSignature2020",
+      "created" => DateTime.utc_now() |> DateTime.to_iso8601(),
+      "verification_method" => "#{domain_url}/#{issuer_public_id}/public-key",
+      "proof_purpose" => "assertionMethod"
+    }
+
+    credential = %{
+      "title" => schema_version.schema.title,
+      "issuer" => "#{domain_url}/#{issuer_public_id}",
+      "credential_subject" => %{
+        "id" => "#TODO",
+        "content" => content
+      },
+      "credential_schema" => %{
+        "id" => "#{domain_url}/schema-versions/#{schema_version.id}"
+      },
+      "proof" => proof
+    }
+
+    credential =
+      if is_binary(schema_version.content.description),
+        do: credential |> Map.put("description", schema_version.content.description),
+        else: credential
+
+    canonical_form = Jason.encode!(credential, pretty: false)
+
+    jws =
+      certificate.private_key_pem
+      |> JOSE.JWK.from_key()
+      |> JOSE.JWS.sign(canonical_form, %{"alg" => "RS256"})
+      |> JOSE.JWS.compact()
+      |> elem(1)
+
+    signed_proof = Map.put(proof, "jws", jws)
+    credential = Map.put(credential, "proof", signed_proof)
+
+    schema_version_id = if is_binary(schema_version.id), do: String.to_integer(schema_version.id), else: schema_version.id
+
+    %{
+      "schema_version_id" => schema_version_id,
+      "content" => credential
+    }
   end
 end
