@@ -2,6 +2,7 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
   alias NotebookServer.Bridges
   alias NotebookServer.Bridges.Bridge
   alias NotebookServer.Accounts.User
+  alias NotebookServer.Schemas
   use NotebookServerWeb, :live_component
   use Gettext, backend: NotebookServerWeb.Gettext
 
@@ -234,54 +235,25 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
   end
 
   defp complete_bridge(bridge_params, %Bridge{} = bridge, %User{} = user) do
-    title = bridge_params |> Map.get("title")
-    description = bridge_params |> Map.get("description")
-    pattern = bridge_params |> Map.get("pattern") |> String.replace(".", "\\.")
+    pattern = Map.pop(bridge_params, "pattern") |> elem(0) |> String.replace(".", "\\.")
+
+    bridge_params =
+      bridge_params
+      |> Map.put("content", %{
+        "pattern" => ~r/^[a-zA-Z0-9._%+-]+@(?:#{pattern})$/i |> Regex.source(),
+        "type" => "string",
+        "format" => "email",
+        "title" => "Email",
+        "examples" =>
+          pattern
+          |> String.replace("\\.", ".")
+          |> String.split("|")
+          |> Enum.map(fn domain -> "john.doe@#{domain}" end)
+      })
 
     %{
       "org_id" => user.org_id,
-      "schema" => %{
-        "title" => title,
-        "org_id" => user.org_id,
-        "schema_versions" => %{
-          "0" => %{
-            "user_id" => user.id,
-            "schema_id" => bridge.schema.id,
-            "content" => %{
-              "title" => title,
-              "properties" => %{
-                "title" => %{"const" => title},
-                "credential_subject" => %{
-                  "properties" => %{
-                    "content" => %{
-                      "pattern" => ~r/^[a-zA-Z0-9._%+-]+@(?:#{pattern})$/i |> Regex.source(),
-                      "type" => "string",
-                      "format" => "email",
-                      "title" => "Email",
-                      "examples" =>
-                        pattern
-                        |> String.replace("\\.", ".")
-                        |> String.split("|")
-                        |> Enum.map(fn domain -> "john.doe@#{domain}" end)
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+      "schema" => Schemas.complete_schema(bridge_params, bridge.schema, user)
     }
-    |> maybe_put_description(description)
   end
-
-  defp maybe_put_description(bridge_params, description) when is_binary(description) do
-    bridge_params
-    |> put_in(["schema", "schema_versions", "0", "content", "description"], description)
-    |> put_in(["schema", "schema_versions", "0", "content", "properties", "description"], %{
-      "const" => description
-    })
-  end
-
-  defp maybe_put_description(bridge_params, _), do: bridge_params
 end

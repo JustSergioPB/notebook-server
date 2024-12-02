@@ -7,6 +7,7 @@ defmodule NotebookServer.Schemas.SchemaVersion do
   schema "schema_versions" do
     field :platform, Ecto.Enum, values: [:web2, :web3], default: :web2
     field :status, Ecto.Enum, values: [:draft, :published, :archived], default: :draft
+    field :version, :integer, default: 0
     embeds_one :content, NotebookServer.Schemas.SchemaContent, on_replace: :update
     field :public_id, :binary_id
     belongs_to :user, NotebookServer.Accounts.User
@@ -21,9 +22,10 @@ defmodule NotebookServer.Schemas.SchemaVersion do
       :platform,
       :status,
       :user_id,
-      :schema_id
+      :schema_id,
+      :version
     ])
-    |> validate_required([:user_id])
+    |> validate_required([:user_id, :version])
     |> cast_embed(:content, required: true)
   end
 

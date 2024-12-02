@@ -1,7 +1,6 @@
 defmodule NotebookServerWeb.SchemaLive.FormComponent do
   alias NotebookServer.Schemas
   alias NotebookServer.Schemas.Schema
-  alias NotebookServer.Accounts.User
   use NotebookServerWeb, :live_component
   use Gettext, backend: NotebookServerWeb.Gettext
 
@@ -104,8 +103,7 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
   end
 
   def handle_event("save", %{"schema" => schema_params}, socket) do
-    schema_params =
-      complete_schema(schema_params, socket.assigns.schema, socket.assigns.current_user)
+    schema_params = complete_schema(schema_params, socket)
 
     save_schema(socket, socket.assigns.action, schema_params)
   end
@@ -209,51 +207,14 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
     )
   end
 
-  defp complete_schema(schema_params, %Schema{} = schema, %User{} = user) do
-    title = schema_params |> Map.get("title")
-    description = schema_params |> Map.get("description")
+  defp complete_schema(schema_params, socket) do
+    decoded = schema_params |> Map.get("content") |> Jason.decode!()
+    schema_params = Map.put(schema_params, "content", decoded)
 
-    schema_params =
-      with true <- is_binary(schema_params["content"]),
-           {:ok, decoded_value} <- Jason.decode(schema_params["content"]) do
-        Map.put(schema_params, "content", decoded_value)
-      else
-        _ -> schema_params
-      end
-
-    content = schema_params |> Map.get("content")
-
-    %{
-      "org_id" => user.org_id,
-      "title" => title,
-      "schema_versions" => %{
-        "0" => %{
-          "user_id" => user.id,
-          "schema_id" => schema.id,
-          "content" => %{
-            "title" => title,
-            "properties" => %{
-              "title" => %{"const" => title},
-              "credential_subject" => %{
-                "properties" => %{
-                  "content" => content
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    |> maybe_put_description(description)
+    Schemas.complete_schema(
+      schema_params,
+      socket.assigns.schema,
+      socket.assigns.current_user
+    )
   end
-
-  defp maybe_put_description(schema_params, description) when is_binary(description) do
-    schema_params
-    |> put_in(["schema_versions", "0", "content", "description"], description)
-    |> put_in(["schema_versions", "0", "content", "properties", "description"], %{
-      "const" => description
-    })
-  end
-
-  defp maybe_put_description(schema_params, _), do: schema_params
 end

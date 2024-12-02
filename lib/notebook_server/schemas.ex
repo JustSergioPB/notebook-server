@@ -2,6 +2,7 @@ defmodule NotebookServer.Schemas do
   alias NotebookServer.Repo
   alias NotebookServer.Schemas.Schema
   alias NotebookServer.Schemas.SchemaVersion
+  alias NotebookServer.Accounts.User
   import Ecto.Query, warn: false
 
   @doc """
@@ -27,7 +28,11 @@ defmodule NotebookServer.Schemas do
         do: from(s in query, where: ilike(s.title, ^"%#{title}%")),
         else: query
 
-    Repo.all(query) |> Repo.preload([:org, schema_versions: schema_versions_query(opts)])
+    Repo.all(query)
+    |> Repo.preload([
+      :org,
+      schema_versions: from(sv in SchemaVersion, order_by: [desc: sv.inserted_at])
+    ])
   end
 
   @doc """
@@ -44,8 +49,12 @@ defmodule NotebookServer.Schemas do
       ** (Ecto.NoResultsError)
 
   """
-  def get_schema!(id, opts \\ []) do
-    Repo.get!(Schema, id) |> Repo.preload([:org, schema_versions: schema_versions_query(opts)])
+  def get_schema!(id) do
+    Repo.get!(Schema, id)
+    |> Repo.preload([
+      :org,
+      schema_versions: from(sv in SchemaVersion, order_by: [desc: sv.inserted_at])
+    ])
   end
 
   @doc """
@@ -169,17 +178,43 @@ defmodule NotebookServer.Schemas do
     Repo.all(query) |> Repo.preload(:schema)
   end
 
-  def schema_versions_query(opts \\ []) do
-    amount = Keyword.get(opts, :amount, :latest)
+  def complete_schema(schema_params, %Schema{} = schema, %User{} = user) do
+    title = schema_params |> Map.get("title")
+    description = schema_params |> Map.get("description")
+    content = schema_params |> Map.get("content")
 
-    # case amount do
-    # TODO: this doesn't work for archived schemas
-    #  :latest -> from(sv in SchemaVersion, order_by: [desc: sv.inserted_at], limit: 1)
-    #  :all -> from(sv in SchemaVersion, order_by: [desc: sv.inserted_at])
-    #   :semi -> from(sv in SchemaVersion, order_by: [desc: sv.inserted_at], limit: 2)
-    # end
-
-    # TODO: fix this
-    from(sv in SchemaVersion, order_by: [desc: sv.inserted_at])
+    %{
+      "org_id" => user.org_id,
+      "title" => title,
+      "schema_versions" => %{
+        "0" => %{
+          "version" => Enum.count(schema.schema_versions),
+          "user_id" => user.id,
+          "schema_id" => schema.id,
+          "content" => %{
+            "title" => title,
+            "properties" => %{
+              "title" => %{"const" => title},
+              "credential_subject" => %{
+                "properties" => %{
+                  "content" => content
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    |> maybe_put_description(description)
   end
+
+  defp maybe_put_description(schema_params, description) when is_binary(description) do
+    schema_params
+    |> put_in(["schema_versions", "0", "content", "description"], description)
+    |> put_in(["schema_versions", "0", "content", "properties", "description"], %{
+      "const" => description
+    })
+  end
+
+  defp maybe_put_description(schema_params, _), do: schema_params
 end

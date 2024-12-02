@@ -128,7 +128,7 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
           text: schema_version.schema.title,
           name: schema_version.schema.title,
           id: Integer.to_string(schema_version.id),
-          version: 0
+          version: schema_version.version
         })
       end)
 

@@ -23,11 +23,9 @@ defmodule NotebookServerWeb.SchemaLive.Index do
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
-    schema = Schemas.get_schema!(id, amount: :latest)
-
     socket
     |> assign(:page_title, dgettext("schemas", "edit"))
-    |> assign(:schema, schema)
+    |> assign(:schema, Schemas.get_schema!(id))
   end
 
   defp apply_action(socket, :new, _params) do
@@ -124,15 +122,13 @@ defmodule NotebookServerWeb.SchemaLive.Index do
 
     published_version =
       schema.schema_versions
-      |> Enum.find_index(fn version -> version.status == :published end)
-
-    published_version = if is_integer(published_version), do: published_version + 1, else: nil
+      |> Enum.find(fn version -> version.status == :published end)
 
     Map.merge(schema, %{
       description: latest_version.content.description,
       org_name: schema.org.name,
-      version: Enum.count(schema.schema_versions),
-      published_version: published_version,
+      version: latest_version.version,
+      published_version: published_version.version,
       platform: latest_version.platform,
       status: latest_version.status,
       latest_version_id: latest_version.id
