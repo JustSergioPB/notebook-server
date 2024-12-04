@@ -67,7 +67,7 @@ defmodule NotebookServerWeb.CoreComponents do
           phx-window-keydown={JS.exec("data-cancel", to: "##{@id}")}
           phx-key="escape"
           phx-click-away={JS.exec("data-cancel", to: "##{@id}")}
-          class="shadow-slate-700/10 ring-slate-700/10 relative hidden bg-white p-6 shadow-lg ring-1 transition h-full md:rounded-md"
+          class="shadow-slate-700/10 ring-slate-700/10 relative hidden bg-white shadow-lg ring-1 transition h-full md:rounded-md"
         >
           <div class="absolute h-full top-6 right-5">
             <button
@@ -191,6 +191,7 @@ defmodule NotebookServerWeb.CoreComponents do
   attr :for, :any, required: true, doc: "the data structure for the form"
   attr :as, :any, default: nil, doc: "the server side parameter to collect all input under"
   attr :class, :string, default: nil, doc: "the class to apply to the form"
+  attr :variant, :string, values: ~w(auth app blank), default: "auth"
 
   attr :rest, :global,
     include: ~w(autocomplete name rel action enctype method novalidate target multipart),
@@ -205,13 +206,27 @@ defmodule NotebookServerWeb.CoreComponents do
       :let={f}
       for={@for}
       as={@as}
-      class={["space-y-6 h-full flex flex-col flex-1 overflow-y-hidden", @class]}
+      class={[
+        "space-y-6 h-full",
+        (@variant == "app" || @variant == "blank") && "flex flex-col flex-1 overflow-y-hidden",
+        @class
+      ]}
       {@rest}
     >
-      <div class="flex-1 space-y-4 overflow-y-auto overflow-x-hidden min-h-0 px-1">
+      <div class={[
+        "flex-1 space-y-4",
+        @variant == "app" && "px-6 overflow-y-auto overflow-x-hidden min-h-0",
+        @variant == "blank" && "overflow-y-auto overflow-x-hidden min-h-0"
+      ]}>
         <%= render_slot(@inner_block, f) %>
       </div>
-      <div :for={action <- @actions} class="flex items-center justify-between gap-6 last:pt-6">
+      <div
+        :for={action <- @actions}
+        class={[
+          "flex items-center justify-between gap-6",
+          @variant == "app" && "last:p-6 last:border-t last:border-slate-300"
+        ]}
+      >
         <%= render_slot(action, f) %>
       </div>
     </.form>
@@ -407,7 +422,7 @@ defmodule NotebookServerWeb.CoreComponents do
       <legend :if={@label} class="block text-sm font-semibold leading-6 text-slate-800">
         <%= @label %>
       </legend>
-      <div class={["grid md:grid-cols-2 gap-4", length(@options) == 1 && "grid-cols-1"]}>
+      <div class={["grid md:grid-cols-2 gap-4", length(@options) == 1 && "grid-cols-1 md:grid-cols-1"]}>
         <div
           :for={option <- @options}
           class="border border-slate-300 p-3 rounded-md shadow-sm space-y-2 has-[:checked]:bg-indigo-50 has-[:checked]:text-indigo-900 has-[:checked]:border-indigo-500 has-[:disabled]:opacity-65"

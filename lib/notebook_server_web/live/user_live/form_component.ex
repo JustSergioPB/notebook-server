@@ -7,12 +7,13 @@ defmodule NotebookServerWeb.UserLive.FormComponent do
   def render(assigns) do
     ~H"""
     <div class="h-full flex flex-col">
-      <.header>
+      <.header class="p-6">
         <%= @title %>
       </.header>
       <.simple_form
         for={@form}
         id="user-form"
+        variant="app"
         phx-target={@myself}
         phx-change="validate"
         phx-submit="save"

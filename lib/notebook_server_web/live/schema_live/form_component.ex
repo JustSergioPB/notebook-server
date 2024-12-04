@@ -7,22 +7,23 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="h-full flex flex-col space-y-6">
-      <.header>
+    <div class="h-full flex flex-col">
+      <.header class="p-6">
         <%= @title %>
       </.header>
-      <.info_banner
-        :if={!@latest_is_in_draft?}
-        content={dgettext("schemas", "latest_is_not_in_draft")}
-        variant="warn"
-      />
       <.simple_form
         for={@form}
         id="schema-form"
+        variant="app"
         phx-target={@myself}
         phx-change="validate"
         phx-submit="save"
       >
+        <.info_banner
+          :if={!@latest_is_in_draft?}
+          content={dgettext("schemas", "latest_is_not_in_draft")}
+          variant="warn"
+        />
         <.input
           type="text"
           field={@form[:title]}

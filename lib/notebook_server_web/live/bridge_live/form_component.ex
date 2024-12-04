@@ -10,7 +10,7 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
   def render(assigns) do
     ~H"""
     <div class="h-full flex flex-col">
-      <.header>
+      <.header class="p-6">
         <%= @title %>
       </.header>
       <.simple_form
@@ -19,6 +19,7 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
         phx-target={@myself}
         phx-change="validate"
         phx-submit="save"
+        variant="app"
       >
         <.input
           type="text"

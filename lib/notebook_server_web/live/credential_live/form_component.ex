@@ -10,13 +10,14 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
   def render(assigns) do
     ~H"""
     <div class="h-full flex flex-col">
-      <.header>
+      <.header class="p-6">
         <%= @title %>
       </.header>
       <.simple_form
         for={@form}
         phx-target={@myself}
         id="credential-form"
+        variant="app"
         phx-change="validate"
         phx-submit="save"
       >
