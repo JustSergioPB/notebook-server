@@ -182,11 +182,11 @@ defmodule NotebookServer.Credentials do
         %SchemaVersion{} = schema_version,
         %Certificate{} = certificate
       ) do
-    IO.inspect(schema_version)
     domain_url = NotebookServerWeb.Endpoint.url()
 
     proof = %{
-      "type" => "JsonWebSignature2020",
+      "type" => "DataIntegrityProof",
+      "cryptosuite" => "eddsa-jcs-2022",
       "created" => DateTime.utc_now() |> DateTime.to_iso8601(),
       "verification_method" => "#{domain_url}/#{issuer_public_id}/public-key",
       "proof_purpose" => "assertionMethod"
@@ -210,19 +210,23 @@ defmodule NotebookServer.Credentials do
         do: credential |> Map.put("description", schema_version.content.description),
         else: credential
 
-    canonical_form = Jason.encode!(credential, pretty: false)
+    canonical_form = Jcs.encode(credential)
 
     jws =
       certificate.private_key_pem
-      |> JOSE.JWK.from_key()
-      |> JOSE.JWS.sign(canonical_form, %{"alg" => "RS256"})
+      |> X509.PrivateKey.to_pem()
+      |> JOSE.JWK.from_pem()
+      |> JOSE.JWS.sign(canonical_form, %{"alg" => "EdDSA"})
       |> JOSE.JWS.compact()
       |> elem(1)
 
-    signed_proof = Map.put(proof, "jws", jws)
+    signed_proof = Map.put(proof, "proof_value", jws)
     credential = Map.put(credential, "proof", signed_proof)
 
-    schema_version_id = if is_binary(schema_version.id), do: String.to_integer(schema_version.id), else: schema_version.id
+    schema_version_id =
+      if is_binary(schema_version.id),
+        do: String.to_integer(schema_version.id),
+        else: schema_version.id
 
     %{
       "schema_version_id" => schema_version_id,

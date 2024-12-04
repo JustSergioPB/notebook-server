@@ -20,7 +20,8 @@ defmodule NotebookServer.Schemas.SchemaProperties do
 
     field :issuer, :map, default: %{type: "string", format: "uri"}
     # TODO: use camel
-    embeds_one :credential_subject, NotebookServer.Schemas.SchemaCredentialSubject, on_replace: :update
+    embeds_one :credential_subject, NotebookServer.Schemas.SchemaCredentialSubject,
+      on_replace: :update
 
     # TODO: use camel
     field :credential_schema, :map,
@@ -36,6 +37,33 @@ defmodule NotebookServer.Schemas.SchemaProperties do
           }
         },
         required: ["id", "type"]
+      }
+
+    field :proof, :map,
+      default: %{
+        type: "object",
+        properties: %{
+          type: %{
+            const: "DataIntegrityProof"
+          },
+          cryptosuite: %{
+            const: "eddsa-jcs-2022"
+          },
+          created: %{
+            type: "string",
+            format: "datetime"
+          },
+          verification_method: %{
+            type: "string"
+          },
+          proof_purpose: %{
+            const: "assertionMethod"
+          },
+          proof_value: %{
+            type: "string"
+          }
+        },
+        required: ["type", "verification_method", "proof_purpose", "proof_value"]
       }
   end
 

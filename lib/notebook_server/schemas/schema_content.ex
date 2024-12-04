@@ -20,7 +20,8 @@ defmodule NotebookServer.Schemas.SchemaContent do
         # TODO: use camel
         "credential_subject",
         # TODO: use camel
-        "credential_schema"
+        "credential_schema",
+        "proof"
       ]
   end
 
