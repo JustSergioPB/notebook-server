@@ -31,9 +31,6 @@
         <:col :let={{_id, user_certificate}} label={dgettext("orgs", "org")}>
           <%= user_certificate.org.name %>
         </:col>
-        <:col :let={{_id, user_certificate}} label={dgettext("certificates", "platform")}>
-          <.platform_badge platform={user_certificate.certificate.platform} />
-        </:col>
         <:col :let={{_id, user_certificate}} label={dgettext("certificates", "status")}>
           <.certificate_status_badge certificate={user_certificate.certificate} />
         </:col>
@@ -102,9 +99,6 @@
         </:col>
         <:col :let={{_id, org_certificate}} label={dgettext("certificates", "level")}>
           <.certificate_level_badge certificate={org_certificate.certificate} />
-        </:col>
-        <:col :let={{_id, org_certificate}} label={dgettext("certificates", "platform")}>
-          <.platform_badge platform={org_certificate.certificate.platform} />
         </:col>
         <:col :let={{_id, org_certificate}} label={dgettext("certificates", "status")}>
           <.certificate_status_badge certificate={org_certificate.certificate} />

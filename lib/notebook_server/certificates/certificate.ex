@@ -5,7 +5,6 @@ defmodule NotebookServer.Certificates.Certificate do
   schema "certificates" do
     field :public_id, :binary_id
     field :status, Ecto.Enum, values: [:revoked, :active, :rotated], default: :active
-    field :platform, Ecto.Enum, values: [:web2, :web3], default: :web2
     field :level, Ecto.Enum, values: [:entity, :intermediate, :root], default: :entity
     field :public_key_pem, :string
     field :cert_pem, :string
@@ -27,7 +26,6 @@ defmodule NotebookServer.Certificates.Certificate do
     |> cast(attrs, [
       :public_id,
       :status,
-      :platform,
       :level,
       :cert_pem,
       :public_key_pem,

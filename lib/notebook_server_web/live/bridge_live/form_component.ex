@@ -40,26 +40,6 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
         />
         <.input
           type="radio"
-          label={dgettext("schemas", "platform")}
-          field={@form[:platform]}
-          disabled={true}
-          options={[
-            %{
-              id: :web2,
-              icon: "globe",
-              label: dgettext("bridges", "web_2_title"),
-              description: dgettext("bridges", "web_2_description")
-            },
-            %{
-              id: :web3,
-              icon: "link",
-              label: dgettext("bridges", "web_3_title"),
-              description: dgettext("bridges", "web_3_description")
-            }
-          ]}
-        />
-        <.input
-          type="radio"
           label={dgettext("bridges", "type")}
           disabled={true}
           field={@form[:type]}
@@ -203,7 +183,6 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
     %{
       title: bridge.schema.title,
       description: description,
-      platform: latest_version.platform || :web2,
       type: bridge.type || :email,
       pattern: pattern
     }
@@ -215,7 +194,6 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
       description: :string,
       pattern: :string,
       type: :atom,
-      platform: :atom
     }
 
     {bridge, types}

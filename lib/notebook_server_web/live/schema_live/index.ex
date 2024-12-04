@@ -129,7 +129,6 @@ defmodule NotebookServerWeb.SchemaLive.Index do
       org_name: schema.org.name,
       version: latest_version.version,
       published_version: published_version.version,
-      platform: latest_version.platform,
       status: latest_version.status,
       latest_version_id: latest_version.id
     })

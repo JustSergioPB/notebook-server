@@ -1112,23 +1112,6 @@ defmodule NotebookServerWeb.CoreComponents do
     """
   end
 
-  attr :platform, :string, required: true
-
-  def platform_badge(assigns) do
-    ~H"""
-    <.badge class="gap-1">
-      <:label>
-        <%= if @platform == :web2 do %>
-          <Lucide.globe class="h-3 w-3" />
-        <% else %>
-          <Lucide.link class="h-3 w-3" />
-        <% end %>
-        <%= @platform %>
-      </:label>
-    </.badge>
-    """
-  end
-
   attr :certificate, :any, required: true
 
   def certificate_level_badge(assigns) do

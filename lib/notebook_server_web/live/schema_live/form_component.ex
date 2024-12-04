@@ -41,26 +41,6 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
           hint={gettext("max_chars %{max}", max: 255)}
           phx-debounce="blur"
         />
-        <.input
-          type="radio"
-          label={dgettext("schemas", "platform")}
-          field={@form[:platform]}
-          disabled={true}
-          options={[
-            %{
-              id: :web2,
-              icon: "globe",
-              label: dgettext("schemas", "web_2_title"),
-              description: dgettext("schemas", "web_2_description")
-            },
-            %{
-              id: :web3,
-              icon: "link",
-              label: dgettext("schemas", "web_3_title"),
-              description: dgettext("schemas", "web_3_description")
-            }
-          ]}
-        />
         <.live_component
           module={NotebookServerWeb.Components.FormBuilder}
           id="content-form-builder"
@@ -167,7 +147,6 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
     %{
       title: schema.title,
       description: description,
-      platform: latest_version.platform || :web2,
       content: content
     }
   end
@@ -176,8 +155,7 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
     types = %{
       title: :string,
       description: :string,
-      content: :map,
-      platform: :atom
+      content: :map
     }
 
     attrs =
@@ -189,7 +167,7 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
       end
 
     {schema, types}
-    |> Ecto.Changeset.cast(attrs, [:title, :description, :content, :platform])
+    |> Ecto.Changeset.cast(attrs, [:title, :description, :content])
     |> Ecto.Changeset.validate_required([:title, :content], message: gettext("field_required"))
     |> Ecto.Changeset.validate_length(:title,
       min: 2,
