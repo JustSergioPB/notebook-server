@@ -23,7 +23,7 @@ msgstr ""
 
 #: lib/notebook_server_web/live/bridge_live/index.html.heex:22
 #: lib/notebook_server_web/live/credential_live/index.html.heex:28
-#: lib/notebook_server_web/live/credential_live/index.html.heex:82
+#: lib/notebook_server_web/live/credential_live/index.html.heex:73
 #: lib/notebook_server_web/live/schema_live/index.html.heex:6
 #: lib/notebook_server_web/live/schema_live/index.html.heex:21
 #, elixir-autogen, elixir-format
@@ -41,12 +41,12 @@ msgstr ""
 msgid "are_you_sure"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:156
+#: lib/notebook_server_web/live/schema_live/form_component.ex:148
 #, elixir-autogen, elixir-format
 msgid "creation_failed"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:148
+#: lib/notebook_server_web/live/schema_live/form_component.ex:142
 #, elixir-autogen, elixir-format
 msgid "creation_succeded"
 msgstr ""
@@ -57,46 +57,46 @@ msgstr ""
 msgid "delete"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/index.ex:69
+#: lib/notebook_server_web/live/schema_live/index.ex:67
 #, elixir-autogen, elixir-format
 msgid "delete_failed"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/index.ex:63
+#: lib/notebook_server_web/live/schema_live/index.ex:61
 #, elixir-autogen, elixir-format
 msgid "delete_succeded"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:40
+#: lib/notebook_server_web/live/schema_live/form_component.ex:39
 #: lib/notebook_server_web/live/schema_live/index.html.heex:26
 #, elixir-autogen, elixir-format
 msgid "description"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:41
+#: lib/notebook_server_web/live/schema_live/form_component.ex:40
 #, elixir-autogen, elixir-format
 msgid "description_placeholder"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/index.ex:29
+#: lib/notebook_server_web/live/schema_live/index.ex:27
 #: lib/notebook_server_web/live/schema_live/index.html.heex:71
 #: lib/notebook_server_web/live/schema_live/index.html.heex:73
 #, elixir-autogen, elixir-format
 msgid "edit"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:17
+#: lib/notebook_server_web/live/schema_live/form_component.ex:16
 #, elixir-autogen, elixir-format
 msgid "latest_is_not_in_draft"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/index.ex:35
+#: lib/notebook_server_web/live/schema_live/index.ex:33
 #, elixir-autogen, elixir-format
 msgid "new"
 msgstr ""
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:42
-#: lib/notebook_server_web/live/schema_live/form_component.ex:47
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:43
+#: lib/notebook_server_web/live/schema_live/form_component.ex:46
 #: lib/notebook_server_web/live/schema_live/index.html.heex:35
 #, elixir-autogen, elixir-format
 msgid "platform"
@@ -113,12 +113,12 @@ msgstr ""
 msgid "published_version"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:69
+#: lib/notebook_server_web/live/schema_live/form_component.ex:68
 #, elixir-autogen, elixir-format
 msgid "raw_content"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:77
+#: lib/notebook_server_web/live/schema_live/form_component.ex:72
 #, elixir-autogen, elixir-format
 msgid "save"
 msgstr ""
@@ -133,51 +133,82 @@ msgstr ""
 msgid "status"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:30
-#: lib/notebook_server_web/live/schema_live/index.ex:41
+#: lib/notebook_server_web/live/schema_live/form_component.ex:29
+#: lib/notebook_server_web/live/schema_live/index.ex:39
 #: lib/notebook_server_web/live/schema_live/index.html.heex:23
 #, elixir-autogen, elixir-format
 msgid "title"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:31
+#: lib/notebook_server_web/live/schema_live/form_component.ex:30
 #, elixir-autogen, elixir-format
 msgid "title_placeholder"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:120
+#: lib/notebook_server_web/live/schema_live/form_component.ex:114
 #, elixir-autogen, elixir-format
 msgid "update_succeded"
 msgstr ""
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:142
-#: lib/notebook_server_web/live/schema_live/form_component.ex:127
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:143
+#: lib/notebook_server_web/live/schema_live/form_component.ex:121
 #, elixir-autogen, elixir-format
 msgid "update_failed"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:205
-#: lib/notebook_server_web/live/schema_live/form_component.ex:210
+#: lib/notebook_server_web/live/schema_live/form_component.ex:197
+#: lib/notebook_server_web/live/schema_live/form_component.ex:202
 #, elixir-autogen, elixir-format
 msgid "title_length %{max} %{min}"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:55
+#: lib/notebook_server_web/live/schema_live/form_component.ex:54
 #, elixir-autogen, elixir-format
 msgid "web_2_description"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:54
+#: lib/notebook_server_web/live/schema_live/form_component.ex:53
 #, elixir-autogen, elixir-format
 msgid "web_2_title"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:61
+#: lib/notebook_server_web/live/schema_live/form_component.ex:60
 #, elixir-autogen, elixir-format
 msgid "web_3_description"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:60
+#: lib/notebook_server_web/live/schema_live/form_component.ex:59
 #, elixir-autogen, elixir-format
 msgid "web_3_title"
+msgstr ""
+
+#: lib/notebook_server_web/components/form_builder.ex:51
+#: lib/notebook_server_web/components/form_builder.ex:61
+#, elixir-autogen, elixir-format
+msgid "add_cell"
+msgstr ""
+
+#: lib/notebook_server_web/components/form_builder.ex:66
+#, elixir-autogen, elixir-format
+msgid "add_row"
+msgstr ""
+
+#: lib/notebook_server_web/components/form_builder.ex:22
+#: lib/notebook_server_web/components/form_builder.ex:32
+#, elixir-autogen, elixir-format
+msgid "edit_cell"
+msgstr ""
+
+#: lib/notebook_server_web/components/form_builder.ex:103
+#: lib/notebook_server_web/components/form_builder.ex:104
+#: lib/notebook_server_web/components/form_builder.ex:134
+#: lib/notebook_server_web/components/form_builder.ex:135
+#, elixir-autogen, elixir-format
+msgid "new_field"
+msgstr ""
+
+#: lib/notebook_server_web/components/form_builder.ex:35
+#: lib/notebook_server_web/components/form_builder.ex:46
+#, elixir-autogen, elixir-format
+msgid "remove_cell"
 msgstr ""

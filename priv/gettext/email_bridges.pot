@@ -11,78 +11,78 @@
 msgid ""
 msgstr ""
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:42
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:59
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:43
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:60
 #, elixir-autogen, elixir-format
 msgid "code"
 msgstr ""
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:60
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:61
 #, elixir-autogen, elixir-format
 msgid "code_placeholder"
 msgstr ""
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:137
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:138
 #, elixir-autogen, elixir-format
 msgid "creation_failed"
 msgstr ""
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:14
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:15
 #, elixir-autogen, elixir-format
 msgid "email"
 msgstr ""
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:53
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:54
 #, elixir-autogen, elixir-format
 msgid "introduce_code_description"
 msgstr ""
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:51
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:52
 #, elixir-autogen, elixir-format
 msgid "introduce_code_title"
 msgstr ""
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:25
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:26
 #, elixir-autogen, elixir-format
 msgid "introduce_email_description"
 msgstr ""
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:23
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:24
 #, elixir-autogen, elixir-format
 msgid "introduce_email_title"
 msgstr ""
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:183
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:195
 #, elixir-autogen, elixir-format
 msgid "invalid_code_format"
 msgstr ""
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:86
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:87
 #, elixir-autogen, elixir-format
 msgid "public_title"
 msgstr ""
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:160
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:172
 #, elixir-autogen, elixir-format
 msgid "update_failed"
 msgstr ""
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:152
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:164
 #, elixir-autogen, elixir-format
 msgid "code_validation_failed"
 msgstr ""
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:157
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:169
 #, elixir-autogen, elixir-format
 msgid "code_validation_succeded"
 msgstr ""
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:141
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:142
 #, elixir-autogen, elixir-format
 msgid "email_delivery_failed"
 msgstr ""
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:132
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:133
 #, elixir-autogen, elixir-format
 msgid "email_delivery_succeded"
 msgstr ""

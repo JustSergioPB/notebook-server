@@ -24,70 +24,6 @@ msgstr "Volver a certificados"
 msgid "certificate"
 msgstr "Certificado"
 
-#: lib/notebook_server/certificates.ex:42
-#: lib/notebook_server/certificates.ex:106
-#: lib/notebook_server/certificates.ex:145
-#: lib/notebook_server/certificates.ex:184
-#: lib/notebook_server/certificates.ex:433
-#: lib/notebook_server/certificates.ex:495
-#, elixir-autogen, elixir-format
-msgid "certificate_creation_failed"
-msgstr "No hemos podido crear el certificado, intentalo de nuevo en unos minutos"
-
-#: lib/notebook_server/certificates.ex:39
-#: lib/notebook_server/certificates.ex:103
-#: lib/notebook_server/certificates.ex:133
-#: lib/notebook_server/certificates.ex:172
-#, elixir-autogen, elixir-format
-msgid "certificate_creation_succeded"
-msgstr "El certificado se ha creado de manera correcta"
-
-#: lib/notebook_server/certificates.ex:622
-#, elixir-autogen, elixir-format
-msgid "certificate_deletion_failed"
-msgstr "Ho hemos podido eliminar el certificado"
-
-#: lib/notebook_server/certificates.ex:599
-#: lib/notebook_server/certificates.ex:605
-#: lib/notebook_server/certificates.ex:616
-#, elixir-autogen, elixir-format
-msgid "certificate_deletion_succeed"
-msgstr "El certificado se ha borrado correctamente"
-
-#: lib/notebook_server/certificates.ex:549
-#: lib/notebook_server/certificates.ex:588
-#, elixir-autogen, elixir-format
-msgid "certificate_revokation_failed"
-msgstr "No hemos podido revocar el certificado"
-
-#: lib/notebook_server/certificates.ex:546
-#: lib/notebook_server/certificates.ex:585
-#, elixir-autogen, elixir-format
-msgid "certificate_revokation_succeded"
-msgstr "El certificado y sus descendientes han sido revocados de manera correcta"
-
-#: lib/notebook_server/certificates.ex:427
-#: lib/notebook_server/certificates.ex:430
-#: lib/notebook_server/certificates.ex:489
-#: lib/notebook_server/certificates.ex:492
-#, elixir-autogen, elixir-format
-msgid "certificate_rotation_failed"
-msgstr "No hemos podido rotar el certificado"
-
-#: lib/notebook_server/certificates.ex:424
-#: lib/notebook_server/certificates.ex:486
-#, elixir-autogen, elixir-format
-msgid "certificate_rotation_succeded"
-msgstr "El certificado se ha rotado de manera correcta"
-
-#: lib/notebook_server/certificates.ex:57
-#: lib/notebook_server/certificates.ex:109
-#: lib/notebook_server/certificates.ex:148
-#: lib/notebook_server/certificates.ex:187
-#, elixir-autogen, elixir-format
-msgid "certificate_storage_failed"
-msgstr "No hemos podido almacenar el certificado"
-
 #: lib/notebook_server_web/live/certificate_live/index.ex:49
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:74
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:76
@@ -124,20 +60,6 @@ msgstr "Fecha de caducidad"
 msgid "intermediate"
 msgstr "Intermedio"
 
-#: lib/notebook_server/certificates.ex:54
-#: lib/notebook_server/certificates.ex:142
-#: lib/notebook_server/certificates.ex:181
-#, elixir-autogen, elixir-format
-msgid "issuer_certificate_check_failed"
-msgstr "No hemos encontrado un certificado con el que firmar el nuevo certificado"
-
-#: lib/notebook_server/certificates.ex:51
-#: lib/notebook_server/certificates.ex:139
-#: lib/notebook_server/certificates.ex:178
-#, elixir-autogen, elixir-format
-msgid "issuer_certificate_search_failed"
-msgstr "No hemos encontrado un certificado con el que firmar el nuevo certificado"
-
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:103
 #, elixir-autogen, elixir-format
 msgid "level"
@@ -147,11 +69,6 @@ msgstr "Nivel"
 #, elixir-autogen, elixir-format
 msgid "new"
 msgstr "Nuevo certificado"
-
-#: lib/notebook_server/certificates.ex:619
-#, elixir-autogen, elixir-format
-msgid "org_certificate_deletion_failed"
-msgstr "No hemos podido eliminar el certificado"
 
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:87
 #, elixir-autogen, elixir-format
@@ -163,11 +80,6 @@ msgstr "Organizaciones"
 #, elixir-autogen, elixir-format
 msgid "platform"
 msgstr "Plataforma"
-
-#: lib/notebook_server/certificates.ex:552
-#, elixir-autogen, elixir-format
-msgid "related_certificates_revokation_failed"
-msgstr "No hemos podido revocar los certificados descendientes"
 
 #: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:26
 #, elixir-autogen, elixir-format
@@ -223,11 +135,6 @@ msgstr "Estatus"
 msgid "title"
 msgstr "Certificados"
 
-#: lib/notebook_server/certificates.ex:602
-#, elixir-autogen, elixir-format
-msgid "user_certificate_deletion_failed"
-msgstr "No hemos podido eliminar el certificado"
-
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:15
 #, elixir-autogen, elixir-format
 msgid "user_certificates"
@@ -244,3 +151,49 @@ msgstr "Crea certificados para que tanto organizaciones como usuarios puedan fir
 #, elixir-autogen, elixir-format
 msgid "empty_title"
 msgstr "Da de alta el 1er certificado"
+
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:111
+#, elixir-autogen, elixir-format
+msgid "creation_failed"
+msgstr "No hemos podido crear el certificado"
+
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:107
+#, elixir-autogen, elixir-format
+msgid "creation_succeded"
+msgstr "El certificado ha sido creado correctamente"
+
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:115
+#, elixir-autogen, elixir-format
+msgid "private_key_storation_failed"
+msgstr "No hemos podido almacenar la clave privada"
+
+#: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:81
+#, elixir-autogen, elixir-format
+msgid "related_revokation_failed"
+msgstr "No hemos podido revocar los certificados asociados"
+
+#: lib/notebook_server_web/live/certificate_live/index.ex:110
+#, elixir-autogen, elixir-format
+msgid "replacement_creation_failed"
+msgstr "No hemos podido crear un remplazo para el certificado"
+
+#: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:84
+#: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:87
+#, elixir-autogen, elixir-format
+msgid "revokation_failed"
+msgstr "No hemos podido revocar el certificado"
+
+#: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:76
+#, elixir-autogen, elixir-format
+msgid "revokation_succeded"
+msgstr "El certificado ha sido revocado de manera correcta"
+
+#: lib/notebook_server_web/live/certificate_live/index.ex:106
+#, elixir-autogen, elixir-format
+msgid "rotation_failed"
+msgstr "No hemos podido rotar el certificado"
+
+#: lib/notebook_server_web/live/certificate_live/index.ex:101
+#, elixir-autogen, elixir-format
+msgid "rotation_succeded"
+msgstr "El certificado ha sido rotado de manera correcta"

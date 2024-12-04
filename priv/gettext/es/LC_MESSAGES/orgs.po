@@ -123,13 +123,6 @@ msgstr "No hemos podido registrar la organización. Revisa los datos que nos has
 msgid "org_registration_succeded"
 msgstr "Hemos registrado tu organización y usuario de manera correcta, en breves recibirás un correo con el que confirmar tu cuenta"
 
-#: lib/notebook_server/certificates.ex:48
-#: lib/notebook_server/certificates.ex:136
-#: lib/notebook_server/certificates.ex:175
-#, elixir-autogen, elixir-format
-msgid "org_search_failed"
-msgstr "No se ha encontrado ninguna organización"
-
 #: lib/notebook_server_web/live/org_live/form_component.ex:69
 #, elixir-autogen, elixir-format
 msgid "org_update_succeded"
@@ -191,7 +184,7 @@ msgstr "Crea tu 1a organización"
 msgid "public_wall_subtitle"
 msgstr "Aquí encontrarás todo lo necesario para poder interactuar con esta organización."
 
-#: lib/notebook_server_web/live/wall_live/public.ex:69
+#: lib/notebook_server_web/live/wall_live/public.ex:70
 #, elixir-autogen, elixir-format
 msgid "public_wall_title"
 msgstr "Muro público"

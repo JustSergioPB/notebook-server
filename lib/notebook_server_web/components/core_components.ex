@@ -228,10 +228,10 @@ defmodule NotebookServerWeb.CoreComponents do
   """
   attr :type, :string, default: nil
   attr :variant, :string, values: ~w(primary secondary outline danger ghost), default: "primary"
-  attr :size, :string, default: "md"
+  attr :size, :string, values: ~w(icon sm md lg), default: "md"
   attr :class, :string, default: nil
   attr :icon, :string, default: nil
-  attr :icon_side, :string, default: "left", values: ["left", "right"]
+  attr :icon_side, :string, values: ~w(left right), default: "left"
   attr :rest, :global, include: ~w(disabled form name value)
 
   slot :inner_block, required: true
@@ -241,11 +241,10 @@ defmodule NotebookServerWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        "phx-submit-loading:opacity-75 disabled:opacity-50 rounded-md flex items-center justify-center group",
-        "text-sm font-semibold leading-6",
+        "phx-submit-loading:opacity-75 disabled:opacity-50 rounded-md flex items-center justify-center group text-sm font-semibold leading-6",
         @size == "lg" && "py-3 px-4 gap-2",
         @size == "md" && "py-2 px-3 gap-2",
-        @size == "sm" && "py-1 px-2 gap-2",
+        @size == "sm" && "py-1 px-2 gap-2 text-xs",
         @size == "icon" && "p-2",
         @variant == "primary" &&
           "bg-indigo-500 shadow-md hover:bg-indigo-400 text-white active:text-white/80 disabled:hover:bg-indigo-500",

@@ -123,13 +123,6 @@ msgstr ""
 msgid "org_registration_succeded"
 msgstr ""
 
-#: lib/notebook_server/certificates.ex:48
-#: lib/notebook_server/certificates.ex:136
-#: lib/notebook_server/certificates.ex:175
-#, elixir-autogen, elixir-format
-msgid "org_search_failed"
-msgstr ""
-
 #: lib/notebook_server_web/live/org_live/form_component.ex:69
 #, elixir-autogen, elixir-format
 msgid "org_update_succeded"
@@ -191,7 +184,7 @@ msgstr ""
 msgid "public_wall_subtitle"
 msgstr ""
 
-#: lib/notebook_server_web/live/wall_live/public.ex:69
+#: lib/notebook_server_web/live/wall_live/public.ex:70
 #, elixir-autogen, elixir-format
 msgid "public_wall_title"
 msgstr ""

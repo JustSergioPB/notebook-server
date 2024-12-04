@@ -16,7 +16,7 @@ msgstr ""
 msgid "already_have_account"
 msgstr ""
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:31
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:32
 #: lib/notebook_server_web/live/user_live/form_component.ex:41
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:75
 #, elixir-autogen, elixir-format
@@ -24,7 +24,7 @@ msgid "email"
 msgstr ""
 
 #: lib/notebook_server_web/live/certificate_live/form_component.ex:38
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:32
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:33
 #: lib/notebook_server_web/live/user_live/form_component.ex:42
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:76
 #, elixir-autogen, elixir-format
@@ -82,11 +82,6 @@ msgstr ""
 msgid "user"
 msgstr ""
 
-#: lib/notebook_server/certificates.ex:45
-#, elixir-autogen, elixir-format
-msgid "user_search_failed"
-msgstr ""
-
 #: lib/notebook_server_web/live/user_live/index.html.heex:19
 #, elixir-autogen, elixir-format
 msgid "empty_subtitle"
@@ -97,12 +92,12 @@ msgstr ""
 msgid "empty_title"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/form_component.ex:120
+#: lib/notebook_server_web/live/user_live/form_component.ex:119
 #, elixir-autogen, elixir-format
 msgid "creation_succeded"
 msgstr ""
 
-#: lib/notebook_server_web/components/core_components.ex:1195
+#: lib/notebook_server_web/components/core_components.ex:1194
 #: lib/notebook_server_web/live/user_live/form_component.ex:53
 #, elixir-autogen, elixir-format
 msgid "issuer"
@@ -113,7 +108,7 @@ msgstr ""
 msgid "issuer_description"
 msgstr ""
 
-#: lib/notebook_server_web/components/core_components.ex:1194
+#: lib/notebook_server_web/components/core_components.ex:1193
 #: lib/notebook_server_web/live/user_live/form_component.ex:59
 #, elixir-autogen, elixir-format
 msgid "org_admin"
@@ -134,7 +129,7 @@ msgstr ""
 msgid "update_succeded"
 msgstr ""
 
-#: lib/notebook_server_web/components/core_components.ex:1193
+#: lib/notebook_server_web/components/core_components.ex:1192
 #, elixir-autogen, elixir-format
 msgid "admin"
 msgstr ""

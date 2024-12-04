@@ -16,7 +16,7 @@ msgstr ""
 msgid "already_have_account"
 msgstr "¿Tienes ya una cuenta?"
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:31
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:32
 #: lib/notebook_server_web/live/user_live/form_component.ex:41
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:75
 #, elixir-autogen, elixir-format
@@ -24,7 +24,7 @@ msgid "email"
 msgstr "Email"
 
 #: lib/notebook_server_web/live/certificate_live/form_component.ex:38
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:32
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:33
 #: lib/notebook_server_web/live/user_live/form_component.ex:42
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:76
 #, elixir-autogen, elixir-format
@@ -82,11 +82,6 @@ msgstr "Buscar usuarios"
 msgid "user"
 msgstr "Usuario"
 
-#: lib/notebook_server/certificates.ex:45
-#, elixir-autogen, elixir-format
-msgid "user_search_failed"
-msgstr "No se ha encontrado ningun usuario"
-
 #: lib/notebook_server_web/live/user_live/index.html.heex:19
 #, elixir-autogen, elixir-format
 msgid "empty_subtitle"
@@ -97,12 +92,12 @@ msgstr "Es imposible que veas este mensaje, si lo ves es que algo anda mal"
 msgid "empty_title"
 msgstr "Da de alta el 1er usuario"
 
-#: lib/notebook_server_web/live/user_live/form_component.ex:120
+#: lib/notebook_server_web/live/user_live/form_component.ex:119
 #, elixir-autogen, elixir-format
 msgid "creation_succeded"
 msgstr "El usuario se ha creado de manera correcta"
 
-#: lib/notebook_server_web/components/core_components.ex:1195
+#: lib/notebook_server_web/components/core_components.ex:1194
 #: lib/notebook_server_web/live/user_live/form_component.ex:53
 #, elixir-autogen, elixir-format
 msgid "issuer"
@@ -113,7 +108,7 @@ msgstr "Emisor"
 msgid "issuer_description"
 msgstr "El usuario solo podrá emitir credenciales"
 
-#: lib/notebook_server_web/components/core_components.ex:1194
+#: lib/notebook_server_web/components/core_components.ex:1193
 #: lib/notebook_server_web/live/user_live/form_component.ex:59
 #, elixir-autogen, elixir-format
 msgid "org_admin"
@@ -134,7 +129,7 @@ msgstr "Rol"
 msgid "update_succeded"
 msgstr "El usuario se ha actualizado de manera correcta"
 
-#: lib/notebook_server_web/components/core_components.ex:1193
+#: lib/notebook_server_web/components/core_components.ex:1192
 #, elixir-autogen, elixir-format
 msgid "admin"
 msgstr "Admin"

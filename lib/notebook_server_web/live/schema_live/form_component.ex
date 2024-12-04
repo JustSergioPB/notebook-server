@@ -61,15 +61,11 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
             }
           ]}
         />
-        <.input
-          type="textarea"
+        <.live_component
+          module={NotebookServerWeb.Components.FormBuilder}
+          id="content-form-builder"
           field={@form[:content]}
-          value={Jason.encode!(@form[:content].value || %{}, pretty: true)}
           label={dgettext("schemas", "raw_content")}
-          autocomplete="off"
-          rows="10"
-          phx-debounce="blur"
-          required
         />
         <:actions>
           <.button>

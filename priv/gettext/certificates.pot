@@ -24,70 +24,6 @@ msgstr ""
 msgid "certificate"
 msgstr ""
 
-#: lib/notebook_server/certificates.ex:42
-#: lib/notebook_server/certificates.ex:106
-#: lib/notebook_server/certificates.ex:145
-#: lib/notebook_server/certificates.ex:184
-#: lib/notebook_server/certificates.ex:433
-#: lib/notebook_server/certificates.ex:495
-#, elixir-autogen, elixir-format
-msgid "certificate_creation_failed"
-msgstr ""
-
-#: lib/notebook_server/certificates.ex:39
-#: lib/notebook_server/certificates.ex:103
-#: lib/notebook_server/certificates.ex:133
-#: lib/notebook_server/certificates.ex:172
-#, elixir-autogen, elixir-format
-msgid "certificate_creation_succeded"
-msgstr ""
-
-#: lib/notebook_server/certificates.ex:622
-#, elixir-autogen, elixir-format
-msgid "certificate_deletion_failed"
-msgstr ""
-
-#: lib/notebook_server/certificates.ex:599
-#: lib/notebook_server/certificates.ex:605
-#: lib/notebook_server/certificates.ex:616
-#, elixir-autogen, elixir-format
-msgid "certificate_deletion_succeed"
-msgstr ""
-
-#: lib/notebook_server/certificates.ex:549
-#: lib/notebook_server/certificates.ex:588
-#, elixir-autogen, elixir-format
-msgid "certificate_revokation_failed"
-msgstr ""
-
-#: lib/notebook_server/certificates.ex:546
-#: lib/notebook_server/certificates.ex:585
-#, elixir-autogen, elixir-format
-msgid "certificate_revokation_succeded"
-msgstr ""
-
-#: lib/notebook_server/certificates.ex:427
-#: lib/notebook_server/certificates.ex:430
-#: lib/notebook_server/certificates.ex:489
-#: lib/notebook_server/certificates.ex:492
-#, elixir-autogen, elixir-format
-msgid "certificate_rotation_failed"
-msgstr ""
-
-#: lib/notebook_server/certificates.ex:424
-#: lib/notebook_server/certificates.ex:486
-#, elixir-autogen, elixir-format
-msgid "certificate_rotation_succeded"
-msgstr ""
-
-#: lib/notebook_server/certificates.ex:57
-#: lib/notebook_server/certificates.ex:109
-#: lib/notebook_server/certificates.ex:148
-#: lib/notebook_server/certificates.ex:187
-#, elixir-autogen, elixir-format
-msgid "certificate_storage_failed"
-msgstr ""
-
 #: lib/notebook_server_web/live/certificate_live/index.ex:49
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:74
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:76
@@ -124,20 +60,6 @@ msgstr ""
 msgid "intermediate"
 msgstr ""
 
-#: lib/notebook_server/certificates.ex:54
-#: lib/notebook_server/certificates.ex:142
-#: lib/notebook_server/certificates.ex:181
-#, elixir-autogen, elixir-format
-msgid "issuer_certificate_check_failed"
-msgstr ""
-
-#: lib/notebook_server/certificates.ex:51
-#: lib/notebook_server/certificates.ex:139
-#: lib/notebook_server/certificates.ex:178
-#, elixir-autogen, elixir-format
-msgid "issuer_certificate_search_failed"
-msgstr ""
-
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:103
 #, elixir-autogen, elixir-format
 msgid "level"
@@ -146,11 +68,6 @@ msgstr ""
 #: lib/notebook_server_web/live/certificate_live/index.ex:33
 #, elixir-autogen, elixir-format
 msgid "new"
-msgstr ""
-
-#: lib/notebook_server/certificates.ex:619
-#, elixir-autogen, elixir-format
-msgid "org_certificate_deletion_failed"
 msgstr ""
 
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:87
@@ -162,11 +79,6 @@ msgstr ""
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:106
 #, elixir-autogen, elixir-format
 msgid "platform"
-msgstr ""
-
-#: lib/notebook_server/certificates.ex:552
-#, elixir-autogen, elixir-format
-msgid "related_certificates_revokation_failed"
 msgstr ""
 
 #: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:26
@@ -223,11 +135,6 @@ msgstr ""
 msgid "title"
 msgstr ""
 
-#: lib/notebook_server/certificates.ex:602
-#, elixir-autogen, elixir-format
-msgid "user_certificate_deletion_failed"
-msgstr ""
-
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:15
 #, elixir-autogen, elixir-format
 msgid "user_certificates"
@@ -243,4 +150,50 @@ msgstr ""
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:96
 #, elixir-autogen, elixir-format
 msgid "empty_title"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:111
+#, elixir-autogen, elixir-format
+msgid "creation_failed"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:107
+#, elixir-autogen, elixir-format
+msgid "creation_succeded"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:115
+#, elixir-autogen, elixir-format
+msgid "private_key_storation_failed"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:81
+#, elixir-autogen, elixir-format
+msgid "related_revokation_failed"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/index.ex:110
+#, elixir-autogen, elixir-format
+msgid "replacement_creation_failed"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:84
+#: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:87
+#, elixir-autogen, elixir-format
+msgid "revokation_failed"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:76
+#, elixir-autogen, elixir-format
+msgid "revokation_succeded"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/index.ex:106
+#, elixir-autogen, elixir-format
+msgid "rotation_failed"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/index.ex:101
+#, elixir-autogen, elixir-format
+msgid "rotation_succeded"
 msgstr ""
