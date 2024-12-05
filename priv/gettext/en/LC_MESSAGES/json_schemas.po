@@ -1,0 +1,57 @@
+## "msgid"s in this file come from POT (.pot) files.
+###
+### Do not add, change, or remove "msgid"s manually here as
+### they're tied to the ones in the corresponding POT file
+### (with the same domain).
+###
+### Use "mix gettext.extract --merge" or "mix gettext.merge"
+### to merge POT files into PO files.
+msgid ""
+msgstr ""
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: lib/notebook_server_web/components/core_components.ex:1357
+#, elixir-autogen, elixir-format
+msgid "edit"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1387
+#, elixir-autogen, elixir-format
+msgid "max_length"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1388
+#, elixir-autogen, elixir-format
+msgid "max_length_placeholder"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1381
+#, elixir-autogen, elixir-format
+msgid "min_lenght_placeholder"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1395
+#, elixir-autogen, elixir-format
+msgid "pattern"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1396
+#, elixir-autogen, elixir-format
+msgid "pattern_placeholder"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1371
+#, elixir-autogen, elixir-format
+msgid "title"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1372
+#, elixir-autogen, elixir-format
+msgid "title_placeholder"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1380
+#, elixir-autogen, elixir-format, fuzzy
+msgid "min_length"
+msgstr ""

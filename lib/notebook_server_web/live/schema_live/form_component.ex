@@ -1,6 +1,7 @@
 defmodule NotebookServerWeb.SchemaLive.FormComponent do
   alias NotebookServer.Schemas
   alias NotebookServer.Schemas.Schema
+  alias NotebookServer.Schemas.SchemaForm
   use NotebookServerWeb, :live_component
   use Gettext, backend: NotebookServerWeb.Gettext
 
@@ -42,12 +43,8 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
           hint={gettext("max_chars %{max}", max: 255)}
           phx-debounce="blur"
         />
-        <.live_component
-          module={NotebookServerWeb.Components.FormBuilder}
-          id="content-form-builder"
-          field={@form[:content]}
-          label={dgettext("schemas", "raw_content")}
-        />
+
+        <.schema_content_input field={@form[:content]} label={dgettext("schemas", "raw_content")} />
         <:actions>
           <.button>
             <%= dgettext("schemas", "save") %>
@@ -67,19 +64,20 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
      socket
      |> assign(assigns)
      |> assign(:latest_is_in_draft?, latest_version.status == :draft)
+     |> assign(:matrix, [])
      |> assign_new(:form, fn ->
-       to_form(changeset, as: "schema")
+       to_form(changeset)
      end)}
   end
 
   @impl true
-  def handle_event("validate", %{"schema" => schema_params}, socket) do
+  def handle_event("validate", %{"schema_form" => schema_params}, socket) do
     changeset = socket.assigns.schema |> flatten_schema() |> change_schema(schema_params)
 
-    {:noreply, assign(socket, form: to_form(changeset, action: :validate, as: "schema"))}
+    {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
   end
 
-  def handle_event("save", %{"schema" => schema_params}, socket) do
+  def handle_event("save", %{"schema_form" => schema_params}, socket) do
     schema_params = complete_schema(schema_params, socket)
 
     save_schema(socket, socket.assigns.action, schema_params)
@@ -139,47 +137,21 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
 
     content =
       if is_nil(latest_version.content),
-        do: %{},
+        do: [],
         else: latest_version.content.properties.credential_subject.properties.content
 
     description =
       if is_nil(latest_version.content), do: nil, else: latest_version.content.description
 
-    %{
+    %SchemaForm{
       title: schema.title,
       description: description,
       content: content
     }
   end
 
-  defp change_schema(schema, attrs \\ %{}) do
-    types = %{
-      title: :string,
-      description: :string,
-      content: :map
-    }
-
-    attrs =
-      with true <- is_binary(attrs["content"]),
-           {:ok, decoded_value} <- Jason.decode(attrs["content"]) do
-        Map.put(attrs, "content", decoded_value)
-      else
-        _ -> attrs
-      end
-
-    {schema, types}
-    |> Ecto.Changeset.cast(attrs, [:title, :description, :content])
-    |> Ecto.Changeset.validate_required([:title, :content], message: gettext("field_required"))
-    |> Ecto.Changeset.validate_length(:title,
-      min: 2,
-      max: 50,
-      message: dgettext("schemas", "title_length %{max} %{min}", min: 2, max: 50)
-    )
-    |> Ecto.Changeset.validate_length(:description,
-      min: 2,
-      max: 255,
-      message: dgettext("schemas", "title_length %{max} %{min}", min: 2, max: 255)
-    )
+  defp change_schema(%SchemaForm{} = schema_form, attrs \\ %{}) do
+    SchemaForm.changeset(schema_form, attrs)
   end
 
   defp complete_schema(schema_params, socket) do

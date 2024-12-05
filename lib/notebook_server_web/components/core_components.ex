@@ -994,7 +994,7 @@ defmodule NotebookServerWeb.CoreComponents do
       </div>
       <div class={[
         "absolute z-50 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition",
-        "bg-gray-800 text-white text-xs rounded py-1 px-2 whitespace-nowrap",
+        "bg-slate-800 text-white text-xs rounded py-1 px-2 whitespace-nowrap",
         "left-1/2 -translate-x-1/2",
         @position_class
       ]}>
@@ -1262,7 +1262,7 @@ defmodule NotebookServerWeb.CoreComponents do
           checked={@checked}
         />
         <label for="switch" class="hidden"></label>
-        <div class="peer h-6 w-11 rounded-full border bg-slate-200 after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-indigo-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:ring-indigo-300">
+        <div class="peer h-6 w-11 rounded-full border bg-slate-200 after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-slate-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-indigo-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:ring-indigo-300">
         </div>
       </div>
     </label>
@@ -1311,6 +1311,138 @@ defmodule NotebookServerWeb.CoreComponents do
         <%= render_slot(step) %>
       </section>
     </section>
+    """
+  end
+
+  attr :id, :any, default: nil
+  attr :label, :string, default: nil
+
+  attr :field, Phoenix.HTML.FormField,
+    doc: "a form field struct retrieved from the form, for example: @form[:email]"
+
+  def schema_content_input(%{field: field} = assigns) do
+    assigns =
+      assigns
+      |> assign(assigns)
+      |> assign(id: assigns.id || field.id)
+      |> assign(:errors, Enum.map(field.errors, &translate_error(&1)))
+
+    ~H"""
+    <div class="space-y-1">
+      <.label for={@id}><%= @label %></.label>
+      <div class="space-y-4">
+        <.inputs_for :let={field_form} field={@field}>
+          <input type="hidden" name="schema_form[content_sort][]" value={field_form.index} />
+          <div class="flex items-center gap-4">
+            <div class="flex-1 flex items-center justify-between rounded-md border border-slate-300 bg-white text-sm px-3 py-2 relative">
+              <%= field_form[:title].value %>
+              <div class="flex items-center gap-1">
+                <div class="relative">
+                  <.tooltip text={dgettext("schemas", "edit_cell")}>
+                    <.button
+                      type="button"
+                      size="icon"
+                      icon="pencil"
+                      variant="ghost"
+                      phx-click={JS.remove_class("hidden", to: "#modal_#{field_form.id}")}
+                    >
+                      <%= dgettext("schemas", "edit_cell") %>
+                    </.button>
+                  </.tooltip>
+                  <div
+                    class="absolute top-full mt-2 rigth-0 -translate-x-[90%] bg-white p-4 shadow-md rounded-md border border-slate-300 z-40 w-80 space-y-4"
+                    id={"modal_#{field_form.id}"}
+                  >
+                    <div class="flex items-center justify-between">
+                      <p class="font-bold text-lg"><%= dgettext("json_schemas", "edit") %></p>
+                      <.button
+                        type="button"
+                        size="icon"
+                        icon="x"
+                        variant="ghost"
+                        phx-click={JS.add_class("hidden", to: "#modal_#{field_form.id}")}
+                      >
+                        <%= dgettext("schemas", "remove_cell") %>
+                      </.button>
+                    </div>
+                    <.input
+                      type="text"
+                      field={field_form[:title]}
+                      label={dgettext("json_schemas", "title")}
+                      placeholder={dgettext("json_schemas", "title_placeholder")}
+                      phx-debounce="blur"
+                      required
+                    />
+                    <div class="flex gap-4">
+                      <.input
+                        type="number"
+                        field={field_form[:min_length]}
+                        label={dgettext("json_schemas", "min_length")}
+                        placeholder={dgettext("json_schemas", "min_lenght_placeholder")}
+                        phx-debounce="blur"
+                      />
+                      <.input
+                        type="number"
+                        field={field_form[:max_length]}
+                        label={dgettext("json_schemas", "max_length")}
+                        placeholder={dgettext("json_schemas", "max_length_placeholder")}
+                        phx-debounce="blur"
+                      />
+                    </div>
+                    <.input
+                      type="text"
+                      field={field_form[:pattern]}
+                      label={dgettext("json_schemas", "pattern")}
+                      placeholder={dgettext("json_schemas", "pattern_placeholder")}
+                      phx-debounce="blur"
+                      required
+                    />
+                  </div>
+                </div>
+                <.tooltip text={dgettext("schemas", "remove_cell")}>
+                  <.button
+                    type="button"
+                    size="icon"
+                    icon="trash"
+                    variant="ghost"
+                    name="schema_form[content_drop][]"
+                    value={field_form.index}
+                    phx-click={JS.dispatch("change")}
+                  >
+                    <%= dgettext("schemas", "remove_cell") %>
+                  </.button>
+                </.tooltip>
+              </div>
+            </div>
+            <.tooltip text={dgettext("schemas", "add_cell")}>
+              <.button
+                type="button"
+                size="icon"
+                class="!rounded-full p-3"
+                icon="plus-circle"
+                name="schema_form[content_drop][]"
+                value={field_form.index}
+                phx-click={JS.dispatch("change")}
+              >
+                <%= dgettext("schemas", "add_cell") %>
+              </.button>
+            </.tooltip>
+          </div>
+        </.inputs_for>
+        <input type="hidden" name="schema_form[content_drop][]" />
+        <.button
+          type="button"
+          size="sm"
+          icon="plus-circle"
+          name="schema_form[content_sort][]"
+          value="new"
+          phx-click={JS.dispatch("change")}
+        >
+          <%= dgettext("schemas", "add_row") %>
+        </.button>
+      </div>
+      <.error :for={msg <- @errors}><%= msg %></.error>
+    </div>
     """
   end
 end
