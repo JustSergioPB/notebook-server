@@ -7,12 +7,14 @@ defmodule NotebookServer.Schemas.SchemaForm do
     field :title, :string
     field :description, :string
 
-    embeds_many :content, Content, on_replace: :delete do
-      field :title, :string, default: "Campo"
-      field :input, Ecto.Enum, values: [:text, :number, :integer, :checkbox], default: :text
-      field :min_length, :integer, default: 2
-      field :max_length, :integer, default: 50
-      field :pattern, :string
+    embeds_many :rows, Row, on_replace: :delete do
+      embeds_many :columns, Column, on_replace: :delete do
+        field :title, :string, default: "Texto"
+        field :input, Ecto.Enum, values: [:text, :number, :integer, :checkbox], default: :text
+        field :min_length, :integer, default: 2
+        field :max_length, :integer, default: 50
+        field :pattern, :string
+      end
     end
   end
 
@@ -30,15 +32,25 @@ defmodule NotebookServer.Schemas.SchemaForm do
       max: 255,
       message: dgettext("schemas", "title_length %{max} %{min}", min: 2, max: 255)
     )
-    |> cast_embed(:content,
-      with: &content_changeset/2,
-      sort_param: :content_sort,
-      drop_param: :content_drop
+    |> cast_embed(:rows,
+      with: &row_changeset/2,
+      sort_param: :row_sort,
+      drop_param: :row_drop
     )
   end
 
-  def content_changeset(content, attrs \\ %{}) do
-    content
+  def row_changeset(row, attrs \\ %{}) do
+    row
+    |> cast(attrs, [])
+    |> cast_embed(:columns,
+      with: &col_changeset/2,
+      sort_param: :col_sort,
+      drop_param: :col_drop
+    )
+  end
+
+  def col_changeset(col, attrs \\ %{}) do
+    col
     |> cast(attrs, [:title, :max_length, :min_length, :input, :pattern])
     |> validate_required([:title, :input], message: gettext("field_required"))
   end

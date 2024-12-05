@@ -44,7 +44,7 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
           phx-debounce="blur"
         />
 
-        <.schema_content_input field={@form[:content]} label={dgettext("schemas", "raw_content")} />
+        <.schema_content_input field={@form[:rows]} label={dgettext("schemas", "raw_content")} />
         <:actions>
           <.button>
             <%= dgettext("schemas", "save") %>
@@ -146,7 +146,7 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
     %SchemaForm{
       title: schema.title,
       description: description,
-      content: content
+      rows: content
     }
   end
 

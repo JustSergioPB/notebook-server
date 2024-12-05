@@ -1331,97 +1331,111 @@ defmodule NotebookServerWeb.CoreComponents do
     <div class="space-y-1">
       <.label for={@id}><%= @label %></.label>
       <div class="space-y-4">
-        <.inputs_for :let={field_form} field={@field}>
-          <input type="hidden" name="schema_form[content_sort][]" value={field_form.index} />
+        <.inputs_for :let={row} field={@field}>
+          <input type="hidden" name="schema_form[row_sort][]" value={row.index} />
           <div class="flex items-center gap-4">
-            <div class="flex-1 flex items-center justify-between rounded-md border border-slate-300 bg-white text-sm px-3 py-2 relative">
-              <%= field_form[:title].value %>
-              <div class="flex items-center gap-1">
-                <div class="relative">
-                  <.tooltip text={dgettext("schemas", "edit_cell")}>
-                    <.button
-                      type="button"
-                      size="icon"
-                      icon="pencil"
-                      variant="ghost"
-                      phx-click={JS.remove_class("hidden", to: "#modal_#{field_form.id}")}
-                    >
-                      <%= dgettext("schemas", "edit_cell") %>
-                    </.button>
-                  </.tooltip>
-                  <div
-                    class="absolute top-full mt-2 rigth-0 -translate-x-[90%] bg-white p-4 shadow-md rounded-md border border-slate-300 z-40 w-80 space-y-4"
-                    id={"modal_#{field_form.id}"}
-                  >
-                    <div class="flex items-center justify-between">
-                      <p class="font-bold text-lg"><%= dgettext("json_schemas", "edit") %></p>
+            <.inputs_for :let={col} field={row[:columns]}>
+              <input
+                type="hidden"
+                name={"schema_form[rows][#{row.index}][col_sort][]"}
+                value={col.index}
+              />
+              <div class="flex-1 flex items-center justify-between rounded-md border border-slate-300 bg-white text-sm px-3 py-2 relative">
+                <%= col[:title].value %>
+                <div class="flex items-center gap-1">
+                  <div class="relative">
+                    <.tooltip text={dgettext("schemas", "edit_cell")}>
                       <.button
                         type="button"
                         size="icon"
-                        icon="x"
+                        icon="pencil"
                         variant="ghost"
-                        phx-click={JS.add_class("hidden", to: "#modal_#{field_form.id}")}
+                        phx-click={JS.remove_class("hidden", to: "#modal_#{row.id}_#{col.id}")}
                       >
-                        <%= dgettext("schemas", "remove_cell") %>
+                        <%= dgettext("schemas", "edit_cell") %>
                       </.button>
-                    </div>
-                    <.input
-                      type="text"
-                      field={field_form[:title]}
-                      label={dgettext("json_schemas", "title")}
-                      placeholder={dgettext("json_schemas", "title_placeholder")}
-                      phx-debounce="blur"
-                      required
-                    />
-                    <div class="flex gap-4">
+                    </.tooltip>
+                    <div
+                      class={[
+                        "absolute top-full mt-2 rigth-0 -translate-x-[85%] bg-white p-4 shadow-md rounded-md border border-slate-300 z-40 w-80 space-y-4"
+                      ]}
+                      id={"modal_#{row.id}_#{col.id}"}
+                    >
+                      <div class="flex items-center justify-between">
+                        <p class="font-bold text-lg"><%= dgettext("json_schemas", "edit") %></p>
+                        <.button
+                          type="button"
+                          size="icon"
+                          icon="x"
+                          variant="ghost"
+                          phx-click={JS.add_class("hidden", to: "#modal_#{row.id}_#{col.id}")}
+                        >
+                          <%= dgettext("schemas", "remove_cell") %>
+                        </.button>
+                      </div>
                       <.input
-                        type="number"
-                        field={field_form[:min_length]}
-                        label={dgettext("json_schemas", "min_length")}
-                        placeholder={dgettext("json_schemas", "min_lenght_placeholder")}
+                        type="text"
+                        field={col[:title]}
+                        label={dgettext("json_schemas", "title")}
+                        placeholder={dgettext("json_schemas", "title_placeholder")}
                         phx-debounce="blur"
+                        required
                       />
+                      <div class="flex gap-4">
+                        <.input
+                          type="number"
+                          field={col[:min_length]}
+                          label={dgettext("json_schemas", "min_length")}
+                          placeholder={dgettext("json_schemas", "min_lenght_placeholder")}
+                          phx-debounce="blur"
+                        />
+                        <.input
+                          type="number"
+                          field={col[:max_length]}
+                          label={dgettext("json_schemas", "max_length")}
+                          placeholder={dgettext("json_schemas", "max_length_placeholder")}
+                          phx-debounce="blur"
+                        />
+                      </div>
                       <.input
-                        type="number"
-                        field={field_form[:max_length]}
-                        label={dgettext("json_schemas", "max_length")}
-                        placeholder={dgettext("json_schemas", "max_length_placeholder")}
+                        type="text"
+                        field={col[:pattern]}
+                        label={dgettext("json_schemas", "pattern")}
+                        placeholder={dgettext("json_schemas", "pattern_placeholder")}
                         phx-debounce="blur"
+                        required
                       />
                     </div>
-                    <.input
-                      type="text"
-                      field={field_form[:pattern]}
-                      label={dgettext("json_schemas", "pattern")}
-                      placeholder={dgettext("json_schemas", "pattern_placeholder")}
-                      phx-debounce="blur"
-                      required
-                    />
                   </div>
+                  <.tooltip text={dgettext("schemas", "remove_cell")}>
+                    <.button
+                      type="button"
+                      size="icon"
+                      icon="trash"
+                      variant="ghost"
+                      name={
+                        if col.index > 0,
+                          do: "schema_form[rows][#{row.index}][col_drop][]",
+                          else: "schema_form[row_drop][]"
+                      }
+                      value={if col.index > 0, do: col.index, else: row.index}
+                      phx-click={JS.dispatch("change")}
+                    >
+                      <%= dgettext("schemas", "remove_cell") %>
+                    </.button>
+                  </.tooltip>
                 </div>
-                <.tooltip text={dgettext("schemas", "remove_cell")}>
-                  <.button
-                    type="button"
-                    size="icon"
-                    icon="trash"
-                    variant="ghost"
-                    name="schema_form[content_drop][]"
-                    value={field_form.index}
-                    phx-click={JS.dispatch("change")}
-                  >
-                    <%= dgettext("schemas", "remove_cell") %>
-                  </.button>
-                </.tooltip>
               </div>
-            </div>
+            </.inputs_for>
+            <input type="hidden" name={"schema_form[rows][#{row.index}][col_drop][]"} />
             <.tooltip text={dgettext("schemas", "add_cell")}>
               <.button
                 type="button"
                 size="icon"
                 class="!rounded-full p-3"
                 icon="plus-circle"
-                name="schema_form[content_drop][]"
-                value={field_form.index}
+                name={"schema_form[rows][#{row.index}][col_sort][]"}
+                value={row.index}
                 phx-click={JS.dispatch("change")}
               >
                 <%= dgettext("schemas", "add_cell") %>
@@ -1429,12 +1443,12 @@ defmodule NotebookServerWeb.CoreComponents do
             </.tooltip>
           </div>
         </.inputs_for>
-        <input type="hidden" name="schema_form[content_drop][]" />
+        <input type="hidden" name="schema_form[row_drop][]" />
         <.button
           type="button"
           size="sm"
           icon="plus-circle"
-          name="schema_form[content_sort][]"
+          name={"schema_form[rows][#{Enum.count(@field.value)}][col_sort][]"}
           value="new"
           phx-click={JS.dispatch("change")}
         >
