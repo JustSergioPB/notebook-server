@@ -64,7 +64,6 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
      socket
      |> assign(assigns)
      |> assign(:latest_is_in_draft?, latest_version.status == :draft)
-     |> assign(:matrix, [])
      |> assign_new(:form, fn ->
        to_form(changeset)
      end)}
@@ -80,7 +79,8 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
   def handle_event("save", %{"schema_form" => schema_params}, socket) do
     schema_params = complete_schema(schema_params, socket)
 
-    save_schema(socket, socket.assigns.action, schema_params)
+    {:noreply, socket}
+    # save_schema(socket, socket.assigns.action, schema_params)
   end
 
   defp save_schema(socket, :edit, schema_params) do
@@ -155,8 +155,29 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
   end
 
   defp complete_schema(schema_params, socket) do
-    decoded = schema_params |> Map.get("content") |> Jason.decode!()
-    schema_params = Map.put(schema_params, "content", decoded)
+    content = %{"type" => "object", "properties" => %{}, "required" => []}
+
+    content =
+      Map.get(schema_params, "rows")
+      |> Enum.map(fn {row_idx, row} ->
+        row_index = String.to_integer(row_idx)
+
+        Map.get(row, "columns")
+        |> Enum.each(fn {col_idx, col} ->
+          col_index = String.to_integer(col_idx)
+
+          required = Map.get(content, "required")
+
+          content =
+            content
+            |> put_in(["properties", "#{row_index}#{col_index}"], col)
+            |> put_in(["properties", "required"], required ++ ["#{row_index}#{col_index}"])
+        end)
+      end)
+
+    IO.inspect(content)
+
+    schema_params = Map.put(schema_params, "content", content)
 
     Schemas.complete_schema(
       schema_params,

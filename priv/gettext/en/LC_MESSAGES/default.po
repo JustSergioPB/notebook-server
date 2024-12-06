@@ -485,8 +485,8 @@ msgstr "Password updated successfully!"
 #: lib/notebook_server/accounts/user.ex:76
 #: lib/notebook_server/accounts/user_email.ex:23
 #: lib/notebook_server/accounts/user_password.ex:27
-#: lib/notebook_server/schemas/schema_form.ex:22
-#: lib/notebook_server/schemas/schema_form.ex:43
+#: lib/notebook_server/schemas/schema_form.ex:49
+#: lib/notebook_server/schemas/schema_form.ex:94
 #: lib/notebook_server_web/components/confirm_dialog.ex:71
 #: lib/notebook_server_web/live/bridge_live/form_component.ex:202
 #: lib/notebook_server_web/live/bridge_live/form_component.ex:213

@@ -1381,7 +1381,30 @@ defmodule NotebookServerWeb.CoreComponents do
                         phx-debounce="blur"
                         required
                       />
-                      <div class="flex gap-4">
+                      <.input
+                        type="select"
+                        field={col[:component]}
+                        label={dgettext("json_schemas", "input")}
+                        options={[
+                          {dgettext("json_schemas", "text_input"), :text},
+                          {dgettext("json_schemas", "textarea_input"), :textarea},
+                          {dgettext("json_schemas", "datetime_input"), :datetime},
+                          {dgettext("json_schemas", "date_input"), :date},
+                          {dgettext("json_schemas", "time_input"), :time},
+                          {dgettext("json_schemas", "url_input"), :url},
+                          {dgettext("json_schemas", "email_input"), :email},
+                          {dgettext("json_schemas", "number_input"), :number},
+                          {dgettext("json_schemas", "checkbox"), :checkbox},
+                          {dgettext("json_schemas", "switch"), :switch},
+                          {dgettext("json_schemas", "select"), :select}
+                        ]}
+                        phx-debounce="blur"
+                        required
+                      />
+                      <div
+                        :if={col[:component].value == :text || col[:component].value == :textarea}
+                        class="flex gap-4"
+                      >
                         <.input
                           type="number"
                           field={col[:min_length]}
@@ -1398,12 +1421,12 @@ defmodule NotebookServerWeb.CoreComponents do
                         />
                       </div>
                       <.input
+                        :if={col[:component].value == :text}
                         type="text"
                         field={col[:pattern]}
                         label={dgettext("json_schemas", "pattern")}
                         placeholder={dgettext("json_schemas", "pattern_placeholder")}
                         phx-debounce="blur"
-                        required
                       />
                     </div>
                   </div>

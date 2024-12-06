@@ -41,12 +41,12 @@ msgstr ""
 msgid "are_you_sure"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:127
+#: lib/notebook_server_web/live/schema_live/form_component.ex:126
 #, elixir-autogen, elixir-format
 msgid "creation_failed"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:121
+#: lib/notebook_server_web/live/schema_live/form_component.ex:120
 #, elixir-autogen, elixir-format
 msgid "creation_succeded"
 msgstr ""
@@ -138,43 +138,43 @@ msgstr ""
 msgid "title_placeholder"
 msgstr ""
 
-#: lib/notebook_server_web/live/schema_live/form_component.ex:93
+#: lib/notebook_server_web/live/schema_live/form_component.ex:92
 #, elixir-autogen, elixir-format
 msgid "update_succeded"
 msgstr ""
 
 #: lib/notebook_server_web/live/bridge_live/form_component.ex:124
-#: lib/notebook_server_web/live/schema_live/form_component.ex:100
+#: lib/notebook_server_web/live/schema_live/form_component.ex:99
 #, elixir-autogen, elixir-format
 msgid "update_failed"
 msgstr ""
 
-#: lib/notebook_server/schemas/schema_form.ex:26
-#: lib/notebook_server/schemas/schema_form.ex:31
+#: lib/notebook_server/schemas/schema_form.ex:53
+#: lib/notebook_server/schemas/schema_form.ex:58
 #, elixir-autogen, elixir-format
 msgid "title_length %{max} %{min}"
 msgstr ""
 
-#: lib/notebook_server_web/components/core_components.ex:1417
-#: lib/notebook_server_web/components/core_components.ex:1427
+#: lib/notebook_server_web/components/core_components.ex:1450
+#: lib/notebook_server_web/components/core_components.ex:1460
 #, elixir-autogen, elixir-format
 msgid "add_cell"
 msgstr ""
 
-#: lib/notebook_server_web/components/core_components.ex:1441
+#: lib/notebook_server_web/components/core_components.ex:1474
 #, elixir-autogen, elixir-format
 msgid "add_row"
 msgstr ""
 
-#: lib/notebook_server_web/components/core_components.ex:1341
-#: lib/notebook_server_web/components/core_components.ex:1349
+#: lib/notebook_server_web/components/core_components.ex:1347
+#: lib/notebook_server_web/components/core_components.ex:1355
 #, elixir-autogen, elixir-format
 msgid "edit_cell"
 msgstr ""
 
-#: lib/notebook_server_web/components/core_components.ex:1365
-#: lib/notebook_server_web/components/core_components.ex:1402
-#: lib/notebook_server_web/components/core_components.ex:1412
+#: lib/notebook_server_web/components/core_components.ex:1373
+#: lib/notebook_server_web/components/core_components.ex:1429
+#: lib/notebook_server_web/components/core_components.ex:1443
 #, elixir-autogen, elixir-format
 msgid "remove_cell"
 msgstr ""

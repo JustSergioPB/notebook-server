@@ -37,13 +37,13 @@ msgid "publication_succeded"
 msgstr ""
 
 #: lib/notebook_server_web/live/bridge_live/form_component.ex:129
-#: lib/notebook_server_web/live/schema_live/form_component.ex:105
+#: lib/notebook_server_web/live/schema_live/form_component.ex:104
 #, elixir-autogen, elixir-format
 msgid "create_failed"
 msgstr ""
 
 #: lib/notebook_server_web/live/bridge_live/form_component.ex:134
-#: lib/notebook_server_web/live/schema_live/form_component.ex:110
+#: lib/notebook_server_web/live/schema_live/form_component.ex:109
 #, elixir-autogen, elixir-format
 msgid "update_failed"
 msgstr ""

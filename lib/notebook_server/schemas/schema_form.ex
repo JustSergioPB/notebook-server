@@ -9,11 +9,35 @@ defmodule NotebookServer.Schemas.SchemaForm do
 
     embeds_many :rows, Row, on_replace: :delete do
       embeds_many :columns, Column, on_replace: :delete do
-        field :title, :string, default: "Texto"
-        field :input, Ecto.Enum, values: [:text, :number, :integer, :checkbox], default: :text
+        field :title, :string, default: "Campo"
+
+        field :component, Ecto.Enum,
+          values: [
+            :text,
+            :textarea,
+            :datetime,
+            :date,
+            :time,
+            :url,
+            :email,
+            :number,
+            :checkbox,
+            :switch,
+            :select
+          ],
+          default: :text
+
         field :min_length, :integer, default: 2
         field :max_length, :integer, default: 50
+        field :minimum, :integer, default: 0
+        field :maximum, :integer, default: 999_999
+        field :multiple_of, :integer
         field :pattern, :string
+        field :options, :string
+        field :is_required?, :boolean, default: false
+        field :is_const?, :boolean, default: false
+        field :is_exclusive_minimum?, :boolean, default: false
+        field :is_exclusive_maximum?, :boolean, default: false
       end
     end
   end
@@ -51,7 +75,21 @@ defmodule NotebookServer.Schemas.SchemaForm do
 
   def col_changeset(col, attrs \\ %{}) do
     col
-    |> cast(attrs, [:title, :max_length, :min_length, :input, :pattern])
-    |> validate_required([:title, :input], message: gettext("field_required"))
+    |> cast(attrs, [
+      :title,
+      :max_length,
+      :min_length,
+      :minimum,
+      :maximum,
+      :multiple_of,
+      :options,
+      :component,
+      :pattern,
+      :is_required?,
+      :is_const?,
+      :is_exclusive_minimum?,
+      :is_exclusive_maximum?
+    ])
+    |> validate_required([:title, :component], message: gettext("field_required"))
   end
 end

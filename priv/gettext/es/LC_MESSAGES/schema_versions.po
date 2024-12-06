@@ -37,13 +37,13 @@ msgid "publication_succeded"
 msgstr "La versión del esquema se ha publicado de manera correcta."
 
 #: lib/notebook_server_web/live/bridge_live/form_component.ex:129
-#: lib/notebook_server_web/live/schema_live/form_component.ex:105
+#: lib/notebook_server_web/live/schema_live/form_component.ex:104
 #, elixir-autogen, elixir-format
 msgid "create_failed"
 msgstr "No hemos podido crear la versión del esquema"
 
 #: lib/notebook_server_web/live/bridge_live/form_component.ex:134
-#: lib/notebook_server_web/live/schema_live/form_component.ex:110
+#: lib/notebook_server_web/live/schema_live/form_component.ex:109
 #, elixir-autogen, elixir-format
 msgid "update_failed"
 msgstr "No hemos podido actualizar la versión del esquema"

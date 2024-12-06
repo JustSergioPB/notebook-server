@@ -11,47 +11,107 @@ msgstr ""
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lib/notebook_server_web/components/core_components.ex:1357
+#: lib/notebook_server_web/components/core_components.ex:1365
 #, elixir-autogen, elixir-format
 msgid "edit"
 msgstr "Editar campo"
 
-#: lib/notebook_server_web/components/core_components.ex:1387
+#: lib/notebook_server_web/components/core_components.ex:1415
 #, elixir-autogen, elixir-format
 msgid "max_length"
 msgstr "Max. carac."
 
-#: lib/notebook_server_web/components/core_components.ex:1388
+#: lib/notebook_server_web/components/core_components.ex:1416
 #, elixir-autogen, elixir-format
 msgid "max_length_placeholder"
 msgstr "Min. carac."
 
-#: lib/notebook_server_web/components/core_components.ex:1381
+#: lib/notebook_server_web/components/core_components.ex:1409
 #, elixir-autogen, elixir-format
 msgid "min_lenght_placeholder"
 msgstr "2"
 
-#: lib/notebook_server_web/components/core_components.ex:1395
+#: lib/notebook_server_web/components/core_components.ex:1423
 #, elixir-autogen, elixir-format
 msgid "pattern"
 msgstr "Patrón"
 
-#: lib/notebook_server_web/components/core_components.ex:1396
+#: lib/notebook_server_web/components/core_components.ex:1424
 #, elixir-autogen, elixir-format
 msgid "pattern_placeholder"
 msgstr "^[^s]+@[^s]+$"
 
-#: lib/notebook_server_web/components/core_components.ex:1371
+#: lib/notebook_server_web/components/core_components.ex:1379
 #, elixir-autogen, elixir-format
 msgid "title"
 msgstr "Título"
 
-#: lib/notebook_server_web/components/core_components.ex:1372
+#: lib/notebook_server_web/components/core_components.ex:1380
 #, elixir-autogen, elixir-format
 msgid "title_placeholder"
 msgstr "Nombre"
 
-#: lib/notebook_server_web/components/core_components.ex:1380
+#: lib/notebook_server_web/components/core_components.ex:1408
 #, elixir-autogen, elixir-format, fuzzy
 msgid "min_length"
 msgstr "Min. carac."
+
+#: lib/notebook_server_web/components/core_components.ex:1387
+#, elixir-autogen, elixir-format
+msgid "input"
+msgstr "Componente"
+
+#: lib/notebook_server_web/components/core_components.ex:1389
+#, elixir-autogen, elixir-format
+msgid "text_input"
+msgstr "Texto"
+
+#: lib/notebook_server_web/components/core_components.ex:1397
+#, elixir-autogen, elixir-format
+msgid "checkbox"
+msgstr "Checkbox"
+
+#: lib/notebook_server_web/components/core_components.ex:1392
+#, elixir-autogen, elixir-format, fuzzy
+msgid "date_input"
+msgstr "Fecha"
+
+#: lib/notebook_server_web/components/core_components.ex:1391
+#, elixir-autogen, elixir-format, fuzzy
+msgid "datetime_input"
+msgstr "Fecha y Hora"
+
+#: lib/notebook_server_web/components/core_components.ex:1395
+#, elixir-autogen, elixir-format
+msgid "email_input"
+msgstr "Email"
+
+#: lib/notebook_server_web/components/core_components.ex:1396
+#, elixir-autogen, elixir-format
+msgid "number_input"
+msgstr "Número"
+
+#: lib/notebook_server_web/components/core_components.ex:1399
+#, elixir-autogen, elixir-format
+msgid "select"
+msgstr "Opción"
+
+#: lib/notebook_server_web/components/core_components.ex:1398
+#, elixir-autogen, elixir-format
+msgid "switch"
+msgstr "Switch"
+
+#: lib/notebook_server_web/components/core_components.ex:1390
+#, elixir-autogen, elixir-format, fuzzy
+msgid "textarea_input"
+msgstr "Texto largo"
+
+#: lib/notebook_server_web/components/core_components.ex:1393
+#, elixir-autogen, elixir-format, fuzzy
+msgid "time_input"
+msgstr "Hora"
+
+#: lib/notebook_server_web/components/core_components.ex:1394
+#, elixir-autogen, elixir-format
+msgid "url_input"
+msgstr "Enlace"
