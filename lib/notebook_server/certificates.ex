@@ -175,12 +175,12 @@ defmodule NotebookServer.Certificates do
   end
 
   def complete_certificate(:org, %Org{} = org, level) do
-    private_key = X509.PrivateKey.new_rsa(4096)
+    private_key = X509.PrivateKey.new_ec(:ed25519)
     public_key = private_key |> X509.PublicKey.derive()
     certificate_content = gen_certification_content(level, org)
     issuer_level = gen_issuer_level(level)
     cert_template = gen_cert_template(level)
-    issuer = if level != :root, do: get_issuer_certificate!(org.id, issuer_level)
+    issuer = if level != :root, do: get_issuer_certificate!(:org, org.id, issuer_level)
 
     cert =
       if level != :root,
@@ -209,10 +209,10 @@ defmodule NotebookServer.Certificates do
   end
 
   def complete_certificate(:user, %Org{} = org, %User{} = user) do
-    private_key = X509.PrivateKey.new_rsa(4096)
+    private_key = X509.PrivateKey.new_ec(:ed25519)
     public_key = private_key |> X509.PublicKey.derive()
 
-    issuer = get_issuer_certificate!(org.id, :intermediate)
+    issuer = get_issuer_certificate!(:org, org.id, :intermediate)
 
     cert =
       X509.Certificate.new(

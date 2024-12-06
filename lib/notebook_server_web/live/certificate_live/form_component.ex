@@ -9,11 +9,17 @@ defmodule NotebookServerWeb.CertificateLive.FormComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="h-full flex flex-col">
-      <.header>
+    <div <div class="h-full flex flex-col">
+      <.header class="p-6">
         <%= @title %>
       </.header>
-      <.simple_form for={@form} id="certificate-form" phx-target={@myself} phx-submit="save">
+      <.simple_form
+        for={@form}
+        id="certificate-form"
+        phx-target={@myself}
+        phx-submit="save"
+        variant="app"
+      >
         <.live_component
           field={@form[:org_id]}
           id={@form[:org_id].id}

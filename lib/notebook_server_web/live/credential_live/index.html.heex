@@ -34,15 +34,6 @@
         <:col :let={{_id, user_credential}} label={dgettext("credentials", "issuer")}>
           <%= user_credential.user.name %> <%= user_credential.user.last_name %>
         </:col>
-        <:action :let={{_id, user_credential}}>
-          <.link patch={~p"/credentials/#{user_credential.id}/qr?tab=user"}>
-            <.tooltip text={dgettext("credentials", "open_qr")}>
-              <.button size="icon" variant="outline" icon="qr-code">
-                <%= dgettext("credentials", "open_qr") %>
-              </.button>
-            </.tooltip>
-          </.link>
-        </:action>
         <:action :let={{id, user_credential}}>
           <.tooltip text={gettext("delete")}>
             <.button
@@ -85,15 +76,6 @@
             version={org_credential.credential.schema_version.version}
           />
         </:col>
-        <:action :let={{_id, org_credential}}>
-          <.link patch={~p"/credentials/#{org_credential.id}/qr?tab=org"}>
-            <.tooltip text={dgettext("credentials", "open_qr")}>
-              <.button size="icon" variant="outline" icon="qr-code">
-                <%= dgettext("credentials", "open_qr") %>
-              </.button>
-            </.tooltip>
-          </.link>
-        </:action>
         <:action :let={{id, org_credential}}>
           <.tooltip text={gettext("delete")}>
             <.button

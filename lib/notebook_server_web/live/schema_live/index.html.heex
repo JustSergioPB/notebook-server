@@ -32,9 +32,6 @@
     <:col :let={{_id, schema}} label={dgettext("schemas", "published_version")}>
       <.version_badge :if={schema.published_version} version={schema.published_version} />
     </:col>
-    <:col :let={{_id, schema}} label={dgettext("schemas", "platform")}>
-      <.platform_badge platform={schema.platform} />
-    </:col>
     <:col :let={{_id, schema}} label={dgettext("schemas", "status")}>
       <.schema_status_badge schema={schema} />
     </:col>

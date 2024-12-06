@@ -45,37 +45,25 @@ defmodule NotebookServerWeb.UserLive.Index do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    if User.can_use_platform?(socket.assigns.current_user) do
-      user = Accounts.get_user!(id)
-      {:ok, _} = Accounts.delete_user(user)
-      {:noreply, stream_delete(socket, :users, user)}
-    else
-      {:noreply, socket}
-    end
+    user = Accounts.get_user!(id)
+    {:ok, _} = Accounts.delete_user(user)
+    {:noreply, stream_delete(socket, :users, user)}
   end
 
   @impl true
   def handle_event("activate", %{"id" => id}, socket) do
-    if User.can_use_platform?(socket.assigns.current_user) do
-      opts = org_filter(socket)
-      user = Accounts.get_user!(id)
-      {:ok, _} = Accounts.activate_user(user)
-      {:noreply, stream(socket, :users, Accounts.list_users(opts))}
-    else
-      {:noreply, socket}
-    end
+    opts = org_filter(socket)
+    user = Accounts.get_user!(id)
+    {:ok, _} = Accounts.activate_user(user)
+    {:noreply, stream(socket, :users, Accounts.list_users(opts))}
   end
 
   @impl true
   def handle_event("ban", %{"id" => id}, socket) do
-    if User.can_use_platform?(socket.assigns.current_user) do
-      user = Accounts.get_user!(id)
-      opts = org_filter(socket)
-      {:ok, _} = Accounts.ban_user(user)
-      {:noreply, stream(socket, :users, Accounts.list_users(opts))}
-    else
-      {:noreply, socket}
-    end
+    user = Accounts.get_user!(id)
+    opts = org_filter(socket)
+    {:ok, _} = Accounts.ban_user(user)
+    {:noreply, stream(socket, :users, Accounts.list_users(opts))}
   end
 
   defp org_filter(socket) do

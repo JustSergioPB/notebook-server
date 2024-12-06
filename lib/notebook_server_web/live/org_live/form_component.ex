@@ -6,13 +6,14 @@ defmodule NotebookServerWeb.OrgLive.FormComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="space-y-6">
-      <.header>
+    <div class="h-full flex flex-col">
+      <.header class="p-6">
         <%= @title %>
       </.header>
       <.simple_form
         for={@form}
         id="org-form"
+        variant="app"
         phx-target={@myself}
         phx-change="validate"
         phx-submit="save"

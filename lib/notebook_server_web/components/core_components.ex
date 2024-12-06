@@ -67,7 +67,7 @@ defmodule NotebookServerWeb.CoreComponents do
           phx-window-keydown={JS.exec("data-cancel", to: "##{@id}")}
           phx-key="escape"
           phx-click-away={JS.exec("data-cancel", to: "##{@id}")}
-          class="shadow-slate-700/10 ring-slate-700/10 relative hidden bg-white p-6 shadow-lg ring-1 transition h-full md:rounded-md"
+          class="shadow-slate-700/10 ring-slate-700/10 relative hidden bg-white shadow-lg ring-1 transition h-full md:rounded-md"
         >
           <div class="absolute h-full top-6 right-5">
             <button
@@ -191,6 +191,7 @@ defmodule NotebookServerWeb.CoreComponents do
   attr :for, :any, required: true, doc: "the data structure for the form"
   attr :as, :any, default: nil, doc: "the server side parameter to collect all input under"
   attr :class, :string, default: nil, doc: "the class to apply to the form"
+  attr :variant, :string, values: ~w(auth app blank), default: "auth"
 
   attr :rest, :global,
     include: ~w(autocomplete name rel action enctype method novalidate target multipart),
@@ -205,13 +206,27 @@ defmodule NotebookServerWeb.CoreComponents do
       :let={f}
       for={@for}
       as={@as}
-      class={["space-y-6 h-full flex flex-col flex-1 overflow-y-hidden", @class]}
+      class={[
+        "space-y-6 h-full",
+        (@variant == "app" || @variant == "blank") && "flex flex-col flex-1 overflow-y-hidden",
+        @class
+      ]}
       {@rest}
     >
-      <div class="flex-1 space-y-4 overflow-y-auto overflow-x-hidden min-h-0 px-1">
+      <div class={[
+        "flex-1 space-y-4",
+        @variant == "app" && "px-6 overflow-y-auto overflow-x-hidden min-h-0",
+        @variant == "blank" && "overflow-y-auto overflow-x-hidden min-h-0"
+      ]}>
         <%= render_slot(@inner_block, f) %>
       </div>
-      <div :for={action <- @actions} class="flex items-center justify-between gap-6 last:pt-6">
+      <div
+        :for={action <- @actions}
+        class={[
+          "flex items-center justify-between gap-6",
+          @variant == "app" && "last:p-6 last:border-t last:border-slate-300"
+        ]}
+      >
         <%= render_slot(action, f) %>
       </div>
     </.form>
@@ -228,10 +243,10 @@ defmodule NotebookServerWeb.CoreComponents do
   """
   attr :type, :string, default: nil
   attr :variant, :string, values: ~w(primary secondary outline danger ghost), default: "primary"
-  attr :size, :string, default: "md"
+  attr :size, :string, values: ~w(icon sm md lg), default: "md"
   attr :class, :string, default: nil
   attr :icon, :string, default: nil
-  attr :icon_side, :string, default: "left", values: ["left", "right"]
+  attr :icon_side, :string, values: ~w(left right), default: "left"
   attr :rest, :global, include: ~w(disabled form name value)
 
   slot :inner_block, required: true
@@ -241,11 +256,10 @@ defmodule NotebookServerWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        "phx-submit-loading:opacity-75 disabled:opacity-50 rounded-md flex items-center justify-center group",
-        "text-sm font-semibold leading-6",
+        "phx-submit-loading:opacity-75 disabled:opacity-50 rounded-md flex items-center justify-center group text-sm font-semibold leading-6",
         @size == "lg" && "py-3 px-4 gap-2",
         @size == "md" && "py-2 px-3 gap-2",
-        @size == "sm" && "py-1 px-2 gap-2",
+        @size == "sm" && "py-1 px-2 gap-2 text-xs",
         @size == "icon" && "p-2",
         @variant == "primary" &&
           "bg-indigo-500 shadow-md hover:bg-indigo-400 text-white active:text-white/80 disabled:hover:bg-indigo-500",
@@ -408,7 +422,7 @@ defmodule NotebookServerWeb.CoreComponents do
       <legend :if={@label} class="block text-sm font-semibold leading-6 text-slate-800">
         <%= @label %>
       </legend>
-      <div class={["grid md:grid-cols-2 gap-4", length(@options) == 1 && "grid-cols-1"]}>
+      <div class={["grid md:grid-cols-2 gap-4", length(@options) == 1 && "grid-cols-1 md:grid-cols-1"]}>
         <div
           :for={option <- @options}
           class="border border-slate-300 p-3 rounded-md shadow-sm space-y-2 has-[:checked]:bg-indigo-50 has-[:checked]:text-indigo-900 has-[:checked]:border-indigo-500 has-[:disabled]:opacity-65"
@@ -980,7 +994,7 @@ defmodule NotebookServerWeb.CoreComponents do
       </div>
       <div class={[
         "absolute z-50 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition",
-        "bg-gray-800 text-white text-xs rounded py-1 px-2 whitespace-nowrap",
+        "bg-slate-800 text-white text-xs rounded py-1 px-2 whitespace-nowrap",
         "left-1/2 -translate-x-1/2",
         @position_class
       ]}>
@@ -1108,23 +1122,6 @@ defmodule NotebookServerWeb.CoreComponents do
         ]}>
         </div>
         <%= @certificate.status %>
-      </:label>
-    </.badge>
-    """
-  end
-
-  attr :platform, :string, required: true
-
-  def platform_badge(assigns) do
-    ~H"""
-    <.badge class="gap-1">
-      <:label>
-        <%= if @platform == :web2 do %>
-          <Lucide.globe class="h-3 w-3" />
-        <% else %>
-          <Lucide.link class="h-3 w-3" />
-        <% end %>
-        <%= @platform %>
       </:label>
     </.badge>
     """
@@ -1265,7 +1262,7 @@ defmodule NotebookServerWeb.CoreComponents do
           checked={@checked}
         />
         <label for="switch" class="hidden"></label>
-        <div class="peer h-6 w-11 rounded-full border bg-slate-200 after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-indigo-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:ring-indigo-300">
+        <div class="peer h-6 w-11 rounded-full border bg-slate-200 after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-slate-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-indigo-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:ring-indigo-300">
         </div>
       </div>
     </label>
@@ -1314,6 +1311,175 @@ defmodule NotebookServerWeb.CoreComponents do
         <%= render_slot(step) %>
       </section>
     </section>
+    """
+  end
+
+  attr :id, :any, default: nil
+  attr :label, :string, default: nil
+
+  attr :field, Phoenix.HTML.FormField,
+    doc: "a form field struct retrieved from the form, for example: @form[:email]"
+
+  def schema_content_input(%{field: field} = assigns) do
+    assigns =
+      assigns
+      |> assign(assigns)
+      |> assign(id: assigns.id || field.id)
+      |> assign(:errors, Enum.map(field.errors, &translate_error(&1)))
+
+    ~H"""
+    <div class="space-y-1">
+      <.label for={@id}><%= @label %></.label>
+      <div class="space-y-4">
+        <.inputs_for :let={row} field={@field}>
+          <input type="hidden" name="schema_form[row_sort][]" value={row.index} />
+          <div class="flex items-center gap-4">
+            <.inputs_for :let={col} field={row[:columns]}>
+              <input
+                type="hidden"
+                name={"schema_form[rows][#{row.index}][col_sort][]"}
+                value={col.index}
+              />
+              <div class="flex-1 flex items-center justify-between rounded-md border border-slate-300 bg-white text-sm px-3 py-2 relative">
+                <%= col[:title].value %>
+                <div class="flex items-center gap-1">
+                  <div class="relative">
+                    <.tooltip text={dgettext("schemas", "edit_cell")}>
+                      <.button
+                        type="button"
+                        size="icon"
+                        icon="pencil"
+                        variant="ghost"
+                        phx-click={JS.remove_class("hidden", to: "#modal_#{row.id}_#{col.id}")}
+                      >
+                        <%= dgettext("schemas", "edit_cell") %>
+                      </.button>
+                    </.tooltip>
+                    <div
+                      class={[
+                        "absolute top-full mt-2 rigth-0 -translate-x-[85%] bg-white p-4 shadow-md rounded-md border border-slate-300 z-40 w-80 space-y-4"
+                      ]}
+                      id={"modal_#{row.id}_#{col.id}"}
+                    >
+                      <div class="flex items-center justify-between">
+                        <p class="font-bold text-lg"><%= dgettext("json_schemas", "edit") %></p>
+                        <.button
+                          type="button"
+                          size="icon"
+                          icon="x"
+                          variant="ghost"
+                          phx-click={JS.add_class("hidden", to: "#modal_#{row.id}_#{col.id}")}
+                        >
+                          <%= dgettext("schemas", "remove_cell") %>
+                        </.button>
+                      </div>
+                      <.input
+                        type="text"
+                        field={col[:title]}
+                        label={dgettext("json_schemas", "title")}
+                        placeholder={dgettext("json_schemas", "title_placeholder")}
+                        phx-debounce="blur"
+                        required
+                      />
+                      <.input
+                        type="select"
+                        field={col[:component]}
+                        label={dgettext("json_schemas", "input")}
+                        options={[
+                          {dgettext("json_schemas", "text_input"), :text},
+                          {dgettext("json_schemas", "textarea_input"), :textarea},
+                          {dgettext("json_schemas", "datetime_input"), :datetime},
+                          {dgettext("json_schemas", "date_input"), :date},
+                          {dgettext("json_schemas", "time_input"), :time},
+                          {dgettext("json_schemas", "url_input"), :url},
+                          {dgettext("json_schemas", "email_input"), :email},
+                          {dgettext("json_schemas", "number_input"), :number},
+                          {dgettext("json_schemas", "checkbox"), :checkbox},
+                          {dgettext("json_schemas", "switch"), :switch},
+                          {dgettext("json_schemas", "select"), :select}
+                        ]}
+                        phx-debounce="blur"
+                        required
+                      />
+                      <div
+                        :if={col[:component].value == :text || col[:component].value == :textarea}
+                        class="flex gap-4"
+                      >
+                        <.input
+                          type="number"
+                          field={col[:min_length]}
+                          label={dgettext("json_schemas", "min_length")}
+                          placeholder={dgettext("json_schemas", "min_lenght_placeholder")}
+                          phx-debounce="blur"
+                        />
+                        <.input
+                          type="number"
+                          field={col[:max_length]}
+                          label={dgettext("json_schemas", "max_length")}
+                          placeholder={dgettext("json_schemas", "max_length_placeholder")}
+                          phx-debounce="blur"
+                        />
+                      </div>
+                      <.input
+                        :if={col[:component].value == :text}
+                        type="text"
+                        field={col[:pattern]}
+                        label={dgettext("json_schemas", "pattern")}
+                        placeholder={dgettext("json_schemas", "pattern_placeholder")}
+                        phx-debounce="blur"
+                      />
+                    </div>
+                  </div>
+                  <.tooltip text={dgettext("schemas", "remove_cell")}>
+                    <.button
+                      type="button"
+                      size="icon"
+                      icon="trash"
+                      variant="ghost"
+                      name={
+                        if col.index > 0,
+                          do: "schema_form[rows][#{row.index}][col_drop][]",
+                          else: "schema_form[row_drop][]"
+                      }
+                      value={if col.index > 0, do: col.index, else: row.index}
+                      phx-click={JS.dispatch("change")}
+                    >
+                      <%= dgettext("schemas", "remove_cell") %>
+                    </.button>
+                  </.tooltip>
+                </div>
+              </div>
+            </.inputs_for>
+            <input type="hidden" name={"schema_form[rows][#{row.index}][col_drop][]"} />
+            <.tooltip text={dgettext("schemas", "add_cell")}>
+              <.button
+                type="button"
+                size="icon"
+                class="!rounded-full p-3"
+                icon="plus-circle"
+                name={"schema_form[rows][#{row.index}][col_sort][]"}
+                value={row.index}
+                phx-click={JS.dispatch("change")}
+              >
+                <%= dgettext("schemas", "add_cell") %>
+              </.button>
+            </.tooltip>
+          </div>
+        </.inputs_for>
+        <input type="hidden" name="schema_form[row_drop][]" />
+        <.button
+          type="button"
+          size="sm"
+          icon="plus-circle"
+          name={"schema_form[rows][#{Enum.count(@field.value)}][col_sort][]"}
+          value="new"
+          phx-click={JS.dispatch("change")}
+        >
+          <%= dgettext("schemas", "add_row") %>
+        </.button>
+      </div>
+      <.error :for={msg <- @errors}><%= msg %></.error>
+    </div>
     """
   end
 end

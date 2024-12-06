@@ -1,0 +1,117 @@
+## This file is a PO Template file.
+##
+## "msgid"s here are often extracted from source code.
+## Add new messages manually only if they're dynamic
+## messages that can't be statically extracted.
+##
+## Run "mix gettext.extract" to bring this file up to
+## date. Leave "msgstr"s empty as changing them here has no
+## effect: edit them in PO (.po) files instead.
+#
+msgid ""
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1365
+#, elixir-autogen, elixir-format
+msgid "edit"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1415
+#, elixir-autogen, elixir-format
+msgid "max_length"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1416
+#, elixir-autogen, elixir-format
+msgid "max_length_placeholder"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1409
+#, elixir-autogen, elixir-format
+msgid "min_lenght_placeholder"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1423
+#, elixir-autogen, elixir-format
+msgid "pattern"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1424
+#, elixir-autogen, elixir-format
+msgid "pattern_placeholder"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1379
+#, elixir-autogen, elixir-format
+msgid "title"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1380
+#, elixir-autogen, elixir-format
+msgid "title_placeholder"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1408
+#, elixir-autogen, elixir-format
+msgid "min_length"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1387
+#, elixir-autogen, elixir-format
+msgid "input"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1389
+#, elixir-autogen, elixir-format
+msgid "text_input"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1397
+#, elixir-autogen, elixir-format
+msgid "checkbox"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1392
+#, elixir-autogen, elixir-format
+msgid "date_input"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1391
+#, elixir-autogen, elixir-format
+msgid "datetime_input"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1395
+#, elixir-autogen, elixir-format
+msgid "email_input"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1396
+#, elixir-autogen, elixir-format
+msgid "number_input"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1399
+#, elixir-autogen, elixir-format
+msgid "select"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1398
+#, elixir-autogen, elixir-format
+msgid "switch"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1390
+#, elixir-autogen, elixir-format
+msgid "textarea_input"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1393
+#, elixir-autogen, elixir-format
+msgid "time_input"
+msgstr ""
+
+#: lib/notebook_server_web/components/core_components.ex:1394
+#, elixir-autogen, elixir-format
+msgid "url_input"
+msgstr ""

@@ -1,28 +1,30 @@
 defmodule NotebookServerWeb.SchemaLive.FormComponent do
   alias NotebookServer.Schemas
   alias NotebookServer.Schemas.Schema
+  alias NotebookServer.Schemas.SchemaForm
   use NotebookServerWeb, :live_component
   use Gettext, backend: NotebookServerWeb.Gettext
 
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="h-full flex flex-col space-y-6">
-      <.header>
+    <div class="h-full flex flex-col">
+      <.header class="p-6">
         <%= @title %>
       </.header>
-      <.info_banner
-        :if={!@latest_is_in_draft?}
-        content={dgettext("schemas", "latest_is_not_in_draft")}
-        variant="warn"
-      />
       <.simple_form
         for={@form}
         id="schema-form"
+        variant="app"
         phx-target={@myself}
         phx-change="validate"
         phx-submit="save"
       >
+        <.info_banner
+          :if={!@latest_is_in_draft?}
+          content={dgettext("schemas", "latest_is_not_in_draft")}
+          variant="warn"
+        />
         <.input
           type="text"
           field={@form[:title]}
@@ -41,36 +43,8 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
           hint={gettext("max_chars %{max}", max: 255)}
           phx-debounce="blur"
         />
-        <.input
-          type="radio"
-          label={dgettext("schemas", "platform")}
-          field={@form[:platform]}
-          disabled={true}
-          options={[
-            %{
-              id: :web2,
-              icon: "globe",
-              label: dgettext("schemas", "web_2_title"),
-              description: dgettext("schemas", "web_2_description")
-            },
-            %{
-              id: :web3,
-              icon: "link",
-              label: dgettext("schemas", "web_3_title"),
-              description: dgettext("schemas", "web_3_description")
-            }
-          ]}
-        />
-        <.input
-          type="textarea"
-          field={@form[:content]}
-          value={Jason.encode!(@form[:content].value || %{}, pretty: true)}
-          label={dgettext("schemas", "raw_content")}
-          autocomplete="off"
-          rows="10"
-          phx-debounce="blur"
-          required
-        />
+
+        <.schema_content_input field={@form[:rows]} label={dgettext("schemas", "raw_content")} />
         <:actions>
           <.button>
             <%= dgettext("schemas", "save") %>
@@ -91,21 +65,22 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
      |> assign(assigns)
      |> assign(:latest_is_in_draft?, latest_version.status == :draft)
      |> assign_new(:form, fn ->
-       to_form(changeset, as: "schema")
+       to_form(changeset)
      end)}
   end
 
   @impl true
-  def handle_event("validate", %{"schema" => schema_params}, socket) do
+  def handle_event("validate", %{"schema_form" => schema_params}, socket) do
     changeset = socket.assigns.schema |> flatten_schema() |> change_schema(schema_params)
 
-    {:noreply, assign(socket, form: to_form(changeset, action: :validate, as: "schema"))}
+    {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
   end
 
-  def handle_event("save", %{"schema" => schema_params}, socket) do
+  def handle_event("save", %{"schema_form" => schema_params}, socket) do
     schema_params = complete_schema(schema_params, socket)
 
-    save_schema(socket, socket.assigns.action, schema_params)
+    {:noreply, socket}
+    # save_schema(socket, socket.assigns.action, schema_params)
   end
 
   defp save_schema(socket, :edit, schema_params) do
@@ -162,54 +137,47 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
 
     content =
       if is_nil(latest_version.content),
-        do: %{},
+        do: [],
         else: latest_version.content.properties.credential_subject.properties.content
 
     description =
       if is_nil(latest_version.content), do: nil, else: latest_version.content.description
 
-    %{
+    %SchemaForm{
       title: schema.title,
       description: description,
-      platform: latest_version.platform || :web2,
-      content: content
+      rows: content
     }
   end
 
-  defp change_schema(schema, attrs \\ %{}) do
-    types = %{
-      title: :string,
-      description: :string,
-      content: :map,
-      platform: :atom
-    }
-
-    attrs =
-      with true <- is_binary(attrs["content"]),
-           {:ok, decoded_value} <- Jason.decode(attrs["content"]) do
-        Map.put(attrs, "content", decoded_value)
-      else
-        _ -> attrs
-      end
-
-    {schema, types}
-    |> Ecto.Changeset.cast(attrs, [:title, :description, :content, :platform])
-    |> Ecto.Changeset.validate_required([:title, :content], message: gettext("field_required"))
-    |> Ecto.Changeset.validate_length(:title,
-      min: 2,
-      max: 50,
-      message: dgettext("schemas", "title_length %{max} %{min}", min: 2, max: 50)
-    )
-    |> Ecto.Changeset.validate_length(:description,
-      min: 2,
-      max: 255,
-      message: dgettext("schemas", "title_length %{max} %{min}", min: 2, max: 255)
-    )
+  defp change_schema(%SchemaForm{} = schema_form, attrs \\ %{}) do
+    SchemaForm.changeset(schema_form, attrs)
   end
 
   defp complete_schema(schema_params, socket) do
-    decoded = schema_params |> Map.get("content") |> Jason.decode!()
-    schema_params = Map.put(schema_params, "content", decoded)
+    content = %{"type" => "object", "properties" => %{}, "required" => []}
+
+    content =
+      Map.get(schema_params, "rows")
+      |> Enum.map(fn {row_idx, row} ->
+        row_index = String.to_integer(row_idx)
+
+        Map.get(row, "columns")
+        |> Enum.each(fn {col_idx, col} ->
+          col_index = String.to_integer(col_idx)
+
+          required = Map.get(content, "required")
+
+          content =
+            content
+            |> put_in(["properties", "#{row_index}#{col_index}"], col)
+            |> put_in(["properties", "required"], required ++ ["#{row_index}#{col_index}"])
+        end)
+      end)
+
+    IO.inspect(content)
+
+    schema_params = Map.put(schema_params, "content", content)
 
     Schemas.complete_schema(
       schema_params,

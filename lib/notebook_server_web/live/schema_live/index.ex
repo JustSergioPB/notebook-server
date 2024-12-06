@@ -124,12 +124,13 @@ defmodule NotebookServerWeb.SchemaLive.Index do
       schema.schema_versions
       |> Enum.find(fn version -> version.status == :published end)
 
+    pub_version = if is_map(published_version), do: published_version.version, else: nil
+
     Map.merge(schema, %{
       description: latest_version.content.description,
       org_name: schema.org.name,
       version: latest_version.version,
-      published_version: published_version.version,
-      platform: latest_version.platform,
+      published_version: pub_version,
       status: latest_version.status,
       latest_version_id: latest_version.id
     })
