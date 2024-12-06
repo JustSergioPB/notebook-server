@@ -14,7 +14,7 @@ msgstr ""
 #: lib/notebook_server_web/live/certificate_live/show.html.heex:15
 #, elixir-autogen, elixir-format
 msgid "back"
-msgstr ""
+msgstr "Back to certificates"
 
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:6
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:26
@@ -22,7 +22,7 @@ msgstr ""
 #: lib/notebook_server_web/live/certificate_live/show.html.heex:2
 #, elixir-autogen, elixir-format
 msgid "certificate"
-msgstr ""
+msgstr "Certificate"
 
 #: lib/notebook_server_web/live/certificate_live/index.ex:49
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:71
@@ -31,59 +31,59 @@ msgstr ""
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:142
 #, elixir-autogen, elixir-format
 msgid "delete"
-msgstr ""
+msgstr "Delete certificate"
 
 #: lib/notebook_server_web/live/certificate_live/index.ex:50
 #, elixir-autogen, elixir-format
 msgid "delete_subtitle"
-msgstr ""
+msgstr "This action is irreversible, the certificate and its descendants will be deleted. Consider revoking it instead. Are you sure?"
 
 #: lib/notebook_server_web/live/certificate_live/show.ex:22
 #: lib/notebook_server_web/live/certificate_live/show.html.heex:5
 #, elixir-autogen, elixir-format
 msgid "edit"
-msgstr ""
+msgstr "Edit"
 
 #: lib/notebook_server_web/live/certificate_live/form_component.ex:58
 #, elixir-autogen, elixir-format
 msgid "entity"
-msgstr ""
+msgstr "Entity"
 
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:37
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:106
 #, elixir-autogen, elixir-format
 msgid "expiration_date"
-msgstr ""
+msgstr "Expiration date"
 
 #: lib/notebook_server_web/live/certificate_live/form_component.ex:59
 #, elixir-autogen, elixir-format
 msgid "intermediate"
-msgstr ""
+msgstr "Intermediate"
 
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:100
 #, elixir-autogen, elixir-format
 msgid "level"
-msgstr ""
+msgstr "Level"
 
 #: lib/notebook_server_web/live/certificate_live/index.ex:33
 #, elixir-autogen, elixir-format
 msgid "new"
-msgstr ""
+msgstr "New certificate"
 
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:84
 #, elixir-autogen, elixir-format
 msgid "org_certificates"
-msgstr ""
+msgstr "Organizations"
 
 #: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:27
 #, elixir-autogen, elixir-format
 msgid "revocation_reason"
-msgstr ""
+msgstr "Revocation reason"
 
 #: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:28
 #, elixir-autogen, elixir-format
 msgid "revocation_reason_placeholder"
-msgstr ""
+msgstr "Security breach..."
 
 #: lib/notebook_server_web/live/certificate_live/index.ex:42
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:57
@@ -92,17 +92,17 @@ msgstr ""
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:133
 #, elixir-autogen, elixir-format
 msgid "revoke"
-msgstr ""
+msgstr "Revoke certificate"
 
 #: lib/notebook_server_web/live/certificate_live/index.ex:43
 #, elixir-autogen, elixir-format
 msgid "revoke_subtitle"
-msgstr ""
+msgstr "This action is irreversible, the certificate and its descendants will be revoked. Are you sure?"
 
 #: lib/notebook_server_web/live/certificate_live/form_component.ex:60
 #, elixir-autogen, elixir-format
 msgid "root"
-msgstr ""
+msgstr "Root"
 
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:41
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:51
@@ -110,84 +110,84 @@ msgstr ""
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:120
 #, elixir-autogen, elixir-format
 msgid "rotate"
-msgstr ""
+msgstr "Rotate"
 
 #: lib/notebook_server_web/live/certificate_live/show.ex:21
 #, elixir-autogen, elixir-format
 msgid "show"
-msgstr ""
+msgstr "Show"
 
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:34
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:103
 #, elixir-autogen, elixir-format
 msgid "status"
-msgstr ""
+msgstr "Status"
 
 #: lib/notebook_server_web/live/certificate_live/index.ex:56
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:2
 #, elixir-autogen, elixir-format
 msgid "title"
-msgstr ""
+msgstr "Certificates"
 
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:15
 #, elixir-autogen, elixir-format
 msgid "user_certificates"
-msgstr ""
+msgstr "Users"
 
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:25
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:94
 #, elixir-autogen, elixir-format, fuzzy
 msgid "empty_subtitle"
-msgstr ""
+msgstr "Create certificates so that both organizations and users can sign"
 
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:24
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:93
 #, elixir-autogen, elixir-format
 msgid "empty_title"
-msgstr ""
+msgstr "Create your 1st certificate"
 
 #: lib/notebook_server_web/live/certificate_live/form_component.ex:117
 #, elixir-autogen, elixir-format
 msgid "creation_failed"
-msgstr ""
+msgstr "We couldn't create the certificate"
 
 #: lib/notebook_server_web/live/certificate_live/form_component.ex:113
 #, elixir-autogen, elixir-format
 msgid "creation_succeded"
-msgstr ""
+msgstr "The certificate has been created successfully"
 
 #: lib/notebook_server_web/live/certificate_live/form_component.ex:121
 #, elixir-autogen, elixir-format
 msgid "private_key_storation_failed"
-msgstr ""
+msgstr "We couldn't store the private key"
 
 #: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:82
 #, elixir-autogen, elixir-format
 msgid "related_revokation_failed"
-msgstr ""
+msgstr "We couldn't revoke the related certificates"
 
 #: lib/notebook_server_web/live/certificate_live/index.ex:110
 #, elixir-autogen, elixir-format
 msgid "replacement_creation_failed"
-msgstr ""
+msgstr "We couldn't create a replacement for the certificate"
 
 #: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:85
 #: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:88
 #, elixir-autogen, elixir-format
 msgid "revokation_failed"
-msgstr ""
+msgstr "We couldn't revoke the certificate"
 
 #: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:77
 #, elixir-autogen, elixir-format
 msgid "revokation_succeded"
-msgstr ""
+msgstr "The certificate has been revoked successfully"
 
 #: lib/notebook_server_web/live/certificate_live/index.ex:106
 #, elixir-autogen, elixir-format
 msgid "rotation_failed"
-msgstr ""
+msgstr "We couldn't rotate the certificate"
 
 #: lib/notebook_server_web/live/certificate_live/index.ex:101
 #, elixir-autogen, elixir-format
 msgid "rotation_succeded"
-msgstr ""
+msgstr "The certificate has been rotated successfully"

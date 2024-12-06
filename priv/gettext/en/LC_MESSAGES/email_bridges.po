@@ -15,74 +15,74 @@ msgstr ""
 #: lib/notebook_server_web/live/email_bridge_live/form_component.ex:62
 #, elixir-autogen, elixir-format
 msgid "code"
-msgstr ""
+msgstr "Code"
 
 #: lib/notebook_server_web/live/email_bridge_live/form_component.ex:63
 #, elixir-autogen, elixir-format
 msgid "code_placeholder"
-msgstr ""
+msgstr "000000"
 
 #: lib/notebook_server_web/live/email_bridge_live/form_component.ex:140
 #, elixir-autogen, elixir-format
 msgid "creation_failed"
-msgstr ""
+msgstr "We couldn't create the email bridge"
 
 #: lib/notebook_server_web/live/email_bridge_live/form_component.ex:15
 #, elixir-autogen, elixir-format
 msgid "email"
-msgstr ""
+msgstr "Email"
 
 #: lib/notebook_server_web/live/email_bridge_live/form_component.ex:56
 #, elixir-autogen, elixir-format
 msgid "introduce_code_description"
-msgstr ""
+msgstr "Enter the code you received in the email you provided"
 
 #: lib/notebook_server_web/live/email_bridge_live/form_component.ex:54
 #, elixir-autogen, elixir-format
 msgid "introduce_code_title"
-msgstr ""
+msgstr "Enter the code"
 
 #: lib/notebook_server_web/live/email_bridge_live/form_component.ex:27
 #, elixir-autogen, elixir-format
 msgid "introduce_email_description"
-msgstr ""
+msgstr "Enter the email where you want to receive the code to generate your credential."
 
 #: lib/notebook_server_web/live/email_bridge_live/form_component.ex:25
 #, elixir-autogen, elixir-format
 msgid "introduce_email_title"
-msgstr ""
+msgstr "Enter an email"
 
 #: lib/notebook_server_web/live/email_bridge_live/form_component.ex:197
 #, elixir-autogen, elixir-format
 msgid "invalid_code_format"
-msgstr ""
+msgstr "The code format is invalid"
 
 #: lib/notebook_server_web/live/email_bridge_live/form_component.ex:89
 #, elixir-autogen, elixir-format
 msgid "public_title"
-msgstr ""
+msgstr "New email bridge"
 
 #: lib/notebook_server_web/live/email_bridge_live/form_component.ex:174
 #, elixir-autogen, elixir-format
 msgid "update_failed"
-msgstr ""
+msgstr "We couldn't update the email bridge"
 
 #: lib/notebook_server_web/live/email_bridge_live/form_component.ex:166
 #, elixir-autogen, elixir-format
 msgid "code_validation_failed"
-msgstr ""
+msgstr "The code is invalid or has expired"
 
 #: lib/notebook_server_web/live/email_bridge_live/form_component.ex:171
 #, elixir-autogen, elixir-format
 msgid "code_validation_succeded"
-msgstr ""
+msgstr "The code is correct. The credential has been generated successfully"
 
 #: lib/notebook_server_web/live/email_bridge_live/form_component.ex:144
 #, elixir-autogen, elixir-format
 msgid "email_delivery_failed"
-msgstr ""
+msgstr "We couldn't send you the email with the code. Please try again later"
 
 #: lib/notebook_server_web/live/email_bridge_live/form_component.ex:135
 #, elixir-autogen, elixir-format, fuzzy
 msgid "email_delivery_succeded"
-msgstr ""
+msgstr "We have sent a code to the email you provided. If you don't see the message in your inbox, please check your spam folder."

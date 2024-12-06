@@ -784,4 +784,4 @@ msgstr "Máx. %{max} caracteres"
 #: lib/notebook_server_web/components/chip_input.ex:35
 #, elixir-autogen, elixir-format
 msgid "remove_chip"
-msgstr ""
+msgstr "Eliminar tag"

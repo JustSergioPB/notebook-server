@@ -35,7 +35,7 @@ msgstr "john.doe@gmail.com"
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:66
 #, elixir-autogen, elixir-format
 msgid "last_name"
-msgstr "Surname"
+msgstr "Last Name"
 
 #: lib/notebook_server_web/live/user_live/form_component.ex:35
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:67
@@ -68,12 +68,12 @@ msgstr "Password"
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:84
 #, elixir-autogen, elixir-format
 msgid "password_placeholder"
-msgstr "MY_P4SW0RD"
+msgstr "MY_P4SSW0RD"
 
 #: lib/notebook_server_web/live/certificate_live/form_component.ex:42
 #, elixir-autogen, elixir-format
 msgid "search"
-msgstr "Search user"
+msgstr "Search users"
 
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:28
 #: lib/notebook_server_web/live/user_live/index.html.heex:20
@@ -85,51 +85,51 @@ msgstr "User"
 #: lib/notebook_server_web/live/user_live/index.html.heex:19
 #, elixir-autogen, elixir-format
 msgid "empty_subtitle"
-msgstr ""
+msgstr "It's impossible for you to see this message, if you see it something is wrong"
 
 #: lib/notebook_server_web/live/user_live/index.html.heex:18
 #, elixir-autogen, elixir-format
 msgid "empty_title"
-msgstr ""
+msgstr "Create the 1st user"
 
 #: lib/notebook_server_web/live/user_live/form_component.ex:120
 #, elixir-autogen, elixir-format
 msgid "creation_succeded"
-msgstr ""
+msgstr "The user has been created successfully"
 
 #: lib/notebook_server_web/components/core_components.ex:1194
 #: lib/notebook_server_web/live/user_live/form_component.ex:54
 #, elixir-autogen, elixir-format
 msgid "issuer"
-msgstr ""
+msgstr "Issuer"
 
 #: lib/notebook_server_web/live/user_live/form_component.ex:55
 #, elixir-autogen, elixir-format
 msgid "issuer_description"
-msgstr ""
+msgstr "The user will only be able to issue credentials"
 
 #: lib/notebook_server_web/components/core_components.ex:1193
 #: lib/notebook_server_web/live/user_live/form_component.ex:60
 #, elixir-autogen, elixir-format
 msgid "org_admin"
-msgstr ""
+msgstr "Org admin"
 
 #: lib/notebook_server_web/live/user_live/form_component.ex:61
 #, elixir-autogen, elixir-format
 msgid "org_admin_description"
-msgstr ""
+msgstr "The user will be able to access all areas of the app"
 
 #: lib/notebook_server_web/live/user_live/form_component.ex:48
 #, elixir-autogen, elixir-format
 msgid "role"
-msgstr ""
+msgstr "Role"
 
 #: lib/notebook_server_web/live/user_live/form_component.ex:102
 #, elixir-autogen, elixir-format
 msgid "update_succeded"
-msgstr ""
+msgstr "The user has been updated successfully"
 
 #: lib/notebook_server_web/components/core_components.ex:1192
 #, elixir-autogen, elixir-format
 msgid "admin"
-msgstr ""
+msgstr "Admin"

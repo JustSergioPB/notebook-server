@@ -14,36 +14,36 @@ msgstr ""
 #: lib/notebook_server_web/live/schema_live/index.ex:114
 #, elixir-autogen, elixir-format
 msgid "archivation_failed"
-msgstr ""
+msgstr "We couldn't archive the schema version. Please try again later."
 
 #: lib/notebook_server_web/live/schema_live/index.ex:110
 #, elixir-autogen, elixir-format
 msgid "archivation_succeded"
-msgstr ""
+msgstr "The schema version has been archived successfully."
 
 #: lib/notebook_server_web/live/schema_live/index.ex:94
 #, elixir-autogen, elixir-format
 msgid "old_version_archivation_failed"
-msgstr ""
+msgstr "We couldn't archive the schema version that was public."
 
 #: lib/notebook_server_web/live/schema_live/index.ex:89
 #, elixir-autogen, elixir-format
 msgid "publication_failed"
-msgstr ""
+msgstr "We couldn't publish the schema version. Please try again later."
 
 #: lib/notebook_server_web/live/schema_live/index.ex:83
 #, elixir-autogen, elixir-format
 msgid "publication_succeded"
-msgstr ""
+msgstr "The schema version has been published successfully."
 
 #: lib/notebook_server_web/live/bridge_live/form_component.ex:129
 #: lib/notebook_server_web/live/schema_live/form_component.ex:111
 #, elixir-autogen, elixir-format
 msgid "create_failed"
-msgstr ""
+msgstr "We couldn't create the schema version"
 
 #: lib/notebook_server_web/live/bridge_live/form_component.ex:134
 #: lib/notebook_server_web/live/schema_live/form_component.ex:116
 #, elixir-autogen, elixir-format
 msgid "update_failed"
-msgstr ""
+msgstr "We couldn't update the schema version"

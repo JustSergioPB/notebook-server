@@ -14,12 +14,12 @@ msgstr ""
 #: lib/notebook_server_web/live/schema_live/index.html.heex:20
 #, elixir-autogen, elixir-format
 msgid "empty_subtitle"
-msgstr ""
+msgstr "Create your first schema and start issuing credentials"
 
 #: lib/notebook_server_web/live/schema_live/index.html.heex:19
 #, elixir-autogen, elixir-format
 msgid "empty_title"
-msgstr ""
+msgstr "Create your first schema"
 
 #: lib/notebook_server_web/live/bridge_live/index.html.heex:22
 #: lib/notebook_server_web/live/credential_live/index.html.heex:28
@@ -28,129 +28,129 @@ msgstr ""
 #: lib/notebook_server_web/live/schema_live/index.html.heex:21
 #, elixir-autogen, elixir-format
 msgid "schema"
-msgstr ""
+msgstr "Schema"
 
 #: lib/notebook_server_web/live/schema_live/index.html.heex:53
 #: lib/notebook_server_web/live/schema_live/index.html.heex:62
 #, elixir-autogen, elixir-format
 msgid "archive"
-msgstr ""
+msgstr "Archive"
 
 #: lib/notebook_server_web/live/schema_live/index.html.heex:82
 #, elixir-autogen, elixir-format
 msgid "are_you_sure"
-msgstr ""
+msgstr "This action is irreversible, everything related to this schema will be deleted. Consider archiving it instead. Are you sure?"
 
 #: lib/notebook_server_web/live/schema_live/form_component.ex:133
 #, elixir-autogen, elixir-format
 msgid "creation_failed"
-msgstr ""
+msgstr "We couldn't create the schema. Please try again later."
 
 #: lib/notebook_server_web/live/schema_live/form_component.ex:127
 #, elixir-autogen, elixir-format
 msgid "creation_succeded"
-msgstr ""
+msgstr "The schema has been created successfully"
 
 #: lib/notebook_server_web/live/schema_live/index.html.heex:76
 #: lib/notebook_server_web/live/schema_live/index.html.heex:84
 #, elixir-autogen, elixir-format
 msgid "delete"
-msgstr ""
+msgstr "Delete"
 
 #: lib/notebook_server_web/live/schema_live/index.ex:67
 #, elixir-autogen, elixir-format
 msgid "delete_failed"
-msgstr ""
+msgstr "We couldn't delete the schema"
 
 #: lib/notebook_server_web/live/schema_live/index.ex:61
 #, elixir-autogen, elixir-format
 msgid "delete_succeded"
-msgstr ""
+msgstr "The schema has been deleted successfully"
 
 #: lib/notebook_server_web/live/schema_live/form_component.ex:40
 #: lib/notebook_server_web/live/schema_live/index.html.heex:26
 #, elixir-autogen, elixir-format
 msgid "description"
-msgstr ""
+msgstr "Description"
 
 #: lib/notebook_server_web/live/schema_live/form_component.ex:41
 #, elixir-autogen, elixir-format
 msgid "description_placeholder"
-msgstr ""
+msgstr "Credential that certifies a person to drive a vehicle..."
 
 #: lib/notebook_server_web/live/schema_live/index.ex:27
 #: lib/notebook_server_web/live/schema_live/index.html.heex:68
 #: lib/notebook_server_web/live/schema_live/index.html.heex:70
 #, elixir-autogen, elixir-format
 msgid "edit"
-msgstr ""
+msgstr "Edit schema"
 
 #: lib/notebook_server_web/live/schema_live/form_component.ex:24
 #, elixir-autogen, elixir-format
 msgid "latest_is_not_in_draft"
-msgstr ""
+msgstr "The current version is not a draft, so editing it will create a new draft version"
 
 #: lib/notebook_server_web/live/schema_live/index.ex:33
 #, elixir-autogen, elixir-format
 msgid "new"
-msgstr ""
+msgstr "New schema"
 
 #: lib/notebook_server_web/live/schema_live/index.html.heex:39
 #: lib/notebook_server_web/live/schema_live/index.html.heex:48
 #, elixir-autogen, elixir-format
 msgid "publish"
-msgstr ""
+msgstr "Publish"
 
 #: lib/notebook_server_web/live/schema_live/index.html.heex:32
 #, elixir-autogen, elixir-format
 msgid "published_version"
-msgstr ""
+msgstr "Public V."
 
 #: lib/notebook_server_web/live/schema_live/form_component.ex:49
 #, elixir-autogen, elixir-format
 msgid "raw_content"
-msgstr ""
+msgstr "Content"
 
 #: lib/notebook_server_web/live/schema_live/form_component.ex:57
 #, elixir-autogen, elixir-format
 msgid "save"
-msgstr ""
+msgstr "Save"
 
 #: lib/notebook_server_web/live/schema_live/index.html.heex:2
 #, elixir-autogen, elixir-format, fuzzy
 msgid "schemas"
-msgstr ""
+msgstr "Schema"
 
 #: lib/notebook_server_web/live/schema_live/index.html.heex:35
 #, elixir-autogen, elixir-format
 msgid "status"
-msgstr ""
+msgstr "Status"
 
 #: lib/notebook_server_web/live/schema_live/form_component.ex:30
 #: lib/notebook_server_web/live/schema_live/index.ex:39
 #: lib/notebook_server_web/live/schema_live/index.html.heex:23
 #, elixir-autogen, elixir-format
 msgid "title"
-msgstr ""
+msgstr "Title"
 
 #: lib/notebook_server_web/live/schema_live/form_component.ex:31
 #, elixir-autogen, elixir-format
 msgid "title_placeholder"
-msgstr ""
+msgstr "Driver's License"
 
 #: lib/notebook_server_web/live/schema_live/form_component.ex:99
 #, elixir-autogen, elixir-format
 msgid "update_succeded"
-msgstr ""
+msgstr "The schema has been updated successfully"
 
 #: lib/notebook_server_web/live/bridge_live/form_component.ex:124
 #: lib/notebook_server_web/live/schema_live/form_component.ex:106
 #, elixir-autogen, elixir-format
 msgid "update_failed"
-msgstr ""
+msgstr "We couldn't update the schema"
 
 #: lib/notebook_server_web/live/schema_live/form_component.ex:188
 #: lib/notebook_server_web/live/schema_live/form_component.ex:193
 #, elixir-autogen, elixir-format
 msgid "title_length %{max} %{min}"
-msgstr ""
+msgstr "The title must be between %{min} and %{max} characters"
