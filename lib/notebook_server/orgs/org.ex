@@ -8,7 +8,7 @@ defmodule NotebookServer.Orgs.Org do
   schema "orgs" do
     field :name, :string
     field :email, :string
-    field :status, Ecto.Enum, values: @status, default: :active
+    field :status, Ecto.Enum, values: @status, default: :inactive
     field :public_id, :binary_id
     has_many :users, NotebookServer.Accounts.User
     has_many :bridges, NotebookServer.Bridges.Bridge

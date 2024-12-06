@@ -9,7 +9,6 @@ defmodule NotebookServer.Schemas.SchemaVersion do
     field :version, :integer, default: 0
     field :content, :map
     field :public_id, :binary_id
-    belongs_to :user, NotebookServer.Accounts.User
     belongs_to :schema, NotebookServer.Schemas.Schema
 
     timestamps(type: :utc_datetime)
@@ -19,12 +18,11 @@ defmodule NotebookServer.Schemas.SchemaVersion do
     schema_version
     |> cast(attrs, [
       :status,
-      :user_id,
       :schema_id,
       :version,
       :content
     ])
-    |> validate_required([:user_id, :version])
+    |> validate_required([:version, :content])
   end
 
   def publish_changeset(schema_version) do
