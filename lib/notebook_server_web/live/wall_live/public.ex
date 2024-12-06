@@ -29,7 +29,7 @@ defmodule NotebookServerWeb.WallLive.Public do
                     <%= bridge.schema.schema_versions
                     |> Enum.at(0)
                     |> Map.get(:content)
-                    |> Map.get(:description) %>
+                    |> Map.get("description") %>
                   </p>
                 </div>
                 <.link navigate={~p"/#{@org.public_id}/wall/bridges/email/#{bridge.public_id}"}>
@@ -70,7 +70,7 @@ defmodule NotebookServerWeb.WallLive.Public do
      |> assign(:page_title, dgettext("orgs", "public_wall_title"))
      |> assign(:active_tab, params["tab"] || "bridges")
      |> assign(:org, org)
-     #TODO add filter to only allow published schemas
+     # TODO add filter to only allow published schemas
      |> stream(:bridges, Bridges.list_bridges(org_id: org.id, active: true))}
   end
 end

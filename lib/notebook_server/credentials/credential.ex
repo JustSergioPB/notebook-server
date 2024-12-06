@@ -4,7 +4,7 @@ defmodule NotebookServer.Credentials.Credential do
 
   schema "credentials" do
     field :public_id, :binary_id
-    embeds_one :content, NotebookServer.Credentials.VerifiableCredential
+    field :content, :map
     belongs_to :schema_version, NotebookServer.Schemas.SchemaVersion
     has_one :user_credential, NotebookServer.Credentials.UserCredential
     has_one :org_credential, NotebookServer.Credentials.OrgCredential
@@ -15,8 +15,9 @@ defmodule NotebookServer.Credentials.Credential do
   @doc false
   def changeset(credential, attrs) do
     credential
-    |> cast(attrs, [:schema_version_id])
-    |> validate_required([:schema_version_id])
-    |> cast_embed(:content, required: true)
+    |> cast(attrs, [:schema_version_id, :content])
+    |> validate_required([:schema_version_id, :content])
   end
+
+  #TODO: add validations for content
 end

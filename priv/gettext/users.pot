@@ -16,28 +16,28 @@ msgstr ""
 msgid "already_have_account"
 msgstr ""
 
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:31
-#: lib/notebook_server_web/live/user_live/form_component.ex:41
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:33
+#: lib/notebook_server_web/live/user_live/form_component.ex:42
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:75
 #, elixir-autogen, elixir-format
 msgid "email"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/form_component.ex:38
-#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:32
-#: lib/notebook_server_web/live/user_live/form_component.ex:42
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:44
+#: lib/notebook_server_web/live/email_bridge_live/form_component.ex:34
+#: lib/notebook_server_web/live/user_live/form_component.ex:43
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:76
 #, elixir-autogen, elixir-format
 msgid "email_placeholder"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/form_component.ex:33
+#: lib/notebook_server_web/live/user_live/form_component.ex:34
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:66
 #, elixir-autogen, elixir-format
 msgid "last_name"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/form_component.ex:34
+#: lib/notebook_server_web/live/user_live/form_component.ex:35
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:67
 #, elixir-autogen, elixir-format
 msgid "last_name_placeholder"
@@ -48,13 +48,13 @@ msgstr ""
 msgid "login"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/form_component.ex:25
+#: lib/notebook_server_web/live/user_live/form_component.ex:26
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:57
 #, elixir-autogen, elixir-format
 msgid "name"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/form_component.ex:26
+#: lib/notebook_server_web/live/user_live/form_component.ex:27
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:58
 #, elixir-autogen, elixir-format
 msgid "name_placeholder"
@@ -70,7 +70,7 @@ msgstr ""
 msgid "password_placeholder"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/form_component.ex:36
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:42
 #, elixir-autogen, elixir-format
 msgid "search"
 msgstr ""
@@ -80,11 +80,6 @@ msgstr ""
 #: lib/notebook_server_web/live/user_live/user_register_live.ex:49
 #, elixir-autogen, elixir-format
 msgid "user"
-msgstr ""
-
-#: lib/notebook_server/certificates.ex:45
-#, elixir-autogen, elixir-format
-msgid "user_search_failed"
 msgstr ""
 
 #: lib/notebook_server_web/live/user_live/index.html.heex:19
@@ -102,39 +97,39 @@ msgstr ""
 msgid "creation_succeded"
 msgstr ""
 
-#: lib/notebook_server_web/components/core_components.ex:1195
-#: lib/notebook_server_web/live/user_live/form_component.ex:53
+#: lib/notebook_server_web/components/core_components.ex:1194
+#: lib/notebook_server_web/live/user_live/form_component.ex:54
 #, elixir-autogen, elixir-format
 msgid "issuer"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/form_component.ex:54
+#: lib/notebook_server_web/live/user_live/form_component.ex:55
 #, elixir-autogen, elixir-format
 msgid "issuer_description"
 msgstr ""
 
-#: lib/notebook_server_web/components/core_components.ex:1194
-#: lib/notebook_server_web/live/user_live/form_component.ex:59
+#: lib/notebook_server_web/components/core_components.ex:1193
+#: lib/notebook_server_web/live/user_live/form_component.ex:60
 #, elixir-autogen, elixir-format
 msgid "org_admin"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/form_component.ex:60
+#: lib/notebook_server_web/live/user_live/form_component.ex:61
 #, elixir-autogen, elixir-format
 msgid "org_admin_description"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/form_component.ex:47
+#: lib/notebook_server_web/live/user_live/form_component.ex:48
 #, elixir-autogen, elixir-format
 msgid "role"
 msgstr ""
 
-#: lib/notebook_server_web/live/user_live/form_component.ex:101
+#: lib/notebook_server_web/live/user_live/form_component.ex:102
 #, elixir-autogen, elixir-format
 msgid "update_succeded"
 msgstr ""
 
-#: lib/notebook_server_web/components/core_components.ex:1193
+#: lib/notebook_server_web/components/core_components.ex:1192
 #, elixir-autogen, elixir-format
 msgid "admin"
 msgstr ""

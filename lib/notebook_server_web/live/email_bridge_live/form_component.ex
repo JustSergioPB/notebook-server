@@ -9,7 +9,7 @@ defmodule NotebookServerWeb.EmailBridgeLive.FormComponent do
   def render(assigns) do
     ~H"""
     <main class="h-screen flex flex-col items-center justify-center py-12">
-      <div class="flex flex-col w-1/3 space-y-12 h-full">
+      <div class="flex flex-col space-y-12 h-full p-6 md:p-0 md:w-2/3 lg:w-1/2 xl:w-2/5">
         <.back navigate={~p"/#{@org_public_id}/wall"}><%= gettext("go_back") %></.back>
         <.stepper active_step={@step}>
           <:step label={dgettext("email_bridges", "email")} step={1}>
@@ -17,6 +17,7 @@ defmodule NotebookServerWeb.EmailBridgeLive.FormComponent do
               id="email-form"
               for={@email_form}
               class={if @step == 1, do: "flex w-full", else: "hidden"}
+              variant="blank"
               phx-change="validate"
               phx-submit="save"
             >
@@ -45,6 +46,7 @@ defmodule NotebookServerWeb.EmailBridgeLive.FormComponent do
               id="code-form"
               class={if @step == 2, do: "flex", else: "hidden"}
               for={@code_form}
+              variant="blank"
               phx-change="validate"
               phx-submit="save"
             >

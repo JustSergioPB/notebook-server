@@ -182,47 +182,56 @@ defmodule NotebookServer.Credentials do
         %SchemaVersion{} = schema_version,
         %Certificate{} = certificate
       ) do
-    IO.inspect(schema_version)
     domain_url = NotebookServerWeb.Endpoint.url()
 
     proof = %{
-      "type" => "JsonWebSignature2020",
+      "type" => "DataIntegrityProof",
+      "cryptosuite" => "ecdsa-jcs-2022",
       "created" => DateTime.utc_now() |> DateTime.to_iso8601(),
-      "verification_method" => "#{domain_url}/#{issuer_public_id}/public-key",
-      "proof_purpose" => "assertionMethod"
+      "verificationMethod" => "#{domain_url}/#{issuer_public_id}/public-key",
+      "proofPurpose" => "assertionMethod"
     }
 
     credential = %{
+      "@context" => ["https://www.w3.org/ns/credentials/v2"],
+      "type" => ["VerifiableCredential"],
       "title" => schema_version.schema.title,
       "issuer" => "#{domain_url}/#{issuer_public_id}",
-      "credential_subject" => %{
+      "credentialSubject" => %{
         "id" => "#TODO",
         "content" => content
       },
-      "credential_schema" => %{
-        "id" => "#{domain_url}/schema-versions/#{schema_version.id}"
+      "credentialSchema" => %{
+        "id" => "#{domain_url}/schema-versions/#{schema_version.id}",
+        "type" => "JsonSchema"
       },
       "proof" => proof
     }
 
+    description = Map.get(schema_version.content, "description")
+
     credential =
-      if is_binary(schema_version.content.description),
-        do: credential |> Map.put("description", schema_version.content.description),
+      if is_binary(description),
+        do: credential |> Map.put("description", description),
         else: credential
 
-    canonical_form = Jason.encode!(credential, pretty: false)
+    canonical_form = Jcs.encode(credential)
 
-    jws =
+    proof_value =
       certificate.private_key_pem
-      |> JOSE.JWK.from_key()
-      |> JOSE.JWS.sign(canonical_form, %{"alg" => "RS256"})
+      |> X509.PrivateKey.to_pem()
+      |> JOSE.JWK.from_pem()
+      |> JOSE.JWS.sign(canonical_form, %{"alg" => "EdDSA"})
       |> JOSE.JWS.compact()
       |> elem(1)
 
-    signed_proof = Map.put(proof, "jws", jws)
+    signed_proof = Map.put(proof, "proofValue", proof_value)
     credential = Map.put(credential, "proof", signed_proof)
 
-    schema_version_id = if is_binary(schema_version.id), do: String.to_integer(schema_version.id), else: schema_version.id
+    schema_version_id =
+      if is_binary(schema_version.id),
+        do: String.to_integer(schema_version.id),
+        else: schema_version.id
 
     %{
       "schema_version_id" => schema_version_id,

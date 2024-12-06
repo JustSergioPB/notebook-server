@@ -7,22 +7,23 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="h-full flex flex-col space-y-6">
-      <.header>
+    <div class="h-full flex flex-col">
+      <.header class="p-6">
         <%= @title %>
       </.header>
-      <.info_banner
-        :if={!@latest_is_in_draft?}
-        content={dgettext("schemas", "latest_is_not_in_draft")}
-        variant="warn"
-      />
       <.simple_form
         for={@form}
         id="schema-form"
+        variant="app"
         phx-target={@myself}
         phx-change="validate"
         phx-submit="save"
       >
+        <.info_banner
+          :if={!@latest_is_in_draft?}
+          content={dgettext("schemas", "latest_is_not_in_draft")}
+          variant="warn"
+        />
         <.input
           type="text"
           field={@form[:title]}
@@ -40,26 +41,6 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
           placeholder={dgettext("schemas", "description_placeholder")}
           hint={gettext("max_chars %{max}", max: 255)}
           phx-debounce="blur"
-        />
-        <.input
-          type="radio"
-          label={dgettext("schemas", "platform")}
-          field={@form[:platform]}
-          disabled={true}
-          options={[
-            %{
-              id: :web2,
-              icon: "globe",
-              label: dgettext("schemas", "web_2_title"),
-              description: dgettext("schemas", "web_2_description")
-            },
-            %{
-              id: :web3,
-              icon: "link",
-              label: dgettext("schemas", "web_3_title"),
-              description: dgettext("schemas", "web_3_description")
-            }
-          ]}
         />
         <.input
           type="textarea"
@@ -163,15 +144,22 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
     content =
       if is_nil(latest_version.content),
         do: %{},
-        else: latest_version.content.properties.credential_subject.properties.content
+        else:
+          get_in(latest_version.content, [
+            "properties",
+            "credentialSubject",
+            "properties",
+            "content"
+          ])
 
     description =
-      if is_nil(latest_version.content), do: nil, else: latest_version.content.description
+      if is_nil(latest_version.content),
+        do: nil,
+        else: Map.get(latest_version.content, "description")
 
     %{
       title: schema.title,
       description: description,
-      platform: latest_version.platform || :web2,
       content: content
     }
   end
@@ -181,7 +169,6 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
       title: :string,
       description: :string,
       content: :map,
-      platform: :atom
     }
 
     attrs =
@@ -193,7 +180,7 @@ defmodule NotebookServerWeb.SchemaLive.FormComponent do
       end
 
     {schema, types}
-    |> Ecto.Changeset.cast(attrs, [:title, :description, :content, :platform])
+    |> Ecto.Changeset.cast(attrs, [:title, :description, :content])
     |> Ecto.Changeset.validate_required([:title, :content], message: gettext("field_required"))
     |> Ecto.Changeset.validate_length(:title,
       min: 2,

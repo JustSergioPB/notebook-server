@@ -192,15 +192,46 @@ defmodule NotebookServer.Schemas do
           "user_id" => user.id,
           "schema_id" => schema.id,
           "content" => %{
+            "$schema" => "https://json-schema.org/draft/2020-12/schema",
             "title" => title,
             "properties" => %{
+              "@context" => %{"const" => ["https://www.w3.org/ns/credentials/v2"]},
               "title" => %{"const" => title},
-              "credential_subject" => %{
+              "type" => %{"const" => ["VerifiableCredential"]},
+              "issuer" => %{"type" => "string", "format" => "uri"},
+              "credentialSubject" => %{
                 "properties" => %{
+                  "id" => %{
+                    "type" => "string"
+                  },
                   "content" => content
-                }
+                },
+                "type" => "object",
+                "required" => ["id", "content"]
+              },
+              "credentialSchema" => %{
+                "type" => "object",
+                "properties" => %{
+                  "id" => %{
+                    "type" => "string",
+                    "format" => "uri"
+                  },
+                  "type" => %{
+                    "const" => "JsonSchema"
+                  }
+                },
+                "required" => ["id", "type"]
               }
-            }
+            },
+            "required" => [
+              "@context",
+              "title",
+              "type",
+              "issuer",
+              "credentialSubject",
+              "credentialSchema"
+            ],
+            "type" => "object"
           }
         }
       }

@@ -10,12 +10,13 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
   def render(assigns) do
     ~H"""
     <div class="h-full flex flex-col">
-      <.header>
+      <.header class="p-6">
         <%= @title %>
       </.header>
       <.simple_form
         for={@form}
         id="evidence-bridge-form"
+        variant="app"
         phx-target={@myself}
         phx-change="validate"
         phx-submit="save"
@@ -37,26 +38,6 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
           placeholder={dgettext("bridges", "description_placeholder")}
           hint={gettext("max_chars %{max}", max: 255)}
           phx-debounce="blur"
-        />
-        <.input
-          type="radio"
-          label={dgettext("schemas", "platform")}
-          field={@form[:platform]}
-          disabled={true}
-          options={[
-            %{
-              id: :web2,
-              icon: "globe",
-              label: dgettext("bridges", "web_2_title"),
-              description: dgettext("bridges", "web_2_description")
-            },
-            %{
-              id: :web3,
-              icon: "link",
-              label: dgettext("bridges", "web_3_title"),
-              description: dgettext("bridges", "web_3_description")
-            }
-          ]}
         />
         <.input
           type="radio"
@@ -193,17 +174,23 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
       if is_nil(latest_version.content),
         do: nil,
         else:
-          latest_version.content.properties.credential_subject.properties.content
-          |> Map.get("pattern")
+          get_in(latest_version.content, [
+            "properties",
+            "credentialSubject",
+            "properties",
+            "content",
+            "pattern"
+          ])
           |> extract_domains()
 
     description =
-      if is_nil(latest_version.content), do: nil, else: latest_version.content.description
+      if is_nil(latest_version.content),
+        do: nil,
+        else: Map.get(latest_version.content, "description")
 
     %{
       title: bridge.schema.title,
       description: description,
-      platform: latest_version.platform || :web2,
       type: bridge.type || :email,
       pattern: pattern
     }
@@ -215,7 +202,6 @@ defmodule NotebookServerWeb.BridgeLive.FormComponent do
       description: :string,
       pattern: :string,
       type: :atom,
-      platform: :atom
     }
 
     {bridge, types}

@@ -10,12 +10,13 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
   def render(assigns) do
     ~H"""
     <div class="h-full flex flex-col">
-      <.header>
+      <.header class="p-6">
         <%= @title %>
       </.header>
       <.simple_form
         for={@form}
         phx-target={@myself}
+        variant="app"
         id="credential-form"
         phx-change="validate"
         phx-submit="save"
@@ -30,14 +31,21 @@ defmodule NotebookServerWeb.CredentialLive.FormComponent do
           autocomplete="autocomplete_schemas"
           target="#credential-form"
         >
-          <:option :let={schema}>
-            <.schema_version_option schema={schema} />
+          <:option :let={schema_version}>
+            <.schema_version_option schema_version={schema_version} />
           </:option>
         </.live_component>
         <JsonSchemaComponents.json_schema_node
           :if={@schema_version}
           field={@form[:content]}
-          schema={@schema_version.content.properties.credential_subject.properties.content}
+          schema={
+            get_in(@schema_version.content, [
+              "properties",
+              "credentialSubject",
+              "properties",
+              "content"
+            ])
+          }
         />
         <:actions>
           <.button>

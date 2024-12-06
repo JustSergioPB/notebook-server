@@ -11,39 +11,39 @@ msgstr ""
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lib/notebook_server_web/live/schema_live/index.ex:116
+#: lib/notebook_server_web/live/schema_live/index.ex:114
 #, elixir-autogen, elixir-format
 msgid "archivation_failed"
 msgstr "No hemos podido archivar la versión del esquema. Intentalo de nuevo más tarde."
 
-#: lib/notebook_server_web/live/schema_live/index.ex:112
+#: lib/notebook_server_web/live/schema_live/index.ex:110
 #, elixir-autogen, elixir-format
 msgid "archivation_succeded"
 msgstr "La versión del esquema ha sido archivada de manera correcta."
 
-#: lib/notebook_server_web/live/schema_live/index.ex:96
+#: lib/notebook_server_web/live/schema_live/index.ex:94
 #, elixir-autogen, elixir-format
 msgid "old_version_archivation_failed"
 msgstr "No hemos podido archivar la versión del esquema que estaba pública."
 
-#: lib/notebook_server_web/live/schema_live/index.ex:91
+#: lib/notebook_server_web/live/schema_live/index.ex:89
 #, elixir-autogen, elixir-format
 msgid "publication_failed"
 msgstr "No hemos podido publicar la versión del esquema. Intentalo de nuevo más tarde."
 
-#: lib/notebook_server_web/live/schema_live/index.ex:85
+#: lib/notebook_server_web/live/schema_live/index.ex:83
 #, elixir-autogen, elixir-format
 msgid "publication_succeded"
 msgstr "La versión del esquema se ha publicado de manera correcta."
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:147
-#: lib/notebook_server_web/live/schema_live/form_component.ex:132
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:129
+#: lib/notebook_server_web/live/schema_live/form_component.ex:111
 #, elixir-autogen, elixir-format
 msgid "create_failed"
 msgstr "No hemos podido crear la versión del esquema"
 
-#: lib/notebook_server_web/live/bridge_live/form_component.ex:152
-#: lib/notebook_server_web/live/schema_live/form_component.ex:137
+#: lib/notebook_server_web/live/bridge_live/form_component.ex:134
+#: lib/notebook_server_web/live/schema_live/form_component.ex:116
 #, elixir-autogen, elixir-format
 msgid "update_failed"
 msgstr "No hemos podido actualizar la versión del esquema"

@@ -73,7 +73,7 @@ defmodule NotebookServerWeb.CertificateLive.Index do
   end
 
   def handle_info(
-        {NotebookServerWeb.Components.ConfirmDialog, {:confirmed, id, term}},
+        {NotebookServerWeb.Components.ConfirmFormComponent, {:confirmed, id, term}},
         socket
       ) do
     atom = term |> String.to_atom()

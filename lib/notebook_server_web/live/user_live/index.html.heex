@@ -2,7 +2,7 @@
   <%= gettext("users") %>
   <:actions>
     <.link patch={~p"/users/new"}>
-      <.button icon="plus_circle" disabled={!User.can_use_platform?(@current_user)}>
+      <.button icon="plus_circle">
         <%= gettext("user") %>
       </.button>
     </.link>
@@ -37,12 +37,7 @@
     <:action :let={{_id, user}}>
       <.link patch={~p"/users/#{user.id}/edit"}>
         <.tooltip text={gettext("edit")}>
-          <.button
-            size="icon"
-            variant="outline"
-            icon="pencil"
-            disabled={!User.can_use_platform?(@current_user)}
-          >
+          <.button size="icon" variant="outline" icon="pencil">
             <%= gettext("edit") %>
           </.button>
         </.tooltip>
@@ -56,7 +51,6 @@
           icon={if user.status == :banned, do: "play", else: "ban"}
           phx-value-id={user.id}
           phx-click={if user.status == :banned, do: "activate", else: "ban"}
-          disabled={!User.can_use_platform?(@current_user)}
         >
           <%= if user.status == :banned, do: gettext("activate"), else: gettext("ban") %>
         </.button>
@@ -68,7 +62,6 @@
           size="icon"
           variant="outline"
           icon="trash"
-          disabled={!User.can_use_platform?(@current_user)}
           phx-click={JS.push("delete", value: %{id: user.id}) |> hide("##{id}")}
           data-confirm={gettext("are_you_sure")}
         >
@@ -78,7 +71,7 @@
     </:action>
   </.table>
   <div class="p-6 border-t border-slate-300">
-    <.pagination page={1} total_pages={1} disabled={!User.can_use_platform?(@current_user)} />
+    <.pagination page={1} total_pages={1} />
   </div>
 </.page_content>
 

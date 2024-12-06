@@ -7,18 +7,19 @@ defmodule NotebookServerWeb.CertificateLive.RevokeFormComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="h-full flex flex-col space-y-6">
-      <.header>
+    <div class="h-full flex flex-col">
+      <.header class="p-6">
         <%= @title %>
       </.header>
-      <.info_banner content={@subtitle} variant="danger" />
       <.simple_form
         for={@form}
         id="revocation-form"
+        variant="app"
         phx-target={@myself}
         phx-change="validate"
         phx-submit="save"
       >
+        <.info_banner content={@subtitle} variant="danger" />
         <.input
           field={@form[:revocation_reason]}
           type="textarea"

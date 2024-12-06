@@ -1,22 +1,23 @@
-defmodule NotebookServerWeb.Components.ConfirmDialog do
+defmodule NotebookServerWeb.Components.ConfirmFormComponent do
   use NotebookServerWeb, :live_component
   use Gettext, backend: NotebookServerWeb.Gettext
 
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="h-full flex flex-col space-y-6">
-      <.header>
+    <div class="h-full flex flex-col">
+      <.header class="p-6">
         <%= @title %>
       </.header>
-      <.info_banner content={@subtitle} variant="danger" />
       <.simple_form
         for={@form}
         id="confirm-form"
+        variant="app"
         phx-target={@myself}
         phx-change="validate"
         phx-submit="save"
       >
+        <.info_banner content={@subtitle} variant="danger" />
         <.input
           field={@form[:value]}
           type="text"

@@ -18,81 +18,17 @@ msgstr ""
 
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:6
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:26
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:98
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:95
 #: lib/notebook_server_web/live/certificate_live/show.html.heex:2
 #, elixir-autogen, elixir-format
 msgid "certificate"
 msgstr ""
 
-#: lib/notebook_server/certificates.ex:42
-#: lib/notebook_server/certificates.ex:106
-#: lib/notebook_server/certificates.ex:145
-#: lib/notebook_server/certificates.ex:184
-#: lib/notebook_server/certificates.ex:433
-#: lib/notebook_server/certificates.ex:495
-#, elixir-autogen, elixir-format
-msgid "certificate_creation_failed"
-msgstr ""
-
-#: lib/notebook_server/certificates.ex:39
-#: lib/notebook_server/certificates.ex:103
-#: lib/notebook_server/certificates.ex:133
-#: lib/notebook_server/certificates.ex:172
-#, elixir-autogen, elixir-format
-msgid "certificate_creation_succeded"
-msgstr ""
-
-#: lib/notebook_server/certificates.ex:622
-#, elixir-autogen, elixir-format
-msgid "certificate_deletion_failed"
-msgstr ""
-
-#: lib/notebook_server/certificates.ex:599
-#: lib/notebook_server/certificates.ex:605
-#: lib/notebook_server/certificates.ex:616
-#, elixir-autogen, elixir-format
-msgid "certificate_deletion_succeed"
-msgstr ""
-
-#: lib/notebook_server/certificates.ex:549
-#: lib/notebook_server/certificates.ex:588
-#, elixir-autogen, elixir-format
-msgid "certificate_revokation_failed"
-msgstr ""
-
-#: lib/notebook_server/certificates.ex:546
-#: lib/notebook_server/certificates.ex:585
-#, elixir-autogen, elixir-format
-msgid "certificate_revokation_succeded"
-msgstr ""
-
-#: lib/notebook_server/certificates.ex:427
-#: lib/notebook_server/certificates.ex:430
-#: lib/notebook_server/certificates.ex:489
-#: lib/notebook_server/certificates.ex:492
-#, elixir-autogen, elixir-format
-msgid "certificate_rotation_failed"
-msgstr ""
-
-#: lib/notebook_server/certificates.ex:424
-#: lib/notebook_server/certificates.ex:486
-#, elixir-autogen, elixir-format
-msgid "certificate_rotation_succeded"
-msgstr ""
-
-#: lib/notebook_server/certificates.ex:57
-#: lib/notebook_server/certificates.ex:109
-#: lib/notebook_server/certificates.ex:148
-#: lib/notebook_server/certificates.ex:187
-#, elixir-autogen, elixir-format
-msgid "certificate_storage_failed"
-msgstr ""
-
 #: lib/notebook_server_web/live/certificate_live/index.ex:49
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:74
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:76
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:146
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:148
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:71
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:73
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:140
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:142
 #, elixir-autogen, elixir-format
 msgid "delete"
 msgstr ""
@@ -108,37 +44,23 @@ msgstr ""
 msgid "edit"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/form_component.ex:52
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:58
 #, elixir-autogen, elixir-format
 msgid "entity"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:40
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:112
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:37
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:106
 #, elixir-autogen, elixir-format
 msgid "expiration_date"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/form_component.ex:53
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:59
 #, elixir-autogen, elixir-format
 msgid "intermediate"
 msgstr ""
 
-#: lib/notebook_server/certificates.ex:54
-#: lib/notebook_server/certificates.ex:142
-#: lib/notebook_server/certificates.ex:181
-#, elixir-autogen, elixir-format
-msgid "issuer_certificate_check_failed"
-msgstr ""
-
-#: lib/notebook_server/certificates.ex:51
-#: lib/notebook_server/certificates.ex:139
-#: lib/notebook_server/certificates.ex:178
-#, elixir-autogen, elixir-format
-msgid "issuer_certificate_search_failed"
-msgstr ""
-
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:103
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:100
 #, elixir-autogen, elixir-format
 msgid "level"
 msgstr ""
@@ -148,42 +70,26 @@ msgstr ""
 msgid "new"
 msgstr ""
 
-#: lib/notebook_server/certificates.ex:619
-#, elixir-autogen, elixir-format
-msgid "org_certificate_deletion_failed"
-msgstr ""
-
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:87
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:84
 #, elixir-autogen, elixir-format
 msgid "org_certificates"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:34
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:106
-#, elixir-autogen, elixir-format
-msgid "platform"
-msgstr ""
-
-#: lib/notebook_server/certificates.ex:552
-#, elixir-autogen, elixir-format
-msgid "related_certificates_revokation_failed"
-msgstr ""
-
-#: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:26
+#: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:27
 #, elixir-autogen, elixir-format
 msgid "revocation_reason"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:27
+#: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:28
 #, elixir-autogen, elixir-format
 msgid "revocation_reason_placeholder"
 msgstr ""
 
 #: lib/notebook_server_web/live/certificate_live/index.ex:42
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:60
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:67
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:132
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:139
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:57
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:64
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:126
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:133
 #, elixir-autogen, elixir-format
 msgid "revoke"
 msgstr ""
@@ -193,15 +99,15 @@ msgstr ""
 msgid "revoke_subtitle"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/form_component.ex:54
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:60
 #, elixir-autogen, elixir-format
 msgid "root"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:44
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:54
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:116
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:126
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:41
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:51
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:110
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:120
 #, elixir-autogen, elixir-format
 msgid "rotate"
 msgstr ""
@@ -211,8 +117,8 @@ msgstr ""
 msgid "show"
 msgstr ""
 
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:37
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:109
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:34
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:103
 #, elixir-autogen, elixir-format
 msgid "status"
 msgstr ""
@@ -223,24 +129,65 @@ msgstr ""
 msgid "title"
 msgstr ""
 
-#: lib/notebook_server/certificates.ex:602
-#, elixir-autogen, elixir-format
-msgid "user_certificate_deletion_failed"
-msgstr ""
-
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:15
 #, elixir-autogen, elixir-format
 msgid "user_certificates"
 msgstr ""
 
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:25
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:97
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:94
 #, elixir-autogen, elixir-format, fuzzy
 msgid "empty_subtitle"
 msgstr ""
 
 #: lib/notebook_server_web/live/certificate_live/index.html.heex:24
-#: lib/notebook_server_web/live/certificate_live/index.html.heex:96
+#: lib/notebook_server_web/live/certificate_live/index.html.heex:93
 #, elixir-autogen, elixir-format
 msgid "empty_title"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:117
+#, elixir-autogen, elixir-format
+msgid "creation_failed"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:113
+#, elixir-autogen, elixir-format
+msgid "creation_succeded"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/form_component.ex:121
+#, elixir-autogen, elixir-format
+msgid "private_key_storation_failed"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:82
+#, elixir-autogen, elixir-format
+msgid "related_revokation_failed"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/index.ex:110
+#, elixir-autogen, elixir-format
+msgid "replacement_creation_failed"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:85
+#: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:88
+#, elixir-autogen, elixir-format
+msgid "revokation_failed"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/revoke_form_component.ex:77
+#, elixir-autogen, elixir-format
+msgid "revokation_succeded"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/index.ex:106
+#, elixir-autogen, elixir-format
+msgid "rotation_failed"
+msgstr ""
+
+#: lib/notebook_server_web/live/certificate_live/index.ex:101
+#, elixir-autogen, elixir-format
+msgid "rotation_succeded"
 msgstr ""
